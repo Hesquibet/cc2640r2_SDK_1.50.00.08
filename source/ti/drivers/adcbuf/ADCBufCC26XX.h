@@ -64,7 +64,7 @@
  * directly from the CM3 without going through the sensor controller.
  * The sensor controller can still use the ADC, support for sharing the ADC resource between the
  * sensor controller and the CM3 is built into the driver. There is a hardware semaphore that the
- * driver must aqcuire before beginning any number of conversions. This same hardware semaphore also
+ * driver must acquire before beginning any number of conversions. This same hardware semaphore also
  * prevents the simultaneous use of this driver and the basic ADC driver.
  *
  * The ADC drivers supports making between one and 1024 measurements once or continuous
@@ -80,8 +80,13 @@
  *
  * In order to perform an ADC conversion, the application should call
  * ADCBuf_convert(). This call will request the ADC resource, configure the ADC, set up the DMA and GPTimer,
- * and perform the requested ADC conversions on the selected DIO or internal signal. The DIO or interrnal signal is defined by the
+ * and perform the requested ADC conversions on the selected DIO or internal signal. The DIO or internal signal is defined by the
  * ADCBuf_Conversion structure in the application code and adcBufCC26xxObjects in the board file.
+ *
+ * @warning If the ADCBUF driver is setup in ADCBuf_RECURRENCE_MODE_CONTINUOUS mode, the user must assure that the provided callback
+ *          function is completed before the next conversion completes. If the next conversion completes before the callback function finishes,
+ *          the DMA will clobber the previous buffer with new data.
+ *
  * If the sensor controller is using the ADC when the driver requests it at the start of the ADC_convert() call,
  * the conversion will fail and return false.
  * The ADC resource may be pre-acquired by calling the control function ADCBufCC26XX_CMD_ACQUIRE_ADC_SEMAPHORE.
@@ -522,6 +527,7 @@ typedef struct ADCBufCC26XX_Object{
     ADCBuf_Callback                 callbackFxn;                /*!< Pointer to callback function */
     ADCBuf_Recurrence_Mode          recurrenceMode;             /*!< Should we convert continuously or one-shot */
     ADCBuf_Return_Mode              returnMode;                 /*!< Mode for all conversions */
+    uint16_t                        *activeSampleBuffer;        /*!< The last complete sample buffer used by the DMA */
 
     /* ADC SYS/BIOS objects */
     HwiP_Struct                      hwi;                        /*!< Hwi object */

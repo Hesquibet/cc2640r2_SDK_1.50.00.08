@@ -1,7 +1,7 @@
 /******************************************************************************
 *  Filename:       aux_adc.c
-*  Revised:        2017-06-05 12:13:49 +0200 (Mon, 05 Jun 2017)
-*  Revision:       49096
+*  Revised:        2017-11-20 14:31:35 +0100 (Mon, 20 Nov 2017)
+*  Revision:       50315
 *
 *  Description:    Driver for the AUX Time to Digital Converter interface.
 *
@@ -94,6 +94,10 @@ AUXADCDisable(void)
 
     // Ensure that scaling is enabled by default before next use of the ADC
     ADI8BitsClear(AUX_ADI4_BASE, ADI_4_AUX_O_ADC1, ADI_4_AUX_ADC1_SCALE_DIS_M);
+
+    // Flush the FIFO before disabling the clocks
+    HWREGBITW(AUX_ANAIF_BASE + AUX_ANAIF_O_ADCCTL, 1) = 1; // CMD: EN(1) -> FLUSH(3)
+    HWREGBITW(AUX_ANAIF_BASE + AUX_ANAIF_O_ADCCTL, 1) = 0; // CMD: FLUSH(3) -> EN(1)
 
     // Disable the ADC clock (no need to wait since IOB_WUC_ADCCLKCTL_ACK goes low immediately)
     HWREG(AUX_WUC_BASE + AUX_WUC_O_ADCCLKCTL) = 0;
