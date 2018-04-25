@@ -1,0 +1,25 @@
+[
+   {
+      "files" : [
+         "+../../Board.h -> Board.h",
+         "+../../CC2640R2_LAUNCHXL.c -> CC2640R2_LAUNCHXL.c",
+         "+../../CC2640R2_LAUNCHXL.h -> CC2640R2_LAUNCHXL.h",
+         "+CC2640R2_LAUNCHXL_TIRTOS.cmd -> CC2640R2_LAUNCHXL_TIRTOS.cmd",
+         "+../../README.html -> README.html",
+         "+../../README.md -> README.md",
+         "+../../ccfg.c -> ccfg.c",
+         "+../../console.c -> console.c",
+         "+../main_tirtos.c -> main_tirtos.c",
+         "+../../overview.rov.json -> overview.rov.json",
+         "+../../temperature.c -> temperature.c"
+      ],
+      "name" : "na",
+      "compiler" : {
+         "location" : "na",
+         "effective" : "na",
+         "specified" : "na"
+      },
+      "default" : "na",
+      "packages" : []
+   }
+]

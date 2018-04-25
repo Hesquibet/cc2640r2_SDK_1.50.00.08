@@ -1,0 +1,381 @@
+.. _sec-oad-concepts:
+
+OAD Concept Overview
+--------------------
+
+This section aims to explain the major concepts involved in the OAD
+process from a high level. The concepts here will be expanded upon further
+in the following sections. Some concepts, such as the Boot Image Manager
+(:term:`BIM`), may vary in their implementation details. Wherever possible, the
+concepts will be covered in this chapter with their implementation
+details covered in the following chapters.
+
+OAD Types
+^^^^^^^^^
+
+There are two methods of implementing a firmware update using over the air
+download process: On-chip and Off-chip. The key difference between the two
+methods is the location the downloaded image is to be stored during the OAD
+process. During On-chip OAD, the downloaded image is written to internal flash,
+allowing for a single chip OAD solution. :ref:`sect-off-chip-oad` stores the
+downloaded image in an external flash part, requiring a two chip OAD solution.
+:numref:`fig-oad-type-comparison` shows a comparison of different OAD methods.
+Each type of OAD has associated trade offs and benefits which will be discussed
+in their respective sections. Despite their differences, both OAD methods share
+the same over the air profile and image header described in this section
+
+.. _fig-oad-type-comparison:
+.. figure:: media/oad_types.png
+    :align: center
+
+    OAD Types Overview
+
+
+.. _oad_types_overview:
+.. table:: OAD Types Overview.
+
+    +----------+-----------------------------------------------+-------------------------------------+
+    | OAD Type | Advantages                                    | Limitations                         |
+    +----------+-----------------------------------------------+-------------------------------------+
+    |  On-chip | - No external flash required                  | - Application size restriction      |
+    |          |                                               | - Stack image not upgraded          |
+    +----------+-----------------------------------------------+-------------------------------------+
+    | Off-chip | - Ability to store multiple / backup images   | - Low power external flash required |
+    |          | - Full application + stack upgrade            |                                     |
+    |          | - Maximum application size                    |                                     |
+    +----------+-----------------------------------------------+-------------------------------------+
+
+OAD Projects
+""""""""""""
+TI offers example projects based on Simple Peripheral for both the On-chip and
+Off-chip OAD methods. Both types of OAD require :term:`BIM`, Application, and
+Stack images. In addition, performing an On-Chip OAD requires a Persistant
+Application image to support the OAD process. An Off-chip OAD supports both
+Stack and Stack Library projects. See :ref:`oad_projects_overview` for the
+|SDK| example projects that are needed to evaluate the TI OAD Profile.
+
+.. _oad_projects_overview:
+.. table:: OAD Projects Overview.
+
+    +----------+--------------------------------+--------------------------------+----------------------------------------------+------------------------------------------------+
+    | OAD Type | BIM Project                    | Persistant Application Project | Application Project                          | Stack Project                                  |
+    +----------+--------------------------------+--------------------------------+----------------------------------------------+------------------------------------------------+
+    | On-chip  | bim_oad_onchip_cc2640r2lp_app  | persistent_app_cc2640r2lp      | simple_peripheral_cc2640r2lp_oad_onchip_app  | simple_peripheral_cc2640r2lp_oad_onchip_stack  |
+    +----------+--------------------------------+--------------------------------+----------------------------------------------+------------------------------------------------+
+    | Off-chip | bim_oad_offchip_cc2640r2lp_app | none                           | simple_peripheral_cc2640r2lp_oad_offchip_app | simple_peripheral_cc2640r2lp_oad_offchip_stack |
+    +----------+--------------------------------+--------------------------------+----------------------------------------------+------------------------------------------------+
+
+-   For IAR: All the required projects are part of the Simple Peripheral OAD
+    workspace.
+-   For CCS: All the required projects are imported when importing the
+    Application project.
+
+Boot Image Manager (BIM)
+""""""""""""""""""""""""
+
+Since a running image cannot update itself, both On-chip and Off-chip
+OAD methods must employ a boot image manager (BIM). The :term:`BIM` is a
+lightweight section of code that is designed to run every time the device resets,
+check the validity of newly downloaded images, and if necessary, load
+the new image into internal flash.
+
+:term:`BIM`’s implementation varies
+slightly for On-chip and Off-chip OAD solutions, thus there is a
+separate :term:`BIM` project for each.
+
+    -  :code:`bim_oad_onchip` See :ref:`sect-bim-for-on-chip-oad`
+
+    -  :code:`bim_oad_offchip` See :ref:`sect-bim-for-off-chip-oad`
+
+.. note::
+
+    As of |BLESTACK| :term:`BIM` is always linked to page 31 of internal flash,
+    and will always link the :term:`CCFG` section with it.
+    Thus the OAD application will not need its own CCFG.
+
+.. _sec-oad-topology:
+
+OAD Topology Overview
+^^^^^^^^^^^^^^^^^^^^^
+
+Two BLE capable devices are required for implementing the OAD custom GATT
+service. The terms for the devices involved in an OAD exchange are listed below:
+
+    - :term:`OAD Target`
+    - :term:`OAD Downloader`
+
+The :term:`OAD Target` is always the device that implements the OAD service
+GATT server. Typically this is the peripheral device that is being updated.
+The OAD Target uses a Boot Image Manager (BIM) to facilitate the application of
+a new firmware update image. The BIM executes on a device reset and determines
+if a firmware update is to be applied. If no update is being applied, then the
+BIM will transfer program execution to the main application image. The behavior
+of the BIM is dependent upon the selected OAD type and further described in the
+respective off-chip and on-chip sections below
+
+The :term:`OAD Downloader` is always the device that implements
+the OAD service GATT client. Typically this is the central device that is
+supplying the firmware update image.
+:numref:`fig-oad-downloader-and-target` shows a graphical relationship of the
+devices required for an OAD transfer. The :term:`OAD Downloader` can be any
+compliant BLE device that meets the minimum requirements needed to implement
+the OAD service (e.g, a smartphone).
+
+.. _fig-oad-downloader-and-target:
+.. figure:: media/image2.png
+    :align: center
+
+    :term:`OAD Downloader` and :term:`OAD Target`
+
+All provided TI example applications (BTool, mobile
+applications, etc.) are implemented such that the :term:`OAD Target` is a
+peripheral device, and the :term:`OAD Downloader` is a central device.
+Other configurations are outside of the scope of this document.
+
+
+.. _oad-process:
+
+OAD Process
+^^^^^^^^^^^
+
+Image Validation
+""""""""""""""""
+
+After establishing a new connection, updating the connection interval
+for a faster OAD and enabling notifications of OAD Image Identify and
+OAD Image Block characteristics on the :term:`OAD Target`, the
+:term:`OAD Downloader` shall write to the Image Identify characteristic of the
+:term:`OAD Target`. The message data will be the header retrieved from the OAD
+Image available for OAD.
+
+On receiving the `Image Identify` message, the
+:term:`OAD Target` will verify that the contents of the image can be supported.
+This is done by checking the Image Header fields, BIM & Metadata versions, and
+length of the image.
+
+The :term:`OAD Target` will then perform boundary checks in the case of an
+Application Only or Stack Only OAD. This is done to ensure no boundary violations
+will occur between the upgraded image and the images that remain on the device.
+
+The OAD client application will implement an 'OAD State Machine' for performing
+the OAD. The following state machine depicts OAD target
+application's state transitions and its interactions with the OAD communication
+profile messages for both On-chip and Off-chip OAD.
+
+.. _fig-oad-state-machine:
+.. figure:: media/oad_state_machine.png
+    :align: center
+
+    OAD Types Overview
+
+Image Block Transfers
+"""""""""""""""""""""
+
+After the Image Validation has completed, the :term:`OAD Target` will switch to
+the configuration state. There it will get the block size and set image count.
+When the :term:`OAD Downloader` sends the Start OAD Command to the Control
+Characteristic (for more details see :ref:`tbl-oad-control-supported-commands`),
+the :term:`OAD Target` will respond with a Control characteristic notification
+requesting the first block. The :term:`OAD Downloader` will then send the first
+block to the :term:`OAD Target`.
+
+This process continues with the :term:`OAD Target` notifying the :term:`OAD Downloader`
+of the next block it needs and the :term:`OAD Downloader` sending the requested
+image block until all blocks have been transferred.
+
+Completion of the OAD Process
+"""""""""""""""""""""""""""""
+
+After receiving the complete image, the CRC32 of the entire image will be
+calculated and the'CRC32 status' bytes will be set accordingly. If the computed
+CRC matches with the 'CRC' field of received image, it switches to 'End' state.
+
+In the 'End' state of OAD state machine, the target application processing
+differs for On-chip and Off-chip OAD.
+
+For On-chip OAD, in the case of a Stack only OAD, the BIM Argument will be used
+to copy the new Stack image over the existing Stack, then switch back to the
+Persistent App to download the new Application image. In all other cases, the
+End state involves updating the BIM Argument variable to switch to the User
+Application.
+
+For Off-chip OAD, after OAD process is finished, the :term:`OAD Target` checks
+that the previous state was OAD Validation. If not, the state machine is reset
+and any used buffers are freed.
+
+Next, the Application checks to see if there
+are any more images waiting to be downloaded. If there are, the Application
+will return to the Image Download state. If there are no more images to download,
+the :term:`OAD Target` will check to see if the image that was downloaded should
+be copied to internal flash.
+
+If the Enable OAD Image Command has been received, the new image will be copied
+to internal flash and the device will be reset. If not, the currently resident
+image will continue regular execution.
+
+..
+    .. _fig-oad-sequence-diagram:
+    .. uml::
+        :caption: Sequence diagram for OAD process
+        :align: center
+
+        @startuml
+        Downloader <- Target: Advertisements
+        Downloader -> Target: Connect Req
+        Downloader <-> Target: OAD Service Discovery
+
+        Downloader -> Target: Enable Notifications on Img Notify Char
+        Downloader -> Target: Enable Notifications on Img Block Char
+        Downloader -> Target: Enable Notifications on Img Status Char
+
+        group Optional for Network Processor OAD
+        Downloader -> Target: Write to Img Count Char
+        end
+
+        note left of Downloader
+        Generate metadata
+        end note
+
+        Downloader -> Target: Write metadata to Image Identify Char
+
+        note right of Target
+        Target validates metadata
+        end note
+
+        alt Image is rejected by Target
+        Downloader <- Target: Notification on Image Identify Char of current metadata
+        note over Downloader, Target
+          OAD process terminates in the case of rejected metadata
+        end note
+
+        else Image is accepted by Target
+        Downloader <- Target: Notification on Image Block Char requesting 1st block
+        end
+
+        note left of Downloader
+        Read requested block
+        from image file
+        end note
+
+        Downloader -> Target: Write 1st block with block num to Image Block Char
+
+        group Repeat For Each Block In the Image
+
+        Downloader <- Target: Notification on Image Block Char requesting next block
+        note left of Downloader
+        Read requested block
+        from image file
+        end note
+
+        Downloader -> Target: Write requested block with block num to Image Block Char
+
+        note right of Target
+        Write block to flash
+        end note
+        end
+
+        ...Repeat above until all blocks are sent...
+
+        Target -> Target: Validate Received Image
+        alt Image fails post download checks
+
+        Downloader <- Target: Notification on Image Status Char: FAILURE_CODE
+        note over Downloader, Target
+          OAD process terminates in the case of rejected image, never jump to BIM
+        end note
+        else Image passes post download checks
+        Downloader <- Target: Notification on Image Status Char: SUCCESS
+        note right of Target
+         Write metadata to flash
+        end note
+        note right of Target
+         Reset Device
+        end note
+        note left of Downloader
+         Terminate connection
+         (Supervision timeout)
+        end note
+        end
+
+
+        @enduml
+
+    Upon receiving the write request to the Image Identify characteristic,
+    the :term:`OAD Target` will compare the image available for OAD to its own
+    running image. :code:`OADTarget_validateNewImage()` in the OAD profile is
+    responsible for determining the acceptance of the new image.
+
+    If the :term:`OAD Target` determines that the image available for OAD is
+    acceptable, the :term:`OAD Target` will initiate the OAD process by notifying
+    the Image Block Transfer characteristic to the :term:`OAD Downloader` requesting the
+    first block of the new image. Otherwise, if the :term:`OAD Target` finds that
+    the new image does not meet its criteria to begin the OAD process, it
+    shall respond by notifying the Image Identify characteristic with its
+    own Image Header data as sign of rejection. In that case, the OAD
+    procedure will end immediately as
+    depicted in :numref:`fig-oad-sequence-diagram`.
+
+    Image Block Transfers
+    """""""""""""""""""""
+
+    The Image Block Transfer characteristic allows the two devices to
+    request and respond with the OAD image, one block at a time. The image
+    block size is defined to be 16 bytes – see :code:`OAD_BLOCK_SIZE` in
+    :code:`oad.h`. The :term:`OAD Target` will request an image block from the
+    :term:`OAD Downloader` by notifying the OAD Image Block characteristic with the
+    correct block index. The :term:`OAD Downloader` shall then respond by writing to
+    the OAD Image Block characteristic. The message’s data will be the requested
+    block’s index followed by the corresponding 16-byte block of the image. Whenever
+    the :term:`OAD Target` is ready to digest another block of the OAD image, it
+    will notify the Image Block Transfer characteristic with the index of
+    the desired image block. The :term:`OAD Downloader` will then respond.
+
+    Completion of the OAD Process
+    """""""""""""""""""""""""""""
+
+    After the :term:`OAD Target` has received the final image block, it will verify
+    that the image is correctly received and stored by calculating the CRC
+    over the stored OAD image.
+
+    The :term:`OAD Target` will then reset so that the bootloader (:term:`BIM`)
+    can verify and boot the new image downloaded.
+
+    The burden of verification is then on the Downloader, which will lose BLE
+    connection to the :term:`OAD Target` during this verification and instantiation
+    process, to restart scanning and the to reestablish a connection and
+    verify that the new image is indeed running.
+
+.. _sec-bim-concept-section:
+
+Handling Errors During the OAD Process
+""""""""""""""""""""""""""""""""""""""
+
+To ensure reliability, any error or faults that occurs during an OAD transfer
+requires the :term:`OAD Downloader` to restart the OAD transfer procedure from the
+beginning. Errors may be reported through the OAD Image Status characteristic if
+notifications have been enabled
+
+.. _sec-concepts-linker:
+
+Linker Responsibilities
+^^^^^^^^^^^^^^^^^^^^^^^
+
+In general, there are a few bare requirements that the linker command file must
+have to support the TI OAD Profile, TI Tools, and TI BIM (The TI OAD Ecosystem):
+
+  - Flash Space for :ref:`sec-oad-image-metadata` and App Start location
+  - Preservation of Page 31 (CCFGs + BIM) see :ref:`sec-bim-concept-section`
+  - Alignment of Interrupt Vector Table see :ref:`sec-oad-reset-vect-change`
+
+These requirements are critical; not just to be supported in the TI OAD Ecosystem
+but for stability of application as discussed in earlier sections.
+
+The |SDK| provides ``cc26xx_app_oad.cmd`` (CCS) and ``cc26xx_app_oad.icf`` (IAR)
+linker command files to show these requirements for compatibility with TI OAD
+Ecosystem. Example modifications to an existing linker command file to make an
+Library OAD off-chip possible is shown in
+:ref:``sec-generating-library-oad-linker-file``.
+
+Generally, the TI Image Tool will handle page alignment of OAD images, no linker
+intervention is required. However, if desired, some stack side changes can be done
+to make the stack entry point page aligned, see :ref:`sec-stack-side-changes-oad`.

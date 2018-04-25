@@ -1,0 +1,4 @@
+<map id="AuxAdiDdiSafeWrite" name="AuxAdiDdiSafeWrite">
+<area shape="rect" id="node2" href="$group__cpu__api.html#ga491d851c4f7fff1f9f66aa778b0671b0" title="Disable all external interrupts. " alt="" coords="193,5,273,32"/>
+<area shape="rect" id="node3" href="$group__cpu__api.html#ga6922d401cbc951632f495ffcf2e71dfc" title="Enable all external interrupts. " alt="" coords="193,56,273,83"/>
+</map>

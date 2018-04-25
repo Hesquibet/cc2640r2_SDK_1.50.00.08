@@ -1,0 +1,49 @@
+[
+   {
+      "default" : "na",
+      "compiler" : {
+         "effective" : "na",
+         "location" : "na",
+         "specified" : "na"
+      },
+      "files" : [
+         "+../../../../../../../source/ti/blestack/common/cc26xx/board_key.c -> Application/board_key.c",
+         "+../../../../../../../source/ti/blestack/common/cc26xx/board_key.h -> Application/board_key.h",
+         "+../../src/app/simple_central.c -> Application/simple_central.c",
+         "+../../src/app/simple_central.h -> Application/simple_central.h",
+         "+../../../../../../../source/ti/blestack/common/cc26xx/util.c -> Application/util.c",
+         "+../../../../../../../source/ti/blestack/common/cc26xx/util.h -> Application/util.h",
+         "+../../../../../../../source/ti/blestack/profiles/roles/gapbondmgr.h -> Include/gapbondmgr.h",
+         "+../../../../../../../source/ti/blestack/profiles/roles/cc26xx/central.c -> PROFILES/central.c",
+         "+../../../../../../../source/ti/blestack/profiles/roles/cc26xx/central.h -> PROFILES/central.h",
+         "+../../src/ccfg_app_ble.c -> Startup/ccfg_app_ble.c",
+         "+../../src/app/main.c -> Startup/main.c",
+         "+../app_ble.cfg -> TOOLS/app_ble.cfg",
+         "+../build_config.opt -> TOOLS/build_config.opt",
+         "+../../../../../../../source/ti/blestack/common/cc26xx/ecc/ECCROMCC26XX.c -> Drivers/ECC/ECCROMCC26XX.c",
+         "+../../../../../../../source/ti/blestack/common/cc26xx/ecc/ECCROMCC26XX.h -> Drivers/ECC/ECCROMCC26XX.h",
+         "+../../../../../../../source/ti/drivers/rf/RF.h -> Drivers/RF/RF.h",
+         "+../../../../../../../source/ti/drivers/rf/RFCC26XX_singleMode.c -> Drivers/RF/RFCC26XX_singleMode.c",
+         "+../../../../../../../source/ti/blestack/hal/src/target/_common/TRNGCC26XX.c -> Drivers/TRNG/TRNGCC26XX.c",
+         "+../../../../../../../source/ti/blestack/hal/src/target/_common/TRNGCC26XX.h -> Drivers/TRNG/TRNGCC26XX.h",
+         "+../../../../../../../source/ti/blestack/icall/src/icall.c -> ICall/icall.c",
+         "+../../../../../../../source/ti/blestack/icall/src/inc/icall.h -> ICall/icall.h",
+         "+../../../../../../../source/ti/blestack/icall/inc/icall_addrs.h -> ICall/icall_addrs.h",
+         "+../../../../../../../source/ti/blestack/icall/src/icall_cc2650.c -> ICall/icall_cc2650.c",
+         "+../../../../../../../source/ti/blestack/icall/src/icall_platform.h -> ICall/icall_platform.h",
+         "+../../../../../../../source/ti/blestack/icall/src/icall_user_config.c -> ICall/icall_user_config.c",
+         "+../../../../../../../source/ti/blestack/icall/app/ble_user_config.c -> ICallBLE/ble_user_config.c",
+         "+../../../../../../../source/ti/blestack/icall/inc/ble_user_config.h -> ICallBLE/ble_user_config.h",
+         "+../../../../../../../source/ti/blestack/icall/app/icall_api_lite.c -> ICallBLE/icall_api_lite.c",
+         "+../../../../../../../source/ti/blestack/icall/inc/icall_ble_apimsg.h -> ICallBLE/icall_ble_apimsg.h",
+         "+../../../../../../../source/ti/blestack/inc/gap.h -> Include/gap.h",
+         "+../../../../../../../source/ti/blestack/inc/gapgattserver.h -> Include/gapgattserver.h",
+         "+../../../../../../../source/ti/blestack/inc/gatt.h -> Include/gatt.h",
+         "+../../../../../../../source/ti/blestack/inc/hci.h -> Include/hci.h",
+         "+../../../../../../../source/ti/blestack/osal/src/inc/osal_snv.h -> Include/osal_snv.h",
+         "+../../../../../../../source/ti/blestack/target/board.c -> Startup/board.c"
+      ],
+      "name" : "na",
+      "packages" : []
+   }
+]

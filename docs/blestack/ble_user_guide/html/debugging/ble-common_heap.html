@@ -1,0 +1,586 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Debugging Common Heap Issues &mdash; BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation" href="../index.html"/>
+        <link rel="up" title="Debugging" href="ble-index.html"/>
+        <link rel="next" title="Optimizations" href="optimizations.html"/>
+        <link rel="prev" title="Using the Memory Browser" href="memory_browser.html"/> 
+    <script language="JavaScript">
+        var tiPageName;
+        tiPageName = "sug debugging ble-common_heap";
+
+        if (location.protocol == "file:"){
+            var ci_analytics_poc_load = true;
+        }
+    </script> 
+
+    <script src="http://www.ti.com/assets/js/headerfooter/analytics.js" type="text/javascript" charset="utf-8">     
+
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../ble-stack-3.x-guide/index.html" class="icon icon-home"> BLE-Stack User's Guide for Bluetooth 4.2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.01.01.00
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../cc2640/disclaimer.html">Disclaimer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/get-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cc2640/platform.html">The CC2640R2F SDK Platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x/index.html">Developing a Bluetooth Low Energy Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../u-stack/index.html">Micro BLE Stack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../oad-ble-stack-3.x/oad.html">Over the Air Download (OAD)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../voice/voice.html">Creating a Voice Enabled Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../secure-fw-3.x/index.html">Secure Firmware (SFW)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensor-controller/sensor-controller.html">Sensor Controller</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="ble-index.html">Debugging</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="external_resources.html">External Resources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="debug_interfaces.html">Debug Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="debug_interfaces.html#configuring-debugger-in-ccs">Configuring Debugger in CCS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="debug_interfaces.html#configuring-debugger-in-iar">Configuring Debugger in IAR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="breakpoints.html">Breakpoints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="breakpoints.html#considerations-on-breakpoints">Considerations on Breakpoints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="watches.html">Watching Variables and Registers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="watches.html#memory-watchpoints">Memory Watchpoints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rtos_object_view.html">TI-RTOS Object Viewer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="memory_browser.html">Using the Memory Browser</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Debugging Common Heap Issues</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#functions">Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#determining-the-auto-heap-size">Determining the Auto Heap Size</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#programatically-accessing-the-heap-configuration">Programatically Accessing the Heap Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#troubleshooting-heap-problems">Troubleshooting Heap Problems</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="optimizations.html">Optimizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cpu_exceptions.html">Deciphering CPU Exceptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ble-memory_problems.html">Debugging Memory Problems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ble-memory_problems.html#check-system-flash-and-ram-usage-with-map-file">Check System Flash and RAM Usage With Map File</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ble-debugging.html">Debugging a Program Exit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ble-debugging.html#hal-assert-handling">HAL Assert Handling</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/migration.html">Migration Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/api-reference.html">API References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/reference.html">Terms and Definitions</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../ble-stack-3.x-guide/index.html">BLE-Stack User's Guide for Bluetooth 4.2</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../ble-stack-3.x-guide/index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="ble-index.html">Debugging</a> &raquo;</li>
+        
+      <li>Debugging Common Heap Issues</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="debugging-common-heap-issues">
+<span id="sec-heap-debugging"></span><span id="sect-icall-profiling"></span><h1>Debugging Common Heap Issues<a class="headerlink" href="#debugging-common-heap-issues" title="Permalink to this headline">¶</a></h1>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">When using an auto sized heap, ROV Classic may report errors. Please see the
+<a class="reference internal" href="rtos_object_view.html#sec-rov"><span class="std std-ref">TI-RTOS Object Viewer</span></a> section for a workaround and more information.</p>
+</div>
+<p>As described in <a class="reference internal" href="../cc2640/memory_management.html#dynamic-memory-allocation"><span class="std std-ref">Dynamic Memory Allocation</span></a>, the Heap Manager and its
+heap are used to allocate messages between the Bluetooth low energy stack
+task and the application task and as dynamic memory allocations in
+the tasks, as well as in TI-RTOS.</p>
+<p>Profiling functionality is provided for the heap but is not
+enabled by default. Therefore, it must be compiled in by adding
+<code class="docutils literal"><span class="pre">HEAPMGR_METRICS</span></code> to the defined preprocessor symbols. This
+functionality is useful for finding potential sources for
+unexplained behavior and to optimize the size of the heap. When
+<code class="docutils literal"><span class="pre">HEAPMGR_METRICS</span></code> is defined, the variables and functions listed as
+follows become available. Global variables:</p>
+<dl class="docutils">
+<dt>heapmgrBlkMax</dt>
+<dd>The maximum amount of simultaneous allocated blocks</dd>
+<dt>heapmgrBlkCnt</dt>
+<dd>The current amount of allocated blocks</dd>
+<dt>heapmgrBlkFree</dt>
+<dd>The current amount of free blocks</dd>
+<dt>heapmgrMemAlo</dt>
+<dd>The current total memory allocated in bytes</dd>
+<dt>heapmgrMemMax</dt>
+<dd>The maximum amount of simultaneous allocated memory in
+blocks (this value must not exceed the size of the heap)</dd>
+<dt>heapmgrMemUB</dt>
+<dd>The furthest memory location of an allocated block,
+measured as an offset from the start of the heap</dd>
+<dt>heapmgrMemFail</dt>
+<dd>The amount of memory allocation failure (instances
+where <code class="docutils literal"><span class="pre">ICall_malloc()</span></code> has returned NULL)</dd>
+</dl>
+<p>Furthermore when using a TI-RTOS based heap such as HeapMem or HeapTrack, there
+is additional debugging capability that can be used.</p>
+<div class="section" id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h2>
+<p>Note the below functions are enabled only for the legacy OSAL heap, TI-RTOS
+based heap implementations offer native support for their functionality.</p>
+<dl class="docutils">
+<dt><code class="samp docutils literal"><span class="pre">void</span> <em><span class="pre">ICall_heapGetMetrics</span></em><span class="pre">(u16</span> <span class="pre">*pBlkMax,</span> <span class="pre">u16</span> <span class="pre">*pBlkCnt,</span> <span class="pre">u16</span> <span class="pre">*pBlkFree,</span> <span class="pre">u16</span> <span class="pre">*pMemAlo,</span> <span class="pre">u16</span> <span class="pre">*pMemMax,</span> <span class="pre">u16</span> <span class="pre">*pMemUb)</span></code></dt>
+<dd>Returns the previously described variables in the pointers passed in as parameters</dd>
+<dt><code class="samp docutils literal"><span class="pre">int</span> <span class="pre">heapmgrSanityCheck(void)</span></code></dt>
+<dd>Returns 0 if the heap is ok; otherwise, returns a nonzero (that is, an array access has overwritten a header in the heap)</dd>
+</dl>
+<p>However, the get stats function is available to all three supported heap
+configurations.</p>
+<dl class="docutils">
+<dt><code class="samp docutils literal"><span class="pre">ICall_getHeapStats(ICall_heapStats_t)</span></code></dt>
+<dd>Returns a pointer to the Heap statics structure.</dd>
+</dl>
+<p>The heap stats structure, is defined as below:</p>
+<blockquote>
+<div><div class="highlight-c"><div class="highlight"><pre><span></span><span class="k">typedef</span> <span class="k">struct</span>
+<span class="p">{</span>
+  <span class="kt">uint32_t</span> <span class="n">totalSize</span><span class="p">;</span>
+  <span class="kt">uint32_t</span> <span class="n">totalFreeSize</span><span class="p">;</span>
+  <span class="kt">uint32_t</span> <span class="n">largestFreeSize</span><span class="p">;</span>
+<span class="p">}</span><span class="n">ICall_heapStats_t</span><span class="p">;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="determining-the-auto-heap-size">
+<h2>Determining the Auto Heap Size<a class="headerlink" href="#determining-the-auto-heap-size" title="Permalink to this headline">¶</a></h2>
+<p>The following procedure can be used to view the size of the heap when the auto
+heap size feature is enabled.</p>
+<p>The auto heap size feature takes advantage of linker file symbols to
+determine the optimal heap size, the user can determine the size of the auto
+heap via the generated map file using the procedure below:</p>
+<p>The size of the heap is the difference between the address of
+the last item in the .bss section and the start address of the
+system stack (CSTACK). For example, the</p>
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-number">Listing 87. </span><span class="caption-text">The gap between heapStart end and heapEnd start.</span><a class="headerlink" href="#id2" title="Permalink to this code">¶</a></div>
+<div class="highlight-text"><div class="highlight"><pre><span></span>20003f48  heapEnd
+20001cc1  heapStart
+</pre></div>
+</div>
+</div>
+<p>The size of the heap in this example is defined as:
+<code class="docutils literal"><span class="pre">0x20003f48</span> <span class="pre">-</span> <span class="pre">0x20001cc1</span> <span class="pre">=</span> <span class="pre">0x2287</span></code> or <code class="docutils literal"><span class="pre">8839</span> <span class="pre">bytes</span></code> for the heap.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The above procedure will work for any active heap implementation</p>
+</div>
+<p>Determining the auto heap size is slightly dependent on the heap implementation
+that is active, see the sections below to see how to determine the size of an
+auto sized heap at runtime.</p>
+<p><em>OSAL HEAP</em></p>
+<blockquote>
+<div><ul class="simple">
+<li>Open the variable watch window and view <code class="docutils literal"><span class="pre">HEAPMGR_SIZE</span></code>, it will report the
+heap size.</li>
+</ul>
+</div></blockquote>
+<p><em>HeapMem or HeapMem + HeapTrack</em></p>
+<blockquote>
+<div><ul class="simple">
+<li>Using ROV, open the <code class="docutils literal"><span class="pre">HeapMem.Detailed</span></code> view, the heap&#8217;s size is reported
+in the totalSize field. See <a class="reference internal" href="rtos_object_view.html#sec-rov"><span class="std std-ref">TI-RTOS Object Viewer</span></a> for more information on ROV and
+how to use it.</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="programatically-accessing-the-heap-configuration">
+<h2>Programatically Accessing the Heap Configuration<a class="headerlink" href="#programatically-accessing-the-heap-configuration" title="Permalink to this headline">¶</a></h2>
+<p>The heap configuration variables can be accessed software to determine the
+active heap configuration and size at runtime. The code snippet below will print
+out the active heap config and the heap&#8217;s size.</p>
+<div class="literal-block-wrapper docutils container" id="id3">
+<div class="code-block-caption"><span class="caption-number">Listing 88. </span><span class="caption-text">Printing the Heap Configuration and Size</span><a class="headerlink" href="#id3" title="Permalink to this code">¶</a></div>
+<div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;xdc/cfg/global.h&gt; // This is included to access cfg file variables</span><span class="cp"></span>
+
+<span class="c1">//...</span>
+
+<span class="c1">// Get the HeapSize</span>
+<span class="n">ICall_heapStats_t</span> <span class="n">stats</span><span class="p">;</span>
+<span class="n">ICall_getHeapStats</span><span class="p">(</span><span class="o">&amp;</span><span class="n">stats</span><span class="p">);</span>
+
+<span class="k">if</span><span class="p">((</span><span class="n">HEAPMGR_CONFIG</span> <span class="o">&amp;</span> <span class="mh">0x03</span><span class="p">)</span> <span class="o">==</span> <span class="mh">0x00</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">Display_print0</span><span class="p">(</span><span class="n">dispHandle</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="s">&quot;Using Heap: OSAL&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="k">else</span> <span class="k">if</span> <span class="p">((</span><span class="n">HEAPMGR_CONFIG</span> <span class="o">&amp;</span> <span class="mh">0x03</span><span class="p">)</span> <span class="o">==</span> <span class="mh">0x01</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">Display_print0</span><span class="p">(</span><span class="n">dispHandle</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="s">&quot;Using Heap: HeapMem&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="k">else</span> <span class="k">if</span><span class="p">((</span><span class="n">HEAPMGR_CONFIG</span> <span class="o">&amp;</span> <span class="mh">0x03</span><span class="p">)</span> <span class="o">==</span> <span class="mh">0x02</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">Display_print0</span><span class="p">(</span><span class="n">dispHandle</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="s">&quot;Using Heap: HeapMem + HeapTrack&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">Display_print1</span><span class="p">(</span><span class="n">dispHandle</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="s">&quot;Heap Size: %d&quot;</span><span class="p">,</span> <span class="n">stats</span><span class="p">.</span><span class="n">totalSize</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+</div>
+<div class="section" id="troubleshooting-heap-problems">
+<h2>Troubleshooting Heap Problems<a class="headerlink" href="#troubleshooting-heap-problems" title="Permalink to this headline">¶</a></h2>
+<p>Issues with dynamic allocated memory can be notoriously hard to track down and
+debug; this section aims to give tips on how to debug the most common issues
+with dynamic memory.</p>
+<p>In general, HeapMem and HeapMem + HeapTrack offer more debuggability than the
+OSAL heap through the ROV tools, but have associated tradeoffs such as speed and
+overhead. If you suspect that there are heap issues, enable a more verbose heap
+implementation to help debug and root cause the issue.</p>
+<blockquote>
+<div><ul class="simple">
+<li>HeapTrack is a module built above the HeapMem module used to debug heaps, it
+offers the most debugging capability.</li>
+<li>HeapMem offers ROV support and has the ability to detect if the internal
+structure of the heap has become corrupted.</li>
+<li>OSAL heap offers APIs for logging heap metrics and stats</li>
+</ul>
+</div></blockquote>
+<p>Reference the Heaps section of the BIOS User&#8217;s Guide for more information on the
+TI-RTOS provided heap implementations.</p>
+<p><strong>Writing to already freed memory</strong></p>
+<p>Pointers to memory which have already been freed using  <code class="docutils literal"><span class="pre">ICall_free()</span></code> should
+no longer be used. A common practice is to set pointers to NULL after they have
+been freed, and check them for NULL before using them.</p>
+<div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14</pre></div></td><td class="code"><div class="highlight"><pre><span></span>  <span class="c1">// Allocate Memory</span>
+  <span class="kt">uint32_t</span> <span class="o">*</span><span class="n">myPtr</span> <span class="o">=</span> <span class="n">ICall_malloc</span><span class="p">(</span><span class="mi">500</span><span class="p">);</span>
+
+  <span class="c1">//..</span>
+
+  <span class="c1">// Later free the pointer, set it to NULL</span>
+  <span class="n">ICall_free</span><span class="p">(</span><span class="n">myPtr</span><span class="p">);</span>
+  <span class="n">myPtr</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+
+  <span class="c1">// This check will protect against writing to already freed memory</span>
+  <span class="k">if</span><span class="p">(</span> <span class="nb">NULL</span> <span class="o">!=</span> <span class="n">myPtr</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="o">*</span><span class="n">myPtr</span> <span class="o">=</span> <span class="mi">42</span><span class="p">;</span>
+  <span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>When accessing memory that has already been freed, there is a risk that the
+internal structure of the heap will become corrupted. Let&#8217;s assume some code
+didn&#8217;t follow the above convention, and wrote to a free&#8217;d pointer.</p>
+<p>The figure below shows how the user can use HeapMem to detect heap corruption
+with ROV, notice the dramatic change in freeSize.</p>
+<div class="figure align-center" id="id4">
+<img alt="../_images/writing-to-freed-mem.png" src="../_images/writing-to-freed-mem.png" />
+<p class="caption"><span class="caption-number">Figure 118. </span><span class="caption-text">Writing to freed memory</span></p>
+</div>
+<p><strong>Freeing Already freed Memory</strong></p>
+<p>The cause of this bug is the same as the one from the previous section, double
+frees will corrupt the internal structure of the heap.</p>
+<div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7</pre></div></td><td class="code"><div class="highlight"><pre><span></span>  <span class="c1">// Allocate Memory</span>
+  <span class="kt">uint32_t</span> <span class="o">*</span><span class="n">myPtr</span> <span class="o">=</span> <span class="n">ICall_malloc</span><span class="p">(</span><span class="mi">500</span><span class="p">);</span>
+
+  <span class="c1">//..</span>
+
+  <span class="n">ICall_free</span><span class="p">(</span><span class="n">myPtr</span><span class="p">);</span>
+  <span class="n">ICall_free</span><span class="p">(</span><span class="n">myPtr</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+<p><strong>Starving the system/Memory Leak</strong></p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Asserting during a heap failure may be considered dangerous in production
+code, however this section seeks to showcase its use in debugging.</p>
+</div>
+<p>If the protocol stack relies on dynamic allocation to pass messages between its
+internal layers and the application, starving the stack of memory may result in
+unexpected behavior. This can also negatively affect other application processes
+that require dynamic memory such as voice streaming.</p>
+<p>The stack can be setup to assert when allocations fail by following the steps
+below:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>Include <code class="docutils literal"><span class="pre">hal_assert.c</span></code> in the user application project</li>
+<li>Define <code class="docutils literal"><span class="pre">EXT_HAL_ASSERT</span></code> and <code class="docutils literal"><span class="pre">MEM_ALLOC_ASSERT</span></code></li>
+<li>Plug a handler function in <code class="docutils literal"><span class="pre">main.c</span></code>, see <code class="docutils literal"><span class="pre">multi_role</span></code>&#8216;s main function
+for an example</li>
+</ol>
+</div></blockquote>
+<p>The code below will force this condition by mallocing without freeing.</p>
+<div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span></span>  <span class="kt">uint8_t</span> <span class="n">i</span>  <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="k">while</span><span class="p">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="mi">500</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="n">ICall_malloc</span><span class="p">(</span><span class="mi">500</span><span class="p">);</span>
+  <span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>This condition can be caused by an application that calls <code class="docutils literal"><span class="pre">malloc()</span></code> during an
+operation without a call to <code class="docutils literal"><span class="pre">free()</span></code> later in the code. Thus the code will keep
+requiring more memory every time the operation runs without ever freeing any
+memory. The above code snippet is an exaggerated example of this.</p>
+<p>At the time of a failed allocation, a full call-stack is provided:</p>
+<div class="figure align-center" id="id5">
+<img alt="../_images/malloc-fail-callstack.png" src="../_images/malloc-fail-callstack.png" />
+<p class="caption"><span class="caption-number">Figure 119. </span><span class="caption-text">Alloc failed callstack</span></p>
+</div>
+<p><strong>Checking the return value of malloc</strong></p>
+<p>When allocating memory on the heap using malloc, it is import to check it&#8217;s
+return value. Otherwise, this will often result in dereferncing a null pointer,
+which will result in an exception.</p>
+<div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kt">uint8_t</span> <span class="o">*</span><span class="n">myPtr</span> <span class="o">=</span> <span class="n">ICall_malloc</span><span class="p">(</span><span class="mi">75</span><span class="p">);</span>
+
+<span class="k">if</span><span class="p">(</span><span class="nb">NULL</span> <span class="o">==</span> <span class="n">myPtr</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="c1">// Error handling here</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>There are many more tips for debugging heap issues available in this
+<a class="reference external" href="https://training.ti.com/debugging-common-application-issues-ti-rtos">TI-RTOS Debugging Workshop</a></p>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="optimizations.html" class="btn btn-neutral float-right" title="Optimizations" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="memory_browser.html" class="btn btn-neutral" title="Using the Memory Browser" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Texas Instruments.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.01.01.00',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

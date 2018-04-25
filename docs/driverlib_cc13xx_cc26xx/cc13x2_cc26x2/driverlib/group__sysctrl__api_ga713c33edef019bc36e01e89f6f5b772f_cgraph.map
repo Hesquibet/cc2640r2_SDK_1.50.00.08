@@ -1,0 +1,6 @@
+<map id="SysCtrlShutdown" name="SysCtrlShutdown">
+<area shape="rect" id="node2" href="$group__aonioc__api.html#ga415be9a200650b0c093366100fb25277" title="Freeze the IOs. " alt="" coords="176,5,328,32"/>
+<area shape="rect" id="node3" href="$group__sysctrl__api.html#ga1d9c005051b674f9f254747c1705e3dc" title="Sync all accesses to the AON register interface. " alt="" coords="193,56,311,83"/>
+<area shape="rect" id="node4" href="$group__prcm__api.html#ga33c5410febc5f2af059a8a88e96b9736" title="Put the processor into deep&#45;sleep mode. " alt="" coords="191,107,313,133"/>
+<area shape="rect" id="node5" href="$group__cpu__api.html#ga28849d778ab8d1eb9dd29ad07fc7c845" title="Wait for interrupt. " alt="" coords="376,107,440,133"/>
+</map>

@@ -1,0 +1,323 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Over the Air Download (OAD) &mdash; BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation" href="../index.html"/>
+        <link rel="next" title="OAD Concept Overview" href="oad_concepts.html"/>
+        <link rel="prev" title="External Interface" href="../u-stack/external-interface.html"/> 
+    <script language="JavaScript">
+        var tiPageName;
+        tiPageName = "sug oad-ble-stack-3.x oad";
+
+        if (location.protocol == "file:"){
+            var ci_analytics_poc_load = true;
+        }
+    </script> 
+
+    <script src="http://www.ti.com/assets/js/headerfooter/analytics.js" type="text/javascript" charset="utf-8">     
+
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../ble-stack-3.x-guide/index.html" class="icon icon-home"> BLE-Stack User's Guide for Bluetooth 4.2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.01.01.00
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../cc2640/disclaimer.html">Disclaimer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/get-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cc2640/platform.html">The CC2640R2F SDK Platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x/index.html">Developing a Bluetooth Low Energy Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../u-stack/index.html">Micro BLE Stack</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Over the Air Download (OAD)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="oad_concepts.html">OAD Concept Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="oad_profile.html">OAD Profile</a></li>
+<li class="toctree-l2"><a class="reference internal" href="oad_offchip.html">Off-Chip OAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="oad_onchip.html">On-Chip OAD</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../voice/voice.html">Creating a Voice Enabled Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../secure-fw-3.x/index.html">Secure Firmware (SFW)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensor-controller/sensor-controller.html">Sensor Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../debugging/ble-index.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/migration.html">Migration Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/api-reference.html">API References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/reference.html">Terms and Definitions</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../ble-stack-3.x-guide/index.html">BLE-Stack User's Guide for Bluetooth 4.2</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../ble-stack-3.x-guide/index.html">Docs</a> &raquo;</li>
+        
+      <li>Over the Air Download (OAD)</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="over-the-air-download-oad">
+<span id="sec-oad"></span><h1>Over the Air Download (OAD)<a class="headerlink" href="#over-the-air-download-oad" title="Permalink to this headline">¶</a></h1>
+<p>This section serves as a guide to the Texas Instruments Over-the-Air Download
+(<a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-47"><span class="xref std std-term">OAD</span></a>) ecosystem including the custom profile specification, application
+architecture, drivers, and middleware. <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-47"><span class="xref std std-term">OAD</span></a> is a device firmware upgrade
+method that allows the firmware image running on a device to be updated
+over the air using a Bluetooth low energy connection while providing power loss
+protection.</p>
+<p>The guide will cover the principles of the <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-47"><span class="xref std std-term">OAD</span></a> process, the out of
+the box examples included in the SimpleLink CC2640R2 SDK, and the process for adding <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-47"><span class="xref std std-term">OAD</span></a>
+to an existing project.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Updating the device firmware over serial (UART or SPI) connection from a
+host MCU using the CC26xx embedded ROM Serial Bootloader (SBL) is covered in
+application note CC2538/CC26xx Bootloader Interface (SWRA466).</p>
+</div>
+<p>The <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-47"><span class="xref std std-term">OAD</span></a> guide section will cover:</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-47"><span class="xref std std-term">OAD</span></a> theory of operation and architecture</li>
+<li>How to run the <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-47"><span class="xref std std-term">OAD</span></a> examples included in the SimpleLink CC2640R2 SDK</li>
+<li>How to add <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-47"><span class="xref std std-term">OAD</span></a> to an existing sample application</li>
+</ul>
+</div></blockquote>
+<p>The supported development kit for <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-47"><span class="xref std std-term">OAD</span></a> is the <a class="reference external" href="http://www.ti.com.cn/tool/launchxl-cc2640r2">CC2640R2 Launchpad</a>. To follow the
+procedures listed in this guide, two <a class="reference external" href="http://www.ti.com.cn/tool/launchxl-cc2640r2">CC2640R2 Launchpad</a> development kits are required.</p>
+<p class="rubric">Table of contents</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="oad_concepts.html">OAD Concept Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="oad_concepts.html#oad-types">OAD Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="oad_concepts.html#oad-topology-overview">OAD Topology Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="oad_concepts.html#oad-process">OAD Process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="oad_concepts.html#linker-responsibilities">Linker Responsibilities</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="oad_profile.html">OAD Profile</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="oad_profile.html#oad-image-header">OAD Image Header</a></li>
+<li class="toctree-l2"><a class="reference internal" href="oad_profile.html#oad-service-0xffc0">OAD Service (0xFFC0)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="oad_profile.html#oad-reset-service-0xffd0">OAD Reset Service (0xFFD0)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="oad_profile.html#oad-return-values">OAD Return Values</a></li>
+<li class="toctree-l2"><a class="reference internal" href="oad_profile.html#oad-block-size-rules">OAD Block Size Rules</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="oad_offchip.html">Off-Chip OAD</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="oad_offchip.html#supported-stack-image-types">Supported Stack Image Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="oad_offchip.html#constraints-and-requirements-for-off-chip-oad">Constraints and Requirements for Off-chip OAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="oad_offchip.html#off-chip-oad-memory-layout">Off-chip OAD Memory layout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="oad_offchip.html#bim-for-off-chip-oad">BIM for Off-chip OAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="oad_offchip.html#out-of-the-box-demo-off-chip-app-only-oad">Out of the Box Demo (Off-Chip App Only OAD)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="oad_onchip.html">On-Chip OAD</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="oad_onchip.html#supported-configurations-for-on-chip-oad">Supported Configurations for On-Chip OAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="oad_onchip.html#constraints-and-requirements-for-on-chip-oad">Constraints and Requirements for On-chip OAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="oad_onchip.html#on-chip-oad-memory-layout">On-Chip OAD Memory layout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="oad_onchip.html#bim-for-on-chip-oad">BIM for On-chip OAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="oad_onchip.html#out-of-the-box-demo-on-chip-oad">Out of the Box Demo (On-Chip OAD)</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="oad_concepts.html" class="btn btn-neutral float-right" title="OAD Concept Overview" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../u-stack/external-interface.html" class="btn btn-neutral" title="External Interface" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Texas Instruments.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.01.01.00',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

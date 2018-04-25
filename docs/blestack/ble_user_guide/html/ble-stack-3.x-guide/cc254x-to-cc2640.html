@@ -1,0 +1,397 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>CC254x to CC2640 &mdash; BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation" href="../index.html"/>
+        <link rel="up" title="Migration Guides" href="migration.html"/>
+        <link rel="next" title="API References" href="api-reference.html"/>
+        <link rel="prev" title="CC2640 to CC2640R2F" href="cc2640-to-cc2640r2.html"/> 
+    <script language="JavaScript">
+        var tiPageName;
+        tiPageName = "sug ble-stack-3.x-guide cc254x-to-cc2640";
+
+        if (location.protocol == "file:"){
+            var ci_analytics_poc_load = true;
+        }
+    </script> 
+
+    <script src="http://www.ti.com/assets/js/headerfooter/analytics.js" type="text/javascript" charset="utf-8">     
+
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> BLE-Stack User's Guide for Bluetooth 4.2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.01.01.00
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../cc2640/disclaimer.html">Disclaimer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="get-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cc2640/platform.html">The CC2640R2F SDK Platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x/index.html">Developing a Bluetooth Low Energy Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../u-stack/index.html">Micro BLE Stack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../oad-ble-stack-3.x/oad.html">Over the Air Download (OAD)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../voice/voice.html">Creating a Voice Enabled Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../secure-fw-3.x/index.html">Secure Firmware (SFW)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensor-controller/sensor-controller.html">Sensor Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../debugging/ble-index.html">Debugging</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="migration.html">Migration Guides</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="blestack3.01.00-to-blestack3.01.01.html">BLE-Stack 3.01.00 to BLE-Stack 3.01.01</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="migration.html#previous-migration-guides">Previous Migration Guides</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="blestack3.00.01-to-blestack3.01.00.html">BLE-Stack 3.00.01 to BLE-Stack 3.01.00</a></li>
+<li class="toctree-l3"><a class="reference internal" href="blestack3.00.00-to-blestack3.00.01.html">BLE-Stack 3.00.00 to BLE-Stack 3.00.01</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cc2640-to-cc2640r2.html">CC2640 to CC2640R2F</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">CC254x to CC2640</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#osal">OSAL</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#application-and-stack-separation-with-icall">Application and Stack Separation With ICall</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#threads-semaphores-and-queues">Threads, Semaphores, and Queues</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#peripheral-drivers">Peripheral Drivers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#event-processing">Event Processing</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api-reference.html">API References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference.html">Terms and Definitions</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">BLE-Stack User's Guide for Bluetooth 4.2</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="migration.html">Migration Guides</a> &raquo;</li>
+        
+      <li>CC254x to CC2640</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="cc254x-to-cc2640">
+<h1>CC254x to CC2640<a class="headerlink" href="#cc254x-to-cc2640" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>TI-RTOS is the new operating environment for Bluetooth low energy
+projects on CC26xx devices. This software is a multi-threaded
+environment where the protocol stack, application, and its profiles
+exist on different threads. TI-RTOS has similar features to OSAL but
+different mechanisms for accomplishing them. This section covers the
+main differences between TI-RTOS and OSAL when developing
+applications on top of the Bluetooth low energy protocol stack.
+Although the incorporation of TI-RTOS is a major architecture change, Bluetooth
+low energy APIs and related procedures are similar to CC254x.</p>
+<p>This section covers the following topics:</p>
+<ul class="simple">
+<li>OSAL</li>
+<li>Application and stack separation with ICall</li>
+<li>Threads, semaphores, and queues</li>
+<li>Peripheral Drivers</li>
+<li>Event Processing</li>
+</ul>
+<p>Most of these differences are unique to TI-RTOS. This section covers
+these differences and how they relate to OSAL.</p>
+</div>
+<div class="section" id="osal">
+<h2>OSAL<a class="headerlink" href="#osal" title="Permalink to this headline">¶</a></h2>
+<p>A major change in moving to TI-RTOS is the complete removal of the
+application from the OSAL environment. While the stack code uses
+OSAL within its own thread, the application thread can only use the
+APIs of OSAL that are defined in ICallBleAPI.c. Many functions such
+as <code class="docutils literal"><span class="pre">osal_memcpy</span></code>, <code class="docutils literal"><span class="pre">osal_memcmp</span></code>, and
+<code class="docutils literal"><span class="pre">osal_mem_alloc()</span></code> are unavailable. These functions have been replaced
+by TI-RTOS, C runtime, and ICall APIs.</p>
+</div>
+<div class="section" id="application-and-stack-separation-with-icall">
+<h2>Application and Stack Separation With ICall<a class="headerlink" href="#application-and-stack-separation-with-icall" title="Permalink to this headline">¶</a></h2>
+<p>In the CC2640 Bluetooth low energy protocol stack, the application
+is a separate image from the stack image unlike the OSAL method,
+which consists of only a single image. The benefit for this
+separation is detailed in the ICall. This structure allows independent upgrading
+of the application and stack images.</p>
+<p>The address of the startup entry for the stack image is known by the
+application image at build time so the application image knows where
+the stack image starts. Messages between the application and stack
+pass through a framework developed called ICall. (Indirect
+Call Framework) This functionality lets the application call the
+same APIs used in OSAL but is parsed by the ICall and sent to the
+stack for processing. Many of these stack functions are defined in
+<code class="docutils literal"><span class="pre">ICallBleAPI.c</span></code> for the application to use transparently while ICall
+handles the sending and receiving from the stack transparently.</p>
+</div>
+<div class="section" id="threads-semaphores-and-queues">
+<h2>Threads, Semaphores, and Queues<a class="headerlink" href="#threads-semaphores-and-queues" title="Permalink to this headline">¶</a></h2>
+<p>Unlike single-threaded operating systems such as OSAL, TI-RTOS is
+multi-threaded with custom priorities for each thread. The TI-RTOS
+handles thread synchronization and APIs are provided for the
+application threads to use to maintain synchronization between
+different threads. Semaphores are the prime source of
+synchronization for applications. The semaphores are used to pass
+event messages to the event processor of the application.</p>
+<p>Profile callbacks that run in the context of the Bluetooth low
+energy protocol stack thread are made re-entrant by storing event
+data and posting a semaphore of the application to process in the
+context of the application. Similarly, key press events and clock
+events that run in ISR context also post semaphores to pass events
+to the application. Unique to TI-RTOS, queues are how applications
+process events in the order the events were called and make callback
+functions from profiles and the stack re-entrant. The queues also
+provide a FIFO ordering for event processing. An example project may
+use a queue to manage internal events from an application profile or
+a GAP profile role (for example, Peripheral or Central). ICall uses
+a queue and it is accessed through the ICall API. For a description
+of the TI-RTOS objects used by the Bluetooth low energy stack SDK,
+see <a class="reference internal" href="../cc2640/rtos-overview.html#sec-tirtos-overview"><span class="std std-ref">TI-RTOS Overview</span></a>.</p>
+</div>
+<div class="section" id="peripheral-drivers">
+<h2>Peripheral Drivers<a class="headerlink" href="#peripheral-drivers" title="Permalink to this headline">¶</a></h2>
+<p>Aside from switching to an RTOS-based environment, peripheral
+drivers represent a significant change from the CC254x architecture.
+Any drivers used by the CC254x software must be ported to the
+respective TI-RTOS driver interfaces. For details on adding and
+using a CC26xx peripheral driver, see <a class="reference internal" href="../cc2640/rtos-overview.html#peripherals-and-drivers"><span class="std std-ref">Drivers</span></a>.</p>
+</div>
+<div class="section" id="event-processing">
+<h2>Event Processing<a class="headerlink" href="#event-processing" title="Permalink to this headline">¶</a></h2>
+<p>Similar to OSAL, each TI-RTOS task has two functions that implement the
+fundamental tasks for an application: <code class="docutils literal"><span class="pre">simple_peripheral_init()</span></code> and
+<code class="docutils literal"><span class="pre">simple_peripheral_taskFxn()</span></code>.</p>
+<p><code class="docutils literal"><span class="pre">simple_peripheral_init()</span></code> contains ICall registration routines and
+initialization functions for the application profiles and the GAP
+and GATT roles. Function calls that are normally in the
+<code class="docutils literal"><span class="pre">START_DEVICE_EVT</span></code> event of the CC254x application are also made in
+the <code class="docutils literal"><span class="pre">simple_peripheral_init()</span></code> function. The initialization includes
+setting up callbacks that the application should receive from the
+profile and stack layers. For more details on callbacks, and other
+messaging systems see <a class="reference internal" href="../ble-stack-3.x/the-application.html#intertask-messages"><span class="std std-ref">Intertask Messages</span></a>.</p>
+<p><code class="docutils literal"><span class="pre">simple_peripheral_taskFxn()</span></code> contains an infinite loop in which
+events are processed. After entry of the loop and having just
+finished initialization, the application task calls <a class="reference external" href="../../doxygen/ble/html/group___i_call.html#ga29018cb194696284827271e62fbc3dac">ICall_wait()</a> to
+block on its semaphore until an event occurs. For an example on how
+events are processed in simple_peripheral, see <a class="reference internal" href="../ble-stack-3.x/the-application.html#sbp-task"><span class="std std-ref">Simple Peripheral Task</span></a>.</p>
+<p>Similar to <code class="docutils literal"><span class="pre">osal_set_event()</span></code> in a CC254x application, the
+application task can post the semaphore of the application with a
+call to <code class="docutils literal"><span class="pre">Semaphore_post(sem)</span></code> after setting an event such as in
+<code class="docutils literal"><span class="pre">simple_peripheral_clockHandler()</span></code>. An alternative way is to enqueue
+a message using <code class="docutils literal"><span class="pre">simple_peripheral_enqueueMsg()</span></code> which preserves
+the order in which the events are processed. Similar to
+<code class="docutils literal"><span class="pre">osal_start_timerEx()</span></code> in a CC254x application, you can use a clock
+to set an event after a predetermined amount of time using
+<a class="reference external" href="../../doxygen/ble/html/group___util.html#ga761dca11dc0c6199168011949db793c5">Util_constructClock()</a>.This function can also set a periodic event
+as shown in the simple_peripheral project.</p>
+<p>Events can come from within the same task, the profiles, or the stack.
+Events from the stack are handled first with a call to
+<a class="reference external" href="../../doxygen/ble/html/group___i_call.html#ga66ec7d9e465883d7ae58b2c7e8790cff">ICall_fetchServiceMsg()</a> similar to <code class="docutils literal"><span class="pre">osal_msg_receive()</span></code> in a CC254x
+application. Internal events and messages from profiles or the
+GAP roles, that are received in callback functions, must be treated as
+re-entrant and should be handled in the <code class="docutils literal"><span class="pre">simple_peripheral_taskFxn()</span></code> function
+too. In other words, processing should be done within the application context.
+In many cases such as in GAP role profile callbacks, you must
+place events in a queue to preserve the order in which messages
+arrive. For general overview of application architecture see <a class="reference internal" href="../ble-stack-3.x/the-application.html#the-application"><span class="std std-ref">The Application</span></a>.</p>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="api-reference.html" class="btn btn-neutral float-right" title="API References" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="cc2640-to-cc2640r2.html" class="btn btn-neutral" title="CC2640 to CC2640R2F" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Texas Instruments.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.01.01.00',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

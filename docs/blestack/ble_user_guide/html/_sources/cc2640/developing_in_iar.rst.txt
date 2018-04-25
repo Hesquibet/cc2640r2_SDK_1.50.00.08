@@ -1,0 +1,343 @@
+.. _sec-developing-with-iar:
+
+Developing with IAR
+===================
+
+Installing IAR
+--------------
+
+The IAR toolchain contains many features beyond the scope of this document.
+More information and documentation can be found at `IAR.com <www.iar.com>`_.
+
+Check the |BLESTACKVER| release notes to see which IAR version to use and any
+required workarounds. Object code produced by IAR may differ in size and
+performance as compared to CCS produced object code.
+
+The following procedure describes installing and configuring the correct version
+of IAR and the necessary tools.
+
+#. Install IAR Embedded Workbench for ARM
+
+    `Download and install IAR EW ARM <https://www.iar.com/iar-embedded-workbench/partners/texas-instruments/ti-wireless/>`_
+
+    To get IAR, choose one of the following methods:
+
+        - Download the IAR Embedded Workbench 30-Day Evaluation Edition –
+          This version of IAR is free, has full functionality, and
+          includes all of the standard features. The size-limited
+          Kickstart evaluation option is not compatible with this SDK.
+
+        - Purchase the full-featured version of IAR Embedded Workbench – For
+          complete BLE application development using the |DEVICE|, TI
+          recommends purchasing the complete version of IAR without any
+          restrictions. You can find the information on purchasing the complete
+          version of `IAR <https://www.iar.com/buy>`_.
+
+    .. attention::
+        The version required is stated in the release notes.
+        Opening IAR project files with a previous version of IAR may cause
+        project file corruption.
+
+
+#. Show Build Messages
+
+    TI recommends showing all the build output messages for full verbosity
+    during building. To do this, go to **Tools** -> **Options** and set
+    **Show Build Messages** to **All**
+    (see :numref:`fig-show-all-build-messages`)
+
+    .. _fig-show-all-build-messages:
+    .. figure:: resources/image15.png
+        :align: center
+
+        Show All Build Messages in IAR
+
+.. Comment this out. Not very useful at the moment.
+    #. Verify Custom Argument Variables
+
+        Verify Custom Argument Variables points to the installed XDCtools path set
+        by XDCROOT (see :numref:`fig-custom-argument-variables`).
+
+        .. _fig-custom-argument-variables:
+        .. figure:: resources/image17.jpeg
+            :align: center
+            :width: 75%
+
+            Custom Argument Variables
+
+        .. note::
+            If any additional argument groups on the Workspace or Global tabs are
+            present that conflict with the CC26xx TI-RTOS group, disable the groups.
+            If these tools are installed to a non-default location, these variables
+            must be manually updated.
+
+Opening |BLESTACK| IAR Projects
+-------------------------------
+
+This section describes how to open and build an existing project and references
+the simple\_peripheral project. All of the |BLESTACK| projects included in the
+development kit have a similar structure.
+
+.. error::
+    If you have imported the global
+    ``<SDK_INSTALL_DIR>/tools/iar/SIMPLELINK_CC13XX_CC26XX_SDK.custom_argvars``
+    as described in :ref:`sec-importing-tidrivers-iar-projects`,
+    then |BLESTACK| examples will fail to build. For |BLESTACK| examples,
+    you must remove this custom_argvars file from your IAR global custom
+    arguments.
+
+#. Open the IAR Embedded Workbench IDE from the Start Menu.
+#. Open an IAR workspace project: **File** -> **Open** -> **Workspace...**
+
+    - For this example, select
+      *<SDK\_INSTALL\_DIR>\\examples\\rtos\\CC2640R2_LAUNCHXL\\ble5stack\\simple\_peripheral\\tirtos\\iar\\ble5\_simple\_peripheral.eww*
+
+.. sidebar:: IAR Workspace Pane
+
+    .. _fig-iar-workspace-pane:
+    .. figure:: resources/iar_workspace_pane.png
+        :align: center
+        :width: 75%
+
+        IAR Workspace Pane
+
+This workspace file is for the simple\_peripheral project. When selected, the
+files associated with the workspace become visible in the Workspace pane on the
+left side of the screen. See :numref:`fig-iar-workspace-pane`
+
+Select either project as the active project by clicking the respective tab at
+the bottom of the workspace pane. In :numref:`fig-iar-workspace-pane`, the
+Overview tab is selected. This tab displays the file structure for both projects
+simultaneously. In this case, use the drop-down menu at the top of the workspace
+pane to select the active project. Each of these projects produces a separate
+downloadable object. The simple\_peripheral sample project is the primary
+reference target for the description of a generic application in this guide. The
+simple\_peripheral project implements a basic |BLESTACK| peripheral device
+including a GATT server with GATT services. This project can be a framework for
+developing peripheral-role applications.
+
+|BLESTACK| IAR project build configurations
+-------------------------------------------
+
+This and all |BLESTACK| project workspaces contain various projects and build
+configurations as shown in :numref:`tbl-inc-developing-in-iar-build-configs`
+\*\_StackLibrary build configurations build the stack as a library as
+described in :ref:`sec-inc-architecture-stack-image-as-a-library`.
+
+.. _tbl-inc-developing-in-iar-build-configs:
+.. table:: Available IAR project build configurations
+
+    +--------------+--------------------------------+---------------------------------+
+    | Project type | Project's build configuration  | Compatible project complement   |
+    +==============+================================+=================================+
+    | Application  | FlashROM                       | Stack - FlashROM                |
+    |              +--------------------------------+---------------------------------+
+    |              | FlashROM\_StackLibrary         | Stack - FlashROM_StackLibrary   |
+    |              +--------------------------------+---------------------------------+
+    |              | FlashROM\_StackLibrary_RCOSC   | Stack - FlashROM_StackLibrary   |
+    |              +--------------------------------+---------------------------------+
+    |              | FlashROM\_OAD\_ImgB            | Stack - FlashROM                |
+    |              +--------------------------------+---------------------------------+
+    |              | FlashROM\_OAD\_Offchip         | Stack - FlashROM                |
+    +--------------+--------------------------------+---------------------------------+
+    | Stack        | FlashROM\_Library              | Application - FlashROM_Library  |
+    |              +--------------------------------+---------------------------------+
+    |              | FlashROM                       | Application - FlashROM          |
+    +--------------+--------------------------------+---------------------------------+
+
+
+Compile and Download
+--------------------
+
+For all build configurations, the stack project should always be built before
+the application project.
+
+For projects where the stack is built as a **library**:
+
+    #. Build the stack library project.
+
+        - Select the stack project.
+        - Select **Project** -> **Make** to build the stack.
+
+    #. Build the application project.
+
+        - Select the application project.
+        - Select **Project** -> Make to build the application.
+
+    #. Load the whole application
+
+        - To download and debug: Select **Project** -> **Download and Debug**
+        - To download without debugging: Select **Project** -> **Download** ->
+          **Download Active Application**
+
+    .. note::
+        Application project that consume the stack in a library form will not
+        have hard defined image boundaries.
+
+        After the initial build, if the stack project is not modified, only the
+        application project needs to be rebuilt.
+
+For projects where the stack and application are **split images** (not a library):
+
+    #. Build the stack project.
+
+        - Select the stack project.
+        - Select **Project** -> **Make** to build the stack.
+
+    #. Build the application project.
+
+        - Select the application project.
+        - Select **Project** -> Make to build the application.
+
+    #. Load the stack project.
+
+        - Select **Project** -> **Download** -> **Download Active Application**
+          to download the stack project.
+
+    #. Load the application project.
+
+        - To download and debug: Select **Project** -> **Download and Debug**
+        - To download without debugging: Select **Project** -> **Download** ->
+          **Download Active Application**
+
+    .. note::
+        The stack project defines the flash and RAM boundary parameters used by
+        the application project. Any modifications to the stack project require
+        a rebuild of the stack project, followed by a rebuild of the application
+        project to use the new boundary settings. See :ref:`sec-fontier-tool`.
+
+        After the initial build, if the stack project is not modified, only the
+        application project needs to be rebuilt.
+
+        When the application is downloaded (that is, flash memory programmed),
+        you can debug without reflashing the device. Go to **Project** ->
+        **Debug without Downloading**.
+
+.. caution::
+    Do not modify the CPU Variant in the project settings. All sample projects
+    are configured with a CPU type, and changing this setting (that is, from
+    |DEVICE|) may result in build errors.
+
+Sample applications that implement the Over the Air Download (OAD) firmware
+update capability require the Boot Image Manager (BIM) project to be built.
+Refer to the :ref:`sec-oad` section for more details.
+
+.. _sec-importing-tidrivers-iar-projects:
+
+Importing TI Drivers IAR Projects
+---------------------------------
+
+Unlike the IAR projects for the |BLESTACK|, IAR projects for ``TI Drivers`` must
+be imported rather than opened. All TI Drivers project are created from the
+original sources in ``<SDK_INSTALL_DIR>/source/ti/drivers``. Because of this
+difference, you **must not** open ``TI Drivers`` .eww IAR projects directly from
+within the SDK.
+
+Here are the steps on how to import a `TI Drivers` project.
+
+.. error::
+   **Do NOT try to open the .eww projects in**
+   ``<SDK_INSTALL_DIR>/source/ti/drivers`` **directly in IAR!**
+
+   Doing so will cause IAR to generate project files directly in the example you
+   opened. The result of this is a project that does not open the correct source
+   files and if you try to import the project afterwards with the import
+   procedures listed below, not all source files will be imported into the
+   project!
+
+#. Open the version of IAR that is stated in the release notes.
+#. Globally import the .custom_argvars file provided by the |SDK|:
+
+   #.  Select **Tools** -> **Configure Custom Argument Variables**
+
+       .. figure:: resources/iar_global_custom_vars.png
+
+           Configuring Custom Argument Variables
+
+   #.  Select the **Global Tab** and click on the **Import** button
+
+       .. figure:: resources/iar_global_imports.png
+
+           Global Custom Variable Imports
+
+   #.  Select ``<SDK_INSTALL_DIR>/tools/iar/SIMPLELINK_CC13XX_CC26XX_SDK.custom_argvars``
+
+#. Now you can import `TI Drivers` examples
+
+   #.  Open **Help** -> **Information Center**, and click on
+       **Integrates solutions**.
+   #.  Go into the Texas Instruments Example projects.
+
+       .. figure:: resources/iar_ti_import_examples.png
+
+           Texas Instruments Example projects
+
+   #.  Click on **example applications**
+
+       .. figure:: resources/iar_ti_list_examples.png
+
+           To go to the list of available ``TI Drivers`` examples
+
+   #.  Click on the **TI-RTOS** link for the ``TI Drivers`` example you want
+       to import.
+
+       .. figure:: resources/iar_ti_import_project.png
+
+           Select the project you want to import and specify where you want to
+           save it.
+
+#. At this stage, you have imported a new ``TI Drivers`` project.
+
+.. _sec-developing-with-iar-accessing-preprocessor-symbols:
+
+Accessing Preprocessor Symbols
+------------------------------
+
+Various C preprocessor symbols may need to be set or adjusted at the project
+level. The following procedure describes how to access and modify preprocessor
+symbols.
+
+#. Open the Project's **Options** and select the **C/C++ Compiler** Category.
+#. Open the **Preprocessor** tab.
+#. View the **Defined symbols** box (see :numref:`fig-iar-defines-box`).
+#. Add or edit the preprocessor symbols.
+
+.. _fig-iar-defines-box:
+.. figure:: resources/image38.jpeg
+    :align: center
+
+    IAR Defined Symbols Box
+
+.. _sec-developing-with-iar-accessing-linker-symbols:
+
+Accessing Linker Symbols
+------------------------
+
+Linker symbols may need to be set or adjusted at the project level in order to
+control the memory layout of the generated image.
+The following procedure describes how to access and modify linker
+symbols.
+
+#. Open the Project's **Options** and select the **Linker** Category.
+#. Open the **Config** tab.
+#. View the **Configuration File symbol definitions** box (see :numref:`fig-iar-linker-defines-box`).
+#. Add or edit the preprocessor symbols.
+
+.. _fig-iar-linker-defines-box:
+.. figure:: resources/iar_linker_opts.png
+    :align: center
+
+    IAR Defined Symbols Box
+
+
+Resetting the |DEVICE| in IAR
+-----------------------------
+
+Select the *Board Reset* option from the following Reset (back arrow) Debug Menu
+drop-down box.
+
+.. figure:: resources/image182.jpeg
+    :align: center
+    :width: 300px
+
+    IAR Board Reset

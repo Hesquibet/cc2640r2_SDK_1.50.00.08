@@ -1,0 +1,9 @@
+Terms and Definitions
+=====================
+
+.. include:: /ble-stack-3.x/inc_glossary.rst
+.. include:: /cc2640/inc_glossary.rst
+.. include:: /tirtos/inc_glossary.rst
+.. include:: /oad-ble-stack-3.x/inc_glossary.rst
+.. include:: /secure-fw-3.x/inc_glossary.rst
+.. include:: /sensor-controller/inc_glossary.rst

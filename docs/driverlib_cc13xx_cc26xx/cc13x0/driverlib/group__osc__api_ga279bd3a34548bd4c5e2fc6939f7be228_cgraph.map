@@ -1,0 +1,6 @@
+<map id="OSCClockSourceGet" name="OSCClockSourceGet">
+<area shape="rect" id="node2" href="$group__ddi__api.html#gac86ccf0590b9dbdc88eb1a6c856c78a4" title="Read a bitfield via the DDI using 16&#45;bit read. " alt="" coords="199,31,325,57"/>
+<area shape="rect" id="node3" href="$group__ddi__api.html#ga8175a094afd96e5f440a276c4cc7fe44" title="Safely read from AUX ADI/DDI interfaces using a semaphore. " alt="" coords="373,31,512,57"/>
+<area shape="rect" id="node4" href="$group__cpu__api.html#ga491d851c4f7fff1f9f66aa778b0671b0" title="Disable all external interrupts. " alt="" coords="560,5,640,32"/>
+<area shape="rect" id="node5" href="$group__cpu__api.html#ga6922d401cbc951632f495ffcf2e71dfc" title="Enable all external interrupts. " alt="" coords="560,56,640,83"/>
+</map>

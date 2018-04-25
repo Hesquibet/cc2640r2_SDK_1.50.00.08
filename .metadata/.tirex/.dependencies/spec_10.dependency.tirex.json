@@ -1,0 +1,49 @@
+[
+   {
+      "packages" : [],
+      "compiler" : {
+         "effective" : "na",
+         "location" : "na",
+         "specified" : "na"
+      },
+      "default" : "na",
+      "name" : "na",
+      "files" : [
+         "+../../src/app/micro_ble_cm.c -> Application/micro_ble_cm.c",
+         "+../../src/app/micro_ble_cm.h -> Application/micro_ble_cm.h",
+         "+../../src/app/micro_cm_app.c -> Application/micro_cm_app.c",
+         "+../../src/app/micro_cm_app.h -> Application/micro_cm_app.h",
+         "+../../src/app/micro_cm_demo.c -> Application/micro_cm_demo.c",
+         "+../../src/app/micro_cm_demo.h -> Application/micro_cm_demo.h",
+         "+../../../../../../../source/ti/blestack/common/cc26xx/util.c -> Application/util.c",
+         "+../../../../../../../source/ti/blestack/common/cc26xx/util.h -> Application/util.h",
+         "+../../src/ccfg_app_ble.c -> Startup/ccfg_app_ble.c",
+         "+../../src/app/main.c -> Startup/main.c",
+         "+../app_ble.cfg -> TOOLS/app_ble.cfg",
+         "+../../../../../../../source/ti/blestack/hal/src/common/hal_assert.c -> HAL/Common/hal_assert.c",
+         "+../../../../../../../source/ti/blestack/hal/src/inc/hal_assert.h -> HAL/Include/hal_assert.h",
+         "+../../../../../../../source/ti/blestack/npi/src/unified/npi_tl_uart.c -> NPI/Transport/UART/npi_tl_uart.c",
+         "+../../../../../../../source/ti/blestack/npi/src/unified/inc/npi_tl_uart.h -> NPI/Transport/UART/npi_tl_uart.h",
+         "+../../../../../../../source/ti/blestack/npi/src/unified/npi_tl.c -> NPI/Transport/npi_tl.c",
+         "+../../../../../../../source/ti/blestack/npi/src/unified/inc/npi_tl.h -> NPI/Transport/npi_tl.h",
+         "+../../../../../../../source/ti/blestack/npi/src/unified/inc/npi_data.h -> NPI/U_NPI/npi_data.h",
+         "+../../../../../../../source/ti/blestack/npi/src/unified/npi_task.c -> NPI/U_NPI/npi_task.c",
+         "+../../../../../../../source/ti/blestack/npi/src/unified/inc/npi_task.h -> NPI/U_NPI/npi_task.h",
+         "+../../../../../../../source/ti/blestack/npi/src/unified/npi_util.c -> NPI/U_NPI/npi_util.c",
+         "+../../../../../../../source/ti/blestack/npi/src/unified/inc/npi_util.h -> NPI/U_NPI/npi_util.h",
+         "+../../../../../../../source/ti/blestack/microstack/port.c -> Stack/port.c",
+         "+../../../../../../../source/ti/blestack/inc/port.h -> Stack/port.h",
+         "+../../../../../../../source/ti/blestack/microstack/uble.c -> Stack/uble.c",
+         "+../../../../../../../source/ti/blestack/inc/uble.h -> Stack/uble.h",
+         "+../../../../../../../source/ti/blestack/microstack/ugap.c -> Stack/ugap.c",
+         "+../../../../../../../source/ti/blestack/inc/ugap.h -> Stack/ugap.h",
+         "+../../../../../../../source/ti/blestack/microstack/ull.c -> Stack/ull.c",
+         "+../../../../../../../source/ti/blestack/inc/ull.h -> Stack/ull.h",
+         "+../../../../../../../source/ti/blestack/microstack/urfi.c -> Stack/urfi.c",
+         "+../../../../../../../source/ti/blestack/inc/urfi.h -> Stack/urfi.h",
+         "+../../../../../../../source/ti/blestack/target/board.c -> Startup/board.c",
+         "+../../../../../../../source/ti/blestack/boards/urfc.c -> Startup/urfc.c",
+         "+../../../../../../../source/ti/blestack/boards/urfc.h -> Startup/urfc.h"
+      ]
+   }
+]

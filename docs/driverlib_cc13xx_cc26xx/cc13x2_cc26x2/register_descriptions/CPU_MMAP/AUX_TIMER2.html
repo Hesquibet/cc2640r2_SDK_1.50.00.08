@@ -1,0 +1,4333 @@
+<HTML>
+<HEAD><META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
+<link href="..//elements/mmap.css" rel="stylesheet" type="text/css">
+<TITLE>AUX_TIMER2</TITLE>
+</HEAD>
+<BODY class=mmapBody>
+<h2 class="mmapCellTitle">
+  <a name="Top_Tag">AUX_TIMER2</a>
+</h2>
+<P>Instance: AUX_TIMER2<BR>
+Component: AUX_TIMER2<BR>
+Base address: 0x400C3000</P>
+<BR>
+<P>AUX Timer2 (AUX_TIMER2) offers flexible: <BR>
+- generation of waveforms and events.<BR>
+- capture of signal period and duty cycle. <BR>
+- generation of single clock pulse.<BR>
+<BR>
+It consists of a: <BR>
+- 16-bit counter.<BR>
+- 4 capture compare channels.<BR>
+- 4 event outputs, which are mapped to <A class="mmap_legend_link" href="../legend.html#AUX">AUX</A> event bus, see <A class="xref" href="#EVCTL">EVCTL</A>.<BR>
+<BR>
+Each channel subscribes to the asynchronous AUX event bus. They can control one or more event outputs in both capture and compare modes.  <A class="xref" href="AUX_SYSIF.html#TIMER2CLKCTL_SRC">AUX_SYSIF:TIMER2CLKCTL.SRC</A> selects clock source for the timer.</P>
+ <H3 class="mmapRegisterSummaryTitle"><A name="AUX_TIMER2"></A><A href="CPU_MMAP.html"> TOP</A>:<B>AUX_TIMER2</B> Register Summary</H3>
+<TABLE cellspacing="0" class="mmapRegisterSummaryTable">
+<TR class="rowTop">
+<TD class="cellTopCol1">
+  <P>Register Name</P>
+</TD>
+<TD class="cellTopCol2">
+  <P>Type</P>
+</TD>
+<TD class="cellTopCol3">
+  <P>Register Width (Bits)</P>
+</TD>
+<TD class="cellTopCol4">
+  <P>Register Reset</P>
+</TD>
+<TD class="cellTopCol5">
+  <P>Address Offset</P>
+</TD>
+<TD class="cellTopCol5">
+  <P>Physical Address</P>
+</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">
+  <P>
+    <A href="#CTL" title="Timer Control">CTL</A>
+  </P>
+</TD>
+<TD class="cellCol2">
+  <P>RW</P>
+</TD>
+<TD class="cellCol3">
+  <P>32</P>
+</TD>
+<TD class="cellCol4">
+  <P>0x0000 0000</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x0000 0000</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x400C 3000</P>
+</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">
+  <P>
+    <A href="#TARGET" title="Target">TARGET</A>
+  </P>
+</TD>
+<TD class="cellCol2">
+  <P>RW</P>
+</TD>
+<TD class="cellCol3">
+  <P>32</P>
+</TD>
+<TD class="cellCol4">
+  <P>0x0000 0000</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x0000 0004</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x400C 3004</P>
+</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">
+  <P>
+    <A href="#SHDWTARGET" title="Shadow Target ">SHDWTARGET</A>
+  </P>
+</TD>
+<TD class="cellCol2">
+  <P>RW</P>
+</TD>
+<TD class="cellCol3">
+  <P>32</P>
+</TD>
+<TD class="cellCol4">
+  <P>0x0000 0000</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x0000 0008</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x400C 3008</P>
+</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">
+  <P>
+    <A href="#CNTR" title="Counter">CNTR</A>
+  </P>
+</TD>
+<TD class="cellCol2">
+  <P>RO</P>
+</TD>
+<TD class="cellCol3">
+  <P>32</P>
+</TD>
+<TD class="cellCol4">
+  <P>0x0000 0000</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x0000 000C</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x400C 300C</P>
+</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">
+  <P>
+    <A href="#PRECFG" title="Clock Prescaler Configuration">PRECFG</A>
+  </P>
+</TD>
+<TD class="cellCol2">
+  <P>RW</P>
+</TD>
+<TD class="cellCol3">
+  <P>32</P>
+</TD>
+<TD class="cellCol4">
+  <P>0x0000 0000</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x0000 0010</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x400C 3010</P>
+</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">
+  <P>
+    <A href="#EVCTL" title="Event Control ">EVCTL</A>
+  </P>
+</TD>
+<TD class="cellCol2">
+  <P>WO</P>
+</TD>
+<TD class="cellCol3">
+  <P>32</P>
+</TD>
+<TD class="cellCol4">
+  <P>0x0000 0000</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x0000 0014</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x400C 3014</P>
+</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">
+  <P>
+    <A href="#PULSETRIG" title="Pulse Trigger">PULSETRIG</A>
+  </P>
+</TD>
+<TD class="cellCol2">
+  <P>RW</P>
+</TD>
+<TD class="cellCol3">
+  <P>32</P>
+</TD>
+<TD class="cellCol4">
+  <P>0x0000 0000</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x0000 0018</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x400C 3018</P>
+</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">
+  <P>
+    <A href="#CH0EVCFG" title="Channel 0 Event Configuration">CH0EVCFG</A>
+  </P>
+</TD>
+<TD class="cellCol2">
+  <P>RW</P>
+</TD>
+<TD class="cellCol3">
+  <P>32</P>
+</TD>
+<TD class="cellCol4">
+  <P>0x0000 0000</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x0000 0080</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x400C 3080</P>
+</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">
+  <P>
+    <A href="#CH0CCFG" title="Channel 0 Capture Configuration">CH0CCFG</A>
+  </P>
+</TD>
+<TD class="cellCol2">
+  <P>RW</P>
+</TD>
+<TD class="cellCol3">
+  <P>32</P>
+</TD>
+<TD class="cellCol4">
+  <P>0x0000 0000</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x0000 0084</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x400C 3084</P>
+</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">
+  <P>
+    <A href="#CH0PCC" title="Channel 0 Pipeline Capture Compare ">CH0PCC</A>
+  </P>
+</TD>
+<TD class="cellCol2">
+  <P>RW</P>
+</TD>
+<TD class="cellCol3">
+  <P>32</P>
+</TD>
+<TD class="cellCol4">
+  <P>0x0000 0000</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x0000 0088</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x400C 3088</P>
+</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">
+  <P>
+    <A href="#CH0CC" title="Channel 0 Capture Compare">CH0CC</A>
+  </P>
+</TD>
+<TD class="cellCol2">
+  <P>RW</P>
+</TD>
+<TD class="cellCol3">
+  <P>32</P>
+</TD>
+<TD class="cellCol4">
+  <P>0x0000 0000</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x0000 008C</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x400C 308C</P>
+</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">
+  <P>
+    <A href="#CH1EVCFG" title="Channel 1 Event Configuration">CH1EVCFG</A>
+  </P>
+</TD>
+<TD class="cellCol2">
+  <P>RW</P>
+</TD>
+<TD class="cellCol3">
+  <P>32</P>
+</TD>
+<TD class="cellCol4">
+  <P>0x0000 0000</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x0000 0090</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x400C 3090</P>
+</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">
+  <P>
+    <A href="#CH1CCFG" title="Channel 1 Capture Configuration">CH1CCFG</A>
+  </P>
+</TD>
+<TD class="cellCol2">
+  <P>RW</P>
+</TD>
+<TD class="cellCol3">
+  <P>32</P>
+</TD>
+<TD class="cellCol4">
+  <P>0x0000 0000</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x0000 0094</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x400C 3094</P>
+</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">
+  <P>
+    <A href="#CH1PCC" title="Channel 1 Pipeline Capture Compare ">CH1PCC</A>
+  </P>
+</TD>
+<TD class="cellCol2">
+  <P>RW</P>
+</TD>
+<TD class="cellCol3">
+  <P>32</P>
+</TD>
+<TD class="cellCol4">
+  <P>0x0000 0000</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x0000 0098</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x400C 3098</P>
+</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">
+  <P>
+    <A href="#CH1CC" title="Channel 1 Capture Compare">CH1CC</A>
+  </P>
+</TD>
+<TD class="cellCol2">
+  <P>RW</P>
+</TD>
+<TD class="cellCol3">
+  <P>32</P>
+</TD>
+<TD class="cellCol4">
+  <P>0x0000 0000</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x0000 009C</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x400C 309C</P>
+</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">
+  <P>
+    <A href="#CH2EVCFG" title="Channel 2 Event Configuration">CH2EVCFG</A>
+  </P>
+</TD>
+<TD class="cellCol2">
+  <P>RW</P>
+</TD>
+<TD class="cellCol3">
+  <P>32</P>
+</TD>
+<TD class="cellCol4">
+  <P>0x0000 0000</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x0000 00A0</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x400C 30A0</P>
+</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">
+  <P>
+    <A href="#CH2CCFG" title="Channel 2 Capture Configuration">CH2CCFG</A>
+  </P>
+</TD>
+<TD class="cellCol2">
+  <P>RW</P>
+</TD>
+<TD class="cellCol3">
+  <P>32</P>
+</TD>
+<TD class="cellCol4">
+  <P>0x0000 0000</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x0000 00A4</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x400C 30A4</P>
+</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">
+  <P>
+    <A href="#CH2PCC" title="Channel 2 Pipeline Capture Compare ">CH2PCC</A>
+  </P>
+</TD>
+<TD class="cellCol2">
+  <P>RW</P>
+</TD>
+<TD class="cellCol3">
+  <P>32</P>
+</TD>
+<TD class="cellCol4">
+  <P>0x0000 0000</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x0000 00A8</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x400C 30A8</P>
+</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">
+  <P>
+    <A href="#CH2CC" title="Channel 2 Capture Compare">CH2CC</A>
+  </P>
+</TD>
+<TD class="cellCol2">
+  <P>RW</P>
+</TD>
+<TD class="cellCol3">
+  <P>32</P>
+</TD>
+<TD class="cellCol4">
+  <P>0x0000 0000</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x0000 00AC</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x400C 30AC</P>
+</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">
+  <P>
+    <A href="#CH3EVCFG" title="Channel 3 Event Configuration">CH3EVCFG</A>
+  </P>
+</TD>
+<TD class="cellCol2">
+  <P>RW</P>
+</TD>
+<TD class="cellCol3">
+  <P>32</P>
+</TD>
+<TD class="cellCol4">
+  <P>0x0000 0000</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x0000 00B0</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x400C 30B0</P>
+</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">
+  <P>
+    <A href="#CH3CCFG" title="Channel 3 Capture Configuration">CH3CCFG</A>
+  </P>
+</TD>
+<TD class="cellCol2">
+  <P>RW</P>
+</TD>
+<TD class="cellCol3">
+  <P>32</P>
+</TD>
+<TD class="cellCol4">
+  <P>0x0000 0000</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x0000 00B4</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x400C 30B4</P>
+</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">
+  <P>
+    <A href="#CH3PCC" title="Channel 3 Pipeline Capture Compare ">CH3PCC</A>
+  </P>
+</TD>
+<TD class="cellCol2">
+  <P>RW</P>
+</TD>
+<TD class="cellCol3">
+  <P>32</P>
+</TD>
+<TD class="cellCol4">
+  <P>0x0000 0000</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x0000 00B8</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x400C 30B8</P>
+</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">
+  <P>
+    <A href="#CH3CC" title="Channel 3 Capture Compare">CH3CC</A>
+  </P>
+</TD>
+<TD class="cellCol2">
+  <P>RW</P>
+</TD>
+<TD class="cellCol3">
+  <P>32</P>
+</TD>
+<TD class="cellCol4">
+  <P>0x0000 0000</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x0000 00BC</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x400C 30BC</P>
+</TD>
+</TR>
+</TABLE>
+<H3 class="mmapRegisterSummaryTitle"><A href="CPU_MMAP.html"> TOP</A>:AUX_TIMER2 Register Descriptions</H3>
+<H3 class="mmapRegisterTitle"><A name="CTL"></A><A class="mmapRegisterTitle" href="CPU_MMAP.html">TOP</A>:<A class="mmapRegisterTitle" href="#Top_Tag">AUX_TIMER2</A>:CTL</H3><TABLE cellspacing="0" class="mmapRegisterTable">
+<TR class="row">
+<TD class="cellCol1"><B>Address Offset</B></TD>
+<TD class="cellCol2" colspan="3">0x0000 0000</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Physical Address</TD>
+<TD class="cellCol2">0x400C 3000</TD>
+<TD class="cellCol3">Instance</TD>
+<TD class="cellCol4">0x400C 3000</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Description</TD>
+<TD class="cellCol2" colspan="3">Timer Control</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Type</TD>
+<TD class="cellCol2" colspan="3">RW</TD>
+</TR>
+</TABLE>
+<TABLE cellspacing="0" class="mmapBitfieldTable">
+<TR class="rowTop">
+<TD class="cellTopCol1">Bits</TD>
+<TD class="cellTopCol2">Field Name</TD>
+<TD class="cellTopCol3" colspan="3">Description</TD>
+<TD class="cellTopCol4">Type</TD>
+<TD class="cellTopCol5">Reset</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="CTL_RESERVED7">31:7</a>
+</TD>
+<TD class="cellBitfieldCol2">RESERVED7</TD>
+<TD class="cellBitfieldCol3" colspan="3">Software should not rely on the value of a reserved. Writing any other value than the reset value may result in undefined behavior.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0b0 0000 0000 0000 0000 0000 0000</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="CTL_CH3_RESET">6</a>
+</TD>
+<TD class="cellBitfieldCol2">CH3_RESET</TD>
+<TD class="cellBitfieldCol3" colspan="3">Channel 3 reset.<BR>
+<BR>
+0: No effect.<BR>
+1: Reset <A class="xref" href="#CH3CC">CH3CC</A>, <A class="xref" href="#CH3PCC">CH3PCC</A>, <A class="xref" href="#CH3EVCFG">CH3EVCFG</A>, and <A class="xref" href="#CH3CCFG">CH3CCFG</A>.<BR>
+<BR>
+Read returns 0.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="CTL_CH2_RESET">5</a>
+</TD>
+<TD class="cellBitfieldCol2">CH2_RESET</TD>
+<TD class="cellBitfieldCol3" colspan="3">Channel 2 reset.<BR>
+<BR>
+0: No effect.<BR>
+1: Reset <A class="xref" href="#CH2CC">CH2CC</A>, <A class="xref" href="#CH2PCC">CH2PCC</A>, <A class="xref" href="#CH2EVCFG">CH2EVCFG</A>, and <A class="xref" href="#CH2CCFG">CH2CCFG</A>.<BR>
+<BR>
+Read returns 0.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="CTL_CH1_RESET">4</a>
+</TD>
+<TD class="cellBitfieldCol2">CH1_RESET</TD>
+<TD class="cellBitfieldCol3" colspan="3">Channel 1 reset.<BR>
+<BR>
+0: No effect.<BR>
+1: Reset <A class="xref" href="#CH1CC">CH1CC</A>, <A class="xref" href="#CH1PCC">CH1PCC</A>, <A class="xref" href="#CH1EVCFG">CH1EVCFG</A>, and <A class="xref" href="#CH1CCFG">CH1CCFG</A>.<BR>
+<BR>
+Read returns 0.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="CTL_CH0_RESET">3</a>
+</TD>
+<TD class="cellBitfieldCol2">CH0_RESET</TD>
+<TD class="cellBitfieldCol3" colspan="3">Channel 0 reset.<BR>
+<BR>
+0: No effect.<BR>
+1: Reset <A class="xref" href="#CH0CC">CH0CC</A>, <A class="xref" href="#CH0PCC">CH0PCC</A>, <A class="xref" href="#CH0EVCFG">CH0EVCFG</A>, and <A class="xref" href="#CH0CCFG">CH0CCFG</A>.<BR>
+<BR>
+Read returns 0.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="CTL_TARGET_EN">2</a>
+</TD>
+<TD class="cellBitfieldCol2">TARGET_EN</TD>
+<TD class="cellBitfieldCol3" colspan="3">Select counter target value.<BR>
+<BR>
+You must select TARGET to use shadow target functionality.<TABLE cellspacing="0" class="LprfEnum">
+<TR class="rowEnumHead">
+<TD class="cellEnumTableHeadCol1">Value</TD>
+<TD class="cellEnumTableHeadCol2">ENUM Name</TD>
+<TD class="cellEnumTableHeadCol3">Description</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x0</TD>
+<TD class="cellEnumTableCol2">CNTR_MAX</TD>
+<TD class="cellEnumTableCol3">65535</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1</TD>
+<TD class="cellEnumTableCol2">TARGET</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#TARGET_VALUE">TARGET.VALUE</A></TD>
+</TR>
+</TABLE>
+</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="CTL_MODE">1:0</a>
+</TD>
+<TD class="cellBitfieldCol2">MODE</TD>
+<TD class="cellBitfieldCol3" colspan="3">Timer mode control.<BR>
+<BR>
+The timer restarts from 0 when you set MODE to UP_ONCE, UP_PER, or UPDWN_PER.  <BR>
+<BR>
+When you write MODE all internally queued updates to <A class="xref" href="#CH0CC">CHnCC</A> and <A class="xref" href="#TARGET">TARGET</A> clear.<TABLE cellspacing="0" class="LprfEnum">
+<TR class="rowEnumHead">
+<TD class="cellEnumTableHeadCol1">Value</TD>
+<TD class="cellEnumTableHeadCol2">ENUM Name</TD>
+<TD class="cellEnumTableHeadCol3">Description</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x0</TD>
+<TD class="cellEnumTableCol2">DIS</TD>
+<TD class="cellEnumTableCol3">Disable timer. Updates to counter, channels, and events stop.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1</TD>
+<TD class="cellEnumTableCol2">UP_ONCE</TD>
+<TD class="cellEnumTableCol3">Count up once. The timer increments from 0 to target value,  then stops and sets MODE to DIS.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x2</TD>
+<TD class="cellEnumTableCol2">UP_PER</TD>
+<TD class="cellEnumTableCol3">Count up periodically. The timer increments from 0 to target value, repeatedly.<BR>
+<BR>
+Period = (target value + 1) * timer clock period</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x3</TD>
+<TD class="cellEnumTableCol2">UPDWN_PER</TD>
+<TD class="cellEnumTableCol3">Count up and down periodically. The timer counts from 0 to target value and back to 0, repeatedly.<BR>
+<BR>
+Period =  (target value * 2) * timer clock period</TD>
+</TR>
+</TABLE>
+</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0b00</TD>
+</TR>
+</TABLE>
+<H3 class="mmapRegisterTitle"><A name="TARGET"></A><A class="mmapRegisterTitle" href="CPU_MMAP.html">TOP</A>:<A class="mmapRegisterTitle" href="#Top_Tag">AUX_TIMER2</A>:TARGET</H3><TABLE cellspacing="0" class="mmapRegisterTable">
+<TR class="row">
+<TD class="cellCol1"><B>Address Offset</B></TD>
+<TD class="cellCol2" colspan="3">0x0000 0004</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Physical Address</TD>
+<TD class="cellCol2">0x400C 3004</TD>
+<TD class="cellCol3">Instance</TD>
+<TD class="cellCol4">0x400C 3004</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Description</TD>
+<TD class="cellCol2" colspan="3">Target<BR>
+<BR>
+User defined counter target.</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Type</TD>
+<TD class="cellCol2" colspan="3">RW</TD>
+</TR>
+</TABLE>
+<TABLE cellspacing="0" class="mmapBitfieldTable">
+<TR class="rowTop">
+<TD class="cellTopCol1">Bits</TD>
+<TD class="cellTopCol2">Field Name</TD>
+<TD class="cellTopCol3" colspan="3">Description</TD>
+<TD class="cellTopCol4">Type</TD>
+<TD class="cellTopCol5">Reset</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="TARGET_RESERVED16">31:16</a>
+</TD>
+<TD class="cellBitfieldCol2">RESERVED16</TD>
+<TD class="cellBitfieldCol3" colspan="3">Software should not rely on the value of a reserved. Writing any other value than the reset value may result in undefined behavior.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0x0000</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="TARGET_VALUE">15:0</a>
+</TD>
+<TD class="cellBitfieldCol2">VALUE</TD>
+<TD class="cellBitfieldCol3" colspan="3">16 bit user defined counter target value, which is used when selected by <A class="xref" href="#CTL_TARGET_EN">CTL.TARGET_EN</A>.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0x0000</TD>
+</TR>
+</TABLE>
+<H3 class="mmapRegisterTitle"><A name="SHDWTARGET"></A><A class="mmapRegisterTitle" href="CPU_MMAP.html">TOP</A>:<A class="mmapRegisterTitle" href="#Top_Tag">AUX_TIMER2</A>:SHDWTARGET</H3><TABLE cellspacing="0" class="mmapRegisterTable">
+<TR class="row">
+<TD class="cellCol1"><B>Address Offset</B></TD>
+<TD class="cellCol2" colspan="3">0x0000 0008</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Physical Address</TD>
+<TD class="cellCol2">0x400C 3008</TD>
+<TD class="cellCol3">Instance</TD>
+<TD class="cellCol4">0x400C 3008</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Description</TD>
+<TD class="cellCol2" colspan="3">Shadow Target</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Type</TD>
+<TD class="cellCol2" colspan="3">RW</TD>
+</TR>
+</TABLE>
+<TABLE cellspacing="0" class="mmapBitfieldTable">
+<TR class="rowTop">
+<TD class="cellTopCol1">Bits</TD>
+<TD class="cellTopCol2">Field Name</TD>
+<TD class="cellTopCol3" colspan="3">Description</TD>
+<TD class="cellTopCol4">Type</TD>
+<TD class="cellTopCol5">Reset</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="SHDWTARGET_RESERVED16">31:16</a>
+</TD>
+<TD class="cellBitfieldCol2">RESERVED16</TD>
+<TD class="cellBitfieldCol3" colspan="3">Software should not rely on the value of a reserved. Writing any other value than the reset value may result in undefined behavior.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0x0000</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="SHDWTARGET_VALUE">15:0</a>
+</TD>
+<TD class="cellBitfieldCol2">VALUE</TD>
+<TD class="cellBitfieldCol3" colspan="3">Target value for next counter period.<BR>
+<BR>
+The timer copies VALUE to <A class="xref" href="#TARGET_VALUE">TARGET.VALUE</A> when <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A> becomes 0. The copy does not happen when you restart the timer.<BR>
+<BR>
+This is useful to avoid period jitter in <A class="mmap_legend_link" href="../legend.html#PWM">PWM</A> applications with time-varying period, sometimes referenced as phase corrected PWM.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0x0000</TD>
+</TR>
+</TABLE>
+<H3 class="mmapRegisterTitle"><A name="CNTR"></A><A class="mmapRegisterTitle" href="CPU_MMAP.html">TOP</A>:<A class="mmapRegisterTitle" href="#Top_Tag">AUX_TIMER2</A>:CNTR</H3><TABLE cellspacing="0" class="mmapRegisterTable">
+<TR class="row">
+<TD class="cellCol1"><B>Address Offset</B></TD>
+<TD class="cellCol2" colspan="3">0x0000 000C</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Physical Address</TD>
+<TD class="cellCol2">0x400C 300C</TD>
+<TD class="cellCol3">Instance</TD>
+<TD class="cellCol4">0x400C 300C</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Description</TD>
+<TD class="cellCol2" colspan="3">Counter</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Type</TD>
+<TD class="cellCol2" colspan="3">RO</TD>
+</TR>
+</TABLE>
+<TABLE cellspacing="0" class="mmapBitfieldTable">
+<TR class="rowTop">
+<TD class="cellTopCol1">Bits</TD>
+<TD class="cellTopCol2">Field Name</TD>
+<TD class="cellTopCol3" colspan="3">Description</TD>
+<TD class="cellTopCol4">Type</TD>
+<TD class="cellTopCol5">Reset</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="CNTR_RESERVED16">31:16</a>
+</TD>
+<TD class="cellBitfieldCol2">RESERVED16</TD>
+<TD class="cellBitfieldCol3" colspan="3">Software should not rely on the value of a reserved. Writing any other value than the reset value may result in undefined behavior.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0x0000</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="CNTR_VALUE">15:0</a>
+</TD>
+<TD class="cellBitfieldCol2">VALUE</TD>
+<TD class="cellBitfieldCol3" colspan="3">16 bit current counter value.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0x0000</TD>
+</TR>
+</TABLE>
+<H3 class="mmapRegisterTitle"><A name="PRECFG"></A><A class="mmapRegisterTitle" href="CPU_MMAP.html">TOP</A>:<A class="mmapRegisterTitle" href="#Top_Tag">AUX_TIMER2</A>:PRECFG</H3><TABLE cellspacing="0" class="mmapRegisterTable">
+<TR class="row">
+<TD class="cellCol1"><B>Address Offset</B></TD>
+<TD class="cellCol2" colspan="3">0x0000 0010</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Physical Address</TD>
+<TD class="cellCol2">0x400C 3010</TD>
+<TD class="cellCol3">Instance</TD>
+<TD class="cellCol4">0x400C 3010</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Description</TD>
+<TD class="cellCol2" colspan="3">Clock Prescaler Configuration</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Type</TD>
+<TD class="cellCol2" colspan="3">RW</TD>
+</TR>
+</TABLE>
+<TABLE cellspacing="0" class="mmapBitfieldTable">
+<TR class="rowTop">
+<TD class="cellTopCol1">Bits</TD>
+<TD class="cellTopCol2">Field Name</TD>
+<TD class="cellTopCol3" colspan="3">Description</TD>
+<TD class="cellTopCol4">Type</TD>
+<TD class="cellTopCol5">Reset</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="PRECFG_RESERVED8">31:8</a>
+</TD>
+<TD class="cellBitfieldCol2">RESERVED8</TD>
+<TD class="cellBitfieldCol3" colspan="3">Software should not rely on the value of a reserved. Writing any other value than the reset value may result in undefined behavior.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0x00 0000</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="PRECFG_CLKDIV">7:0</a>
+</TD>
+<TD class="cellBitfieldCol2">CLKDIV</TD>
+<TD class="cellBitfieldCol3" colspan="3">Clock division.<BR>
+<BR>
+CLKDIV determines the timer clock frequency for counter, synchronization, and timer event updates. The timer clock frequency is the clock selected by <A class="xref" href="AUX_SYSIF.html#TIMER2CLKCTL_SRC">AUX_SYSIF:TIMER2CLKCTL.SRC</A> divided by (CLKDIV + 1). This inverse is the timer clock period.<BR>
+<BR>
+0x00: Divide by 1.<BR>
+0x01: Divide by 2.<BR>
+... <BR>
+0xFF: Divide by 256.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0x00</TD>
+</TR>
+</TABLE>
+<H3 class="mmapRegisterTitle"><A name="EVCTL"></A><A class="mmapRegisterTitle" href="CPU_MMAP.html">TOP</A>:<A class="mmapRegisterTitle" href="#Top_Tag">AUX_TIMER2</A>:EVCTL</H3><TABLE cellspacing="0" class="mmapRegisterTable">
+<TR class="row">
+<TD class="cellCol1"><B>Address Offset</B></TD>
+<TD class="cellCol2" colspan="3">0x0000 0014</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Physical Address</TD>
+<TD class="cellCol2">0x400C 3014</TD>
+<TD class="cellCol3">Instance</TD>
+<TD class="cellCol4">0x400C 3014</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Description</TD>
+<TD class="cellCol2" colspan="3">Event Control <BR>
+<BR>
+Set and clear individual events manually. Manual update of an event takes priority over automatic channel updates to the same event. You cannot set and clear an event at the same time, such requests will be neglected.<BR>
+<BR>
+An event can be automatically cleared, set, toggled, or pulsed by each channel, listed in decreasing order of priority. The action with highest priority happens when multiple channels want to update an event at the same time.<BR>
+<BR>
+The four events connect to the asynchronous <A class="mmap_legend_link" href="../legend.html#AUX">AUX</A> event bus: <BR>
+- Event 0 connects to <A class="xref" href="AUX_EVCTL.html#EVSTAT3_AUX_TIMER2_EV0">AUX_EVCTL:EVSTAT3.AUX_TIMER2_EV0</A>.<BR>
+- Event 1 connects to <A class="xref" href="AUX_EVCTL.html#EVSTAT3_AUX_TIMER2_EV1">AUX_EVCTL:EVSTAT3.AUX_TIMER2_EV1</A>.<BR>
+- Event 2 connects to <A class="xref" href="AUX_EVCTL.html#EVSTAT3_AUX_TIMER2_EV2">AUX_EVCTL:EVSTAT3.AUX_TIMER2_EV2</A>.<BR>
+- Event 3 connects to <A class="xref" href="AUX_EVCTL.html#EVSTAT3_AUX_TIMER2_EV3">AUX_EVCTL:EVSTAT3.AUX_TIMER2_EV3</A>.</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Type</TD>
+<TD class="cellCol2" colspan="3">WO</TD>
+</TR>
+</TABLE>
+<TABLE cellspacing="0" class="mmapBitfieldTable">
+<TR class="rowTop">
+<TD class="cellTopCol1">Bits</TD>
+<TD class="cellTopCol2">Field Name</TD>
+<TD class="cellTopCol3" colspan="3">Description</TD>
+<TD class="cellTopCol4">Type</TD>
+<TD class="cellTopCol5">Reset</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVCTL_RESERVED8">31:8</a>
+</TD>
+<TD class="cellBitfieldCol2">RESERVED8</TD>
+<TD class="cellBitfieldCol3" colspan="3">Software should not rely on the value of a reserved. Writing any other value than the reset value may result in undefined behavior.</TD>
+<TD class="cellBitfieldCol4">WO</TD>
+<TD class="cellBitfieldCol5">0x00 0000</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVCTL_EV3_SET">7</a>
+</TD>
+<TD class="cellBitfieldCol2">EV3_SET</TD>
+<TD class="cellBitfieldCol3" colspan="3">Set event 3.<BR>
+<BR>
+Write 1 to set event 3.</TD>
+<TD class="cellBitfieldCol4">WO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVCTL_EV3_CLR">6</a>
+</TD>
+<TD class="cellBitfieldCol2">EV3_CLR</TD>
+<TD class="cellBitfieldCol3" colspan="3">Clear event 3.<BR>
+<BR>
+Write 1 to clear event 3.</TD>
+<TD class="cellBitfieldCol4">WO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVCTL_EV2_SET">5</a>
+</TD>
+<TD class="cellBitfieldCol2">EV2_SET</TD>
+<TD class="cellBitfieldCol3" colspan="3">Set event 2.<BR>
+<BR>
+Write 1 to set event 2.</TD>
+<TD class="cellBitfieldCol4">WO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVCTL_EV2_CLR">4</a>
+</TD>
+<TD class="cellBitfieldCol2">EV2_CLR</TD>
+<TD class="cellBitfieldCol3" colspan="3">Clear event 2.<BR>
+<BR>
+Write 1 to clear event 2.</TD>
+<TD class="cellBitfieldCol4">WO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVCTL_EV1_SET">3</a>
+</TD>
+<TD class="cellBitfieldCol2">EV1_SET</TD>
+<TD class="cellBitfieldCol3" colspan="3">Set event 1.<BR>
+<BR>
+Write 1 to set event 1.</TD>
+<TD class="cellBitfieldCol4">WO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVCTL_EV1_CLR">2</a>
+</TD>
+<TD class="cellBitfieldCol2">EV1_CLR</TD>
+<TD class="cellBitfieldCol3" colspan="3">Clear event 1.<BR>
+<BR>
+Write 1 to clear event 1.</TD>
+<TD class="cellBitfieldCol4">WO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVCTL_EV0_SET">1</a>
+</TD>
+<TD class="cellBitfieldCol2">EV0_SET</TD>
+<TD class="cellBitfieldCol3" colspan="3">Set event 0.<BR>
+<BR>
+Write 1 to set event 0.</TD>
+<TD class="cellBitfieldCol4">WO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVCTL_EV0_CLR">0</a>
+</TD>
+<TD class="cellBitfieldCol2">EV0_CLR</TD>
+<TD class="cellBitfieldCol3" colspan="3">Clear event 0.<BR>
+<BR>
+Write 1 to clear event 0.</TD>
+<TD class="cellBitfieldCol4">WO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+</TABLE>
+<H3 class="mmapRegisterTitle"><A name="PULSETRIG"></A><A class="mmapRegisterTitle" href="CPU_MMAP.html">TOP</A>:<A class="mmapRegisterTitle" href="#Top_Tag">AUX_TIMER2</A>:PULSETRIG</H3><TABLE cellspacing="0" class="mmapRegisterTable">
+<TR class="row">
+<TD class="cellCol1"><B>Address Offset</B></TD>
+<TD class="cellCol2" colspan="3">0x0000 0018</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Physical Address</TD>
+<TD class="cellCol2">0x400C 3018</TD>
+<TD class="cellCol3">Instance</TD>
+<TD class="cellCol4">0x400C 3018</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Description</TD>
+<TD class="cellCol2" colspan="3">Pulse Trigger</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Type</TD>
+<TD class="cellCol2" colspan="3">RW</TD>
+</TR>
+</TABLE>
+<TABLE cellspacing="0" class="mmapBitfieldTable">
+<TR class="rowTop">
+<TD class="cellTopCol1">Bits</TD>
+<TD class="cellTopCol2">Field Name</TD>
+<TD class="cellTopCol3" colspan="3">Description</TD>
+<TD class="cellTopCol4">Type</TD>
+<TD class="cellTopCol5">Reset</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="PULSETRIG_RESERVED1">31:1</a>
+</TD>
+<TD class="cellBitfieldCol2">RESERVED1</TD>
+<TD class="cellBitfieldCol3" colspan="3">Software should not rely on the value of a reserved. Writing any other value than the reset value may result in undefined behavior.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0b000 0000 0000 0000 0000 0000 0000 0000</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="PULSETRIG_TRIG">0</a>
+</TD>
+<TD class="cellBitfieldCol2">TRIG</TD>
+<TD class="cellBitfieldCol3" colspan="3">Pulse trigger.<BR>
+<BR>
+Write 1 to generate a pulse to <A class="xref" href="AUX_EVCTL.html#EVSTAT3_AUX_TIMER2_PULSE">AUX_EVCTL:EVSTAT3.AUX_TIMER2_PULSE</A>. Pulse width equals the duty cycle of <A class="xref" href="AUX_SYSIF.html#TIMER2CLKCTL_SRC">AUX_SYSIF:TIMER2CLKCTL.SRC</A>.</TD>
+<TD class="cellBitfieldCol4">WO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+</TABLE>
+<H3 class="mmapRegisterTitle"><A name="CH0EVCFG"></A><A class="mmapRegisterTitle" href="CPU_MMAP.html">TOP</A>:<A class="mmapRegisterTitle" href="#Top_Tag">AUX_TIMER2</A>:CH0EVCFG</H3><TABLE cellspacing="0" class="mmapRegisterTable">
+<TR class="row">
+<TD class="cellCol1"><B>Address Offset</B></TD>
+<TD class="cellCol2" colspan="3">0x0000 0080</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Physical Address</TD>
+<TD class="cellCol2">0x400C 3080</TD>
+<TD class="cellCol3">Instance</TD>
+<TD class="cellCol4">0x400C 3080</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Description</TD>
+<TD class="cellCol2" colspan="3">Channel 0 Event Configuration<BR>
+<BR>
+This register configures channel function and enables event outputs.<BR>
+<BR>
+Each channel has an edge-detection circuit with memory. The circuit is: <BR>
+ - enabled while <A class="xref" href="#CH0EVCFG_CCACT">CCACT</A> selects a capture function and <A class="xref" href="#CTL_MODE">CTL.MODE</A> is different from DIS. <BR>
+ - flushed while <A class="xref" href="#CH0EVCFG_CCACT">CCACT</A> selects a capture function and you change <A class="xref" href="#CTL_MODE">CTL.MODE</A> from DIS to another mode. <BR>
+ <BR>
+The flush action uses two <A class="xref" href="AUX_SYSIF.html#TIMER2CLKCTL_SRC">AUX_SYSIF:TIMER2CLKCTL.SRC</A> clock periods. It prevents capture events caused by expired signal values stored in the edge-detection circuit.</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Type</TD>
+<TD class="cellCol2" colspan="3">RW</TD>
+</TR>
+</TABLE>
+<TABLE cellspacing="0" class="mmapBitfieldTable">
+<TR class="rowTop">
+<TD class="cellTopCol1">Bits</TD>
+<TD class="cellTopCol2">Field Name</TD>
+<TD class="cellTopCol3" colspan="3">Description</TD>
+<TD class="cellTopCol4">Type</TD>
+<TD class="cellTopCol5">Reset</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="CH0EVCFG_RESERVED8">31:8</a>
+</TD>
+<TD class="cellBitfieldCol2">RESERVED8</TD>
+<TD class="cellBitfieldCol3" colspan="3">Software should not rely on the value of a reserved. Writing any other value than the reset value may result in undefined behavior.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0x00 0000</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="CH0EVCFG_EV3_GEN">7</a>
+</TD>
+<TD class="cellBitfieldCol2">EV3_GEN</TD>
+<TD class="cellBitfieldCol3" colspan="3">Event 3 enable.<BR>
+<BR>
+0: Channel 0 does not control event 3.<BR>
+1: Channel 0 controls event 3.<BR>
+<BR>
+ When 0 &#60; <A class="xref" href="#CH0EVCFG_CCACT">CCACT</A> &#60; 8, EV3_GEN becomes zero after a capture or compare event.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="CH0EVCFG_EV2_GEN">6</a>
+</TD>
+<TD class="cellBitfieldCol2">EV2_GEN</TD>
+<TD class="cellBitfieldCol3" colspan="3">Event 2 enable.<BR>
+<BR>
+0: Channel 0 does not control event 2.<BR>
+1: Channel 0 controls event 2.<BR>
+<BR>
+ When 0 &#60; <A class="xref" href="#CH0EVCFG_CCACT">CCACT</A> &#60; 8, EV2_GEN becomes zero after a capture or compare event.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="CH0EVCFG_EV1_GEN">5</a>
+</TD>
+<TD class="cellBitfieldCol2">EV1_GEN</TD>
+<TD class="cellBitfieldCol3" colspan="3">Event 1 enable.<BR>
+<BR>
+0: Channel 0 does not control event 1.<BR>
+1: Channel 0 controls event 1.<BR>
+<BR>
+ When 0 &#60; <A class="xref" href="#CH0EVCFG_CCACT">CCACT</A> &#60; 8, EV1_GEN becomes zero after a capture or compare event.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="CH0EVCFG_EV0_GEN">4</a>
+</TD>
+<TD class="cellBitfieldCol2">EV0_GEN</TD>
+<TD class="cellBitfieldCol3" colspan="3">Event 0 enable.<BR>
+<BR>
+0: Channel 0 does not control event 0.<BR>
+1: Channel 0 controls event 0.<BR>
+<BR>
+ When 0 &#60; <A class="xref" href="#CH0EVCFG_CCACT">CCACT</A> &#60; 8, EV0_GEN becomes zero after a capture or compare event.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="CH0EVCFG_CCACT">3:0</a>
+</TD>
+<TD class="cellBitfieldCol2">CCACT</TD>
+<TD class="cellBitfieldCol3" colspan="3">Capture-Compare action.<BR>
+<BR>
+Capture-Compare action defines 15 different channel functions that utilize capture, compare, and zero events.<TABLE cellspacing="0" class="LprfEnum">
+<TR class="rowEnumHead">
+<TD class="cellEnumTableHeadCol1">Value</TD>
+<TD class="cellEnumTableHeadCol2">ENUM Name</TD>
+<TD class="cellEnumTableHeadCol3">Description</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x0</TD>
+<TD class="cellEnumTableCol2">DIS</TD>
+<TD class="cellEnumTableCol3">Disable channel.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1</TD>
+<TD class="cellEnumTableCol2">SET_ON_CAPT_DIS</TD>
+<TD class="cellEnumTableCol3">Set on capture, and then disable channel.<BR>
+<BR>
+Channel function sequence: <BR>
+- Set enabled events on capture event and copy <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A> to <A class="xref" href="#CH0CC_VALUE">CH0CC.VALUE</A>.<BR>
+- Disable channel. <BR>
+<BR>
+Primary use scenario is to select this function before you start the timer.<BR>
+Follow these steps if you need to select this function while <A class="xref" href="#CTL_MODE">CTL.MODE</A> is different from DIS:  <BR>
+ - Set CCACT to SET_ON_CAPT with no event enable.<BR>
+ - Configure <A class="xref" href="#CH0CCFG">CH0CCFG</A> (optional).<BR>
+ - Wait for three timer clock periods as defined in <A class="xref" href="#PRECFG">PRECFG</A> before you set CCACT to SET_ON_CAPT_DIS. Event enable is optional.<BR>
+<BR>
+These steps prevent capture events caused by expired signal values in edge-detection circuit.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x2</TD>
+<TD class="cellEnumTableCol2">CLR_ON_0_TGL_ON_CMP_DIS</TD>
+<TD class="cellEnumTableCol3">Clear on zero, toggle on compare, and then disable channel.<BR>
+<BR>
+Channel function sequence: <BR>
+- Clear enabled events when <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A> = 0.<BR>
+- Toggle enabled events when <A class="xref" href="#CH0CC_VALUE">CH0CC.VALUE</A> = <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A>.<BR>
+- Disable channel.<BR>
+<BR>
+Enabled events are set when <A class="xref" href="#CH0CC_VALUE">CH0CC.VALUE</A> = 0 and <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A> = 0.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x3</TD>
+<TD class="cellEnumTableCol2">SET_ON_0_TGL_ON_CMP_DIS</TD>
+<TD class="cellEnumTableCol3">Set on zero, toggle on compare, and then disable channel.<BR>
+<BR>
+Channel function sequence: <BR>
+- Set enabled events when <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A> = 0.<BR>
+- Toggle enabled events when <A class="xref" href="#CH0CC_VALUE">CH0CC.VALUE</A> = <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A>.<BR>
+- Disable channel.<BR>
+<BR>
+Enabled events are cleared when <A class="xref" href="#CH0CC_VALUE">CH0CC.VALUE</A> = 0 and <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A> = 0.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x4</TD>
+<TD class="cellEnumTableCol2">CLR_ON_CMP_DIS</TD>
+<TD class="cellEnumTableCol3">Clear on compare, and then disable channel.<BR>
+<BR>
+Channel function sequence: <BR>
+- Clear enabled events when <A class="xref" href="#CH0CC_VALUE">CH0CC.VALUE</A> = <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A>.<BR>
+- Disable channel.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x5</TD>
+<TD class="cellEnumTableCol2">SET_ON_CMP_DIS</TD>
+<TD class="cellEnumTableCol3">Set on compare, and then disable channel.<BR>
+<BR>
+Channel function sequence: <BR>
+- Set enabled events when <A class="xref" href="#CH0CC_VALUE">CH0CC.VALUE</A> = <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A>.<BR>
+- Disable channel.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x6</TD>
+<TD class="cellEnumTableCol2">TGL_ON_CMP_DIS</TD>
+<TD class="cellEnumTableCol3">Toggle on compare, and then disable channel.<BR>
+<BR>
+Channel function sequence: <BR>
+- Toggle enabled events when <A class="xref" href="#CH0CC_VALUE">CH0CC.VALUE</A> = <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A>.<BR>
+- Disable channel.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x7</TD>
+<TD class="cellEnumTableCol2">PULSE_ON_CMP_DIS</TD>
+<TD class="cellEnumTableCol3">Pulse on compare, and then disable channel.<BR>
+<BR>
+Channel function sequence: <BR>
+- Pulse enabled events when <A class="xref" href="#CH0CC_VALUE">CH0CC.VALUE</A> = <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A>.<BR>
+- Disable channel.<BR>
+<BR>
+ The event is high for two timer clock periods.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x8</TD>
+<TD class="cellEnumTableCol2">PER_PULSE_WIDTH_MEAS</TD>
+<TD class="cellEnumTableCol3">Period and pulse width measurement.<BR>
+<BR>
+Continuously capture period and pulse width of the signal selected by <A class="xref" href="#CH0CCFG_CAPT_SRC">CH0CCFG.CAPT_SRC</A> relative to the signal edge given by <A class="xref" href="#CH0CCFG_EDGE">CH0CCFG.EDGE</A>. <BR>
+<BR>
+Set enabled events when <A class="xref" href="#CH0CC_VALUE">CH0CC.VALUE</A> contains signal period and <A class="xref" href="#CH0PCC_VALUE">CH0PCC.VALUE</A> contains signal pulse width. <BR>
+<BR>
+Notes: <BR>
+- Make sure that you configure <A class="xref" href="#CH0CCFG_CAPT_SRC">CH0CCFG.CAPT_SRC</A> and CCACT when <A class="xref" href="#CTL_MODE">CTL.MODE</A> equals DIS, then set <A class="xref" href="#CTL_MODE">CTL.MODE</A> to UP_ONCE or UP_PER. <BR>
+- The counter restarts in the selected timer mode when <A class="xref" href="#CH0CC_VALUE">CH0CC.VALUE</A> contains the signal period.<BR>
+- If more than one channel uses this function, the channels will perform this function one at a time. The channel with lowest number has priority and performs the function first. Next measurement starts when current measurement completes successfully or times out. A timeout occurs when counter equals target. <BR>
+- If you want to observe a timeout event configure another channel to SET_ON_CAPT.<BR>
+<BR>
+Signal property requirements:<BR>
+- Signal Period &#62;= 2 * ( 1 + <A class="xref" href="#PRECFG_CLKDIV">PRECFG.CLKDIV</A> ) * timer clock period.<BR>
+- Signal Period &#60;= 65535 * (1 + <A class="xref" href="#PRECFG_CLKDIV">PRECFG.CLKDIV</A> ) * timer clock period.<BR>
+- Signal low and high phase &#62;= (1 + <A class="xref" href="#PRECFG_CLKDIV">PRECFG.CLKDIV</A> ) * timer clock period.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x9</TD>
+<TD class="cellEnumTableCol2">SET_ON_CAPT</TD>
+<TD class="cellEnumTableCol3">Set on capture repeatedly.<BR>
+<BR>
+Channel function sequence: <BR>
+- Set enabled events on capture event and copy <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A> to <A class="xref" href="#CH0CC_VALUE">CH0CC.VALUE</A>.<BR>
+<BR>
+Primary use scenario is to select this function before you start the timer.<BR>
+Follow these steps if you need to select this function while <A class="xref" href="#CTL_MODE">CTL.MODE</A> is different from DIS: <BR>
+ - Select this function with no event enable.<BR>
+ - Configure <A class="xref" href="#CH0CCFG">CH0CCFG</A> (optional).<BR>
+ - Wait for three timer clock periods as defined in <A class="xref" href="#PRECFG">PRECFG</A> before you enable events.<BR>
+<BR>
+These steps prevent capture events caused by expired signal values in edge-detection circuit.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xA</TD>
+<TD class="cellEnumTableCol2">CLR_ON_0_TGL_ON_CMP</TD>
+<TD class="cellEnumTableCol3">Clear on zero, toggle on compare repeatedly.<BR>
+ <BR>
+Channel function sequence: <BR>
+- Clear enabled events when <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A> = 0.<BR>
+- Toggle enabled events when <A class="xref" href="#CH0CC_VALUE">CH0CC.VALUE</A> = <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A>.<BR>
+<BR>
+Set <A class="xref" href="#CTL_MODE">CTL.MODE</A> to UPDWN_PER for center-aligned PWM generation. Duty cycle is given by: <BR>
+<BR>
+When <A class="xref" href="#CH0CC_VALUE">CH0CC.VALUE</A> &#60;= <A class="xref" href="#TARGET_VALUE">TARGET.VALUE</A>: <BR>
+   Duty cycle = 1 - ( <A class="xref" href="#CH0CC_VALUE">CH0CC.VALUE</A> / <A class="xref" href="#TARGET_VALUE">TARGET.VALUE</A> ).<BR>
+<BR>
+When <A class="xref" href="#CH0CC_VALUE">CH0CC.VALUE</A> &#62; <A class="xref" href="#TARGET_VALUE">TARGET.VALUE</A>: <BR>
+   Duty cycle = 0.<BR>
+<BR>
+Enabled events are set when <A class="xref" href="#CH0CC_VALUE">CH0CC.VALUE</A> = 0 and <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A> = 0.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xB</TD>
+<TD class="cellEnumTableCol2">SET_ON_0_TGL_ON_CMP</TD>
+<TD class="cellEnumTableCol3">Set on zero, toggle on compare repeatedly.<BR>
+<BR>
+Channel function sequence: <BR>
+- Set enabled events when <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A> = 0.<BR>
+- Toggle enabled events when <A class="xref" href="#CH0CC_VALUE">CH0CC.VALUE</A> = <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A>.<BR>
+<BR>
+Set <A class="xref" href="#CTL_MODE">CTL.MODE</A> to UP_PER for edge-aligned PWM generation. Duty cycle is given by: <BR>
+<BR>
+When <A class="xref" href="#CH0CC_VALUE">CH0CC.VALUE</A> &#60;= <A class="xref" href="#TARGET_VALUE">TARGET.VALUE</A>: <BR>
+   Duty cycle = <A class="xref" href="#CH0CC_VALUE">CH0CC.VALUE</A> / ( <A class="xref" href="#TARGET_VALUE">TARGET.VALUE</A> + 1 ).<BR>
+<BR>
+When <A class="xref" href="#CH0CC_VALUE">CH0CC.VALUE</A> &#62; <A class="xref" href="#TARGET_VALUE">TARGET.VALUE</A>: <BR>
+   Duty cycle = 1.<BR>
+<BR>
+Enabled events are cleared when <A class="xref" href="#CH0CC_VALUE">CH0CC.VALUE</A> = 0 and <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A> = 0.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xC</TD>
+<TD class="cellEnumTableCol2">CLR_ON_CMP</TD>
+<TD class="cellEnumTableCol3">Clear on compare repeatedly.<BR>
+<BR>
+Channel function sequence: <BR>
+- Clear enabled events  when <A class="xref" href="#CH0CC_VALUE">CH0CC.VALUE</A> = <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A>.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xD</TD>
+<TD class="cellEnumTableCol2">SET_ON_CMP</TD>
+<TD class="cellEnumTableCol3">Set on compare repeatedly.<BR>
+<BR>
+Channel function sequence: <BR>
+- Set enabled events  when <A class="xref" href="#CH0CC_VALUE">CH0CC.VALUE</A> = <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A>.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xE</TD>
+<TD class="cellEnumTableCol2">TGL_ON_CMP</TD>
+<TD class="cellEnumTableCol3">Toggle on compare repeatedly.<BR>
+<BR>
+Channel function sequence: <BR>
+- Toggle enabled events  when <A class="xref" href="#CH0CC_VALUE">CH0CC.VALUE</A> = <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A>.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xF</TD>
+<TD class="cellEnumTableCol2">PULSE_ON_CMP</TD>
+<TD class="cellEnumTableCol3">Pulse on compare repeatedly. <BR>
+<BR>
+Channel function sequence: <BR>
+- Pulse enabled events when <A class="xref" href="#CH0CC_VALUE">CH0CC.VALUE</A> = <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A>.<BR>
+<BR>
+ The event is high for two timer clock periods.</TD>
+</TR>
+</TABLE>
+</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0x0</TD>
+</TR>
+</TABLE>
+<H3 class="mmapRegisterTitle"><A name="CH0CCFG"></A><A class="mmapRegisterTitle" href="CPU_MMAP.html">TOP</A>:<A class="mmapRegisterTitle" href="#Top_Tag">AUX_TIMER2</A>:CH0CCFG</H3><TABLE cellspacing="0" class="mmapRegisterTable">
+<TR class="row">
+<TD class="cellCol1"><B>Address Offset</B></TD>
+<TD class="cellCol2" colspan="3">0x0000 0084</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Physical Address</TD>
+<TD class="cellCol2">0x400C 3084</TD>
+<TD class="cellCol3">Instance</TD>
+<TD class="cellCol4">0x400C 3084</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Description</TD>
+<TD class="cellCol2" colspan="3">Channel 0 Capture Configuration</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Type</TD>
+<TD class="cellCol2" colspan="3">RW</TD>
+</TR>
+</TABLE>
+<TABLE cellspacing="0" class="mmapBitfieldTable">
+<TR class="rowTop">
+<TD class="cellTopCol1">Bits</TD>
+<TD class="cellTopCol2">Field Name</TD>
+<TD class="cellTopCol3" colspan="3">Description</TD>
+<TD class="cellTopCol4">Type</TD>
+<TD class="cellTopCol5">Reset</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="CH0CCFG_RESERVED7">31:7</a>
+</TD>
+<TD class="cellBitfieldCol2">RESERVED7</TD>
+<TD class="cellBitfieldCol3" colspan="3">Software should not rely on the value of a reserved. Writing any other value than the reset value may result in undefined behavior.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0b0 0000 0000 0000 0000 0000 0000</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="CH0CCFG_CAPT_SRC">6:1</a>
+</TD>
+<TD class="cellBitfieldCol2">CAPT_SRC</TD>
+<TD class="cellBitfieldCol3" colspan="3">Select capture signal source from the asynchronous <A class="mmap_legend_link" href="../legend.html#AUX">AUX</A> event bus. <BR>
+<BR>
+The selected signal enters the edge-detection circuit. False capture events can occur when:  <BR>
+- the edge-detection circuit contains expired signal samples and the circuit is enabled without flush as described in <A class="xref" href="#CH0EVCFG">CH0EVCFG</A><BR>
+- this register is reconfigured while <A class="xref" href="#CTL_MODE">CTL.MODE</A> is different from DIS.<BR>
+<BR>
+You can avoid false capture events. When wanted channel function is: <BR>
+- SET_ON_CAPT_DIS, see description for SET_ON_CAPT_DIS in <A class="xref" href="#CH0EVCFG_CCACT">CH0EVCFG.CCACT</A>.<BR>
+- SET_ON_CAPT, see description for SET_ON_CAPT in <A class="xref" href="#CH0EVCFG_CCACT">CH0EVCFG.CCACT</A>.<BR>
+- PER_PULSE_WIDTH_MEAS, see description for PER_PULSE_WIDTH_MEAS in <A class="xref" href="#CH0EVCFG_CCACT">CH0EVCFG.CCACT</A>.<BR>
+<BR>
+If you write a non-enumerated value the behavior is identical to NO_EVENT. The written value is returned when read.<TABLE cellspacing="0" class="LprfEnum">
+<TR class="rowEnumHead">
+<TD class="cellEnumTableHeadCol1">Value</TD>
+<TD class="cellEnumTableHeadCol2">ENUM Name</TD>
+<TD class="cellEnumTableHeadCol3">Description</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x0</TD>
+<TD class="cellEnumTableCol2">AUXIO0</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO0">AUX_EVCTL:EVSTAT0.AUXIO0</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1</TD>
+<TD class="cellEnumTableCol2">AUXIO1</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO1">AUX_EVCTL:EVSTAT0.AUXIO1</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x2</TD>
+<TD class="cellEnumTableCol2">AUXIO2</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO2">AUX_EVCTL:EVSTAT0.AUXIO2</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x3</TD>
+<TD class="cellEnumTableCol2">AUXIO3</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO3">AUX_EVCTL:EVSTAT0.AUXIO3</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x4</TD>
+<TD class="cellEnumTableCol2">AUXIO4</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO4">AUX_EVCTL:EVSTAT0.AUXIO4</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x5</TD>
+<TD class="cellEnumTableCol2">AUXIO5</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO5">AUX_EVCTL:EVSTAT0.AUXIO5</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x6</TD>
+<TD class="cellEnumTableCol2">AUXIO6</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO6">AUX_EVCTL:EVSTAT0.AUXIO6</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x7</TD>
+<TD class="cellEnumTableCol2">AUXIO7</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO7">AUX_EVCTL:EVSTAT0.AUXIO7</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x8</TD>
+<TD class="cellEnumTableCol2">AUXIO8</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO8">AUX_EVCTL:EVSTAT0.AUXIO8</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x9</TD>
+<TD class="cellEnumTableCol2">AUXIO9</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO9">AUX_EVCTL:EVSTAT0.AUXIO9</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xA</TD>
+<TD class="cellEnumTableCol2">AUXIO10</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO10">AUX_EVCTL:EVSTAT0.AUXIO10</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xB</TD>
+<TD class="cellEnumTableCol2">AUXIO11</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO11">AUX_EVCTL:EVSTAT0.AUXIO11</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xC</TD>
+<TD class="cellEnumTableCol2">AUXIO12</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO12">AUX_EVCTL:EVSTAT0.AUXIO12</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xD</TD>
+<TD class="cellEnumTableCol2">AUXIO13</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO13">AUX_EVCTL:EVSTAT0.AUXIO13</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xE</TD>
+<TD class="cellEnumTableCol2">AUXIO14</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO14">AUX_EVCTL:EVSTAT0.AUXIO14</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xF</TD>
+<TD class="cellEnumTableCol2">AUXIO15</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO15">AUX_EVCTL:EVSTAT0.AUXIO15</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x10</TD>
+<TD class="cellEnumTableCol2">AUXIO16</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO16">AUX_EVCTL:EVSTAT1.AUXIO16</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x11</TD>
+<TD class="cellEnumTableCol2">AUXIO17</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO17">AUX_EVCTL:EVSTAT1.AUXIO17</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x12</TD>
+<TD class="cellEnumTableCol2">AUXIO18</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO18">AUX_EVCTL:EVSTAT1.AUXIO18</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x13</TD>
+<TD class="cellEnumTableCol2">AUXIO19</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO19">AUX_EVCTL:EVSTAT1.AUXIO19</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x14</TD>
+<TD class="cellEnumTableCol2">AUXIO20</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO20">AUX_EVCTL:EVSTAT1.AUXIO20</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x15</TD>
+<TD class="cellEnumTableCol2">AUXIO21</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO21">AUX_EVCTL:EVSTAT1.AUXIO21</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x16</TD>
+<TD class="cellEnumTableCol2">AUXIO22</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO22">AUX_EVCTL:EVSTAT1.AUXIO22</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x17</TD>
+<TD class="cellEnumTableCol2">AUXIO23</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO23">AUX_EVCTL:EVSTAT1.AUXIO23</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x18</TD>
+<TD class="cellEnumTableCol2">AUXIO24</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO24">AUX_EVCTL:EVSTAT1.AUXIO24</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x19</TD>
+<TD class="cellEnumTableCol2">AUXIO25</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO25">AUX_EVCTL:EVSTAT1.AUXIO25</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1A</TD>
+<TD class="cellEnumTableCol2">AUXIO26</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO26">AUX_EVCTL:EVSTAT1.AUXIO26</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1B</TD>
+<TD class="cellEnumTableCol2">AUXIO27</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO27">AUX_EVCTL:EVSTAT1.AUXIO27</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1C</TD>
+<TD class="cellEnumTableCol2">AUXIO28</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO28">AUX_EVCTL:EVSTAT1.AUXIO28</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1D</TD>
+<TD class="cellEnumTableCol2">AUXIO29</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO29">AUX_EVCTL:EVSTAT1.AUXIO29</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1E</TD>
+<TD class="cellEnumTableCol2">AUXIO30</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO30">AUX_EVCTL:EVSTAT1.AUXIO30</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1F</TD>
+<TD class="cellEnumTableCol2">AUXIO31</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO31">AUX_EVCTL:EVSTAT1.AUXIO31</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x20</TD>
+<TD class="cellEnumTableCol2">MANUAL_EV</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_MANUAL_EV">AUX_EVCTL:EVSTAT2.MANUAL_EV</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x21</TD>
+<TD class="cellEnumTableCol2">AON_RTC_CH2</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_AON_RTC_CH2">AUX_EVCTL:EVSTAT2.AON_RTC_CH2</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x22</TD>
+<TD class="cellEnumTableCol2">AON_RTC_CH2_DLY</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_AON_RTC_CH2_DLY">AUX_EVCTL:EVSTAT2.AON_RTC_CH2_DLY</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x23</TD>
+<TD class="cellEnumTableCol2">AON_RTC_4KHZ</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_AON_RTC_4KHZ">AUX_EVCTL:EVSTAT2.AON_RTC_4KHZ</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x24</TD>
+<TD class="cellEnumTableCol2">AON_BATMON_BAT_UPD</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_AON_BATMON_BAT_UPD">AUX_EVCTL:EVSTAT2.AON_BATMON_BAT_UPD</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x25</TD>
+<TD class="cellEnumTableCol2">AON_BATMON_TEMP_UPD</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_AON_BATMON_TEMP_UPD">AUX_EVCTL:EVSTAT2.AON_BATMON_TEMP_UPD</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x26</TD>
+<TD class="cellEnumTableCol2">SCLK_LF</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_SCLK_LF">AUX_EVCTL:EVSTAT2.SCLK_LF</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x27</TD>
+<TD class="cellEnumTableCol2">PWR_DWN</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_PWR_DWN">AUX_EVCTL:EVSTAT2.PWR_DWN</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x28</TD>
+<TD class="cellEnumTableCol2">MCU_ACTIVE</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_MCU_ACTIVE">AUX_EVCTL:EVSTAT2.MCU_ACTIVE</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x29</TD>
+<TD class="cellEnumTableCol2">VDDR_RECHARGE</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_VDDR_RECHARGE">AUX_EVCTL:EVSTAT2.VDDR_RECHARGE</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x2A</TD>
+<TD class="cellEnumTableCol2">ACLK_REF</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_ACLK_REF">AUX_EVCTL:EVSTAT2.ACLK_REF</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x2B</TD>
+<TD class="cellEnumTableCol2">MCU_EV</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_MCU_EV">AUX_EVCTL:EVSTAT2.MCU_EV</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x2C</TD>
+<TD class="cellEnumTableCol2">MCU_OBSMUX0</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_MCU_OBSMUX0">AUX_EVCTL:EVSTAT2.MCU_OBSMUX0</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x2D</TD>
+<TD class="cellEnumTableCol2">MCU_OBSMUX1</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_MCU_OBSMUX1">AUX_EVCTL:EVSTAT2.MCU_OBSMUX1</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x2E</TD>
+<TD class="cellEnumTableCol2">AUX_COMPA</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_AUX_COMPA">AUX_EVCTL:EVSTAT2.AUX_COMPA</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x2F</TD>
+<TD class="cellEnumTableCol2">AUX_COMPB</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_AUX_COMPB">AUX_EVCTL:EVSTAT2.AUX_COMPB</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x30</TD>
+<TD class="cellEnumTableCol2">AUX_TIMER2_EV0</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT3_AUX_TIMER2_EV0">AUX_EVCTL:EVSTAT3.AUX_TIMER2_EV0</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x31</TD>
+<TD class="cellEnumTableCol2">AUX_TIMER2_EV1</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT3_AUX_TIMER2_EV1">AUX_EVCTL:EVSTAT3.AUX_TIMER2_EV1</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x32</TD>
+<TD class="cellEnumTableCol2">AUX_TIMER2_EV2</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT3_AUX_TIMER2_EV2">AUX_EVCTL:EVSTAT3.AUX_TIMER2_EV2</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x33</TD>
+<TD class="cellEnumTableCol2">AUX_TIMER2_EV3</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT3_AUX_TIMER2_EV3">AUX_EVCTL:EVSTAT3.AUX_TIMER2_EV3</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x35</TD>
+<TD class="cellEnumTableCol2">AUX_TIMER1_EV</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT3_AUX_TIMER1_EV">AUX_EVCTL:EVSTAT3.AUX_TIMER1_EV</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x36</TD>
+<TD class="cellEnumTableCol2">AUX_TIMER0_EV</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT3_AUX_TIMER0_EV">AUX_EVCTL:EVSTAT3.AUX_TIMER0_EV</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x37</TD>
+<TD class="cellEnumTableCol2">AUX_TDC_DONE</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT3_AUX_TDC_DONE">AUX_EVCTL:EVSTAT3.AUX_TDC_DONE</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x38</TD>
+<TD class="cellEnumTableCol2">AUX_ISRC_RESET_N</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT3_AUX_ISRC_RESET_N">AUX_EVCTL:EVSTAT3.AUX_ISRC_RESET_N</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x39</TD>
+<TD class="cellEnumTableCol2">AUX_ADC_DONE</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT3_AUX_ADC_DONE">AUX_EVCTL:EVSTAT3.AUX_ADC_DONE</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x3A</TD>
+<TD class="cellEnumTableCol2">AUX_ADC_IRQ</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT3_AUX_ADC_IRQ">AUX_EVCTL:EVSTAT3.AUX_ADC_IRQ</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x3B</TD>
+<TD class="cellEnumTableCol2">AUX_ADC_FIFO_ALMOST_FULL</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT3_AUX_ADC_FIFO_ALMOST_FULL">AUX_EVCTL:EVSTAT3.AUX_ADC_FIFO_ALMOST_FULL</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x3C</TD>
+<TD class="cellEnumTableCol2">AUX_ADC_FIFO_NOT_EMPTY</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT3_AUX_ADC_FIFO_NOT_EMPTY">AUX_EVCTL:EVSTAT3.AUX_ADC_FIFO_NOT_EMPTY</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x3D</TD>
+<TD class="cellEnumTableCol2">AUX_SMPH_AUTOTAKE_DONE</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT3_AUX_SMPH_AUTOTAKE_DONE">AUX_EVCTL:EVSTAT3.AUX_SMPH_AUTOTAKE_DONE</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x3F</TD>
+<TD class="cellEnumTableCol2">NO_EVENT</TD>
+<TD class="cellEnumTableCol3">No event.</TD>
+</TR>
+</TABLE>
+</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0b00 0000</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="CH0CCFG_EDGE">0</a>
+</TD>
+<TD class="cellBitfieldCol2">EDGE</TD>
+<TD class="cellBitfieldCol3" colspan="3">Edge configuration.<BR>
+<BR>
+Channel captures counter value at selected edge on signal source selected by <A class="xref" href="#CH0CCFG_CAPT_SRC">CAPT_SRC</A>. See <A class="xref" href="#CH0EVCFG_CCACT">CH0EVCFG.CCACT</A>.<TABLE cellspacing="0" class="LprfEnum">
+<TR class="rowEnumHead">
+<TD class="cellEnumTableHeadCol1">Value</TD>
+<TD class="cellEnumTableHeadCol2">ENUM Name</TD>
+<TD class="cellEnumTableHeadCol3">Description</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x0</TD>
+<TD class="cellEnumTableCol2">FALLING</TD>
+<TD class="cellEnumTableCol3">Capture <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A> at falling edge of <A class="xref" href="#CH0CCFG_CAPT_SRC">CAPT_SRC</A>.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1</TD>
+<TD class="cellEnumTableCol2">RISING</TD>
+<TD class="cellEnumTableCol3">Capture <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A> at rising edge of <A class="xref" href="#CH0CCFG_CAPT_SRC">CAPT_SRC</A>.</TD>
+</TR>
+</TABLE>
+</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+</TABLE>
+<H3 class="mmapRegisterTitle"><A name="CH0PCC"></A><A class="mmapRegisterTitle" href="CPU_MMAP.html">TOP</A>:<A class="mmapRegisterTitle" href="#Top_Tag">AUX_TIMER2</A>:CH0PCC</H3><TABLE cellspacing="0" class="mmapRegisterTable">
+<TR class="row">
+<TD class="cellCol1"><B>Address Offset</B></TD>
+<TD class="cellCol2" colspan="3">0x0000 0088</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Physical Address</TD>
+<TD class="cellCol2">0x400C 3088</TD>
+<TD class="cellCol3">Instance</TD>
+<TD class="cellCol4">0x400C 3088</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Description</TD>
+<TD class="cellCol2" colspan="3">Channel 0 Pipeline Capture Compare</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Type</TD>
+<TD class="cellCol2" colspan="3">RW</TD>
+</TR>
+</TABLE>
+<TABLE cellspacing="0" class="mmapBitfieldTable">
+<TR class="rowTop">
+<TD class="cellTopCol1">Bits</TD>
+<TD class="cellTopCol2">Field Name</TD>
+<TD class="cellTopCol3" colspan="3">Description</TD>
+<TD class="cellTopCol4">Type</TD>
+<TD class="cellTopCol5">Reset</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="CH0PCC_RESERVED16">31:16</a>
+</TD>
+<TD class="cellBitfieldCol2">RESERVED16</TD>
+<TD class="cellBitfieldCol3" colspan="3">Software should not rely on the value of a reserved. Writing any other value than the reset value may result in undefined behavior.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0x0000</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="CH0PCC_VALUE">15:0</a>
+</TD>
+<TD class="cellBitfieldCol2">VALUE</TD>
+<TD class="cellBitfieldCol3" colspan="3">Pipeline Capture Compare value.<BR>
+<BR>
+16-bit user defined pipeline compare value or channel-updated capture value.<BR>
+<BR>
+Compare mode: <BR>
+An update of VALUE will be transferred to <A class="xref" href="#CH0CC_VALUE">CH0CC.VALUE</A> when the next <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A> is zero and <A class="xref" href="#CTL_MODE">CTL.MODE</A> is different from DIS. This is useful for <A class="mmap_legend_link" href="../legend.html#PWM">PWM</A> generation and prevents jitter on the edges of the generated signal.<BR>
+<BR>
+Capture mode: <BR>
+When <A class="xref" href="#CH0EVCFG_CCACT">CH0EVCFG.CCACT</A> equals PER_PULSE_WIDTH_MEAS then VALUE contains the width of the low or high phase of the selected signal. This is specified by <A class="xref" href="#CH0CCFG_EDGE">CH0CCFG.EDGE</A> and <A class="xref" href="#CH0CCFG_CAPT_SRC">CH0CCFG.CAPT_SRC</A>.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0x0000</TD>
+</TR>
+</TABLE>
+<H3 class="mmapRegisterTitle"><A name="CH0CC"></A><A class="mmapRegisterTitle" href="CPU_MMAP.html">TOP</A>:<A class="mmapRegisterTitle" href="#Top_Tag">AUX_TIMER2</A>:CH0CC</H3><TABLE cellspacing="0" class="mmapRegisterTable">
+<TR class="row">
+<TD class="cellCol1"><B>Address Offset</B></TD>
+<TD class="cellCol2" colspan="3">0x0000 008C</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Physical Address</TD>
+<TD class="cellCol2">0x400C 308C</TD>
+<TD class="cellCol3">Instance</TD>
+<TD class="cellCol4">0x400C 308C</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Description</TD>
+<TD class="cellCol2" colspan="3">Channel 0 Capture Compare</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Type</TD>
+<TD class="cellCol2" colspan="3">RW</TD>
+</TR>
+</TABLE>
+<TABLE cellspacing="0" class="mmapBitfieldTable">
+<TR class="rowTop">
+<TD class="cellTopCol1">Bits</TD>
+<TD class="cellTopCol2">Field Name</TD>
+<TD class="cellTopCol3" colspan="3">Description</TD>
+<TD class="cellTopCol4">Type</TD>
+<TD class="cellTopCol5">Reset</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="CH0CC_RESERVED16">31:16</a>
+</TD>
+<TD class="cellBitfieldCol2">RESERVED16</TD>
+<TD class="cellBitfieldCol3" colspan="3">Software should not rely on the value of a reserved. Writing any other value than the reset value may result in undefined behavior.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0x0000</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="CH0CC_VALUE">15:0</a>
+</TD>
+<TD class="cellBitfieldCol2">VALUE</TD>
+<TD class="cellBitfieldCol3" colspan="3">Capture Compare value.<BR>
+<BR>
+16-bit user defined compare value or channel-updated capture value.<BR>
+<BR>
+Compare mode: <BR>
+VALUE is compared against <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A> and an event is generated as specified by <A class="xref" href="#CH0EVCFG_CCACT">CH0EVCFG.CCACT</A> when these are equal. <BR>
+<BR>
+Capture mode: <BR>
+The current counter value is stored in VALUE when a capture event occurs. <A class="xref" href="#CH0EVCFG_CCACT">CH0EVCFG.CCACT</A> determines if VALUE is a signal period or a regular capture value.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0x0000</TD>
+</TR>
+</TABLE>
+<H3 class="mmapRegisterTitle"><A name="CH1EVCFG"></A><A class="mmapRegisterTitle" href="CPU_MMAP.html">TOP</A>:<A class="mmapRegisterTitle" href="#Top_Tag">AUX_TIMER2</A>:CH1EVCFG</H3><TABLE cellspacing="0" class="mmapRegisterTable">
+<TR class="row">
+<TD class="cellCol1"><B>Address Offset</B></TD>
+<TD class="cellCol2" colspan="3">0x0000 0090</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Physical Address</TD>
+<TD class="cellCol2">0x400C 3090</TD>
+<TD class="cellCol3">Instance</TD>
+<TD class="cellCol4">0x400C 3090</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Description</TD>
+<TD class="cellCol2" colspan="3">Channel 1 Event Configuration<BR>
+<BR>
+This register configures channel function and enables event outputs.<BR>
+<BR>
+Each channel has an edge-detection circuit with memory. The circuit is:  <BR>
+ - enabled while <A class="xref" href="#CH1EVCFG_CCACT">CCACT</A> selects a capture function and <A class="xref" href="#CTL_MODE">CTL.MODE</A> is different from DIS. <BR>
+ - flushed while <A class="xref" href="#CH1EVCFG_CCACT">CCACT</A> selects a capture function and you change <A class="xref" href="#CTL_MODE">CTL.MODE</A> from DIS to another mode. <BR>
+ <BR>
+The flush action uses two <A class="xref" href="AUX_SYSIF.html#TIMER2CLKCTL_SRC">AUX_SYSIF:TIMER2CLKCTL.SRC</A> clock periods. It prevents capture events caused by expired signal values stored in the edge-detection circuit.</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Type</TD>
+<TD class="cellCol2" colspan="3">RW</TD>
+</TR>
+</TABLE>
+<TABLE cellspacing="0" class="mmapBitfieldTable">
+<TR class="rowTop">
+<TD class="cellTopCol1">Bits</TD>
+<TD class="cellTopCol2">Field Name</TD>
+<TD class="cellTopCol3" colspan="3">Description</TD>
+<TD class="cellTopCol4">Type</TD>
+<TD class="cellTopCol5">Reset</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="CH1EVCFG_RESERVED8">31:8</a>
+</TD>
+<TD class="cellBitfieldCol2">RESERVED8</TD>
+<TD class="cellBitfieldCol3" colspan="3">Software should not rely on the value of a reserved. Writing any other value than the reset value may result in undefined behavior.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0x00 0000</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="CH1EVCFG_EV3_GEN">7</a>
+</TD>
+<TD class="cellBitfieldCol2">EV3_GEN</TD>
+<TD class="cellBitfieldCol3" colspan="3">Event 3 enable.<BR>
+<BR>
+0: Channel 1 does not control event 3.<BR>
+1: Channel 1 controls event 3.<BR>
+<BR>
+ When 0 &#60; <A class="xref" href="#CH1EVCFG_CCACT">CCACT</A> &#60; 8, EV3_GEN becomes zero after a capture or compare event.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="CH1EVCFG_EV2_GEN">6</a>
+</TD>
+<TD class="cellBitfieldCol2">EV2_GEN</TD>
+<TD class="cellBitfieldCol3" colspan="3">Event 2 enable.<BR>
+<BR>
+0: Channel 1 does not control event 2.<BR>
+1: Channel 1 controls event 2.<BR>
+<BR>
+ When 0 &#60; <A class="xref" href="#CH1EVCFG_CCACT">CCACT</A> &#60; 8, EV2_GEN becomes zero after a capture or compare event.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="CH1EVCFG_EV1_GEN">5</a>
+</TD>
+<TD class="cellBitfieldCol2">EV1_GEN</TD>
+<TD class="cellBitfieldCol3" colspan="3">Event 1 enable.<BR>
+<BR>
+0: Channel 1 does not control event 1.<BR>
+1: Channel 1 controls event 1.<BR>
+<BR>
+ When 0 &#60; <A class="xref" href="#CH1EVCFG_CCACT">CCACT</A> &#60; 8, EV1_GEN becomes zero after a capture or compare event.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="CH1EVCFG_EV0_GEN">4</a>
+</TD>
+<TD class="cellBitfieldCol2">EV0_GEN</TD>
+<TD class="cellBitfieldCol3" colspan="3">Event 0 enable.<BR>
+<BR>
+0: Channel 1 does not control event 0.<BR>
+1: Channel 1 controls event 0.<BR>
+<BR>
+ When 0 &#60; <A class="xref" href="#CH1EVCFG_CCACT">CCACT</A> &#60; 8, EV0_GEN becomes zero after a capture or compare event.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="CH1EVCFG_CCACT">3:0</a>
+</TD>
+<TD class="cellBitfieldCol2">CCACT</TD>
+<TD class="cellBitfieldCol3" colspan="3">Capture-Compare action.<BR>
+<BR>
+Capture-Compare action defines 15 different channel functions that utilize capture, compare, and zero events.<TABLE cellspacing="0" class="LprfEnum">
+<TR class="rowEnumHead">
+<TD class="cellEnumTableHeadCol1">Value</TD>
+<TD class="cellEnumTableHeadCol2">ENUM Name</TD>
+<TD class="cellEnumTableHeadCol3">Description</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x0</TD>
+<TD class="cellEnumTableCol2">DIS</TD>
+<TD class="cellEnumTableCol3">Disable channel.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1</TD>
+<TD class="cellEnumTableCol2">SET_ON_CAPT_DIS</TD>
+<TD class="cellEnumTableCol3">Set on capture, and then disable channel.<BR>
+<BR>
+Channel function sequence: <BR>
+- Set enabled events on capture event and copy <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A> to <A class="xref" href="#CH1CC_VALUE">CH1CC.VALUE</A>.<BR>
+- Disable channel. <BR>
+<BR>
+Primary use scenario is to select this function before you start the timer.<BR>
+Follow these steps if you need to select this function while <A class="xref" href="#CTL_MODE">CTL.MODE</A> is different from DIS: <BR>
+ - Set CCACT to SET_ON_CAPT with no event enable.<BR>
+ - Configure <A class="xref" href="#CH1CCFG">CH1CCFG</A> (optional).<BR>
+ - Wait for three timer clock periods as defined in <A class="xref" href="#PRECFG">PRECFG</A> before you set CCACT to SET_ON_CAPT_DIS. Event enable is optional.<BR>
+<BR>
+These steps prevent capture events caused by expired signal values in edge-detection circuit.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x2</TD>
+<TD class="cellEnumTableCol2">CLR_ON_0_TGL_ON_CMP_DIS</TD>
+<TD class="cellEnumTableCol3">Clear on zero, toggle on compare, and then disable channel.<BR>
+<BR>
+Channel function sequence: <BR>
+- Clear enabled events when <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A> = 0.<BR>
+- Toggle enabled events when <A class="xref" href="#CH1CC_VALUE">CH1CC.VALUE</A> = <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A>.<BR>
+- Disable channel.<BR>
+<BR>
+Enabled events are set when <A class="xref" href="#CH1CC_VALUE">CH1CC.VALUE</A> = 0 and <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A> = 0.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x3</TD>
+<TD class="cellEnumTableCol2">SET_ON_0_TGL_ON_CMP_DIS</TD>
+<TD class="cellEnumTableCol3">Set on zero, toggle on compare, and then disable channel.<BR>
+<BR>
+Channel function sequence: <BR>
+- Set enabled events when <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A> = 0.<BR>
+- Toggle enabled events when <A class="xref" href="#CH1CC_VALUE">CH1CC.VALUE</A> = <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A>.<BR>
+- Disable channel.<BR>
+<BR>
+Enabled events are cleared when <A class="xref" href="#CH1CC_VALUE">CH1CC.VALUE</A> = 0 and <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A> = 0.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x4</TD>
+<TD class="cellEnumTableCol2">CLR_ON_CMP_DIS</TD>
+<TD class="cellEnumTableCol3">Clear on compare, and then disable channel.<BR>
+<BR>
+Channel function sequence: <BR>
+- Clear enabled events when <A class="xref" href="#CH1CC_VALUE">CH1CC.VALUE</A> = <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A>.<BR>
+- Disable channel.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x5</TD>
+<TD class="cellEnumTableCol2">SET_ON_CMP_DIS</TD>
+<TD class="cellEnumTableCol3">Set on compare, and then disable channel.<BR>
+<BR>
+Channel function sequence: <BR>
+- Set enabled events when <A class="xref" href="#CH1CC_VALUE">CH1CC.VALUE</A> = <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A>.<BR>
+- Disable channel.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x6</TD>
+<TD class="cellEnumTableCol2">TGL_ON_CMP_DIS</TD>
+<TD class="cellEnumTableCol3">Toggle on compare, and then disable channel.<BR>
+<BR>
+Channel function sequence: <BR>
+- Toggle enabled events when <A class="xref" href="#CH1CC_VALUE">CH1CC.VALUE</A> = <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A>.<BR>
+- Disable channel.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x7</TD>
+<TD class="cellEnumTableCol2">PULSE_ON_CMP_DIS</TD>
+<TD class="cellEnumTableCol3">Pulse on compare, and then disable channel.<BR>
+<BR>
+Channel function sequence: <BR>
+- Pulse enabled events when <A class="xref" href="#CH1CC_VALUE">CH1CC.VALUE</A> = <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A>.<BR>
+- Disable channel.<BR>
+<BR>
+ The event is high for two timer clock periods.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x8</TD>
+<TD class="cellEnumTableCol2">PER_PULSE_WIDTH_MEAS</TD>
+<TD class="cellEnumTableCol3">Period and pulse width measurement.<BR>
+<BR>
+Continuously capture period and pulse width of the signal selected by <A class="xref" href="#CH1CCFG_CAPT_SRC">CH1CCFG.CAPT_SRC</A> relative to the signal edge given by <A class="xref" href="#CH1CCFG_EDGE">CH1CCFG.EDGE</A>. <BR>
+<BR>
+Set enabled events when <A class="xref" href="#CH1CC_VALUE">CH1CC.VALUE</A> contains signal period and <A class="xref" href="#CH1PCC_VALUE">CH1PCC.VALUE</A> contains signal pulse width. <BR>
+<BR>
+Notes: <BR>
+- Make sure that you configure <A class="xref" href="#CH1CCFG_CAPT_SRC">CH1CCFG.CAPT_SRC</A> and CCACT when <A class="xref" href="#CTL_MODE">CTL.MODE</A> equals DIS, then set <A class="xref" href="#CTL_MODE">CTL.MODE</A> to UP_ONCE or UP_PER. <BR>
+- The counter restarts in the selected timer mode when <A class="xref" href="#CH1CC_VALUE">CH1CC.VALUE</A> contains the signal period.<BR>
+- If more than one channel uses this function, the channels will perform this function one at a time. The channel with lowest number has priority and performs the function first. Next measurement starts when current measurement completes successfully or times out. A timeout occurs when counter equals target. <BR>
+- If you want to observe a timeout event configure another channel to SET_ON_CAPT.<BR>
+<BR>
+Signal property requirements:<BR>
+- Signal Period &#62;= 2 * ( 1 + <A class="xref" href="#PRECFG_CLKDIV">PRECFG.CLKDIV</A> ) * timer clock period.<BR>
+- Signal Period &#60;= 65535 * (1 + <A class="xref" href="#PRECFG_CLKDIV">PRECFG.CLKDIV</A> ) * timer clock period.<BR>
+- Signal low and high phase &#62;= (1 + <A class="xref" href="#PRECFG_CLKDIV">PRECFG.CLKDIV</A> ) * timer clock period.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x9</TD>
+<TD class="cellEnumTableCol2">SET_ON_CAPT</TD>
+<TD class="cellEnumTableCol3">Set on capture repeatedly.<BR>
+<BR>
+Channel function sequence: <BR>
+- Set enabled events on capture event and copy <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A> to <A class="xref" href="#CH1CC_VALUE">CH1CC.VALUE</A>.<BR>
+<BR>
+Primary use scenario is to select this function before you start the timer.<BR>
+Follow these steps if you need to select this function while <A class="xref" href="#CTL_MODE">CTL.MODE</A> is different from DIS: <BR>
+ - Select this function with no event enable.<BR>
+ - Configure <A class="xref" href="#CH1CCFG">CH1CCFG</A> (optional).<BR>
+ - Wait for three timer clock periods as defined in <A class="xref" href="#PRECFG">PRECFG</A> before you enable events.<BR>
+<BR>
+These steps prevent capture events caused by expired signal values in edge-detection circuit.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xA</TD>
+<TD class="cellEnumTableCol2">CLR_ON_0_TGL_ON_CMP</TD>
+<TD class="cellEnumTableCol3">Clear on zero, toggle on compare repeatedly.<BR>
+ <BR>
+Channel function sequence: <BR>
+- Clear enabled events when <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A> = 0.<BR>
+- Toggle enabled events when <A class="xref" href="#CH1CC_VALUE">CH1CC.VALUE</A> = <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A>.<BR>
+<BR>
+Set <A class="xref" href="#CTL_MODE">CTL.MODE</A> to UPDWN_PER for center-aligned PWM generation. Duty cycle is given by: <BR>
+<BR>
+When <A class="xref" href="#CH1CC_VALUE">CH1CC.VALUE</A> &#60;= <A class="xref" href="#TARGET_VALUE">TARGET.VALUE</A>: <BR>
+   Duty cycle = 1 - ( <A class="xref" href="#CH1CC_VALUE">CH1CC.VALUE</A> / <A class="xref" href="#TARGET_VALUE">TARGET.VALUE</A> ).<BR>
+<BR>
+When <A class="xref" href="#CH1CC_VALUE">CH1CC.VALUE</A> &#62; <A class="xref" href="#TARGET_VALUE">TARGET.VALUE</A>: <BR>
+   Duty cycle = 0.<BR>
+<BR>
+Enabled events are set when <A class="xref" href="#CH1CC_VALUE">CH1CC.VALUE</A> = 0 and <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A> = 0.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xB</TD>
+<TD class="cellEnumTableCol2">SET_ON_0_TGL_ON_CMP</TD>
+<TD class="cellEnumTableCol3">Set on zero, toggle on compare repeatedly.<BR>
+<BR>
+Channel function sequence: <BR>
+- Set enabled events when <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A> = 0.<BR>
+- Toggle enabled events when <A class="xref" href="#CH1CC_VALUE">CH1CC.VALUE</A> = <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A>.<BR>
+<BR>
+Set <A class="xref" href="#CTL_MODE">CTL.MODE</A> to UP_PER for edge-aligned PWM generation. Duty cycle is given by: <BR>
+<BR>
+When <A class="xref" href="#CH1CC_VALUE">CH1CC.VALUE</A> &#60;= <A class="xref" href="#TARGET_VALUE">TARGET.VALUE</A>: <BR>
+   Duty cycle = <A class="xref" href="#CH1CC_VALUE">CH1CC.VALUE</A> / ( <A class="xref" href="#TARGET_VALUE">TARGET.VALUE</A> + 1 ).<BR>
+<BR>
+When <A class="xref" href="#CH1CC_VALUE">CH1CC.VALUE</A> &#62; <A class="xref" href="#TARGET_VALUE">TARGET.VALUE</A>: <BR>
+   Duty cycle = 1.<BR>
+<BR>
+Enabled events are cleared when <A class="xref" href="#CH1CC_VALUE">CH1CC.VALUE</A> = 0 and <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A> = 0.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xC</TD>
+<TD class="cellEnumTableCol2">CLR_ON_CMP</TD>
+<TD class="cellEnumTableCol3">Clear on compare repeatedly.<BR>
+<BR>
+Channel function sequence: <BR>
+- Clear enabled events  when <A class="xref" href="#CH1CC_VALUE">CH1CC.VALUE</A> = <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A>.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xD</TD>
+<TD class="cellEnumTableCol2">SET_ON_CMP</TD>
+<TD class="cellEnumTableCol3">Set on compare repeatedly.<BR>
+<BR>
+Channel function sequence: <BR>
+- Set enabled events  when <A class="xref" href="#CH1CC_VALUE">CH1CC.VALUE</A> = <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A>.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xE</TD>
+<TD class="cellEnumTableCol2">TGL_ON_CMP</TD>
+<TD class="cellEnumTableCol3">Toggle on compare repeatedly.<BR>
+<BR>
+Channel function sequence: <BR>
+- Toggle enabled events  when <A class="xref" href="#CH1CC_VALUE">CH1CC.VALUE</A> = <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A>.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xF</TD>
+<TD class="cellEnumTableCol2">PULSE_ON_CMP</TD>
+<TD class="cellEnumTableCol3">Pulse on compare repeatedly. <BR>
+<BR>
+Channel function sequence: <BR>
+- Pulse enabled events when <A class="xref" href="#CH1CC_VALUE">CH1CC.VALUE</A> = <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A>.<BR>
+<BR>
+ The event is high for two timer clock periods.</TD>
+</TR>
+</TABLE>
+</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0x0</TD>
+</TR>
+</TABLE>
+<H3 class="mmapRegisterTitle"><A name="CH1CCFG"></A><A class="mmapRegisterTitle" href="CPU_MMAP.html">TOP</A>:<A class="mmapRegisterTitle" href="#Top_Tag">AUX_TIMER2</A>:CH1CCFG</H3><TABLE cellspacing="0" class="mmapRegisterTable">
+<TR class="row">
+<TD class="cellCol1"><B>Address Offset</B></TD>
+<TD class="cellCol2" colspan="3">0x0000 0094</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Physical Address</TD>
+<TD class="cellCol2">0x400C 3094</TD>
+<TD class="cellCol3">Instance</TD>
+<TD class="cellCol4">0x400C 3094</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Description</TD>
+<TD class="cellCol2" colspan="3">Channel 1 Capture Configuration</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Type</TD>
+<TD class="cellCol2" colspan="3">RW</TD>
+</TR>
+</TABLE>
+<TABLE cellspacing="0" class="mmapBitfieldTable">
+<TR class="rowTop">
+<TD class="cellTopCol1">Bits</TD>
+<TD class="cellTopCol2">Field Name</TD>
+<TD class="cellTopCol3" colspan="3">Description</TD>
+<TD class="cellTopCol4">Type</TD>
+<TD class="cellTopCol5">Reset</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="CH1CCFG_RESERVED7">31:7</a>
+</TD>
+<TD class="cellBitfieldCol2">RESERVED7</TD>
+<TD class="cellBitfieldCol3" colspan="3">Software should not rely on the value of a reserved. Writing any other value than the reset value may result in undefined behavior.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0b0 0000 0000 0000 0000 0000 0000</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="CH1CCFG_CAPT_SRC">6:1</a>
+</TD>
+<TD class="cellBitfieldCol2">CAPT_SRC</TD>
+<TD class="cellBitfieldCol3" colspan="3">Select capture signal source from the asynchronous <A class="mmap_legend_link" href="../legend.html#AUX">AUX</A> event bus. <BR>
+<BR>
+The selected signal enters the edge-detection circuit. False capture events can occur when:  <BR>
+- the edge-detection circuit contains expired signal samples and the circuit is enabled without flush as described in <A class="xref" href="#CH1EVCFG">CH1EVCFG</A><BR>
+- this register is reconfigured while <A class="xref" href="#CTL_MODE">CTL.MODE</A> is different from DIS.<BR>
+<BR>
+You can avoid false capture events. When wanted channel function is: <BR>
+- SET_ON_CAPT_DIS, see description for SET_ON_CAPT_DIS in <A class="xref" href="#CH1EVCFG_CCACT">CH1EVCFG.CCACT</A>.<BR>
+- SET_ON_CAPT, see description for SET_ON_CAPT in <A class="xref" href="#CH1EVCFG_CCACT">CH1EVCFG.CCACT</A>.<BR>
+- PER_PULSE_WIDTH_MEAS, see description for PER_PULSE_WIDTH_MEAS in <A class="xref" href="#CH1EVCFG_CCACT">CH1EVCFG.CCACT</A>.<BR>
+<BR>
+If you write a non-enumerated value the behavior is identical to NO_EVENT. The written value is returned when read.<TABLE cellspacing="0" class="LprfEnum">
+<TR class="rowEnumHead">
+<TD class="cellEnumTableHeadCol1">Value</TD>
+<TD class="cellEnumTableHeadCol2">ENUM Name</TD>
+<TD class="cellEnumTableHeadCol3">Description</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x0</TD>
+<TD class="cellEnumTableCol2">AUXIO0</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO0">AUX_EVCTL:EVSTAT0.AUXIO0</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1</TD>
+<TD class="cellEnumTableCol2">AUXIO1</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO1">AUX_EVCTL:EVSTAT0.AUXIO1</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x2</TD>
+<TD class="cellEnumTableCol2">AUXIO2</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO2">AUX_EVCTL:EVSTAT0.AUXIO2</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x3</TD>
+<TD class="cellEnumTableCol2">AUXIO3</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO3">AUX_EVCTL:EVSTAT0.AUXIO3</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x4</TD>
+<TD class="cellEnumTableCol2">AUXIO4</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO4">AUX_EVCTL:EVSTAT0.AUXIO4</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x5</TD>
+<TD class="cellEnumTableCol2">AUXIO5</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO5">AUX_EVCTL:EVSTAT0.AUXIO5</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x6</TD>
+<TD class="cellEnumTableCol2">AUXIO6</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO6">AUX_EVCTL:EVSTAT0.AUXIO6</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x7</TD>
+<TD class="cellEnumTableCol2">AUXIO7</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO7">AUX_EVCTL:EVSTAT0.AUXIO7</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x8</TD>
+<TD class="cellEnumTableCol2">AUXIO8</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO8">AUX_EVCTL:EVSTAT0.AUXIO8</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x9</TD>
+<TD class="cellEnumTableCol2">AUXIO9</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO9">AUX_EVCTL:EVSTAT0.AUXIO9</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xA</TD>
+<TD class="cellEnumTableCol2">AUXIO10</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO10">AUX_EVCTL:EVSTAT0.AUXIO10</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xB</TD>
+<TD class="cellEnumTableCol2">AUXIO11</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO11">AUX_EVCTL:EVSTAT0.AUXIO11</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xC</TD>
+<TD class="cellEnumTableCol2">AUXIO12</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO12">AUX_EVCTL:EVSTAT0.AUXIO12</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xD</TD>
+<TD class="cellEnumTableCol2">AUXIO13</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO13">AUX_EVCTL:EVSTAT0.AUXIO13</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xE</TD>
+<TD class="cellEnumTableCol2">AUXIO14</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO14">AUX_EVCTL:EVSTAT0.AUXIO14</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xF</TD>
+<TD class="cellEnumTableCol2">AUXIO15</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO15">AUX_EVCTL:EVSTAT0.AUXIO15</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x10</TD>
+<TD class="cellEnumTableCol2">AUXIO16</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO16">AUX_EVCTL:EVSTAT1.AUXIO16</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x11</TD>
+<TD class="cellEnumTableCol2">AUXIO17</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO17">AUX_EVCTL:EVSTAT1.AUXIO17</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x12</TD>
+<TD class="cellEnumTableCol2">AUXIO18</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO18">AUX_EVCTL:EVSTAT1.AUXIO18</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x13</TD>
+<TD class="cellEnumTableCol2">AUXIO19</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO19">AUX_EVCTL:EVSTAT1.AUXIO19</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x14</TD>
+<TD class="cellEnumTableCol2">AUXIO20</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO20">AUX_EVCTL:EVSTAT1.AUXIO20</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x15</TD>
+<TD class="cellEnumTableCol2">AUXIO21</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO21">AUX_EVCTL:EVSTAT1.AUXIO21</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x16</TD>
+<TD class="cellEnumTableCol2">AUXIO22</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO22">AUX_EVCTL:EVSTAT1.AUXIO22</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x17</TD>
+<TD class="cellEnumTableCol2">AUXIO23</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO23">AUX_EVCTL:EVSTAT1.AUXIO23</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x18</TD>
+<TD class="cellEnumTableCol2">AUXIO24</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO24">AUX_EVCTL:EVSTAT1.AUXIO24</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x19</TD>
+<TD class="cellEnumTableCol2">AUXIO25</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO25">AUX_EVCTL:EVSTAT1.AUXIO25</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1A</TD>
+<TD class="cellEnumTableCol2">AUXIO26</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO26">AUX_EVCTL:EVSTAT1.AUXIO26</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1B</TD>
+<TD class="cellEnumTableCol2">AUXIO27</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO27">AUX_EVCTL:EVSTAT1.AUXIO27</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1C</TD>
+<TD class="cellEnumTableCol2">AUXIO28</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO28">AUX_EVCTL:EVSTAT1.AUXIO28</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1D</TD>
+<TD class="cellEnumTableCol2">AUXIO29</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO29">AUX_EVCTL:EVSTAT1.AUXIO29</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1E</TD>
+<TD class="cellEnumTableCol2">AUXIO30</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO30">AUX_EVCTL:EVSTAT1.AUXIO30</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1F</TD>
+<TD class="cellEnumTableCol2">AUXIO31</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO31">AUX_EVCTL:EVSTAT1.AUXIO31</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x20</TD>
+<TD class="cellEnumTableCol2">MANUAL_EV</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_MANUAL_EV">AUX_EVCTL:EVSTAT2.MANUAL_EV</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x21</TD>
+<TD class="cellEnumTableCol2">AON_RTC_CH2</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_AON_RTC_CH2">AUX_EVCTL:EVSTAT2.AON_RTC_CH2</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x22</TD>
+<TD class="cellEnumTableCol2">AON_RTC_CH2_DLY</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_AON_RTC_CH2_DLY">AUX_EVCTL:EVSTAT2.AON_RTC_CH2_DLY</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x23</TD>
+<TD class="cellEnumTableCol2">AON_RTC_4KHZ</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_AON_RTC_4KHZ">AUX_EVCTL:EVSTAT2.AON_RTC_4KHZ</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x24</TD>
+<TD class="cellEnumTableCol2">AON_BATMON_BAT_UPD</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_AON_BATMON_BAT_UPD">AUX_EVCTL:EVSTAT2.AON_BATMON_BAT_UPD</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x25</TD>
+<TD class="cellEnumTableCol2">AON_BATMON_TEMP_UPD</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_AON_BATMON_TEMP_UPD">AUX_EVCTL:EVSTAT2.AON_BATMON_TEMP_UPD</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x26</TD>
+<TD class="cellEnumTableCol2">SCLK_LF</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_SCLK_LF">AUX_EVCTL:EVSTAT2.SCLK_LF</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x27</TD>
+<TD class="cellEnumTableCol2">PWR_DWN</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_PWR_DWN">AUX_EVCTL:EVSTAT2.PWR_DWN</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x28</TD>
+<TD class="cellEnumTableCol2">MCU_ACTIVE</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_MCU_ACTIVE">AUX_EVCTL:EVSTAT2.MCU_ACTIVE</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x29</TD>
+<TD class="cellEnumTableCol2">VDDR_RECHARGE</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_VDDR_RECHARGE">AUX_EVCTL:EVSTAT2.VDDR_RECHARGE</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x2A</TD>
+<TD class="cellEnumTableCol2">ACLK_REF</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_ACLK_REF">AUX_EVCTL:EVSTAT2.ACLK_REF</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x2B</TD>
+<TD class="cellEnumTableCol2">MCU_EV</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_MCU_EV">AUX_EVCTL:EVSTAT2.MCU_EV</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x2C</TD>
+<TD class="cellEnumTableCol2">MCU_OBSMUX0</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_MCU_OBSMUX0">AUX_EVCTL:EVSTAT2.MCU_OBSMUX0</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x2D</TD>
+<TD class="cellEnumTableCol2">MCU_OBSMUX1</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_MCU_OBSMUX1">AUX_EVCTL:EVSTAT2.MCU_OBSMUX1</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x2E</TD>
+<TD class="cellEnumTableCol2">AUX_COMPA</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_AUX_COMPA">AUX_EVCTL:EVSTAT2.AUX_COMPA</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x2F</TD>
+<TD class="cellEnumTableCol2">AUX_COMPB</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_AUX_COMPB">AUX_EVCTL:EVSTAT2.AUX_COMPB</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x30</TD>
+<TD class="cellEnumTableCol2">AUX_TIMER2_EV0</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT3_AUX_TIMER2_EV0">AUX_EVCTL:EVSTAT3.AUX_TIMER2_EV0</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x31</TD>
+<TD class="cellEnumTableCol2">AUX_TIMER2_EV1</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT3_AUX_TIMER2_EV1">AUX_EVCTL:EVSTAT3.AUX_TIMER2_EV1</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x32</TD>
+<TD class="cellEnumTableCol2">AUX_TIMER2_EV2</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT3_AUX_TIMER2_EV2">AUX_EVCTL:EVSTAT3.AUX_TIMER2_EV2</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x33</TD>
+<TD class="cellEnumTableCol2">AUX_TIMER2_EV3</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT3_AUX_TIMER2_EV3">AUX_EVCTL:EVSTAT3.AUX_TIMER2_EV3</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x35</TD>
+<TD class="cellEnumTableCol2">AUX_TIMER1_EV</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT3_AUX_TIMER1_EV">AUX_EVCTL:EVSTAT3.AUX_TIMER1_EV</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x36</TD>
+<TD class="cellEnumTableCol2">AUX_TIMER0_EV</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT3_AUX_TIMER0_EV">AUX_EVCTL:EVSTAT3.AUX_TIMER0_EV</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x37</TD>
+<TD class="cellEnumTableCol2">AUX_TDC_DONE</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT3_AUX_TDC_DONE">AUX_EVCTL:EVSTAT3.AUX_TDC_DONE</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x38</TD>
+<TD class="cellEnumTableCol2">AUX_ISRC_RESET_N</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT3_AUX_ISRC_RESET_N">AUX_EVCTL:EVSTAT3.AUX_ISRC_RESET_N</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x39</TD>
+<TD class="cellEnumTableCol2">AUX_ADC_DONE</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT3_AUX_ADC_DONE">AUX_EVCTL:EVSTAT3.AUX_ADC_DONE</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x3A</TD>
+<TD class="cellEnumTableCol2">AUX_ADC_IRQ</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT3_AUX_ADC_IRQ">AUX_EVCTL:EVSTAT3.AUX_ADC_IRQ</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x3B</TD>
+<TD class="cellEnumTableCol2">AUX_ADC_FIFO_ALMOST_FULL</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT3_AUX_ADC_FIFO_ALMOST_FULL">AUX_EVCTL:EVSTAT3.AUX_ADC_FIFO_ALMOST_FULL</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x3C</TD>
+<TD class="cellEnumTableCol2">AUX_ADC_FIFO_NOT_EMPTY</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT3_AUX_ADC_FIFO_NOT_EMPTY">AUX_EVCTL:EVSTAT3.AUX_ADC_FIFO_NOT_EMPTY</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x3D</TD>
+<TD class="cellEnumTableCol2">AUX_SMPH_AUTOTAKE_DONE</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT3_AUX_SMPH_AUTOTAKE_DONE">AUX_EVCTL:EVSTAT3.AUX_SMPH_AUTOTAKE_DONE</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x3F</TD>
+<TD class="cellEnumTableCol2">NO_EVENT</TD>
+<TD class="cellEnumTableCol3">No event.</TD>
+</TR>
+</TABLE>
+</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0b00 0000</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="CH1CCFG_EDGE">0</a>
+</TD>
+<TD class="cellBitfieldCol2">EDGE</TD>
+<TD class="cellBitfieldCol3" colspan="3">Edge configuration.<BR>
+<BR>
+Channel captures counter value at selected edge on signal source selected by <A class="xref" href="#CH1CCFG_CAPT_SRC">CAPT_SRC</A>. See <A class="xref" href="#CH1EVCFG_CCACT">CH1EVCFG.CCACT</A>.<TABLE cellspacing="0" class="LprfEnum">
+<TR class="rowEnumHead">
+<TD class="cellEnumTableHeadCol1">Value</TD>
+<TD class="cellEnumTableHeadCol2">ENUM Name</TD>
+<TD class="cellEnumTableHeadCol3">Description</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x0</TD>
+<TD class="cellEnumTableCol2">FALLING</TD>
+<TD class="cellEnumTableCol3">Capture <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A> at falling edge of <A class="xref" href="#CH1CCFG_CAPT_SRC">CAPT_SRC</A>.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1</TD>
+<TD class="cellEnumTableCol2">RISING</TD>
+<TD class="cellEnumTableCol3">Capture <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A> at rising edge of <A class="xref" href="#CH1CCFG_CAPT_SRC">CAPT_SRC</A>.</TD>
+</TR>
+</TABLE>
+</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+</TABLE>
+<H3 class="mmapRegisterTitle"><A name="CH1PCC"></A><A class="mmapRegisterTitle" href="CPU_MMAP.html">TOP</A>:<A class="mmapRegisterTitle" href="#Top_Tag">AUX_TIMER2</A>:CH1PCC</H3><TABLE cellspacing="0" class="mmapRegisterTable">
+<TR class="row">
+<TD class="cellCol1"><B>Address Offset</B></TD>
+<TD class="cellCol2" colspan="3">0x0000 0098</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Physical Address</TD>
+<TD class="cellCol2">0x400C 3098</TD>
+<TD class="cellCol3">Instance</TD>
+<TD class="cellCol4">0x400C 3098</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Description</TD>
+<TD class="cellCol2" colspan="3">Channel 1 Pipeline Capture Compare</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Type</TD>
+<TD class="cellCol2" colspan="3">RW</TD>
+</TR>
+</TABLE>
+<TABLE cellspacing="0" class="mmapBitfieldTable">
+<TR class="rowTop">
+<TD class="cellTopCol1">Bits</TD>
+<TD class="cellTopCol2">Field Name</TD>
+<TD class="cellTopCol3" colspan="3">Description</TD>
+<TD class="cellTopCol4">Type</TD>
+<TD class="cellTopCol5">Reset</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="CH1PCC_RESERVED16">31:16</a>
+</TD>
+<TD class="cellBitfieldCol2">RESERVED16</TD>
+<TD class="cellBitfieldCol3" colspan="3">Software should not rely on the value of a reserved. Writing any other value than the reset value may result in undefined behavior.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0x0000</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="CH1PCC_VALUE">15:0</a>
+</TD>
+<TD class="cellBitfieldCol2">VALUE</TD>
+<TD class="cellBitfieldCol3" colspan="3">Pipeline Capture Compare value.<BR>
+<BR>
+16-bit user defined pipeline compare value or channel-updated capture value.<BR>
+<BR>
+Compare mode: <BR>
+An update of VALUE will be transferred to <A class="xref" href="#CH1CC_VALUE">CH1CC.VALUE</A> when the next <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A> is zero and <A class="xref" href="#CTL_MODE">CTL.MODE</A> is different from DIS. This is useful for <A class="mmap_legend_link" href="../legend.html#PWM">PWM</A> generation and prevents jitter on the edges of the generated signal.<BR>
+<BR>
+Capture mode: <BR>
+When <A class="xref" href="#CH1EVCFG_CCACT">CH1EVCFG.CCACT</A> equals PER_PULSE_WIDTH_MEAS then VALUE contains the width of the low or high phase of the selected signal. This is specified by <A class="xref" href="#CH1CCFG_EDGE">CH1CCFG.EDGE</A> and <A class="xref" href="#CH1CCFG_CAPT_SRC">CH1CCFG.CAPT_SRC</A>.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0x0000</TD>
+</TR>
+</TABLE>
+<H3 class="mmapRegisterTitle"><A name="CH1CC"></A><A class="mmapRegisterTitle" href="CPU_MMAP.html">TOP</A>:<A class="mmapRegisterTitle" href="#Top_Tag">AUX_TIMER2</A>:CH1CC</H3><TABLE cellspacing="0" class="mmapRegisterTable">
+<TR class="row">
+<TD class="cellCol1"><B>Address Offset</B></TD>
+<TD class="cellCol2" colspan="3">0x0000 009C</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Physical Address</TD>
+<TD class="cellCol2">0x400C 309C</TD>
+<TD class="cellCol3">Instance</TD>
+<TD class="cellCol4">0x400C 309C</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Description</TD>
+<TD class="cellCol2" colspan="3">Channel 1 Capture Compare</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Type</TD>
+<TD class="cellCol2" colspan="3">RW</TD>
+</TR>
+</TABLE>
+<TABLE cellspacing="0" class="mmapBitfieldTable">
+<TR class="rowTop">
+<TD class="cellTopCol1">Bits</TD>
+<TD class="cellTopCol2">Field Name</TD>
+<TD class="cellTopCol3" colspan="3">Description</TD>
+<TD class="cellTopCol4">Type</TD>
+<TD class="cellTopCol5">Reset</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="CH1CC_RESERVED16">31:16</a>
+</TD>
+<TD class="cellBitfieldCol2">RESERVED16</TD>
+<TD class="cellBitfieldCol3" colspan="3">Software should not rely on the value of a reserved. Writing any other value than the reset value may result in undefined behavior.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0x0000</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="CH1CC_VALUE">15:0</a>
+</TD>
+<TD class="cellBitfieldCol2">VALUE</TD>
+<TD class="cellBitfieldCol3" colspan="3">Capture Compare value.<BR>
+<BR>
+16-bit user defined compare value or channel-updated capture value.<BR>
+<BR>
+Compare mode: <BR>
+VALUE is compared against <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A> and an event is generated as specified by <A class="xref" href="#CH1EVCFG_CCACT">CH1EVCFG.CCACT</A> when these are equal. <BR>
+<BR>
+Capture mode: <BR>
+The current counter value is stored in VALUE when a capture event occurs. <A class="xref" href="#CH1EVCFG_CCACT">CH1EVCFG.CCACT</A> determines if VALUE is a signal period or a regular capture value.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0x0000</TD>
+</TR>
+</TABLE>
+<H3 class="mmapRegisterTitle"><A name="CH2EVCFG"></A><A class="mmapRegisterTitle" href="CPU_MMAP.html">TOP</A>:<A class="mmapRegisterTitle" href="#Top_Tag">AUX_TIMER2</A>:CH2EVCFG</H3><TABLE cellspacing="0" class="mmapRegisterTable">
+<TR class="row">
+<TD class="cellCol1"><B>Address Offset</B></TD>
+<TD class="cellCol2" colspan="3">0x0000 00A0</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Physical Address</TD>
+<TD class="cellCol2">0x400C 30A0</TD>
+<TD class="cellCol3">Instance</TD>
+<TD class="cellCol4">0x400C 30A0</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Description</TD>
+<TD class="cellCol2" colspan="3">Channel 2 Event Configuration<BR>
+<BR>
+This register configures channel function and enables event outputs.<BR>
+<BR>
+Each channel has an edge-detection circuit with memory. The circuit is:  <BR>
+ - enabled while <A class="xref" href="#CH2EVCFG_CCACT">CCACT</A> selects a capture function and <A class="xref" href="#CTL_MODE">CTL.MODE</A> is different from DIS. <BR>
+ - flushed while <A class="xref" href="#CH2EVCFG_CCACT">CCACT</A> selects a capture function and you change <A class="xref" href="#CTL_MODE">CTL.MODE</A> from DIS to another mode. <BR>
+ <BR>
+The flush action uses two <A class="xref" href="AUX_SYSIF.html#TIMER2CLKCTL_SRC">AUX_SYSIF:TIMER2CLKCTL.SRC</A> clock periods. It prevents capture events caused by expired signal values stored in the edge-detection circuit.</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Type</TD>
+<TD class="cellCol2" colspan="3">RW</TD>
+</TR>
+</TABLE>
+<TABLE cellspacing="0" class="mmapBitfieldTable">
+<TR class="rowTop">
+<TD class="cellTopCol1">Bits</TD>
+<TD class="cellTopCol2">Field Name</TD>
+<TD class="cellTopCol3" colspan="3">Description</TD>
+<TD class="cellTopCol4">Type</TD>
+<TD class="cellTopCol5">Reset</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="CH2EVCFG_RESERVED8">31:8</a>
+</TD>
+<TD class="cellBitfieldCol2">RESERVED8</TD>
+<TD class="cellBitfieldCol3" colspan="3">Software should not rely on the value of a reserved. Writing any other value than the reset value may result in undefined behavior.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0x00 0000</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="CH2EVCFG_EV3_GEN">7</a>
+</TD>
+<TD class="cellBitfieldCol2">EV3_GEN</TD>
+<TD class="cellBitfieldCol3" colspan="3">Event 3 enable.<BR>
+<BR>
+0: Channel 2 does not control event 3.<BR>
+1: Channel 2 controls event 3.<BR>
+<BR>
+ When 0 &#60; <A class="xref" href="#CH2EVCFG_CCACT">CCACT</A> &#60; 8, EV3_GEN becomes zero after a capture or compare event.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="CH2EVCFG_EV2_GEN">6</a>
+</TD>
+<TD class="cellBitfieldCol2">EV2_GEN</TD>
+<TD class="cellBitfieldCol3" colspan="3">Event 2 enable.<BR>
+<BR>
+0: Channel 2 does not control event 2.<BR>
+1: Channel 2 controls event 2.<BR>
+<BR>
+ When 0 &#60; <A class="xref" href="#CH2EVCFG_CCACT">CCACT</A> &#60; 8, EV2_GEN becomes zero after a capture or compare event.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="CH2EVCFG_EV1_GEN">5</a>
+</TD>
+<TD class="cellBitfieldCol2">EV1_GEN</TD>
+<TD class="cellBitfieldCol3" colspan="3">Event 1 enable.<BR>
+<BR>
+0: Channel 2 does not control event 1.<BR>
+1: Channel 2 controls event 1.<BR>
+<BR>
+ When 0 &#60; <A class="xref" href="#CH2EVCFG_CCACT">CCACT</A> &#60; 8, EV1_GEN becomes zero after a capture or compare event.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="CH2EVCFG_EV0_GEN">4</a>
+</TD>
+<TD class="cellBitfieldCol2">EV0_GEN</TD>
+<TD class="cellBitfieldCol3" colspan="3">Event 0 enable.<BR>
+<BR>
+0: Channel 2 does not control event 0.<BR>
+1: Channel 2 controls event 0.<BR>
+<BR>
+ When 0 &#60; <A class="xref" href="#CH2EVCFG_CCACT">CCACT</A> &#60; 8, EV0_GEN becomes zero after a capture or compare event.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="CH2EVCFG_CCACT">3:0</a>
+</TD>
+<TD class="cellBitfieldCol2">CCACT</TD>
+<TD class="cellBitfieldCol3" colspan="3">Capture-Compare action.<BR>
+<BR>
+Capture-Compare action defines 15 different channel functions that utilize capture, compare, and zero events.<TABLE cellspacing="0" class="LprfEnum">
+<TR class="rowEnumHead">
+<TD class="cellEnumTableHeadCol1">Value</TD>
+<TD class="cellEnumTableHeadCol2">ENUM Name</TD>
+<TD class="cellEnumTableHeadCol3">Description</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x0</TD>
+<TD class="cellEnumTableCol2">DIS</TD>
+<TD class="cellEnumTableCol3">Disable channel.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1</TD>
+<TD class="cellEnumTableCol2">SET_ON_CAPT_DIS</TD>
+<TD class="cellEnumTableCol3">Set on capture, and then disable channel.<BR>
+<BR>
+Channel function sequence: <BR>
+- Set enabled events on capture event and copy <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A> to <A class="xref" href="#CH2CC_VALUE">CH2CC.VALUE</A>.<BR>
+- Disable channel. <BR>
+<BR>
+Primary use scenario is to select this function before you start the timer.<BR>
+Follow these steps if you need to select this function while <A class="xref" href="#CTL_MODE">CTL.MODE</A> is different from DIS: <BR>
+ - Set to SET_ON_CAPT with no event enable.<BR>
+ - Configure <A class="xref" href="#CH2CCFG">CH2CCFG</A> (optional).<BR>
+ - Wait for three timer clock periods as defined in <A class="xref" href="#PRECFG">PRECFG</A> before you set to SET_ON_CAPT_DIS. Event enable is optional.<BR>
+<BR>
+These steps prevent capture events caused by expired signal values in edge-detection circuit.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x2</TD>
+<TD class="cellEnumTableCol2">CLR_ON_0_TGL_ON_CMP_DIS</TD>
+<TD class="cellEnumTableCol3">Clear on zero, toggle on compare, and then disable channel.<BR>
+<BR>
+Channel function sequence: <BR>
+- Clear enabled events when <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A> = 0.<BR>
+- Toggle enabled events when <A class="xref" href="#CH2CC_VALUE">CH2CC.VALUE</A> = <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A>.<BR>
+- Disable channel.<BR>
+<BR>
+Enabled events are set when <A class="xref" href="#CH2CC_VALUE">CH2CC.VALUE</A> = 0 and <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A> = 0.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x3</TD>
+<TD class="cellEnumTableCol2">SET_ON_0_TGL_ON_CMP_DIS</TD>
+<TD class="cellEnumTableCol3">Set on zero, toggle on compare, and then disable channel.<BR>
+<BR>
+Channel function sequence: <BR>
+- Set enabled events when <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A> = 0.<BR>
+- Toggle enabled events when <A class="xref" href="#CH2CC_VALUE">CH2CC.VALUE</A> = <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A>.<BR>
+- Disable channel.<BR>
+<BR>
+Enabled events are cleared when <A class="xref" href="#CH2CC_VALUE">CH2CC.VALUE</A> = 0 and <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A> = 0.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x4</TD>
+<TD class="cellEnumTableCol2">CLR_ON_CMP_DIS</TD>
+<TD class="cellEnumTableCol3">Clear on compare, and then disable channel.<BR>
+<BR>
+Channel function sequence: <BR>
+- Clear enabled events when <A class="xref" href="#CH2CC_VALUE">CH2CC.VALUE</A> = <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A>.<BR>
+- Disable channel.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x5</TD>
+<TD class="cellEnumTableCol2">SET_ON_CMP_DIS</TD>
+<TD class="cellEnumTableCol3">Set on compare, and then disable channel.<BR>
+<BR>
+Channel function sequence: <BR>
+- Set enabled events when <A class="xref" href="#CH2CC_VALUE">CH2CC.VALUE</A> = <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A>.<BR>
+- Disable channel.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x6</TD>
+<TD class="cellEnumTableCol2">TGL_ON_CMP_DIS</TD>
+<TD class="cellEnumTableCol3">Toggle on compare, and then disable channel.<BR>
+<BR>
+Channel function sequence: <BR>
+- Toggle enabled events when <A class="xref" href="#CH2CC_VALUE">CH2CC.VALUE</A> = <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A>.<BR>
+- Disable channel.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x7</TD>
+<TD class="cellEnumTableCol2">PULSE_ON_CMP_DIS</TD>
+<TD class="cellEnumTableCol3">Pulse on compare, and then disable channel.<BR>
+<BR>
+Channel function sequence: <BR>
+- Pulse enabled events when <A class="xref" href="#CH2CC_VALUE">CH2CC.VALUE</A> = <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A>.<BR>
+- Disable channel.<BR>
+<BR>
+ The event is high for two timer clock periods.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x8</TD>
+<TD class="cellEnumTableCol2">PER_PULSE_WIDTH_MEAS</TD>
+<TD class="cellEnumTableCol3">Period and pulse width measurement.<BR>
+<BR>
+Continuously capture period and pulse width of the signal selected by <A class="xref" href="#CH2CCFG_CAPT_SRC">CH2CCFG.CAPT_SRC</A> relative to the signal edge given by <A class="xref" href="#CH2CCFG_EDGE">CH2CCFG.EDGE</A>. <BR>
+<BR>
+Set enabled events when <A class="xref" href="#CH2CC_VALUE">CH2CC.VALUE</A> contains signal period and <A class="xref" href="#CH2PCC_VALUE">CH2PCC.VALUE</A> contains signal pulse width. <BR>
+<BR>
+Notes: <BR>
+- Make sure that you configure <A class="xref" href="#CH2CCFG_CAPT_SRC">CH2CCFG.CAPT_SRC</A> and CCACT when <A class="xref" href="#CTL_MODE">CTL.MODE</A> equals DIS, then set <A class="xref" href="#CTL_MODE">CTL.MODE</A> to UP_ONCE or UP_PER. <BR>
+- The counter restarts in the selected timer mode when <A class="xref" href="#CH2CC_VALUE">CH2CC.VALUE</A> contains the signal period.<BR>
+- If more than one channel uses this function, the channels will perform this function one at a time. The channel with lowest number has priority and performs the function first. Next measurement starts when current measurement completes successfully or times out. A timeout occurs when counter equals target. <BR>
+- If you want to observe a timeout event configure another channel to SET_ON_CAPT.<BR>
+<BR>
+Signal property requirements:<BR>
+- Signal Period &#62;= 2 * ( 1 + <A class="xref" href="#PRECFG_CLKDIV">PRECFG.CLKDIV</A> ) * timer clock period.<BR>
+- Signal Period &#60;= 65535 * (1 + <A class="xref" href="#PRECFG_CLKDIV">PRECFG.CLKDIV</A> ) * timer clock period.<BR>
+- Signal low and high phase &#62;= (1 + <A class="xref" href="#PRECFG_CLKDIV">PRECFG.CLKDIV</A> ) * timer clock period.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x9</TD>
+<TD class="cellEnumTableCol2">SET_ON_CAPT</TD>
+<TD class="cellEnumTableCol3">Set on capture repeatedly.<BR>
+<BR>
+Channel function sequence: <BR>
+- Set enabled events on capture event and copy <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A> to <A class="xref" href="#CH2CC_VALUE">CH2CC.VALUE</A>.<BR>
+<BR>
+Primary use scenario is to select this function before you start the timer.<BR>
+Follow these steps if you need to select this function while <A class="xref" href="#CTL_MODE">CTL.MODE</A> is different from DIS: <BR>
+ - Select this function with no event enable.<BR>
+ - Configure <A class="xref" href="#CH2CCFG">CH2CCFG</A> (optional).<BR>
+ - Wait for three timer clock periods as defined in <A class="xref" href="#PRECFG">PRECFG</A> before you enable events.<BR>
+<BR>
+These steps prevent capture events caused by expired signal values in edge-detection circuit.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xA</TD>
+<TD class="cellEnumTableCol2">CLR_ON_0_TGL_ON_CMP</TD>
+<TD class="cellEnumTableCol3">Clear on zero, toggle on compare repeatedly.<BR>
+ <BR>
+Channel function sequence: <BR>
+- Clear enabled events when <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A> = 0.<BR>
+- Toggle enabled events when <A class="xref" href="#CH2CC_VALUE">CH2CC.VALUE</A> = <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A>.<BR>
+<BR>
+Set <A class="xref" href="#CTL_MODE">CTL.MODE</A> to UPDWN_PER for center-aligned PWM generation. Duty cycle is given by: <BR>
+<BR>
+When <A class="xref" href="#CH2CC_VALUE">CH2CC.VALUE</A> &#60;= <A class="xref" href="#TARGET_VALUE">TARGET.VALUE</A>: <BR>
+   Duty cycle = 1 - ( <A class="xref" href="#CH2CC_VALUE">CH2CC.VALUE</A> / <A class="xref" href="#TARGET_VALUE">TARGET.VALUE</A> ).<BR>
+<BR>
+When <A class="xref" href="#CH2CC_VALUE">CH2CC.VALUE</A> &#62; <A class="xref" href="#TARGET_VALUE">TARGET.VALUE</A>: <BR>
+   Duty cycle = 0.<BR>
+<BR>
+Enabled events are set when <A class="xref" href="#CH2CC_VALUE">CH2CC.VALUE</A> = 0 and <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A> = 0.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xB</TD>
+<TD class="cellEnumTableCol2">SET_ON_0_TGL_ON_CMP</TD>
+<TD class="cellEnumTableCol3">Set on zero, toggle on compare repeatedly.<BR>
+<BR>
+Channel function sequence: <BR>
+- Set enabled events when <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A> = 0.<BR>
+- Toggle enabled events when <A class="xref" href="#CH2CC_VALUE">CH2CC.VALUE</A> = <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A>.<BR>
+<BR>
+Set <A class="xref" href="#CTL_MODE">CTL.MODE</A> to UP_PER for edge-aligned PWM generation. Duty cycle is given by: <BR>
+<BR>
+When <A class="xref" href="#CH2CC_VALUE">CH2CC.VALUE</A> &#60;= <A class="xref" href="#TARGET_VALUE">TARGET.VALUE</A>: <BR>
+   Duty cycle = <A class="xref" href="#CH2CC_VALUE">CH2CC.VALUE</A> / ( <A class="xref" href="#TARGET_VALUE">TARGET.VALUE</A> + 1 ).<BR>
+<BR>
+When <A class="xref" href="#CH2CC_VALUE">CH2CC.VALUE</A> &#62; <A class="xref" href="#TARGET_VALUE">TARGET.VALUE</A>: <BR>
+   Duty cycle = 1.<BR>
+<BR>
+Enabled events are cleared when <A class="xref" href="#CH2CC_VALUE">CH2CC.VALUE</A> = 0 and <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A> = 0.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xC</TD>
+<TD class="cellEnumTableCol2">CLR_ON_CMP</TD>
+<TD class="cellEnumTableCol3">Clear on compare repeatedly.<BR>
+<BR>
+Channel function sequence: <BR>
+- Clear enabled events  when <A class="xref" href="#CH2CC_VALUE">CH2CC.VALUE</A> = <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A>.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xD</TD>
+<TD class="cellEnumTableCol2">SET_ON_CMP</TD>
+<TD class="cellEnumTableCol3">Set on compare repeatedly.<BR>
+<BR>
+Channel function sequence: <BR>
+- Set enabled events  when <A class="xref" href="#CH2CC_VALUE">CH2CC.VALUE</A> = <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A>.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xE</TD>
+<TD class="cellEnumTableCol2">TGL_ON_CMP</TD>
+<TD class="cellEnumTableCol3">Toggle on compare repeatedly.<BR>
+<BR>
+Channel function sequence: <BR>
+- Toggle enabled events  when <A class="xref" href="#CH2CC_VALUE">CH2CC.VALUE</A> = <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A>.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xF</TD>
+<TD class="cellEnumTableCol2">PULSE_ON_CMP</TD>
+<TD class="cellEnumTableCol3">Pulse on compare repeatedly. <BR>
+<BR>
+Channel function sequence: <BR>
+- Pulse enabled events when <A class="xref" href="#CH2CC_VALUE">CH2CC.VALUE</A> = <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A>.<BR>
+<BR>
+ The event is high for two timer clock periods.</TD>
+</TR>
+</TABLE>
+</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0x0</TD>
+</TR>
+</TABLE>
+<H3 class="mmapRegisterTitle"><A name="CH2CCFG"></A><A class="mmapRegisterTitle" href="CPU_MMAP.html">TOP</A>:<A class="mmapRegisterTitle" href="#Top_Tag">AUX_TIMER2</A>:CH2CCFG</H3><TABLE cellspacing="0" class="mmapRegisterTable">
+<TR class="row">
+<TD class="cellCol1"><B>Address Offset</B></TD>
+<TD class="cellCol2" colspan="3">0x0000 00A4</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Physical Address</TD>
+<TD class="cellCol2">0x400C 30A4</TD>
+<TD class="cellCol3">Instance</TD>
+<TD class="cellCol4">0x400C 30A4</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Description</TD>
+<TD class="cellCol2" colspan="3">Channel 2 Capture Configuration</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Type</TD>
+<TD class="cellCol2" colspan="3">RW</TD>
+</TR>
+</TABLE>
+<TABLE cellspacing="0" class="mmapBitfieldTable">
+<TR class="rowTop">
+<TD class="cellTopCol1">Bits</TD>
+<TD class="cellTopCol2">Field Name</TD>
+<TD class="cellTopCol3" colspan="3">Description</TD>
+<TD class="cellTopCol4">Type</TD>
+<TD class="cellTopCol5">Reset</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="CH2CCFG_RESERVED7">31:7</a>
+</TD>
+<TD class="cellBitfieldCol2">RESERVED7</TD>
+<TD class="cellBitfieldCol3" colspan="3">Software should not rely on the value of a reserved. Writing any other value than the reset value may result in undefined behavior.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0b0 0000 0000 0000 0000 0000 0000</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="CH2CCFG_CAPT_SRC">6:1</a>
+</TD>
+<TD class="cellBitfieldCol2">CAPT_SRC</TD>
+<TD class="cellBitfieldCol3" colspan="3">Select capture signal source from the asynchronous <A class="mmap_legend_link" href="../legend.html#AUX">AUX</A> event bus. <BR>
+<BR>
+The selected signal enters the edge-detection circuit. False capture events can occur when:  <BR>
+- the edge-detection circuit contains expired signal samples and the circuit is enabled without flush as described in <A class="xref" href="#CH2EVCFG">CH2EVCFG</A><BR>
+- this register is reconfigured while <A class="xref" href="#CTL_MODE">CTL.MODE</A> is different from DIS.<BR>
+<BR>
+You can avoid false capture events. When wanted channel function is: <BR>
+- SET_ON_CAPT_DIS, see description for SET_ON_CAPT_DIS in <A class="xref" href="#CH2EVCFG_CCACT">CH2EVCFG.CCACT</A>.<BR>
+- SET_ON_CAPT, see description for SET_ON_CAPT in <A class="xref" href="#CH2EVCFG_CCACT">CH2EVCFG.CCACT</A>.<BR>
+- PER_PULSE_WIDTH_MEAS, see description for PER_PULSE_WIDTH_MEAS in <A class="xref" href="#CH2EVCFG_CCACT">CH2EVCFG.CCACT</A>.<BR>
+<BR>
+If you write a non-enumerated value the behavior is identical to NO_EVENT. The written value is returned when read.<TABLE cellspacing="0" class="LprfEnum">
+<TR class="rowEnumHead">
+<TD class="cellEnumTableHeadCol1">Value</TD>
+<TD class="cellEnumTableHeadCol2">ENUM Name</TD>
+<TD class="cellEnumTableHeadCol3">Description</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x0</TD>
+<TD class="cellEnumTableCol2">AUXIO0</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO0">AUX_EVCTL:EVSTAT0.AUXIO0</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1</TD>
+<TD class="cellEnumTableCol2">AUXIO1</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO1">AUX_EVCTL:EVSTAT0.AUXIO1</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x2</TD>
+<TD class="cellEnumTableCol2">AUXIO2</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO2">AUX_EVCTL:EVSTAT0.AUXIO2</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x3</TD>
+<TD class="cellEnumTableCol2">AUXIO3</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO3">AUX_EVCTL:EVSTAT0.AUXIO3</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x4</TD>
+<TD class="cellEnumTableCol2">AUXIO4</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO4">AUX_EVCTL:EVSTAT0.AUXIO4</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x5</TD>
+<TD class="cellEnumTableCol2">AUXIO5</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO5">AUX_EVCTL:EVSTAT0.AUXIO5</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x6</TD>
+<TD class="cellEnumTableCol2">AUXIO6</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO6">AUX_EVCTL:EVSTAT0.AUXIO6</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x7</TD>
+<TD class="cellEnumTableCol2">AUXIO7</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO7">AUX_EVCTL:EVSTAT0.AUXIO7</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x8</TD>
+<TD class="cellEnumTableCol2">AUXIO8</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO8">AUX_EVCTL:EVSTAT0.AUXIO8</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x9</TD>
+<TD class="cellEnumTableCol2">AUXIO9</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO9">AUX_EVCTL:EVSTAT0.AUXIO9</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xA</TD>
+<TD class="cellEnumTableCol2">AUXIO10</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO10">AUX_EVCTL:EVSTAT0.AUXIO10</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xB</TD>
+<TD class="cellEnumTableCol2">AUXIO11</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO11">AUX_EVCTL:EVSTAT0.AUXIO11</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xC</TD>
+<TD class="cellEnumTableCol2">AUXIO12</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO12">AUX_EVCTL:EVSTAT0.AUXIO12</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xD</TD>
+<TD class="cellEnumTableCol2">AUXIO13</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO13">AUX_EVCTL:EVSTAT0.AUXIO13</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xE</TD>
+<TD class="cellEnumTableCol2">AUXIO14</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO14">AUX_EVCTL:EVSTAT0.AUXIO14</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xF</TD>
+<TD class="cellEnumTableCol2">AUXIO15</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO15">AUX_EVCTL:EVSTAT0.AUXIO15</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x10</TD>
+<TD class="cellEnumTableCol2">AUXIO16</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO16">AUX_EVCTL:EVSTAT1.AUXIO16</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x11</TD>
+<TD class="cellEnumTableCol2">AUXIO17</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO17">AUX_EVCTL:EVSTAT1.AUXIO17</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x12</TD>
+<TD class="cellEnumTableCol2">AUXIO18</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO18">AUX_EVCTL:EVSTAT1.AUXIO18</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x13</TD>
+<TD class="cellEnumTableCol2">AUXIO19</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO19">AUX_EVCTL:EVSTAT1.AUXIO19</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x14</TD>
+<TD class="cellEnumTableCol2">AUXIO20</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO20">AUX_EVCTL:EVSTAT1.AUXIO20</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x15</TD>
+<TD class="cellEnumTableCol2">AUXIO21</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO21">AUX_EVCTL:EVSTAT1.AUXIO21</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x16</TD>
+<TD class="cellEnumTableCol2">AUXIO22</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO22">AUX_EVCTL:EVSTAT1.AUXIO22</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x17</TD>
+<TD class="cellEnumTableCol2">AUXIO23</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO23">AUX_EVCTL:EVSTAT1.AUXIO23</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x18</TD>
+<TD class="cellEnumTableCol2">AUXIO24</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO24">AUX_EVCTL:EVSTAT1.AUXIO24</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x19</TD>
+<TD class="cellEnumTableCol2">AUXIO25</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO25">AUX_EVCTL:EVSTAT1.AUXIO25</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1A</TD>
+<TD class="cellEnumTableCol2">AUXIO26</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO26">AUX_EVCTL:EVSTAT1.AUXIO26</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1B</TD>
+<TD class="cellEnumTableCol2">AUXIO27</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO27">AUX_EVCTL:EVSTAT1.AUXIO27</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1C</TD>
+<TD class="cellEnumTableCol2">AUXIO28</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO28">AUX_EVCTL:EVSTAT1.AUXIO28</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1D</TD>
+<TD class="cellEnumTableCol2">AUXIO29</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO29">AUX_EVCTL:EVSTAT1.AUXIO29</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1E</TD>
+<TD class="cellEnumTableCol2">AUXIO30</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO30">AUX_EVCTL:EVSTAT1.AUXIO30</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1F</TD>
+<TD class="cellEnumTableCol2">AUXIO31</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO31">AUX_EVCTL:EVSTAT1.AUXIO31</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x20</TD>
+<TD class="cellEnumTableCol2">MANUAL_EV</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_MANUAL_EV">AUX_EVCTL:EVSTAT2.MANUAL_EV</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x21</TD>
+<TD class="cellEnumTableCol2">AON_RTC_CH2</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_AON_RTC_CH2">AUX_EVCTL:EVSTAT2.AON_RTC_CH2</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x22</TD>
+<TD class="cellEnumTableCol2">AON_RTC_CH2_DLY</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_AON_RTC_CH2_DLY">AUX_EVCTL:EVSTAT2.AON_RTC_CH2_DLY</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x23</TD>
+<TD class="cellEnumTableCol2">AON_RTC_4KHZ</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_AON_RTC_4KHZ">AUX_EVCTL:EVSTAT2.AON_RTC_4KHZ</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x24</TD>
+<TD class="cellEnumTableCol2">AON_BATMON_BAT_UPD</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_AON_BATMON_BAT_UPD">AUX_EVCTL:EVSTAT2.AON_BATMON_BAT_UPD</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x25</TD>
+<TD class="cellEnumTableCol2">AON_BATMON_TEMP_UPD</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_AON_BATMON_TEMP_UPD">AUX_EVCTL:EVSTAT2.AON_BATMON_TEMP_UPD</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x26</TD>
+<TD class="cellEnumTableCol2">SCLK_LF</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_SCLK_LF">AUX_EVCTL:EVSTAT2.SCLK_LF</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x27</TD>
+<TD class="cellEnumTableCol2">PWR_DWN</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_PWR_DWN">AUX_EVCTL:EVSTAT2.PWR_DWN</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x28</TD>
+<TD class="cellEnumTableCol2">MCU_ACTIVE</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_MCU_ACTIVE">AUX_EVCTL:EVSTAT2.MCU_ACTIVE</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x29</TD>
+<TD class="cellEnumTableCol2">VDDR_RECHARGE</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_VDDR_RECHARGE">AUX_EVCTL:EVSTAT2.VDDR_RECHARGE</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x2A</TD>
+<TD class="cellEnumTableCol2">ACLK_REF</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_ACLK_REF">AUX_EVCTL:EVSTAT2.ACLK_REF</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x2B</TD>
+<TD class="cellEnumTableCol2">MCU_EV</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_MCU_EV">AUX_EVCTL:EVSTAT2.MCU_EV</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x2C</TD>
+<TD class="cellEnumTableCol2">MCU_OBSMUX0</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_MCU_OBSMUX0">AUX_EVCTL:EVSTAT2.MCU_OBSMUX0</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x2D</TD>
+<TD class="cellEnumTableCol2">MCU_OBSMUX1</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_MCU_OBSMUX1">AUX_EVCTL:EVSTAT2.MCU_OBSMUX1</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x2E</TD>
+<TD class="cellEnumTableCol2">AUX_COMPA</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_AUX_COMPA">AUX_EVCTL:EVSTAT2.AUX_COMPA</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x2F</TD>
+<TD class="cellEnumTableCol2">AUX_COMPB</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_AUX_COMPB">AUX_EVCTL:EVSTAT2.AUX_COMPB</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x30</TD>
+<TD class="cellEnumTableCol2">AUX_TIMER2_EV0</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT3_AUX_TIMER2_EV0">AUX_EVCTL:EVSTAT3.AUX_TIMER2_EV0</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x31</TD>
+<TD class="cellEnumTableCol2">AUX_TIMER2_EV1</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT3_AUX_TIMER2_EV1">AUX_EVCTL:EVSTAT3.AUX_TIMER2_EV1</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x32</TD>
+<TD class="cellEnumTableCol2">AUX_TIMER2_EV2</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT3_AUX_TIMER2_EV2">AUX_EVCTL:EVSTAT3.AUX_TIMER2_EV2</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x33</TD>
+<TD class="cellEnumTableCol2">AUX_TIMER2_EV3</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT3_AUX_TIMER2_EV3">AUX_EVCTL:EVSTAT3.AUX_TIMER2_EV3</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x35</TD>
+<TD class="cellEnumTableCol2">AUX_TIMER1_EV</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT3_AUX_TIMER1_EV">AUX_EVCTL:EVSTAT3.AUX_TIMER1_EV</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x36</TD>
+<TD class="cellEnumTableCol2">AUX_TIMER0_EV</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT3_AUX_TIMER0_EV">AUX_EVCTL:EVSTAT3.AUX_TIMER0_EV</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x37</TD>
+<TD class="cellEnumTableCol2">AUX_TDC_DONE</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT3_AUX_TDC_DONE">AUX_EVCTL:EVSTAT3.AUX_TDC_DONE</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x38</TD>
+<TD class="cellEnumTableCol2">AUX_ISRC_RESET_N</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT3_AUX_ISRC_RESET_N">AUX_EVCTL:EVSTAT3.AUX_ISRC_RESET_N</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x39</TD>
+<TD class="cellEnumTableCol2">AUX_ADC_DONE</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT3_AUX_ADC_DONE">AUX_EVCTL:EVSTAT3.AUX_ADC_DONE</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x3A</TD>
+<TD class="cellEnumTableCol2">AUX_ADC_IRQ</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT3_AUX_ADC_IRQ">AUX_EVCTL:EVSTAT3.AUX_ADC_IRQ</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x3B</TD>
+<TD class="cellEnumTableCol2">AUX_ADC_FIFO_ALMOST_FULL</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT3_AUX_ADC_FIFO_ALMOST_FULL">AUX_EVCTL:EVSTAT3.AUX_ADC_FIFO_ALMOST_FULL</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x3C</TD>
+<TD class="cellEnumTableCol2">AUX_ADC_FIFO_NOT_EMPTY</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT3_AUX_ADC_FIFO_NOT_EMPTY">AUX_EVCTL:EVSTAT3.AUX_ADC_FIFO_NOT_EMPTY</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x3D</TD>
+<TD class="cellEnumTableCol2">AUX_SMPH_AUTOTAKE_DONE</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT3_AUX_SMPH_AUTOTAKE_DONE">AUX_EVCTL:EVSTAT3.AUX_SMPH_AUTOTAKE_DONE</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x3F</TD>
+<TD class="cellEnumTableCol2">NO_EVENT</TD>
+<TD class="cellEnumTableCol3">No event.</TD>
+</TR>
+</TABLE>
+</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0b00 0000</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="CH2CCFG_EDGE">0</a>
+</TD>
+<TD class="cellBitfieldCol2">EDGE</TD>
+<TD class="cellBitfieldCol3" colspan="3">Edge configuration.<BR>
+<BR>
+Channel captures counter value at selected edge on signal source selected by <A class="xref" href="#CH2CCFG_CAPT_SRC">CAPT_SRC</A>. See <A class="xref" href="#CH2EVCFG_CCACT">CH2EVCFG.CCACT</A>.<TABLE cellspacing="0" class="LprfEnum">
+<TR class="rowEnumHead">
+<TD class="cellEnumTableHeadCol1">Value</TD>
+<TD class="cellEnumTableHeadCol2">ENUM Name</TD>
+<TD class="cellEnumTableHeadCol3">Description</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x0</TD>
+<TD class="cellEnumTableCol2">FALLING</TD>
+<TD class="cellEnumTableCol3">Capture <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A> at falling edge of <A class="xref" href="#CH2CCFG_CAPT_SRC">CAPT_SRC</A>.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1</TD>
+<TD class="cellEnumTableCol2">RISING</TD>
+<TD class="cellEnumTableCol3">Capture <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A> at rising edge of <A class="xref" href="#CH2CCFG_CAPT_SRC">CAPT_SRC</A>.</TD>
+</TR>
+</TABLE>
+</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+</TABLE>
+<H3 class="mmapRegisterTitle"><A name="CH2PCC"></A><A class="mmapRegisterTitle" href="CPU_MMAP.html">TOP</A>:<A class="mmapRegisterTitle" href="#Top_Tag">AUX_TIMER2</A>:CH2PCC</H3><TABLE cellspacing="0" class="mmapRegisterTable">
+<TR class="row">
+<TD class="cellCol1"><B>Address Offset</B></TD>
+<TD class="cellCol2" colspan="3">0x0000 00A8</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Physical Address</TD>
+<TD class="cellCol2">0x400C 30A8</TD>
+<TD class="cellCol3">Instance</TD>
+<TD class="cellCol4">0x400C 30A8</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Description</TD>
+<TD class="cellCol2" colspan="3">Channel 2 Pipeline Capture Compare</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Type</TD>
+<TD class="cellCol2" colspan="3">RW</TD>
+</TR>
+</TABLE>
+<TABLE cellspacing="0" class="mmapBitfieldTable">
+<TR class="rowTop">
+<TD class="cellTopCol1">Bits</TD>
+<TD class="cellTopCol2">Field Name</TD>
+<TD class="cellTopCol3" colspan="3">Description</TD>
+<TD class="cellTopCol4">Type</TD>
+<TD class="cellTopCol5">Reset</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="CH2PCC_RESERVED16">31:16</a>
+</TD>
+<TD class="cellBitfieldCol2">RESERVED16</TD>
+<TD class="cellBitfieldCol3" colspan="3">Software should not rely on the value of a reserved. Writing any other value than the reset value may result in undefined behavior.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0x0000</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="CH2PCC_VALUE">15:0</a>
+</TD>
+<TD class="cellBitfieldCol2">VALUE</TD>
+<TD class="cellBitfieldCol3" colspan="3">Pipeline Capture Compare value.<BR>
+<BR>
+16-bit user defined pipeline compare value or channel-updated capture value.<BR>
+<BR>
+Compare mode: <BR>
+An update of VALUE will be transferred to <A class="xref" href="#CH2CC_VALUE">CH2CC.VALUE</A> when the next <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A> is zero and <A class="xref" href="#CTL_MODE">CTL.MODE</A> is different from DIS. This is useful for <A class="mmap_legend_link" href="../legend.html#PWM">PWM</A> generation and prevents jitter on the edges of the generated signal.<BR>
+<BR>
+Capture mode: <BR>
+When <A class="xref" href="#CH2EVCFG_CCACT">CH2EVCFG.CCACT</A> equals PER_PULSE_WIDTH_MEAS then VALUE contains the width of the low or high phase of the selected signal. This is specified by <A class="xref" href="#CH2CCFG_EDGE">CH2CCFG.EDGE</A> and <A class="xref" href="#CH2CCFG_CAPT_SRC">CH2CCFG.CAPT_SRC</A>.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0x0000</TD>
+</TR>
+</TABLE>
+<H3 class="mmapRegisterTitle"><A name="CH2CC"></A><A class="mmapRegisterTitle" href="CPU_MMAP.html">TOP</A>:<A class="mmapRegisterTitle" href="#Top_Tag">AUX_TIMER2</A>:CH2CC</H3><TABLE cellspacing="0" class="mmapRegisterTable">
+<TR class="row">
+<TD class="cellCol1"><B>Address Offset</B></TD>
+<TD class="cellCol2" colspan="3">0x0000 00AC</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Physical Address</TD>
+<TD class="cellCol2">0x400C 30AC</TD>
+<TD class="cellCol3">Instance</TD>
+<TD class="cellCol4">0x400C 30AC</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Description</TD>
+<TD class="cellCol2" colspan="3">Channel 2 Capture Compare</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Type</TD>
+<TD class="cellCol2" colspan="3">RW</TD>
+</TR>
+</TABLE>
+<TABLE cellspacing="0" class="mmapBitfieldTable">
+<TR class="rowTop">
+<TD class="cellTopCol1">Bits</TD>
+<TD class="cellTopCol2">Field Name</TD>
+<TD class="cellTopCol3" colspan="3">Description</TD>
+<TD class="cellTopCol4">Type</TD>
+<TD class="cellTopCol5">Reset</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="CH2CC_RESERVED16">31:16</a>
+</TD>
+<TD class="cellBitfieldCol2">RESERVED16</TD>
+<TD class="cellBitfieldCol3" colspan="3">Software should not rely on the value of a reserved. Writing any other value than the reset value may result in undefined behavior.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0x0000</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="CH2CC_VALUE">15:0</a>
+</TD>
+<TD class="cellBitfieldCol2">VALUE</TD>
+<TD class="cellBitfieldCol3" colspan="3">Capture Compare value.<BR>
+<BR>
+16-bit user defined compare value or channel-updated capture value.<BR>
+<BR>
+Compare mode: <BR>
+VALUE is compared against <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A> and an event is generated as specified by <A class="xref" href="#CH2EVCFG_CCACT">CH2EVCFG.CCACT</A> when these are equal. <BR>
+<BR>
+Capture mode: <BR>
+The current counter value is stored in VALUE when a capture event occurs. <A class="xref" href="#CH2EVCFG_CCACT">CH2EVCFG.CCACT</A> determines if VALUE is a signal period or a regular capture value.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0x0000</TD>
+</TR>
+</TABLE>
+<H3 class="mmapRegisterTitle"><A name="CH3EVCFG"></A><A class="mmapRegisterTitle" href="CPU_MMAP.html">TOP</A>:<A class="mmapRegisterTitle" href="#Top_Tag">AUX_TIMER2</A>:CH3EVCFG</H3><TABLE cellspacing="0" class="mmapRegisterTable">
+<TR class="row">
+<TD class="cellCol1"><B>Address Offset</B></TD>
+<TD class="cellCol2" colspan="3">0x0000 00B0</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Physical Address</TD>
+<TD class="cellCol2">0x400C 30B0</TD>
+<TD class="cellCol3">Instance</TD>
+<TD class="cellCol4">0x400C 30B0</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Description</TD>
+<TD class="cellCol2" colspan="3">Channel 3 Event Configuration<BR>
+<BR>
+This register configures channel function and enables event outputs.<BR>
+<BR>
+Each channel has an edge-detection circuit with memory. The circuit is:  <BR>
+ - enabled while <A class="xref" href="#CH3EVCFG_CCACT">CCACT</A> selects a capture function and <A class="xref" href="#CTL_MODE">CTL.MODE</A> is different from DIS. <BR>
+ - flushed while <A class="xref" href="#CH3EVCFG_CCACT">CCACT</A> selects a capture function and you change <A class="xref" href="#CTL_MODE">CTL.MODE</A> from DIS to another mode. <BR>
+ <BR>
+The flush action uses two <A class="xref" href="AUX_SYSIF.html#TIMER2CLKCTL_SRC">AUX_SYSIF:TIMER2CLKCTL.SRC</A> clock periods. It prevents capture events caused by expired signal values stored in the edge-detection circuit.</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Type</TD>
+<TD class="cellCol2" colspan="3">RW</TD>
+</TR>
+</TABLE>
+<TABLE cellspacing="0" class="mmapBitfieldTable">
+<TR class="rowTop">
+<TD class="cellTopCol1">Bits</TD>
+<TD class="cellTopCol2">Field Name</TD>
+<TD class="cellTopCol3" colspan="3">Description</TD>
+<TD class="cellTopCol4">Type</TD>
+<TD class="cellTopCol5">Reset</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="CH3EVCFG_RESERVED8">31:8</a>
+</TD>
+<TD class="cellBitfieldCol2">RESERVED8</TD>
+<TD class="cellBitfieldCol3" colspan="3">Software should not rely on the value of a reserved. Writing any other value than the reset value may result in undefined behavior.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0x00 0000</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="CH3EVCFG_EV3_GEN">7</a>
+</TD>
+<TD class="cellBitfieldCol2">EV3_GEN</TD>
+<TD class="cellBitfieldCol3" colspan="3">Event 3 enable.<BR>
+<BR>
+0: Channel 3 does not control event 3.<BR>
+1: Channel 3 controls event 3.<BR>
+<BR>
+ When 0 &#60; <A class="xref" href="#CH3EVCFG_CCACT">CCACT</A> &#60; 8, EV3_GEN becomes zero after a capture or compare event.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="CH3EVCFG_EV2_GEN">6</a>
+</TD>
+<TD class="cellBitfieldCol2">EV2_GEN</TD>
+<TD class="cellBitfieldCol3" colspan="3">Event 2 enable.<BR>
+<BR>
+0: Channel 3 does not control event 2.<BR>
+1: Channel 3 controls event 2.<BR>
+<BR>
+ When 0 &#60; <A class="xref" href="#CH3EVCFG_CCACT">CCACT</A> &#60; 8, EV2_GEN becomes zero after a capture or compare event.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="CH3EVCFG_EV1_GEN">5</a>
+</TD>
+<TD class="cellBitfieldCol2">EV1_GEN</TD>
+<TD class="cellBitfieldCol3" colspan="3">Event 1 enable.<BR>
+<BR>
+0: Channel 3 does not control event 1.<BR>
+1: Channel 3 controls event 1.<BR>
+<BR>
+ When 0 &#60; <A class="xref" href="#CH3EVCFG_CCACT">CCACT</A> &#60; 8, EV1_GEN becomes zero after a capture or compare event.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="CH3EVCFG_EV0_GEN">4</a>
+</TD>
+<TD class="cellBitfieldCol2">EV0_GEN</TD>
+<TD class="cellBitfieldCol3" colspan="3">Event 0 enable.<BR>
+<BR>
+0: Channel 3 does not control event 0.<BR>
+1: Channel 3 controls event 0.<BR>
+<BR>
+ When 0 &#60; <A class="xref" href="#CH3EVCFG_CCACT">CCACT</A> &#60; 8, EV0_GEN becomes zero after a capture or compare event.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="CH3EVCFG_CCACT">3:0</a>
+</TD>
+<TD class="cellBitfieldCol2">CCACT</TD>
+<TD class="cellBitfieldCol3" colspan="3">Capture-Compare action.<BR>
+<BR>
+Capture-Compare action defines 15 different channel functions that utilize capture, compare, and zero events.<TABLE cellspacing="0" class="LprfEnum">
+<TR class="rowEnumHead">
+<TD class="cellEnumTableHeadCol1">Value</TD>
+<TD class="cellEnumTableHeadCol2">ENUM Name</TD>
+<TD class="cellEnumTableHeadCol3">Description</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x0</TD>
+<TD class="cellEnumTableCol2">DIS</TD>
+<TD class="cellEnumTableCol3">Disable channel.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1</TD>
+<TD class="cellEnumTableCol2">SET_ON_CAPT_DIS</TD>
+<TD class="cellEnumTableCol3">Set on capture, and then disable channel.<BR>
+<BR>
+Channel function sequence: <BR>
+- Set enabled events on capture event and copy <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A> to <A class="xref" href="#CH3CC_VALUE">CH3CC.VALUE</A>.<BR>
+- Disable channel. <BR>
+<BR>
+Primary use scenario is to select this function before you start the timer.<BR>
+Follow these steps if you need to select this function while <A class="xref" href="#CTL_MODE">CTL.MODE</A> is different from DIS: <BR>
+ - Set CCACT to SET_ON_CAPT with no event enable.<BR>
+ - Configure <A class="xref" href="#CH3CCFG">CH3CCFG</A> (optional).<BR>
+ - Wait for three timer clock periods as defined in <A class="xref" href="#PRECFG">PRECFG</A> before you set CCACT to SET_ON_CAPT_DIS.  Event enable is optional.<BR>
+<BR>
+These steps prevent capture events caused by expired signal values in edge-detection circuit.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x2</TD>
+<TD class="cellEnumTableCol2">CLR_ON_0_TGL_ON_CMP_DIS</TD>
+<TD class="cellEnumTableCol3">Clear on zero, toggle on compare, and then disable channel.<BR>
+<BR>
+Channel function sequence: <BR>
+- Clear enabled events when <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A> = 0.<BR>
+- Toggle enabled events when <A class="xref" href="#CH3CC_VALUE">CH3CC.VALUE</A> = <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A>.<BR>
+- Disable channel.<BR>
+<BR>
+Enabled events are set when <A class="xref" href="#CH3CC_VALUE">CH3CC.VALUE</A> = 0 and <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A> = 0.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x3</TD>
+<TD class="cellEnumTableCol2">SET_ON_0_TGL_ON_CMP_DIS</TD>
+<TD class="cellEnumTableCol3">Set on zero, toggle on compare, and then disable channel.<BR>
+<BR>
+Channel function sequence: <BR>
+- Set enabled events when <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A> = 0.<BR>
+- Toggle enabled events when <A class="xref" href="#CH3CC_VALUE">CH3CC.VALUE</A> = <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A>.<BR>
+- Disable channel.<BR>
+<BR>
+Enabled events are cleared when <A class="xref" href="#CH3CC_VALUE">CH3CC.VALUE</A> = 0 and <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A> = 0.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x4</TD>
+<TD class="cellEnumTableCol2">CLR_ON_CMP_DIS</TD>
+<TD class="cellEnumTableCol3">Clear on compare, and then disable channel.<BR>
+<BR>
+Channel function sequence: <BR>
+- Clear enabled events when <A class="xref" href="#CH3CC_VALUE">CH3CC.VALUE</A> = <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A>.<BR>
+- Disable channel.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x5</TD>
+<TD class="cellEnumTableCol2">SET_ON_CMP_DIS</TD>
+<TD class="cellEnumTableCol3">Set on compare, and then disable channel.<BR>
+<BR>
+Channel function sequence: <BR>
+- Set enabled events when <A class="xref" href="#CH3CC_VALUE">CH3CC.VALUE</A> = <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A>.<BR>
+- Disable channel.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x6</TD>
+<TD class="cellEnumTableCol2">TGL_ON_CMP_DIS</TD>
+<TD class="cellEnumTableCol3">Toggle on compare, and then disable channel.<BR>
+<BR>
+Channel function sequence: <BR>
+- Toggle enabled events when <A class="xref" href="#CH3CC_VALUE">CH3CC.VALUE</A> = <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A>.<BR>
+- Disable channel.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x7</TD>
+<TD class="cellEnumTableCol2">PULSE_ON_CMP_DIS</TD>
+<TD class="cellEnumTableCol3">Pulse on compare, and then disable channel.<BR>
+<BR>
+Channel function sequence: <BR>
+- Pulse enabled events when <A class="xref" href="#CH3CC_VALUE">CH3CC.VALUE</A> = <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A>.<BR>
+- Disable channel.<BR>
+<BR>
+ The event is high for two timer clock periods.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x8</TD>
+<TD class="cellEnumTableCol2">PER_PULSE_WIDTH_MEAS</TD>
+<TD class="cellEnumTableCol3">Period and pulse width measurement.<BR>
+<BR>
+Continuously capture period and pulse width of the signal selected by <A class="xref" href="#CH3CCFG_CAPT_SRC">CH3CCFG.CAPT_SRC</A> relative to the signal edge given by <A class="xref" href="#CH3CCFG_EDGE">CH3CCFG.EDGE</A>. <BR>
+<BR>
+Set enabled events when <A class="xref" href="#CH3CC_VALUE">CH3CC.VALUE</A> contains signal period and <A class="xref" href="#CH3PCC_VALUE">CH3PCC.VALUE</A> contains signal pulse width. <BR>
+<BR>
+Notes: <BR>
+- Make sure that you configure <A class="xref" href="#CH3CCFG_CAPT_SRC">CH3CCFG.CAPT_SRC</A> and CCACT when <A class="xref" href="#CTL_MODE">CTL.MODE</A> equals DIS, then set <A class="xref" href="#CTL_MODE">CTL.MODE</A> to UP_ONCE or UP_PER. <BR>
+- The counter restarts in the selected timer mode when <A class="xref" href="#CH3CC_VALUE">CH3CC.VALUE</A> contains the signal period.<BR>
+- If more than one channel uses this function, the channels will perform this function one at a time. The channel with lowest number has priority and performs the function first. Next measurement starts when current measurement completes successfully or times out. A timeout occurs when counter equals target. <BR>
+- If you want to observe a timeout event configure another channel to SET_ON_CAPT.<BR>
+<BR>
+Signal property requirements:<BR>
+- Signal Period &#62;= 2 * ( 1 + <A class="xref" href="#PRECFG_CLKDIV">PRECFG.CLKDIV</A> ) * timer clock period.<BR>
+- Signal Period &#60;= 65535 * (1 + <A class="xref" href="#PRECFG_CLKDIV">PRECFG.CLKDIV</A> ) * timer clock period.<BR>
+- Signal low and high phase &#62;= (1 + <A class="xref" href="#PRECFG_CLKDIV">PRECFG.CLKDIV</A> ) * timer clock period.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x9</TD>
+<TD class="cellEnumTableCol2">SET_ON_CAPT</TD>
+<TD class="cellEnumTableCol3">Set on capture repeatedly.<BR>
+<BR>
+Channel function sequence: <BR>
+- Set enabled events on capture event and copy <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A> to <A class="xref" href="#CH3CC_VALUE">CH3CC.VALUE</A>.<BR>
+<BR>
+Primary use scenario is to select this function before you start the timer.<BR>
+Follow these steps if you need to select this function while <A class="xref" href="#CTL_MODE">CTL.MODE</A> is different from DIS: <BR>
+ - Select this function with no event enable.<BR>
+ - Configure <A class="xref" href="#CH3CCFG">CH3CCFG</A> (optional).<BR>
+ - Wait for three timer clock periods as defined in <A class="xref" href="#PRECFG">PRECFG</A> before you enable events.<BR>
+<BR>
+These steps prevent capture events caused by expired signal values in edge-detection circuit.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xA</TD>
+<TD class="cellEnumTableCol2">CLR_ON_0_TGL_ON_CMP</TD>
+<TD class="cellEnumTableCol3">Clear on zero, toggle on compare repeatedly.<BR>
+ <BR>
+Channel function sequence: <BR>
+- Clear enabled events when <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A> = 0.<BR>
+- Toggle enabled events when <A class="xref" href="#CH3CC_VALUE">CH3CC.VALUE</A> = <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A>.<BR>
+<BR>
+Set <A class="xref" href="#CTL_MODE">CTL.MODE</A> to UPDWN_PER for center-aligned PWM generation. Duty cycle is given by: <BR>
+<BR>
+When <A class="xref" href="#CH3CC_VALUE">CH3CC.VALUE</A> &#60;= <A class="xref" href="#TARGET_VALUE">TARGET.VALUE</A>: <BR>
+   Duty cycle = 1 - ( <A class="xref" href="#CH3CC_VALUE">CH3CC.VALUE</A> / <A class="xref" href="#TARGET_VALUE">TARGET.VALUE</A> ).<BR>
+<BR>
+When <A class="xref" href="#CH3CC_VALUE">CH3CC.VALUE</A> &#62; <A class="xref" href="#TARGET_VALUE">TARGET.VALUE</A>: <BR>
+   Duty cycle = 0.<BR>
+<BR>
+Enabled events are set when <A class="xref" href="#CH3CC_VALUE">CH3CC.VALUE</A> = 0 and <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A> = 0.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xB</TD>
+<TD class="cellEnumTableCol2">SET_ON_0_TGL_ON_CMP</TD>
+<TD class="cellEnumTableCol3">Set on zero, toggle on compare repeatedly.<BR>
+<BR>
+Channel function sequence: <BR>
+- Set enabled events when <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A> = 0.<BR>
+- Toggle enabled events when <A class="xref" href="#CH3CC_VALUE">CH3CC.VALUE</A> = <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A>.<BR>
+<BR>
+Set <A class="xref" href="#CTL_MODE">CTL.MODE</A> to UP_PER for edge-aligned PWM generation. Duty cycle is given by: <BR>
+<BR>
+When <A class="xref" href="#CH3CC_VALUE">CH3CC.VALUE</A> &#60;= <A class="xref" href="#TARGET_VALUE">TARGET.VALUE</A>: <BR>
+   Duty cycle = <A class="xref" href="#CH3CC_VALUE">CH3CC.VALUE</A> / ( <A class="xref" href="#TARGET_VALUE">TARGET.VALUE</A> + 1 ).<BR>
+<BR>
+When <A class="xref" href="#CH3CC_VALUE">CH3CC.VALUE</A> &#62; <A class="xref" href="#TARGET_VALUE">TARGET.VALUE</A>: <BR>
+   Duty cycle = 1.<BR>
+<BR>
+Enabled events are cleared when <A class="xref" href="#CH3CC_VALUE">CH3CC.VALUE</A> = 0 and <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A> = 0.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xC</TD>
+<TD class="cellEnumTableCol2">CLR_ON_CMP</TD>
+<TD class="cellEnumTableCol3">Clear on compare repeatedly.<BR>
+<BR>
+Channel function sequence: <BR>
+- Clear enabled events  when <A class="xref" href="#CH3CC_VALUE">CH3CC.VALUE</A> = <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A>.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xD</TD>
+<TD class="cellEnumTableCol2">SET_ON_CMP</TD>
+<TD class="cellEnumTableCol3">Set on compare repeatedly.<BR>
+<BR>
+Channel function sequence: <BR>
+- Set enabled events  when <A class="xref" href="#CH3CC_VALUE">CH3CC.VALUE</A> = <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A>.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xE</TD>
+<TD class="cellEnumTableCol2">TGL_ON_CMP</TD>
+<TD class="cellEnumTableCol3">Toggle on compare repeatedly.<BR>
+<BR>
+Channel function sequence: <BR>
+- Toggle enabled events  when <A class="xref" href="#CH3CC_VALUE">CH3CC.VALUE</A> = <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A>.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xF</TD>
+<TD class="cellEnumTableCol2">PULSE_ON_CMP</TD>
+<TD class="cellEnumTableCol3">Pulse on compare repeatedly. <BR>
+<BR>
+Channel function sequence: <BR>
+- Pulse enabled events when <A class="xref" href="#CH3CC_VALUE">CH3CC.VALUE</A> = <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A>.<BR>
+<BR>
+ The event is high for two timer clock periods.</TD>
+</TR>
+</TABLE>
+</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0x0</TD>
+</TR>
+</TABLE>
+<H3 class="mmapRegisterTitle"><A name="CH3CCFG"></A><A class="mmapRegisterTitle" href="CPU_MMAP.html">TOP</A>:<A class="mmapRegisterTitle" href="#Top_Tag">AUX_TIMER2</A>:CH3CCFG</H3><TABLE cellspacing="0" class="mmapRegisterTable">
+<TR class="row">
+<TD class="cellCol1"><B>Address Offset</B></TD>
+<TD class="cellCol2" colspan="3">0x0000 00B4</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Physical Address</TD>
+<TD class="cellCol2">0x400C 30B4</TD>
+<TD class="cellCol3">Instance</TD>
+<TD class="cellCol4">0x400C 30B4</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Description</TD>
+<TD class="cellCol2" colspan="3">Channel 3 Capture Configuration</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Type</TD>
+<TD class="cellCol2" colspan="3">RW</TD>
+</TR>
+</TABLE>
+<TABLE cellspacing="0" class="mmapBitfieldTable">
+<TR class="rowTop">
+<TD class="cellTopCol1">Bits</TD>
+<TD class="cellTopCol2">Field Name</TD>
+<TD class="cellTopCol3" colspan="3">Description</TD>
+<TD class="cellTopCol4">Type</TD>
+<TD class="cellTopCol5">Reset</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="CH3CCFG_RESERVED7">31:7</a>
+</TD>
+<TD class="cellBitfieldCol2">RESERVED7</TD>
+<TD class="cellBitfieldCol3" colspan="3">Software should not rely on the value of a reserved. Writing any other value than the reset value may result in undefined behavior.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0b0 0000 0000 0000 0000 0000 0000</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="CH3CCFG_CAPT_SRC">6:1</a>
+</TD>
+<TD class="cellBitfieldCol2">CAPT_SRC</TD>
+<TD class="cellBitfieldCol3" colspan="3">Select capture signal source from the asynchronous <A class="mmap_legend_link" href="../legend.html#AUX">AUX</A> event bus. <BR>
+<BR>
+The selected signal enters the edge-detection circuit. False capture events can occur when:  <BR>
+- the edge-detection circuit contains expired signal samples and the circuit is enabled without flush as described in <A class="xref" href="#CH3EVCFG">CH3EVCFG</A><BR>
+- this register is reconfigured while <A class="xref" href="#CTL_MODE">CTL.MODE</A> is different from DIS.<BR>
+<BR>
+You can avoid false capture events. When wanted channel function: <BR>
+- SET_ON_CAPT_DIS, see description for SET_ON_CAPT_DIS in <A class="xref" href="#CH3EVCFG_CCACT">CH3EVCFG.CCACT</A>.<BR>
+- SET_ON_CAPT, see description for SET_ON_CAPT in <A class="xref" href="#CH3EVCFG_CCACT">CH3EVCFG.CCACT</A>.<BR>
+- PER_PULSE_WIDTH_MEAS, see description for PER_PULSE_WIDTH_MEAS in <A class="xref" href="#CH3EVCFG_CCACT">CH3EVCFG.CCACT</A>.<BR>
+<BR>
+If you write a non-enumerated value the behavior is identical to NO_EVENT. The written value is returned when read.<TABLE cellspacing="0" class="LprfEnum">
+<TR class="rowEnumHead">
+<TD class="cellEnumTableHeadCol1">Value</TD>
+<TD class="cellEnumTableHeadCol2">ENUM Name</TD>
+<TD class="cellEnumTableHeadCol3">Description</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x0</TD>
+<TD class="cellEnumTableCol2">AUXIO0</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO0">AUX_EVCTL:EVSTAT0.AUXIO0</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1</TD>
+<TD class="cellEnumTableCol2">AUXIO1</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO1">AUX_EVCTL:EVSTAT0.AUXIO1</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x2</TD>
+<TD class="cellEnumTableCol2">AUXIO2</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO2">AUX_EVCTL:EVSTAT0.AUXIO2</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x3</TD>
+<TD class="cellEnumTableCol2">AUXIO3</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO3">AUX_EVCTL:EVSTAT0.AUXIO3</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x4</TD>
+<TD class="cellEnumTableCol2">AUXIO4</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO4">AUX_EVCTL:EVSTAT0.AUXIO4</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x5</TD>
+<TD class="cellEnumTableCol2">AUXIO5</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO5">AUX_EVCTL:EVSTAT0.AUXIO5</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x6</TD>
+<TD class="cellEnumTableCol2">AUXIO6</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO6">AUX_EVCTL:EVSTAT0.AUXIO6</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x7</TD>
+<TD class="cellEnumTableCol2">AUXIO7</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO7">AUX_EVCTL:EVSTAT0.AUXIO7</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x8</TD>
+<TD class="cellEnumTableCol2">AUXIO8</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO8">AUX_EVCTL:EVSTAT0.AUXIO8</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x9</TD>
+<TD class="cellEnumTableCol2">AUXIO9</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO9">AUX_EVCTL:EVSTAT0.AUXIO9</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xA</TD>
+<TD class="cellEnumTableCol2">AUXIO10</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO10">AUX_EVCTL:EVSTAT0.AUXIO10</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xB</TD>
+<TD class="cellEnumTableCol2">AUXIO11</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO11">AUX_EVCTL:EVSTAT0.AUXIO11</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xC</TD>
+<TD class="cellEnumTableCol2">AUXIO12</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO12">AUX_EVCTL:EVSTAT0.AUXIO12</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xD</TD>
+<TD class="cellEnumTableCol2">AUXIO13</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO13">AUX_EVCTL:EVSTAT0.AUXIO13</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xE</TD>
+<TD class="cellEnumTableCol2">AUXIO14</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO14">AUX_EVCTL:EVSTAT0.AUXIO14</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xF</TD>
+<TD class="cellEnumTableCol2">AUXIO15</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO15">AUX_EVCTL:EVSTAT0.AUXIO15</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x10</TD>
+<TD class="cellEnumTableCol2">AUXIO16</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO16">AUX_EVCTL:EVSTAT1.AUXIO16</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x11</TD>
+<TD class="cellEnumTableCol2">AUXIO17</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO17">AUX_EVCTL:EVSTAT1.AUXIO17</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x12</TD>
+<TD class="cellEnumTableCol2">AUXIO18</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO18">AUX_EVCTL:EVSTAT1.AUXIO18</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x13</TD>
+<TD class="cellEnumTableCol2">AUXIO19</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO19">AUX_EVCTL:EVSTAT1.AUXIO19</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x14</TD>
+<TD class="cellEnumTableCol2">AUXIO20</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO20">AUX_EVCTL:EVSTAT1.AUXIO20</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x15</TD>
+<TD class="cellEnumTableCol2">AUXIO21</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO21">AUX_EVCTL:EVSTAT1.AUXIO21</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x16</TD>
+<TD class="cellEnumTableCol2">AUXIO22</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO22">AUX_EVCTL:EVSTAT1.AUXIO22</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x17</TD>
+<TD class="cellEnumTableCol2">AUXIO23</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO23">AUX_EVCTL:EVSTAT1.AUXIO23</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x18</TD>
+<TD class="cellEnumTableCol2">AUXIO24</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO24">AUX_EVCTL:EVSTAT1.AUXIO24</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x19</TD>
+<TD class="cellEnumTableCol2">AUXIO25</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO25">AUX_EVCTL:EVSTAT1.AUXIO25</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1A</TD>
+<TD class="cellEnumTableCol2">AUXIO26</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO26">AUX_EVCTL:EVSTAT1.AUXIO26</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1B</TD>
+<TD class="cellEnumTableCol2">AUXIO27</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO27">AUX_EVCTL:EVSTAT1.AUXIO27</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1C</TD>
+<TD class="cellEnumTableCol2">AUXIO28</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO28">AUX_EVCTL:EVSTAT1.AUXIO28</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1D</TD>
+<TD class="cellEnumTableCol2">AUXIO29</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO29">AUX_EVCTL:EVSTAT1.AUXIO29</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1E</TD>
+<TD class="cellEnumTableCol2">AUXIO30</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO30">AUX_EVCTL:EVSTAT1.AUXIO30</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1F</TD>
+<TD class="cellEnumTableCol2">AUXIO31</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO31">AUX_EVCTL:EVSTAT1.AUXIO31</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x20</TD>
+<TD class="cellEnumTableCol2">MANUAL_EV</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_MANUAL_EV">AUX_EVCTL:EVSTAT2.MANUAL_EV</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x21</TD>
+<TD class="cellEnumTableCol2">AON_RTC_CH2</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_AON_RTC_CH2">AUX_EVCTL:EVSTAT2.AON_RTC_CH2</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x22</TD>
+<TD class="cellEnumTableCol2">AON_RTC_CH2_DLY</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_AON_RTC_CH2_DLY">AUX_EVCTL:EVSTAT2.AON_RTC_CH2_DLY</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x23</TD>
+<TD class="cellEnumTableCol2">AON_RTC_4KHZ</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_AON_RTC_4KHZ">AUX_EVCTL:EVSTAT2.AON_RTC_4KHZ</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x24</TD>
+<TD class="cellEnumTableCol2">AON_BATMON_BAT_UPD</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_AON_BATMON_BAT_UPD">AUX_EVCTL:EVSTAT2.AON_BATMON_BAT_UPD</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x25</TD>
+<TD class="cellEnumTableCol2">AON_BATMON_TEMP_UPD</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_AON_BATMON_TEMP_UPD">AUX_EVCTL:EVSTAT2.AON_BATMON_TEMP_UPD</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x26</TD>
+<TD class="cellEnumTableCol2">SCLK_LF</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_SCLK_LF">AUX_EVCTL:EVSTAT2.SCLK_LF</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x27</TD>
+<TD class="cellEnumTableCol2">PWR_DWN</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_PWR_DWN">AUX_EVCTL:EVSTAT2.PWR_DWN</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x28</TD>
+<TD class="cellEnumTableCol2">MCU_ACTIVE</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_MCU_ACTIVE">AUX_EVCTL:EVSTAT2.MCU_ACTIVE</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x29</TD>
+<TD class="cellEnumTableCol2">VDDR_RECHARGE</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_VDDR_RECHARGE">AUX_EVCTL:EVSTAT2.VDDR_RECHARGE</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x2A</TD>
+<TD class="cellEnumTableCol2">ACLK_REF</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_ACLK_REF">AUX_EVCTL:EVSTAT2.ACLK_REF</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x2B</TD>
+<TD class="cellEnumTableCol2">MCU_EV</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_MCU_EV">AUX_EVCTL:EVSTAT2.MCU_EV</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x2C</TD>
+<TD class="cellEnumTableCol2">MCU_OBSMUX0</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_MCU_OBSMUX0">AUX_EVCTL:EVSTAT2.MCU_OBSMUX0</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x2D</TD>
+<TD class="cellEnumTableCol2">MCU_OBSMUX1</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_MCU_OBSMUX1">AUX_EVCTL:EVSTAT2.MCU_OBSMUX1</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x2E</TD>
+<TD class="cellEnumTableCol2">AUX_COMPA</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_AUX_COMPA">AUX_EVCTL:EVSTAT2.AUX_COMPA</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x2F</TD>
+<TD class="cellEnumTableCol2">AUX_COMPB</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_AUX_COMPB">AUX_EVCTL:EVSTAT2.AUX_COMPB</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x30</TD>
+<TD class="cellEnumTableCol2">AUX_TIMER2_EV0</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT3_AUX_TIMER2_EV0">AUX_EVCTL:EVSTAT3.AUX_TIMER2_EV0</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x31</TD>
+<TD class="cellEnumTableCol2">AUX_TIMER2_EV1</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT3_AUX_TIMER2_EV1">AUX_EVCTL:EVSTAT3.AUX_TIMER2_EV1</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x32</TD>
+<TD class="cellEnumTableCol2">AUX_TIMER2_EV2</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT3_AUX_TIMER2_EV2">AUX_EVCTL:EVSTAT3.AUX_TIMER2_EV2</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x33</TD>
+<TD class="cellEnumTableCol2">AUX_TIMER2_EV3</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT3_AUX_TIMER2_EV3">AUX_EVCTL:EVSTAT3.AUX_TIMER2_EV3</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x35</TD>
+<TD class="cellEnumTableCol2">AUX_TIMER1_EV</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT3_AUX_TIMER1_EV">AUX_EVCTL:EVSTAT3.AUX_TIMER1_EV</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x36</TD>
+<TD class="cellEnumTableCol2">AUX_TIMER0_EV</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT3_AUX_TIMER0_EV">AUX_EVCTL:EVSTAT3.AUX_TIMER0_EV</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x37</TD>
+<TD class="cellEnumTableCol2">AUX_TDC_DONE</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT3_AUX_TDC_DONE">AUX_EVCTL:EVSTAT3.AUX_TDC_DONE</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x38</TD>
+<TD class="cellEnumTableCol2">AUX_ISRC_RESET_N</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT3_AUX_ISRC_RESET_N">AUX_EVCTL:EVSTAT3.AUX_ISRC_RESET_N</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x39</TD>
+<TD class="cellEnumTableCol2">AUX_ADC_DONE</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT3_AUX_ADC_DONE">AUX_EVCTL:EVSTAT3.AUX_ADC_DONE</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x3A</TD>
+<TD class="cellEnumTableCol2">AUX_ADC_IRQ</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT3_AUX_ADC_IRQ">AUX_EVCTL:EVSTAT3.AUX_ADC_IRQ</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x3B</TD>
+<TD class="cellEnumTableCol2">AUX_ADC_FIFO_ALMOST_FULL</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT3_AUX_ADC_FIFO_ALMOST_FULL">AUX_EVCTL:EVSTAT3.AUX_ADC_FIFO_ALMOST_FULL</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x3C</TD>
+<TD class="cellEnumTableCol2">AUX_ADC_FIFO_NOT_EMPTY</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT3_AUX_ADC_FIFO_NOT_EMPTY">AUX_EVCTL:EVSTAT3.AUX_ADC_FIFO_NOT_EMPTY</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x3D</TD>
+<TD class="cellEnumTableCol2">AUX_SMPH_AUTOTAKE_DONE</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT3_AUX_SMPH_AUTOTAKE_DONE">AUX_EVCTL:EVSTAT3.AUX_SMPH_AUTOTAKE_DONE</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x3F</TD>
+<TD class="cellEnumTableCol2">NO_EVENT</TD>
+<TD class="cellEnumTableCol3">No event.</TD>
+</TR>
+</TABLE>
+</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0b00 0000</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="CH3CCFG_EDGE">0</a>
+</TD>
+<TD class="cellBitfieldCol2">EDGE</TD>
+<TD class="cellBitfieldCol3" colspan="3">Edge configuration.<BR>
+<BR>
+Channel captures counter value at selected edge on signal source selected by <A class="xref" href="#CH3CCFG_CAPT_SRC">CAPT_SRC</A>. See <A class="xref" href="#CH3EVCFG_CCACT">CH3EVCFG.CCACT</A>.<TABLE cellspacing="0" class="LprfEnum">
+<TR class="rowEnumHead">
+<TD class="cellEnumTableHeadCol1">Value</TD>
+<TD class="cellEnumTableHeadCol2">ENUM Name</TD>
+<TD class="cellEnumTableHeadCol3">Description</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x0</TD>
+<TD class="cellEnumTableCol2">FALLING</TD>
+<TD class="cellEnumTableCol3">Capture <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A> at falling edge of <A class="xref" href="#CH3CCFG_CAPT_SRC">CAPT_SRC</A>.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1</TD>
+<TD class="cellEnumTableCol2">RISING</TD>
+<TD class="cellEnumTableCol3">Capture <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A> at rising edge of <A class="xref" href="#CH3CCFG_CAPT_SRC">CAPT_SRC</A>.</TD>
+</TR>
+</TABLE>
+</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+</TABLE>
+<H3 class="mmapRegisterTitle"><A name="CH3PCC"></A><A class="mmapRegisterTitle" href="CPU_MMAP.html">TOP</A>:<A class="mmapRegisterTitle" href="#Top_Tag">AUX_TIMER2</A>:CH3PCC</H3><TABLE cellspacing="0" class="mmapRegisterTable">
+<TR class="row">
+<TD class="cellCol1"><B>Address Offset</B></TD>
+<TD class="cellCol2" colspan="3">0x0000 00B8</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Physical Address</TD>
+<TD class="cellCol2">0x400C 30B8</TD>
+<TD class="cellCol3">Instance</TD>
+<TD class="cellCol4">0x400C 30B8</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Description</TD>
+<TD class="cellCol2" colspan="3">Channel 3 Pipeline Capture Compare</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Type</TD>
+<TD class="cellCol2" colspan="3">RW</TD>
+</TR>
+</TABLE>
+<TABLE cellspacing="0" class="mmapBitfieldTable">
+<TR class="rowTop">
+<TD class="cellTopCol1">Bits</TD>
+<TD class="cellTopCol2">Field Name</TD>
+<TD class="cellTopCol3" colspan="3">Description</TD>
+<TD class="cellTopCol4">Type</TD>
+<TD class="cellTopCol5">Reset</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="CH3PCC_RESERVED16">31:16</a>
+</TD>
+<TD class="cellBitfieldCol2">RESERVED16</TD>
+<TD class="cellBitfieldCol3" colspan="3">Software should not rely on the value of a reserved. Writing any other value than the reset value may result in undefined behavior.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0x0000</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="CH3PCC_VALUE">15:0</a>
+</TD>
+<TD class="cellBitfieldCol2">VALUE</TD>
+<TD class="cellBitfieldCol3" colspan="3">Pipeline Capture Compare value.<BR>
+<BR>
+16-bit user defined pipeline compare value or channel-updated capture value.<BR>
+<BR>
+Compare mode: <BR>
+An update of VALUE will be transferred to <A class="xref" href="#CH3CC_VALUE">CH3CC.VALUE</A> when the next <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A> is zero and <A class="xref" href="#CTL_MODE">CTL.MODE</A> is different from DIS. This is useful for <A class="mmap_legend_link" href="../legend.html#PWM">PWM</A> generation and prevents jitter on the edges of the generated signal.<BR>
+<BR>
+Capture mode: <BR>
+When <A class="xref" href="#CH3EVCFG_CCACT">CH3EVCFG.CCACT</A> equals PER_PULSE_WIDTH_MEAS then VALUE contains the width of the low or high phase of the selected signal. This is specified by <A class="xref" href="#CH3CCFG_EDGE">CH3CCFG.EDGE</A> and <A class="xref" href="#CH3CCFG_CAPT_SRC">CH3CCFG.CAPT_SRC</A>.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0x0000</TD>
+</TR>
+</TABLE>
+<H3 class="mmapRegisterTitle"><A name="CH3CC"></A><A class="mmapRegisterTitle" href="CPU_MMAP.html">TOP</A>:<A class="mmapRegisterTitle" href="#Top_Tag">AUX_TIMER2</A>:CH3CC</H3><TABLE cellspacing="0" class="mmapRegisterTable">
+<TR class="row">
+<TD class="cellCol1"><B>Address Offset</B></TD>
+<TD class="cellCol2" colspan="3">0x0000 00BC</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Physical Address</TD>
+<TD class="cellCol2">0x400C 30BC</TD>
+<TD class="cellCol3">Instance</TD>
+<TD class="cellCol4">0x400C 30BC</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Description</TD>
+<TD class="cellCol2" colspan="3">Channel 3 Capture Compare</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Type</TD>
+<TD class="cellCol2" colspan="3">RW</TD>
+</TR>
+</TABLE>
+<TABLE cellspacing="0" class="mmapBitfieldTable">
+<TR class="rowTop">
+<TD class="cellTopCol1">Bits</TD>
+<TD class="cellTopCol2">Field Name</TD>
+<TD class="cellTopCol3" colspan="3">Description</TD>
+<TD class="cellTopCol4">Type</TD>
+<TD class="cellTopCol5">Reset</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="CH3CC_RESERVED16">31:16</a>
+</TD>
+<TD class="cellBitfieldCol2">RESERVED16</TD>
+<TD class="cellBitfieldCol3" colspan="3">Software should not rely on the value of a reserved. Writing any other value than the reset value may result in undefined behavior.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0x0000</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="CH3CC_VALUE">15:0</a>
+</TD>
+<TD class="cellBitfieldCol2">VALUE</TD>
+<TD class="cellBitfieldCol3" colspan="3">Capture Compare value.<BR>
+<BR>
+16-bit user defined compare value or channel-updated capture value.<BR>
+<BR>
+Compare mode: <BR>
+VALUE is compared against <A class="xref" href="#CNTR_VALUE">CNTR.VALUE</A> and an event is generated as specified by <A class="xref" href="#CH3EVCFG_CCACT">CH3EVCFG.CCACT</A> when these are equal. <BR>
+<BR>
+Capture mode: <BR>
+The current counter value is stored in VALUE when a capture event occurs. <A class="xref" href="#CH3EVCFG_CCACT">CH3EVCFG.CCACT</A> determines if VALUE is a signal period or a regular capture value.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0x0000</TD>
+</TR>
+</TABLE>
+<BR>
+<BR>
+<hr><table class="footer"><tr><td>&copy; 2015 - 2016. Texas Instruments | All Rights Reserved</td></tr></table>
+</BODY>
+</HTML>

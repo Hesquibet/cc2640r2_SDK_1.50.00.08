@@ -1,0 +1,659 @@
+.. _sec-oad-appendix:
+
+Appendix
+--------
+
+This section will cover various tutorials that are helpful throughout the OAD
+process. It is not intended to be read sequentially, but instead referenced from
+other sections.
+
+.. _sec-generating-oad-linker-file:
+
+Generating Linker Command File for OAD Off-chip
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Understanding of :ref:`sec-oad-concepts`, particularly what are
+the :ref:`sec-concepts-linker` is recommended.
+
+This section describes how to convert a standard SDK
+linker command file to be compatible with the TI OAD Ecosystem for both
+CCS and IAR linkers.
+
+Modifications for CCS (cc26xx_app.cmd)
+""""""""""""""""""""""""""""""""""""""
+
+  #. Allocation of Flash for Metadata Vector and App Start
+
+      ``FLASH_APP_BASE`` defines where the linker begin to place read and execute
+      application code and data because of the following section:
+
+        .. code-block:: c
+          :linenos:
+
+          /* System memory map */
+          MEMORY
+          {
+              /* EDITOR'S NOTE:
+               * the FLASH and SRAM lengths can be changed by defining
+               * ICALL_STACK0_START or ICALL_RAM0_START in
+               * Properties->ARM Linker->Advanced Options->Command File Preprocessing.
+               */
+
+              /* Application stored in and executes from internal flash */
+              /* Flash Size 128 KB */
+              #ifdef ICALL_STACK0_START
+                  FLASH (RX) : origin = FLASH_APP_BASE, length = ADJ_ICALL_STACK0_START - FLASH_APP_BASE
+              #else // default
+                  FLASH (RX) : origin = FLASH_APP_BASE, length = FLASH_LEN - FLASH_PAGE_LEN
+              #endif
+
+      Instead of ``origin`` being assigned to ``FLASH_APP_BASE``, assign
+      to a new undefined symbol ``FLASH_OAD_IMG_START``.
+
+        .. code-block:: c
+          :linenos:
+
+          /* System memory map */
+          MEMORY
+          {
+              /* EDITOR'S NOTE:
+               * the FLASH and SRAM lengths can be changed by defining
+               * ICALL_STACK0_START or ICALL_RAM0_START in
+               * Properties->ARM Linker->Advanced Options->Command File Preprocessing.
+               */
+
+              /* Application stored in and executes from internal flash */
+              /* Flash Size 128 KB */
+              #ifdef ICALL_STACK0_START
+                  FLASH (RX) : origin = FLASH_OAD_IMG_START, length = ADJ_ICALL_STACK0_START - FLASH_APP_BASE
+              #else // default
+                  FLASH (RX) : origin = FLASH_OAD_IMG_START, length = FLASH_LEN - FLASH_PAGE_LEN
+              #endif
+
+      Now to define the symbol, we need to shift the starting point over 16 bytes.
+      The original linker file code is:
+
+        .. code-block:: c
+          :linenos:
+
+          /* The starting address of the application.  Normally the interrupt vectors  */
+          /* must be located at the beginning of the application. Flash is 128KB, with */
+          /* sector length of 4KB                                                      */
+          #define FLASH_APP_BASE          0x00000000
+          #define FLASH_LEN               0x20000
+          #define FLASH_PAGE_LEN          0x1000
+          #define FLASH_PAGE_MASK         0xFFFFF000
+
+          /* Last page of Flash is allocated to App: 0x1F000 - 0x1FFFF */
+          #define FLASH_LAST_PAGE_START   (FLASH_LEN - FLASH_PAGE_LEN)
+
+          #ifdef ICALL_STACK0_START
+          #ifdef PAGE_ALIGN
+          #define ADJ_ICALL_STACK0_START (ICALL_STACK0_START & FLASH_PAGE_MASK)
+          #else /* !PAGE_ALIGN */
+          #define ADJ_ICALL_STACK0_START ICALL_STACK0_START
+          #endif /* PAGE_ALIGN */
+          #endif /* ICALL_STACK0_START */
+
+      Replace with the following which defines ``FLASH_OAD_IMG_START`` relative
+      to the symbol ``FLASH_OAD_IMG_HDR_SIZE``, or 16 bytes.
+
+        .. code-block:: c
+          :linenos:
+
+          /* The starting address of the application.  Normally the interrupt vectors  */
+          /* must be located at the beginning of the application.                      */
+          #ifndef FLASH_APP_BASE
+          #define FLASH_APP_BASE          0x00000000
+          #endif /* FLASH_APP_BASE */
+
+          #define FLASH_OAD_IMG_HDR_SIZE  0x10  /* header size (hex) in bytes */
+          #define FLASH_OAD_IMG_START     (FLASH_APP_BASE + FLASH_OAD_IMG_HDR_SIZE)
+
+          #define FLASH_LEN               0x20000
+          #define FLASH_PAGE_LEN          0x1000
+          #define FLASH_PAGE_MASK         0xFFFFF000
+
+          #ifdef ICALL_STACK0_START
+          #define ADJ_ICALL_STACK0_START (ICALL_STACK0_START & FLASH_PAGE_MASK)
+          #endif /* ICALL_STACK0_START */
+
+  #. Preservation of Page 31 (BIM + CCFGs)
+
+      Due to the previous step, we can violate this rule. Look at the following:
+
+        .. code-block:: c
+          :linenos:
+
+          /* Application stored in and executes from internal flash */
+          /* Flash Size 128 KB */
+          #ifdef ICALL_STACK0_START
+              FLASH (RX) : origin = FLASH_OAD_IMG_START, length = ADJ_ICALL_STACK0_START - FLASH_APP_BASE
+          #else // default
+              FLASH (RX) : origin = FLASH_OAD_IMG_START, length = FLASH_LEN - FLASH_PAGE_LEN
+          #endif
+
+      For example, if ``ICALL_STACK0_START`` isn't defined (for a Library build)
+      then the starting address ``FLASH_OAD_IMG_START`` but the length is
+      ``FLASH_LEN - FLASH_PAGE_LEN`` which is 128 kB - 4 kB. The problem is there
+      is actually less space available and we are over allocating. Rewritten,
+      the starting address for ``FLASH`` is ``0x010``, the ending address is
+      ``0x1F010``, cutting into the last page, violating this rule.
+
+      To fix this, simply subtract off the size of the meta data vector by
+      using the previously defined ``FLASH_OAD_IMG_HDR_SIZE``.
+
+      The fix will look like:
+
+        .. code-block:: c
+          :linenos:
+
+          /* Application stored in and executes from internal flash */
+          /* Flash Size 128 KB */
+          #ifdef ICALL_STACK0_START
+              FLASH (RX) : origin = FLASH_OAD_IMG_START, length = ADJ_ICALL_STACK0_START - FLASH_OAD_IMG_HDR_SIZE
+          #else // default
+              FLASH (RX) : origin = FLASH_OAD_IMG_START, length = FLASH_LEN - FLASH_PAGE_LEN - FLASH_OAD_IMG_HDR_SIZE
+          #endif
+
+      The final range for ``FLASH`` if ``ICALL_STACK0_START`` isn't defined
+      (like in a Library build), will be ``0x010`` to ``0x1F000``. In other words,
+      all the way until the last page.
+
+      .. warning::
+
+          For App only OAD or App + Stack non-library OAD, you will have to build
+          the stack image first or manually define ``ICALL_STACK0_START`` so
+          the stack image's entry point doesn't get corrupted.
+
+      .. note::
+
+          :term:`SNV` flash range is automatically accounted for if ``ICALL_STACK0_START``
+          is defined.
+
+          :term:`SNV` flash range does not need to accounted for in library builds, as
+          long ``FLASH`` range extends to right up to the last page,
+          the :term:`SNV` sectors will get linked in.
+
+  #. Alignment of Interrupt Vector Table see :ref:`sec-oad-reset-vect-change`
+
+      This is already handled by the existing linker file with:
+
+        .. code-block:: c
+          :linenos:
+
+          /* Retain interrupt vector table variable                                    */
+          --retain=g_pfnVectors
+          /* Override default entry point.                                             */
+          --entry_point ResetISR
+          /* Suppress warnings and errors:                                             */
+          /* - 10063: Warning about entry point not being _c_int00                     */
+          /* - 16011, 16012: 8-byte alignment errors. Observed when linking in object  */
+          /*   files compiled using Keil (ARM compiler)                                */
+          --diag_suppress=10063,16011,16012
+
+  #. Page Alignment of OAD Image
+
+      The OAD image for a library OAD build with :term:`SNV` will always be 31 pages.
+      No page alignment is necessary. OAD Image Tool also will pad with 0xFF to
+      the next page when producing an output binary.
+
+Modifications for IAR (cc26xx_app_and_stack.icf)
+""""""""""""""""""""""""""""""""""""""""""""""""
+
+  #. Allocation of Flash for Metadata Vector and App Start
+
+      We want the ``FLASH`` region to defines where the linker should
+      place application and stack code and data.
+
+      Replace:
+
+        .. code-block:: c
+          :linenos:
+
+          // Code and RO Data
+          place in FLASH_ALL { readonly };
+
+      With:
+
+        .. code-block:: c
+          :linenos:
+
+          // Code and RO Data
+          place in FLASH { readonly };
+
+      Next redefine ``FLASH`` such that it goes from a undefined
+      symbol ``OAD_FLASH_START`` to ``FLASH_END`` which is defined
+      to the end of page 30. ``OAD_FLASH_START`` will represent where
+      application/stack code may begin, after the header
+
+        .. code-block:: c
+          :linenos:
+
+          define region FLASH = mem:[from OAD_FLASH_START to FLASH_END];
+
+      Then define the symbols that accounts for the OAD metadata:
+
+        .. code-block:: c
+          :linenos:
+
+          // OAD specific
+          define symbol OAD_HDR_SIZE  = 16; // Size of metadata vector
+          define symbol OAD_HDR_START   = FLASH_START;
+          define symbol OAD_HDR_END     = OAD_HDR_START + OAD_HDR_SIZE - 1;
+
+      Lastly define ``OAD_FLASH_START``, accounting for the metadata
+      vector as well as the interrupt table:
+
+        .. code-block:: c
+          :linenos:
+
+          define symbol OAD_FLASH_START = INT_VEC_START + INT_VEC_SIZE;
+
+      .. note::
+
+          To fully define ``OAD_FLASH_START``, the interrupt
+          vector table needs to be accounted for. See the next step.
+
+  #. Alignment of Interrupt Vector Table see :ref:`sec-oad-reset-vect-change`
+
+      The Interrupt Vector Table needs to be placed in order for the
+      application to function correctly. Normally, the table would
+      start at the beginning of flash; however, due to the metadata
+      vector, the table needs to be moved.
+
+      First define symbols to account for the table:
+
+        .. code-block:: c
+          :linenos:
+
+          define symbol INT_VEC_SIZE    = 64;
+          define symbol INT_VEC_START   = OAD_HDR_START + OAD_HDR_SIZE;
+          define symbol INT_VEC_END     = INT_VEC_START + INT_VEC_SIZE - 1;
+
+      .. note::
+
+          Symbols ``OAD_HDR_START`` and ``OAD_HDR_SIZE`` are defined in the
+          previous step.
+
+      Next define the region based off the symbols defined:
+
+        .. code-block:: c
+          :linenos:
+
+          define region INT_VEC   = mem:[from INT_VEC_START to INT_VEC_END];
+
+      Lastly, for memory placement, the following needs to be
+      added so the ``.intvec`` section gets placed correctly:
+
+        .. code-block:: c
+          :linenos:
+
+          // Interrupt Vector Table
+          place at start of INT_VEC       { readonly section .intvec };
+          keep                            { readonly section .intvec };
+
+  #. Preservation of Page 31 (BIM + CCFGs)
+
+      Although the project shouldn't be building the ``ccfg_app_ble.c``
+      file, thus there shouldn't be anything to link, removal of the
+      following lines is recommended:
+
+        .. code-block:: c
+          :linenos:
+
+          // CCFG
+          place at end of FLASH_LAST_PAGE { readonly section .ccfg };
+          keep { section .ccfg };
+
+      BIM should be building and linking the CCFGs.
+
+      The previous steps ensure that page 31 isn't used by linker.
+
+  #. Page Alignment of OAD Image
+
+      The OAD image for a library OAD build with :term:`SNV` will always be 31
+      pages. No page alignment is necessary. OAD Image Tool also will pad with
+      0xFF to the next page when producing an output binary.
+
+.. _sec-stack-side-changes-oad:
+
+Stack Side Changes for OAD Project
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Generally, no stack side changes to enable OAD are required.
+However, if desired, depending on the OAD configuration type,
+stack side changes may be done in the project.
+
+The configurations that may a stack side change are configurations
+where the stack image is separate from the application image.
+In other words, App only and Stack only for Off-chip, and
+(Img_B) App only for On-chip. No changes on stack project in Library OAD
+configurations should be done.
+
+One possible change is to page align the stack, such that
+the entry point is always the same address at the beginning
+of a page. To force the linker to be page aligned, simply
+add ``PAGE_ALIGN=1`` to the linker defines on the stack
+project.
+
+In the case of a Stack only OAD configuration, the stack OAD
+project can be page aligned to allow for the additional features
+(up to the boundary). As long as the entry point is the same,
+the application will function normally.
+
+.. note::
+
+    Modifying the Stack project to meet your applications needs
+    is highly encouraged. For example, adding/removing :term:`SNV`
+    :ref:`using-simple-nv` or changing :ref:`stack_features_configuration`,
+    should be done to meet application needs.
+
+    This topic of this section is stack side changes in order to work
+    with the TI OAD ecosystem.
+
+.. _sec-generating-metadata-vector:
+
+Generating Metadata Vector for OAD Image
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The OAD\_Image\_Tool is designed to generate a metadata vector and insert it
+into a given image, to produce an OAD ready image. An OAD ready image can be
+a hex file or a binary that contains metadata for the target to interpret.
+
+The OAD\_Image\_Tool can be found as a Python script or as a binary inside
+|SDK| installation. It is located in BLE Examples Support Files in the ``Tools``
+folder.
+
+To view usage instructions for the tool, run the Python script or the
+binary with the ``-h`` argument passed in.
+
+For example, to generate an OAD ready application image, invoke the tool with:
+
+  .. code-block:: c
+      :linenos:
+
+      ./oad_image_tool.exe -t offchip -o out.hex -m 0x0000 -i app in.hex
+
+The ``out.hex`` file will be an OAD ready image with the metadata to tell
+the OAD Target that it's an Application image for Off-chip OAD.
+
+.. _sec-generating-production-image:
+
+Generating a Production Image for OAD
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+A production image is one that contains the app, stack, and :term:`BIM` images
+combined into a single file. Production images are generally used when an OAD
+enabled device is initially programmed at the manufacturing facility.
+Production images can also be useful for debugging as all of the information is
+contained in a single file.
+
+TI has included a Python based OAD\_Image\_Tool that can perform a variety of
+operations on OAD ready hex files in the |SDK|. It will be used to generate a
+production OAD image.
+
+Currently, the oad_image_tool is already being invoked as a post build step on
+oad_target_app, and simple_peripheral builds for on and off-chip OAD.
+
+CCS Update OAD Image Tool Build Step
+""""""""""""""""""""""""""""""""""""
+
+The image below shows how to edit the CCS post build step for the OAD image tool.
+This menu can be accessed by right clicking the project --> properties.
+
+.. _fig-oad-image-tool-ccs-postbuild:
+.. figure:: media/oad_image_tool_ccs_postbuild.png
+    :align: center
+
+    Update OAD Image Tool Post Build Step CCS
+
+IAR Update OAD Image Tool Build Step
+""""""""""""""""""""""""""""""""""""
+
+The image below shows how to edit the IAR post build step for the OAD image tool.
+This menu can be accessed by right clicking the project --> options.
+
+.. _fig-oad-image-tool-iar-postbuild:
+.. figure:: media/oad_image_tool_iar_postbuild.png
+    :align: center
+
+    Update OAD Image Tool Post Build Step IAR
+
+Generate production On-Chip (Image A) using CCS or IAR
+""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+This is done as part of the ``oad_target`` project within the |SDK|, see the post
+build steps of ``oad_target_app`` for more details.
+
+Generate production Off-Chip using CCS
+""""""""""""""""""""""""""""""""""""""
+The following steps detail how to generate an on-chip OAD production image which
+contains Image A and the on-chip :term:`BIM`.
+
+  .. warning::
+      The following steps assume you have already followed the steps 1-2 of the
+      :ref:`sect-on-chip-demo` for CCS.
+
+
+  - Add the following code to the :code:`oad_target_cc2640r2lp_app` project's post
+    build steps.
+
+    .. code-block:: text
+
+      "${TI_BLE_SDK_BASE}/tools/blestack/oad/oad_image_tool.exe" "${ProjName}.hex" "${PROJECT_LOC}/../simple_peripheral_cc2640r2lp_stack_oad_offchip/FlashROM/      simple_peripheral_cc2640r2lp_stack_oad_offchip.hex" "${PROJECT_LOC}/../bim_oad_offchip_cc2640r2lp_app/FlashOnly/bim_oad_offchip_cc2640r2lp_app.hex" -t onchip -i production -v 0 -m 0x0000 --r 0x0000 -ob "${ProjName}_oad.bin"
+
+
+
+Generate production Off-Chip Image using IAR
+""""""""""""""""""""""""""""""""""""""""""""
+The following steps detail how to generate an on-chip OAD production image which
+contains Image A and the on-chip :term:`BIM`.
+
+  .. warning::
+      The following steps assume you have already followed the steps 1-2 of the
+      :ref:`sect-on-chip-demo` for IAR.
+
+
+  - Add the following code to the :code:`oad_target_cc2640r2lp_app` project's post
+    build steps.
+
+    .. code-block:: text
+
+        "$TOOLS_BLE$\oad\oad_image_tool.exe" "$PROJ_DIR$\..\..\..\..\bim_oad_offchip\tirtos\iar\app\FlashOnly\Exe\bim_oad_offchip.hex" "$PROJ_DIR$\..\stack\FlashROM\Exe\simple_peripheral_cc2640r2lp_stack.hex" "$PROJ_DIR$\FlashROM_OAD_Offchip\Exe\simple_peripheral_cc2640r2lp_app.hex" -t onchip -i production -v 0 -m 0x0000 -ob "$PROJ_DIR$\FlashROM_OAD_Offchip\Exe\simple_peripheral_cc2640r2lp_app_oad.bin"
+
+
+
+.. _sec-oad-reset-vect-change:
+
+Using a custom reset vector address for your application
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The projects within the |SDK| will build the TI-RTOS kernel as a pre-build step
+within the application. This prebuild step is called configuro. During the
+configuro stage it is possible to relocate your reset vectors. This is required
+for OAD applications to make room for the metadata vector at the beginning of
+the image space. For more information about configuro, please see
+`RTSC Configuro Page <http://rtsc.eclipse.org/docs-tip/Command_-_xdc.tools.configuro>`_.
+
+.. note::
+    You may need to change :code:`OAD_IMG_E=1` in the images below
+    to :code:`OAD_IMG_A=1` or :code:`OAD_IMG_B=1` depending on your use case.
+
+Change Reset Vector Address in IAR
+""""""""""""""""""""""""""""""""""
+
+IAR treats configuro as a prebuild action. These actions can be found by right
+clicking the project --> Build Actions --> Pre-build command line. See the image
+below for more information.
+
+.. _fig-configuro-iar-oad:
+.. figure:: media/configuro_iar_oad.png
+    :align: center
+
+Change Reset Vector Address in CCS
+""""""""""""""""""""""""""""""""""
+
+CCS has native RTSC/Configuro support built into the project.
+These actions can be found by right clicking the
+project --> Build --> XDCtools --> Advanced Options.
+See the image below for more information.
+
+.. _fig-configuro-iar-ccs:
+.. figure:: media/configuro_iar_ccs.png
+    :align: center
+
+.. _sec-oad-adv-change:
+
+Changing Application Data to Verify an OAD
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+It can be difficult to verify OAD without making application changes.
+A quick and easy way to change your application image before sending over the
+air is to change it's scan response data.
+
+This way, a successful OAD can be observed via the change in scan response data.
+See below for steps on how to change this.
+
+  - A good test is to change the scan response data as below in
+    :code:`simple_peripheral.c`
+
+  .. code-block:: c
+      :linenos:
+      :caption: Changing SBP advertisement data
+      :emphasize-lines: 5, 25
+
+      // GAP - SCAN RSP data (max size = 31 bytes)
+      static uint8_t scanRspData[] =
+      {
+        // complete name
+        0x14,   // length of this data
+        GAP_ADTYPE_LOCAL_NAME_COMPLETE,
+        'S',
+        'i',
+        'm',
+        'p',
+        'l',
+        'e',
+        'B',
+        'L',
+        'E',
+        'P',
+        'e',
+        'r',
+        'i',
+        'p',
+        'h',
+        'e',
+        'r',
+        'a',
+        '2',
+        //...
+      }
+
+  .. warning::
+      If you change of scan response data you must also change it's
+      length. See line 5 of the code snippet above.
+
+.. _sec-oad-btool:
+
+Using BTool and |LP| as an OAD Downloader
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This section will describe how to use setup and use BTool, to perform an OAD.
+These steps are independent of OAD type and can be used to perform on-chip or off-chip
+OAD.
+
+.. tip::
+    BTool is a very feature-rich application. This guide only seeks to document
+    the OAD functionality of BTool.
+
+.. warning::
+    Use the BTool included with |SDK|, older versions may not have support
+    for OAD.
+
+.. _sec-oad-btool-setup:
+
+BTool Setup
+"""""""""""
+
+BTool requires a |LP| running the :code:`host_test` application with
+:code:`POWER_SAVING` disabled connected to the PC. Steps on how to setup a
+|LP| to work with BTool are listed below. See :ref:`sec-oad-topology` for more
+information.
+
+#. Navigate to the install location of the |SDK|.
+
+#. Within the |SDK| open the
+   :code:`\examples\rtos\CC2640R2_LAUNCHXL\blestack\hexfiles` folder.
+
+#. Open `Smart RF Flash Programmer 2 <http://www.ti.com/tool/flash-programmer>`_.
+
+#. Load the OAD Downloader |LP| with the :code:`cc2640r2lp_host_test.hex`
+   image.
+
+.. _sec-oad-btool-verify-adv:
+
+BTool OAD Verify Advertising
+""""""""""""""""""""""""""""
+
+BTool can be used to scan and discover OAD device. You can verify your device
+is advertising by following one of the options below.
+
+  - Advertisement can be verified in one of two ways:
+
+    - If you know your device's address
+      (can be checked via `Smart RF Flash Programmer 2 <http://www.ti.com/tool/flash-programmer>`_)
+      you can click the scan button and verify it appears in the "Slave BDA" combo box.
+
+    - If you don't know your device's address, you can change it's
+      advertisement data (described in :ref:`sec-oad-adv-change`). From there,
+      scan the scan button and look in the BTool log window during scanning to
+      verify the device  with the custom advertising data appears.
+
+.. _sec-oad-btool-procedure:
+
+BTool OAD Procedure
+"""""""""""""""""""
+
+#. Open BTool, and connect to your device. See the image below for steps.
+
+    .. _fig-connect-via-btool:
+    .. figure:: media/connect_via_btool.png
+        :align: center
+
+        Connecting to a device using BTool
+
+#. Select to the OAD tab in BTool and initiate the OAD process. See the image
+   below for instructions
+
+    .. attention::
+        Be sure to point BTool to the \*_oad.bin file generated by the oad image
+        tool post build step. This file contains the metadata.
+
+    .. _fig-btool-oad-init:
+    .. figure:: media/btool_oad_init.png
+        :align: center
+
+        Initiating an OAD transfer via BTool
+
+    .. note::
+        If BTool from another Software Development Kit is used
+        then the OAD Transfer Tab may not exist. Use the BTool
+        that is included with |SDK|
+
+#. OAD process will continue as below
+
+    .. _fig-btool-oad-in-progress:
+    .. figure:: media/btool_oad_in_progress.png
+        :align: center
+
+        OAD transfer via BTool
+
+#. BTool will report success
+
+    .. _fig-btool-oad-success:
+    .. figure:: media/btool_oad_success.png
+        :align: center
+
+        Successful OAD transfer using BTool

@@ -1,0 +1,181 @@
+.. _TI-RTOS Kernel Users Guide: ..\/..\/..\/..\/..\/tirtos\/sysbios\/docs\/Bios_User_Guide.pdf
+
+BLE-Stack 3.00.01 to BLE-Stack 3.01.00
+======================================
+
+This section will describe a way to migrate a project from BLE-Stack 3.00.01 to
+a BLE-Stack 3.01.00 project.
+
+For this migration guide, simple\_peripheral from BLE-Stack 3.00.01 will be ported
+over to BLE-Stack 3.01.00. Because the directory structure is nearly identical between the
+two releases, the recommended approach is to start with a BLE-Stack 3.01.00 project that contains
+the same base functionality as the porting target project and merge in any custom
+functionality.
+
+#. Choose a BLE-Stack 3.01.00 example project that contains your target project's base functionality.
+
+    For reference, see available sample projects that start with simple\_peripheral
+
+    In this example, we're going to use simple\_peripheral as the starting
+    BLE-Stack 3.01.00 sample project.
+
+#. Transfer all modified application files from BLE-Stack 3.00.01 into the BLE-Stack 3.01.00 example project.
+
+    In this example, the following files from BLE-Stack 3.00.01 were moved into
+    simple\_peripheral BLE-Stack 3.01.00 example:
+
+    - ``simple_peripheral.c``
+    - ``simple_peripheral.h``
+    - ``simple_gatt_profile.c``
+    - ``simple_gatt_profile.h``
+
+#. Replace includes of ``icall_apimsg.h`` and ``icall_api.h`` with ``icall_ble_api.h``.
+
+    .. code-block:: c
+
+        #include "icall_ble_api.h"
+
+    Make sure **not** to include any of the following files in your project:
+    (They are already included in ``icall_ble_api.h``.)
+
+    - ``gap.h``
+    - ``hci.h``
+    - ``l2cap.h``
+    - ``gatt.h``
+    - ``gattserverapp.h``
+    - ``linkdb.h``
+    - ``att.h``
+
+#. If your code contains any ``#ifdef USE_CORE_SDK``, remove these.
+
+#. Modify ``main.c`` in the BLE-Stack 3.01.00 example if additional tasks were added in the BLE-Stack 3.00.01 project.
+
+#. Please do not add any ``DV42_FEATURES`` defines to ``build_config.opt`` in BLE-Stack 3.01.00. If you want to enable or disable :ref:`sec-secure-connections`, please use the ``GAPBOND_SECURE_CONNECTION`` parameter. (Secure Connections is enabled by default in BLE-Stack 3.01.00.)
+
+    .. code-block:: c
+
+        uint8_t gapbondSecure = GAPBOND_SECURE_CONNECTION_NONE;
+        GAPBondMgr_SetParameter(GAPBOND_SECURE_CONNECTION, sizeof(uint8_t), &gapbondSecure);
+
+#. In BLE-Stack 3.01.00, heap management has been updated. Please see :ref:`dynamic_memory_allocation` for details on how to optimize your heap.
+
+#. In BLE-Stack 3.01.00, OAD has been updated. Please see :ref:`sec-oad`.
+
+#. If you are using the GAPBondMgr, make sure a passcode callback function is defined and sent to the GAPBondMgr. This is mandatory in BLE-Stack 3.01.00.
+
+    .. code-block:: c
+
+        // GAP Bond Manager Callbacks
+        // These are set to NULL since they are not needed. The application
+        // is set up to only perform justworks pairing.
+        static gapBondCBs_t simpleBLEPeripheral_BondMgrCBs =
+        {
+            (pfnPasscodeCB_t) SimpleBLEPeripheral_passcodeCB, // Passcode callback
+            SimpleBLEPeripheral_pairStateCB                   // Pairing / Bonding state Callback
+        };
+
+    The passcode callback and handling can be done the following way:
+
+    Define an event ``SBP_PASSCODE_NEEDED_EVT`` such that the ``SimpleBLEPeripheral_passcodeCB``
+    function can enqueue a message for the application task to handle.
+
+    .. code-block:: c
+
+        #define SBP_STATE_CHANGE_EVT                  0x0001
+        #define SBP_CHAR_CHANGE_EVT                   0x0002
+        #define SBP_PASSCODE_NEEDED_EVT               0x0003
+
+    The callback function will push this event to application task
+    so that the |BLESTACK| API call can happen in the application
+    context.
+
+    .. code-block:: c
+
+        // Forward Declaration
+        static void SimpleBLEPeripheral_passcodeCB(uint8_t *deviceAddr, uint16_t connHandle, uint8_t uiInputs, uint8_t uiOutputs);
+
+        // Definition
+        /*********************************************************************
+        * @fn      SimpleBLEPeripheral_passcodeCB
+        *
+        * @brief   Passcode callback.
+        *
+        * @return  none
+        */
+        static void SimpleBLEPeripheral_passcodeCB(uint8_t *deviceAddr, uint16_t connHandle, uint8_t uiInputs, uint8_t uiOutputs)
+        {
+            uint8_t *pData;
+
+            // Allocate space for the passcode event.
+            if ((pData = ICall_malloc(sizeof(uint8_t))))
+            {
+                *pData = uiOutputs;
+
+                // Enqueue the event.
+                SimpleBLEPeripheral_enqueueMsg(SBP_PASSCODE_NEEDED_EVT, 0);
+            }
+        }
+
+    Lastly, take the dequeued message in ``SimpleBLEPeripheral_processAppMsg`` and
+    call the appropriate |BLESTACK| API.
+
+    .. code-block:: c
+
+        /*********************************************************************
+         * @fn      SimpleBLEPeripheral_processAppMsg
+         *
+         * @brief   Process an incoming callback from a profile.
+         *
+         * @param   pMsg - message to process
+         *
+         * @return  None.
+         */
+        static void SimpleBLEPeripheral_processAppMsg(sbpEvt_t *pMsg)
+        {
+            switch (pMsg->hdr.event)
+            {
+            // . . .
+                case SBP_PASSCODE_NEEDED_EVT:
+                {
+                  // Use static passcode
+                  uint32_t passcode = 123456;
+                  // Send passcode to GAPBondMgr (assuming single connection)
+                  GAPBondMgr_PasscodeRsp(0, SUCCESS, passcode);
+                }
+                break;
+
+            default:
+                // Do nothing.
+                break;
+            }
+        }
+
+#. If necessary, update the project to use the newer TI-RTOS drivers that are supplied with the |SDK|.
+
+    The following drivers have changed from BLE-Stack 3.00.01. Please see the
+    changes to these drivers by comparing the supplied headers between those in
+    simplelink_cc2640r2_sdk_1_30_00_25 and those in the |SDK|.
+
+    - ``ADC``
+    - ``NVS``
+    - ``Display``
+
+    .. attention:: The display folder should in BLE-Stack 3.01.00 be included with the path ``<ti/display/Display.h>``, not ``<ti/mw/display/Display.h>``.
+
+        .. code-block:: c
+
+            #include <ti/display/Display.h>
+
+
+#. Refer to the |TIRTOSUPGRADE| for additional information and the TI-RTOS examples included with |SDK|.
+
+    For additional information on how BLE-Stack 3.01.00 uses TI-RTOS see
+    :ref:`sec-tirtos-overview`
+
+    For any utilized TI Drivers, review `TI-RTOS Kernel Users Guide`_ and
+    `Driver APIs <..\/..\/..\/..\/..\/tidrivers\/tidriversAPIs.html>`__.
+
+Micro BLE Stack
+---------------
+
+The micro BLE Stack API has changed from ``ub_`` to ``uble_``. For details, see ``uble.h``.

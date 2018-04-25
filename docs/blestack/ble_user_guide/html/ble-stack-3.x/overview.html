@@ -1,0 +1,357 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Overview &mdash; BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation" href="../index.html"/>
+        <link rel="up" title="Developing a Bluetooth Low Energy Application" href="index.html"/>
+        <link rel="next" title="The Application" href="the-application.html"/>
+        <link rel="prev" title="Developing a Bluetooth Low Energy Application" href="index.html"/> 
+    <script language="JavaScript">
+        var tiPageName;
+        tiPageName = "sug ble-stack-3.x overview";
+
+        if (location.protocol == "file:"){
+            var ci_analytics_poc_load = true;
+        }
+    </script> 
+
+    <script src="http://www.ti.com/assets/js/headerfooter/analytics.js" type="text/javascript" charset="utf-8">     
+
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../ble-stack-3.x-guide/index.html" class="icon icon-home"> BLE-Stack User's Guide for Bluetooth 4.2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.01.01.00
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../cc2640/disclaimer.html">Disclaimer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/get-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cc2640/platform.html">The CC2640R2F SDK Platform</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Developing a Bluetooth Low Energy Application</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Overview</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bluetooth-low-energy-protocol-stack-basics">Bluetooth low energy Protocol Stack Basics</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="the-application.html">The Application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#the-stack">The Stack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#creating-a-custom-bluetooth-low-energy-application">Creating a Custom Bluetooth low energy Application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#running-the-sdk-on-custom-boards">Running the SDK on Custom Boards</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../u-stack/index.html">Micro BLE Stack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../oad-ble-stack-3.x/oad.html">Over the Air Download (OAD)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../voice/voice.html">Creating a Voice Enabled Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../secure-fw-3.x/index.html">Secure Firmware (SFW)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensor-controller/sensor-controller.html">Sensor Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../debugging/ble-index.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/migration.html">Migration Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/api-reference.html">API References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/reference.html">Terms and Definitions</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../ble-stack-3.x-guide/index.html">BLE-Stack User's Guide for Bluetooth 4.2</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../ble-stack-3.x-guide/index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">Developing a Bluetooth Low Energy Application</a> &raquo;</li>
+        
+      <li>Overview</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="overview">
+<span id="sec-ble-stack-overview"></span><h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
+<p>This section describes the functionality of the Bluetooth low energy protocol
+stack and provides a list of APIs to interface with the protocol stack. The
+stack project and its associated files serve to implement the Bluetooth low
+energy protocol stack task. This is the highest priority task in the system
+and it implements the Bluetooth low energy protocol stack as shown in
+<a class="reference internal" href="#stack-architecture"><span class="std std-numref">Figure 36.</span></a></p>
+<p>Most of the Bluetooth low energy protocol stack is object code in a single
+library file (TI does not provide the protocol stack source code as a matter
+of policy). A developer must understand the functionality of the various
+protocol stack layers and how they interact with the application and profiles.
+This section explains these layers.</p>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://www.bluetooth.com/specifications/adopted-specifications">Bluetooth Core Specification Version 4.2</a> allows for two systems of wireless
+technology: Basic Rate (BR: BR/EDR for Basic Rate/Enhanced Data Rate) and
+Bluetooth low energy. The Bluetooth low energy system was created to transmit
+small packets of data, while consuming significantly less power than BR/EDR
+devices.</p>
+<p>The TI BLE Protocol stack supports the following <a class="reference external" href="https://www.bluetooth.com/specifications/adopted-specifications">Bluetooth Core Specification Version 4.2</a> features:</p>
+<ul class="simple">
+<li>LE Secure Connections</li>
+<li>LE Data Length extension</li>
+<li>LE Privacy 1.2</li>
+<li>LE L2CAP Connection-Oriented Channel Support</li>
+<li>LE Link Layer Topology</li>
+<li>LE Ping</li>
+<li>Slave Feature Exchange</li>
+<li>Connection Parameter Request</li>
+</ul>
+<p>Optional features can be selectively enabled at build time. See <a class="reference internal" href="creating-a-custom-bluetooth-low-energy-application.html#optimizing-ble-memory-usage"><span class="std std-ref">Optimizing Bluetooth low energy Stack Memory Usage</span></a>.</p>
+</div>
+<div class="section" id="bluetooth-low-energy-protocol-stack-basics">
+<h2>Bluetooth low energy Protocol Stack Basics<a class="headerlink" href="#bluetooth-low-energy-protocol-stack-basics" title="Permalink to this headline">¶</a></h2>
+<div class="figure align-center" id="id2">
+<span id="stack-architecture"></span><img alt="../_images/image4.jpeg" src="../_images/image4.jpeg" />
+<p class="caption"><span class="caption-number">Figure 36. </span><span class="caption-text">Bluetooth low energy Protocol Stack.</span></p>
+</div>
+<p><a class="reference internal" href="#stack-architecture"><span class="std std-numref">Figure 36.</span></a> shows the Bluetooth low energy protocol stack architecture.</p>
+<p>The Bluetooth low energy protocol stack (or protocol stack) consists
+of the controller and the host. This separation of controller and
+host derives from the implementation of classic Bluetooth BR/EDR
+devices, where the two sections are implemented separately. Any
+profiles and applications sit on top of the GAP and GATT layers of
+the protocol stack.</p>
+<p>The physical layer (PHY) is a 1-Mbps adaptive frequency-hopping GFSK
+(Gaussian frequency-shift keying) radio operating in the unlicensed
+2.4-GHz ISM (industrial, scientific, and medical) band.</p>
+<p>The <a class="reference internal" href="gap.html#gap"><span class="std std-ref">Generic Access Profile (GAP)</span></a> controls the RF state of the device, with the device in one of
+five states:</p>
+<ul class="simple">
+<li>Standby</li>
+<li>Advertising</li>
+<li>Scanning</li>
+<li>Initiating</li>
+<li>Connected</li>
+</ul>
+<p>Advertisers transmit data without connecting, while scanners scan
+for advertisers. An initiator is a device that responds to an
+advertiser with a request to connect. If the advertiser accepts the
+connection request, both the advertiser and initiator enter a
+connected state. When a device is connected, it connects as either
+master or slave. The device initiating the connection becomes the
+master and the device accepting the request becomes the slave.</p>
+<p>See the <a class="reference internal" href="../ble-stack-3.x-guide/api-reference.html#ble-api-reference"><span class="std std-ref">BLE Stack API Reference</span></a> for HCI layer API. The HCI layer
+provides communication between the host and controller through a standardized
+interface. This layer can be implemented either through a software API or by a
+hardware interface such as UART, SPI, or USB (See <a class="reference internal" href="creating-a-custom-bluetooth-low-energy-application.html#sec-using-production-test-mode"><span class="std std-ref">Using Production Test Mode (PTM)</span></a>
+for example).
+The <a class="reference external" href="https://www.bluetooth.com/specifications/adopted-specifications">Bluetooth Core Specification Version 4.2</a> describes Standard HCI commands and events.
+TI&#8217;s proprietary commands and events are specified in the
+<a class="reference external" href="../../../TI_BLE_Vendor_Specific_HCI_Guide.pdf">TI Vendor Specific HCI Guide</a>.</p>
+<p>The <a class="reference internal" href="l2cap.html#sec-l2cap"><span class="std std-ref">Logical Link Control and Adaptation Layer Protocol (L2CAP)</span></a> layer provides data encapsulation services to the upper
+layers, allowing for logical end-to-end communication of data.</p>
+<p>The Security Manager layer defines the methods for pairing and
+key distribution, and provides functions for the other layers of
+the protocol stack to securely connect and exchange data with another device.</p>
+<p>The <a class="reference internal" href="gap.html#gap"><span class="std std-ref">Generic Access Profile (GAP)</span></a> layer directly interfaces with the
+application and/or profiles, to handle device discovery and
+connection-related services for the device. GAP handles the
+initiation of security features.</p>
+<p>The ATT layer allows a device to expose certain pieces of data
+or <em>attributes</em>, to another device. The <a class="reference internal" href="gatt.html#gatt"><span class="std std-ref">Generic Attribute Profile (GATT)</span></a> layer is a service
+framework that defines the sub-procedures for using ATT. Data
+communications that occur between two devices in a Bluetooth low energy
+connection are handled through GATT sub-procedures. The application
+and/or profiles will directly use GATT.</p>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="the-application.html" class="btn btn-neutral float-right" title="The Application" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="Developing a Bluetooth Low Energy Application" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Texas Instruments.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.01.01.00',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

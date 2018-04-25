@@ -1,0 +1,1473 @@
+<HTML>
+<HEAD><META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
+<link href="..//elements/mmap.css" rel="stylesheet" type="text/css">
+<TITLE>AUX_ANAIF</TITLE>
+</HEAD>
+<BODY class=mmapBody>
+<h2 class="mmapCellTitle">
+  <a name="Top_Tag">AUX_ANAIF</a>
+</h2>
+<P>Instance: AUX_ANAIF<BR>
+Component: AUX_ANAIF<BR>
+Base address: 0x400C9000</P>
+<BR>
+<P><A class="mmap_legend_link" href="../legend.html#AUX">AUX</A> Analog Interface (AUX_ANAIF) encapsulates direct data and control interfaces between AUX digital and AUX analog circuits. It lets <A class="xref" href="AUX_SCE.html">AUX_SCE</A>,  <A class="xref" href="UDMA0.html">UDMA0</A>, and system CPU:<BR>
+-Trigger <A class="mmap_legend_link" href="../legend.html#ADC">ADC</A> sample and conversion process.<BR>
+- Write ADC samples to <A class="mmap_legend_link" href="../legend.html#FIFO">FIFO</A>.<BR>
+- Charge analog nodes by the use of the analog <A class="mmap_legend_link" href="../legend.html#ISRC">ISRC</A> module. See <A class="xref" href="../ANATOP_MMAP/ADI_4_AUX.html#ISRC">ADI_4_AUX:ISRC</A> and <A class="xref" href="../ANATOP_MMAP/ADI_4_AUX.html#COMP_COMPA_REF_CURR_EN">ADI_4_AUX:COMP.COMPA_REF_CURR_EN</A>  for further information.<BR>
+- Use the <A class="mmap_legend_link" href="../legend.html#DAC">DAC</A> to generate a programmable voltage on <A class="mmap_legend_link" href="../legend.html#COMPB_REF">COMPB_REF</A>, <A class="mmap_legend_link" href="../legend.html#COMPA_REF">COMPA_REF</A>, or <A class="mmap_legend_link" href="../legend.html#COMPA_IN">COMPA_IN</A> analog nodes.  <BR>
+<BR>
+To use:<BR>
+- ADC  : <A class="xref" href="AUX_SCE.html">AUX_SCE</A> must request active operational mode with <A class="xref" href="AON_PMCTL.html#AUXSCECLK_SRC">AON_PMCTL:AUXSCECLK.SRC</A> set to SCLK_HFDIV2. There are no requirements for system CPU.<BR>
+- ISRC : <A class="xref" href="AUX_SCE.html">AUX_SCE</A> must request active operational mode. There are no requirements for system CPU.<BR>
+- DAC  : <A class="xref" href="AUX_SCE.html">AUX_SCE</A> must set <A class="xref" href="AUX_SYSIF.html#PEROPRATE_ANAIF_DAC_OP_RATE">AUX_SYSIF:PEROPRATE.ANAIF_DAC_OP_RATE</A> to SCE_RATE as long as DAC state machine generates the sample clock. System CPU must set <A class="xref" href="AUX_SYSIF.html#PEROPRATE_ANAIF_DAC_OP_RATE">AUX_SYSIF:PEROPRATE.ANAIF_DAC_OP_RATE</A> to BUS_RATE as long as DAC state machine generates the sample clock. See <A class="xref" href="#DACSMPLCTL_EN">DACSMPLCTL.EN</A> for further information.</P>
+ <H3 class="mmapRegisterSummaryTitle"><A name="AUX_ANAIF"></A><A href="CPU_MMAP.html"> TOP</A>:<B>AUX_ANAIF</B> Register Summary</H3>
+<TABLE cellspacing="0" class="mmapRegisterSummaryTable">
+<TR class="rowTop">
+<TD class="cellTopCol1">
+  <P>Register Name</P>
+</TD>
+<TD class="cellTopCol2">
+  <P>Type</P>
+</TD>
+<TD class="cellTopCol3">
+  <P>Register Width (Bits)</P>
+</TD>
+<TD class="cellTopCol4">
+  <P>Register Reset</P>
+</TD>
+<TD class="cellTopCol5">
+  <P>Address Offset</P>
+</TD>
+<TD class="cellTopCol5">
+  <P>Physical Address</P>
+</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">
+  <P>
+    <A href="#ADCCTL" title="ADC Control">ADCCTL</A>
+  </P>
+</TD>
+<TD class="cellCol2">
+  <P>RW</P>
+</TD>
+<TD class="cellCol3">
+  <P>32</P>
+</TD>
+<TD class="cellCol4">
+  <P>0x0000 3F00</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x0000 0010</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x400C 9010</P>
+</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">
+  <P>
+    <A href="#ADCFIFOSTAT" title="ADC FIFO Status">ADCFIFOSTAT</A>
+  </P>
+</TD>
+<TD class="cellCol2">
+  <P>RO</P>
+</TD>
+<TD class="cellCol3">
+  <P>32</P>
+</TD>
+<TD class="cellCol4">
+  <P>0x0000 0001</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x0000 0014</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x400C 9014</P>
+</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">
+  <P>
+    <A href="#ADCFIFO" title="ADC FIFO">ADCFIFO</A>
+  </P>
+</TD>
+<TD class="cellCol2">
+  <P>RW</P>
+</TD>
+<TD class="cellCol3">
+  <P>32</P>
+</TD>
+<TD class="cellCol4">
+  <P>0x0000 0000</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x0000 0018</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x400C 9018</P>
+</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">
+  <P>
+    <A href="#ADCTRIG" title="ADC Trigger">ADCTRIG</A>
+  </P>
+</TD>
+<TD class="cellCol2">
+  <P>RW</P>
+</TD>
+<TD class="cellCol3">
+  <P>32</P>
+</TD>
+<TD class="cellCol4">
+  <P>0x0000 0000</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x0000 001C</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x400C 901C</P>
+</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">
+  <P>
+    <A href="#ISRCCTL" title="Current Source Control">ISRCCTL</A>
+  </P>
+</TD>
+<TD class="cellCol2">
+  <P>RW</P>
+</TD>
+<TD class="cellCol3">
+  <P>32</P>
+</TD>
+<TD class="cellCol4">
+  <P>0x0000 0001</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x0000 0020</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x400C 9020</P>
+</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">
+  <P>
+    <A href="#DACCTL" title="DAC Control">DACCTL</A>
+  </P>
+</TD>
+<TD class="cellCol2">
+  <P>RW</P>
+</TD>
+<TD class="cellCol3">
+  <P>32</P>
+</TD>
+<TD class="cellCol4">
+  <P>0x0000 0000</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x0000 0030</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x400C 9030</P>
+</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">
+  <P>
+    <A href="#LPMBIASCTL" title="Low Power Mode Bias Control">LPMBIASCTL</A>
+  </P>
+</TD>
+<TD class="cellCol2">
+  <P>RW</P>
+</TD>
+<TD class="cellCol3">
+  <P>32</P>
+</TD>
+<TD class="cellCol4">
+  <P>0x0000 0000</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x0000 0034</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x400C 9034</P>
+</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">
+  <P>
+    <A href="#DACSMPLCTL" title="DAC Sample Control">DACSMPLCTL</A>
+  </P>
+</TD>
+<TD class="cellCol2">
+  <P>RW</P>
+</TD>
+<TD class="cellCol3">
+  <P>32</P>
+</TD>
+<TD class="cellCol4">
+  <P>0x0000 0000</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x0000 0038</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x400C 9038</P>
+</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">
+  <P>
+    <A href="#DACSMPLCFG0" title="DAC Sample Configuration 0">DACSMPLCFG0</A>
+  </P>
+</TD>
+<TD class="cellCol2">
+  <P>RW</P>
+</TD>
+<TD class="cellCol3">
+  <P>32</P>
+</TD>
+<TD class="cellCol4">
+  <P>0x0000 0000</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x0000 003C</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x400C 903C</P>
+</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">
+  <P>
+    <A href="#DACSMPLCFG1" title="DAC Sample Configuration 1">DACSMPLCFG1</A>
+  </P>
+</TD>
+<TD class="cellCol2">
+  <P>RW</P>
+</TD>
+<TD class="cellCol3">
+  <P>32</P>
+</TD>
+<TD class="cellCol4">
+  <P>0x0000 0000</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x0000 0040</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x400C 9040</P>
+</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">
+  <P>
+    <A href="#DACVALUE" title="DAC Value">DACVALUE</A>
+  </P>
+</TD>
+<TD class="cellCol2">
+  <P>RW</P>
+</TD>
+<TD class="cellCol3">
+  <P>32</P>
+</TD>
+<TD class="cellCol4">
+  <P>0x0000 0000</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x0000 0044</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x400C 9044</P>
+</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">
+  <P>
+    <A href="#DACSTAT" title="DAC Status">DACSTAT</A>
+  </P>
+</TD>
+<TD class="cellCol2">
+  <P>RO</P>
+</TD>
+<TD class="cellCol3">
+  <P>32</P>
+</TD>
+<TD class="cellCol4">
+  <P>0x0000 0000</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x0000 0048</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x400C 9048</P>
+</TD>
+</TR>
+</TABLE>
+<H3 class="mmapRegisterSummaryTitle"><A href="CPU_MMAP.html"> TOP</A>:AUX_ANAIF Register Descriptions</H3>
+<H3 class="mmapRegisterTitle"><A name="ADCCTL"></A><A class="mmapRegisterTitle" href="CPU_MMAP.html">TOP</A>:<A class="mmapRegisterTitle" href="#Top_Tag">AUX_ANAIF</A>:ADCCTL</H3><TABLE cellspacing="0" class="mmapRegisterTable">
+<TR class="row">
+<TD class="cellCol1"><B>Address Offset</B></TD>
+<TD class="cellCol2" colspan="3">0x0000 0010</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Physical Address</TD>
+<TD class="cellCol2">0x400C 9010</TD>
+<TD class="cellCol3">Instance</TD>
+<TD class="cellCol4">0x400C 9010</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Description</TD>
+<TD class="cellCol2" colspan="3"><A class="mmap_legend_link" href="../legend.html#ADC">ADC</A> Control<BR>
+<BR>
+Configuration of <A class="xref" href="../ANATOP_MMAP/ADI_4_AUX.html#ADC0_SMPL_MODE">ADI_4_AUX:ADC0.SMPL_MODE</A> decides if the <A class="mmap_legend_link" href="../legend.html#ADC">ADC</A> trigger starts sampling or conversion.</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Type</TD>
+<TD class="cellCol2" colspan="3">RW</TD>
+</TR>
+</TABLE>
+<TABLE cellspacing="0" class="mmapBitfieldTable">
+<TR class="rowTop">
+<TD class="cellTopCol1">Bits</TD>
+<TD class="cellTopCol2">Field Name</TD>
+<TD class="cellTopCol3" colspan="3">Description</TD>
+<TD class="cellTopCol4">Type</TD>
+<TD class="cellTopCol5">Reset</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="ADCCTL_RESERVED15">31:15</a>
+</TD>
+<TD class="cellBitfieldCol2">RESERVED15</TD>
+<TD class="cellBitfieldCol3" colspan="3">Software should not rely on the value of a reserved. Writing any other value than the reset value may result in undefined behavior.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0b0 0000 0000 0000 0000</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="ADCCTL_START_POL">14</a>
+</TD>
+<TD class="cellBitfieldCol2">START_POL</TD>
+<TD class="cellBitfieldCol3" colspan="3">Select active polarity for <A class="xref" href="#ADCCTL_START_SRC">START_SRC</A> event.<TABLE cellspacing="0" class="LprfEnum">
+<TR class="rowEnumHead">
+<TD class="cellEnumTableHeadCol1">Value</TD>
+<TD class="cellEnumTableHeadCol2">ENUM Name</TD>
+<TD class="cellEnumTableHeadCol3">Description</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x0</TD>
+<TD class="cellEnumTableCol2">RISE</TD>
+<TD class="cellEnumTableCol3">Set ADC trigger on rising edge of event source.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1</TD>
+<TD class="cellEnumTableCol2">FALL</TD>
+<TD class="cellEnumTableCol3">Set ADC trigger on falling edge of event source.</TD>
+</TR>
+</TABLE>
+</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="ADCCTL_START_SRC">13:8</a>
+</TD>
+<TD class="cellBitfieldCol2">START_SRC</TD>
+<TD class="cellBitfieldCol3" colspan="3">Select ADC trigger event source from the asynchronous <A class="mmap_legend_link" href="../legend.html#AUX">AUX</A> event bus.<BR>
+<BR>
+Set START_SRC to NO_EVENT if you want to trigger the ADC manually through <A class="xref" href="#ADCTRIG_START">ADCTRIG.START</A>.<BR>
+<BR>
+If you write a non-enumerated value the behavior is identical to NO_EVENT. The written value is returned when read.<TABLE cellspacing="0" class="LprfEnum">
+<TR class="rowEnumHead">
+<TD class="cellEnumTableHeadCol1">Value</TD>
+<TD class="cellEnumTableHeadCol2">ENUM Name</TD>
+<TD class="cellEnumTableHeadCol3">Description</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x0</TD>
+<TD class="cellEnumTableCol2">AUXIO0</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO0">AUX_EVCTL:EVSTAT0.AUXIO0</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1</TD>
+<TD class="cellEnumTableCol2">AUXIO1</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO1">AUX_EVCTL:EVSTAT0.AUXIO1</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x2</TD>
+<TD class="cellEnumTableCol2">AUXIO2</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO2">AUX_EVCTL:EVSTAT0.AUXIO2</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x3</TD>
+<TD class="cellEnumTableCol2">AUXIO3</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO3">AUX_EVCTL:EVSTAT0.AUXIO3</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x4</TD>
+<TD class="cellEnumTableCol2">AUXIO4</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO4">AUX_EVCTL:EVSTAT0.AUXIO4</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x5</TD>
+<TD class="cellEnumTableCol2">AUXIO5</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO5">AUX_EVCTL:EVSTAT0.AUXIO5</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x6</TD>
+<TD class="cellEnumTableCol2">AUXIO6</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO6">AUX_EVCTL:EVSTAT0.AUXIO6</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x7</TD>
+<TD class="cellEnumTableCol2">AUXIO7</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO7">AUX_EVCTL:EVSTAT0.AUXIO7</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x8</TD>
+<TD class="cellEnumTableCol2">AUXIO8</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO8">AUX_EVCTL:EVSTAT0.AUXIO8</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x9</TD>
+<TD class="cellEnumTableCol2">AUXIO9</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO9">AUX_EVCTL:EVSTAT0.AUXIO9</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xA</TD>
+<TD class="cellEnumTableCol2">AUXIO10</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO10">AUX_EVCTL:EVSTAT0.AUXIO10</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xB</TD>
+<TD class="cellEnumTableCol2">AUXIO11</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO11">AUX_EVCTL:EVSTAT0.AUXIO11</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xC</TD>
+<TD class="cellEnumTableCol2">AUXIO12</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO12">AUX_EVCTL:EVSTAT0.AUXIO12</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xD</TD>
+<TD class="cellEnumTableCol2">AUXIO13</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO13">AUX_EVCTL:EVSTAT0.AUXIO13</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xE</TD>
+<TD class="cellEnumTableCol2">AUXIO14</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO14">AUX_EVCTL:EVSTAT0.AUXIO14</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xF</TD>
+<TD class="cellEnumTableCol2">AUXIO15</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT0_AUXIO15">AUX_EVCTL:EVSTAT0.AUXIO15</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x10</TD>
+<TD class="cellEnumTableCol2">AUXIO16</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO16">AUX_EVCTL:EVSTAT1.AUXIO16</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x11</TD>
+<TD class="cellEnumTableCol2">AUXIO17</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO17">AUX_EVCTL:EVSTAT1.AUXIO17</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x12</TD>
+<TD class="cellEnumTableCol2">AUXIO18</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO18">AUX_EVCTL:EVSTAT1.AUXIO18</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x13</TD>
+<TD class="cellEnumTableCol2">AUXIO19</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO19">AUX_EVCTL:EVSTAT1.AUXIO19</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x14</TD>
+<TD class="cellEnumTableCol2">AUXIO20</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO20">AUX_EVCTL:EVSTAT1.AUXIO20</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x15</TD>
+<TD class="cellEnumTableCol2">AUXIO21</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO21">AUX_EVCTL:EVSTAT1.AUXIO21</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x16</TD>
+<TD class="cellEnumTableCol2">AUXIO22</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO22">AUX_EVCTL:EVSTAT1.AUXIO22</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x17</TD>
+<TD class="cellEnumTableCol2">AUXIO23</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO23">AUX_EVCTL:EVSTAT1.AUXIO23</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x18</TD>
+<TD class="cellEnumTableCol2">AUXIO24</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO24">AUX_EVCTL:EVSTAT1.AUXIO24</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x19</TD>
+<TD class="cellEnumTableCol2">AUXIO25</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO25">AUX_EVCTL:EVSTAT1.AUXIO25</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1A</TD>
+<TD class="cellEnumTableCol2">AUXIO26</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO26">AUX_EVCTL:EVSTAT1.AUXIO26</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1B</TD>
+<TD class="cellEnumTableCol2">AUXIO27</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO27">AUX_EVCTL:EVSTAT1.AUXIO27</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1C</TD>
+<TD class="cellEnumTableCol2">AUXIO28</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO28">AUX_EVCTL:EVSTAT1.AUXIO28</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1D</TD>
+<TD class="cellEnumTableCol2">AUXIO29</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO29">AUX_EVCTL:EVSTAT1.AUXIO29</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1E</TD>
+<TD class="cellEnumTableCol2">AUXIO30</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO30">AUX_EVCTL:EVSTAT1.AUXIO30</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1F</TD>
+<TD class="cellEnumTableCol2">AUXIO31</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT1_AUXIO31">AUX_EVCTL:EVSTAT1.AUXIO31</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x20</TD>
+<TD class="cellEnumTableCol2">MANUAL_EV</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_MANUAL_EV">AUX_EVCTL:EVSTAT2.MANUAL_EV</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x21</TD>
+<TD class="cellEnumTableCol2">AON_RTC_CH2</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_AON_RTC_CH2">AUX_EVCTL:EVSTAT2.AON_RTC_CH2</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x22</TD>
+<TD class="cellEnumTableCol2">AON_RTC_CH2_DLY</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_AON_RTC_CH2_DLY">AUX_EVCTL:EVSTAT2.AON_RTC_CH2_DLY</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x23</TD>
+<TD class="cellEnumTableCol2">AON_RTC_4KHZ</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_AON_RTC_4KHZ">AUX_EVCTL:EVSTAT2.AON_RTC_4KHZ</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x24</TD>
+<TD class="cellEnumTableCol2">AON_BATMON_BAT_UPD</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_AON_BATMON_BAT_UPD">AUX_EVCTL:EVSTAT2.AON_BATMON_BAT_UPD</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x25</TD>
+<TD class="cellEnumTableCol2">AON_BATMON_TEMP_UPD</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_AON_BATMON_TEMP_UPD">AUX_EVCTL:EVSTAT2.AON_BATMON_TEMP_UPD</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x26</TD>
+<TD class="cellEnumTableCol2">SCLK_LF</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_SCLK_LF">AUX_EVCTL:EVSTAT2.SCLK_LF</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x27</TD>
+<TD class="cellEnumTableCol2">PWR_DWN</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_PWR_DWN">AUX_EVCTL:EVSTAT2.PWR_DWN</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x28</TD>
+<TD class="cellEnumTableCol2">MCU_ACTIVE</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_MCU_ACTIVE">AUX_EVCTL:EVSTAT2.MCU_ACTIVE</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x29</TD>
+<TD class="cellEnumTableCol2">VDDR_RECHARGE</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_VDDR_RECHARGE">AUX_EVCTL:EVSTAT2.VDDR_RECHARGE</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x2A</TD>
+<TD class="cellEnumTableCol2">ACLK_REF</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_ACLK_REF">AUX_EVCTL:EVSTAT2.ACLK_REF</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x2B</TD>
+<TD class="cellEnumTableCol2">MCU_EV</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_MCU_EV">AUX_EVCTL:EVSTAT2.MCU_EV</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x2E</TD>
+<TD class="cellEnumTableCol2">AUX_COMPA</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_AUX_COMPA">AUX_EVCTL:EVSTAT2.AUX_COMPA</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x2F</TD>
+<TD class="cellEnumTableCol2">AUX_COMPB</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT2_AUX_COMPB">AUX_EVCTL:EVSTAT2.AUX_COMPB</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x30</TD>
+<TD class="cellEnumTableCol2">AUX_TIMER2_EV0</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT3_AUX_TIMER2_EV0">AUX_EVCTL:EVSTAT3.AUX_TIMER2_EV0</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x31</TD>
+<TD class="cellEnumTableCol2">AUX_TIMER2_EV1</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT3_AUX_TIMER2_EV1">AUX_EVCTL:EVSTAT3.AUX_TIMER2_EV1</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x32</TD>
+<TD class="cellEnumTableCol2">AUX_TIMER2_EV2</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT3_AUX_TIMER2_EV2">AUX_EVCTL:EVSTAT3.AUX_TIMER2_EV2</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x33</TD>
+<TD class="cellEnumTableCol2">AUX_TIMER2_EV3</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT3_AUX_TIMER2_EV3">AUX_EVCTL:EVSTAT3.AUX_TIMER2_EV3</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x34</TD>
+<TD class="cellEnumTableCol2">AUX_TIMER2_PULSE</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT3_AUX_TIMER2_PULSE">AUX_EVCTL:EVSTAT3.AUX_TIMER2_PULSE</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x35</TD>
+<TD class="cellEnumTableCol2">AUX_TIMER1_EV</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT3_AUX_TIMER1_EV">AUX_EVCTL:EVSTAT3.AUX_TIMER1_EV</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x36</TD>
+<TD class="cellEnumTableCol2">AUX_TIMER0_EV</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT3_AUX_TIMER0_EV">AUX_EVCTL:EVSTAT3.AUX_TIMER0_EV</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x37</TD>
+<TD class="cellEnumTableCol2">AUX_TDC_DONE</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT3_AUX_TDC_DONE">AUX_EVCTL:EVSTAT3.AUX_TDC_DONE</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x38</TD>
+<TD class="cellEnumTableCol2">AUX_ISRC_RESET_N</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT3_AUX_ISRC_RESET_N">AUX_EVCTL:EVSTAT3.AUX_ISRC_RESET_N</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x3D</TD>
+<TD class="cellEnumTableCol2">AUX_SMPH_AUTOTAKE_DONE</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="AUX_EVCTL.html#EVSTAT3_AUX_SMPH_AUTOTAKE_DONE">AUX_EVCTL:EVSTAT3.AUX_SMPH_AUTOTAKE_DONE</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x3F</TD>
+<TD class="cellEnumTableCol2">NO_EVENT</TD>
+<TD class="cellEnumTableCol3">No event.</TD>
+</TR>
+</TABLE>
+</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0b11 1111</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="ADCCTL_RESERVED2">7:2</a>
+</TD>
+<TD class="cellBitfieldCol2">RESERVED2</TD>
+<TD class="cellBitfieldCol3" colspan="3">Software should not rely on the value of a reserved. Writing any other value than the reset value may result in undefined behavior.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0b00 0000</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="ADCCTL_CMD">1:0</a>
+</TD>
+<TD class="cellBitfieldCol2">CMD</TD>
+<TD class="cellBitfieldCol3" colspan="3">ADC interface command.<BR>
+<BR>
+Non-enumerated values are not supported. The written value is returned when read.<TABLE cellspacing="0" class="LprfEnum">
+<TR class="rowEnumHead">
+<TD class="cellEnumTableHeadCol1">Value</TD>
+<TD class="cellEnumTableHeadCol2">ENUM Name</TD>
+<TD class="cellEnumTableHeadCol3">Description</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x0</TD>
+<TD class="cellEnumTableCol2">DIS</TD>
+<TD class="cellEnumTableCol3">Disable ADC interface.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1</TD>
+<TD class="cellEnumTableCol2">EN</TD>
+<TD class="cellEnumTableCol3">Enable ADC interface.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x3</TD>
+<TD class="cellEnumTableCol2">FLUSH</TD>
+<TD class="cellEnumTableCol3">Flush ADC <A class="mmap_legend_link" href="../legend.html#FIFO">FIFO</A>.<BR>
+<BR>
+You must set CMD to EN or DIS after flush.<BR>
+<BR>
+System CPU must wait two clock cycles before it sets CMD to EN or DIS.</TD>
+</TR>
+</TABLE>
+</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0b00</TD>
+</TR>
+</TABLE>
+<H3 class="mmapRegisterTitle"><A name="ADCFIFOSTAT"></A><A class="mmapRegisterTitle" href="CPU_MMAP.html">TOP</A>:<A class="mmapRegisterTitle" href="#Top_Tag">AUX_ANAIF</A>:ADCFIFOSTAT</H3><TABLE cellspacing="0" class="mmapRegisterTable">
+<TR class="row">
+<TD class="cellCol1"><B>Address Offset</B></TD>
+<TD class="cellCol2" colspan="3">0x0000 0014</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Physical Address</TD>
+<TD class="cellCol2">0x400C 9014</TD>
+<TD class="cellCol3">Instance</TD>
+<TD class="cellCol4">0x400C 9014</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Description</TD>
+<TD class="cellCol2" colspan="3"><A class="mmap_legend_link" href="../legend.html#ADC">ADC</A> <A class="mmap_legend_link" href="../legend.html#FIFO">FIFO</A> Status<BR>
+<BR>
+FIFO can hold up to four ADC samples.</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Type</TD>
+<TD class="cellCol2" colspan="3">RO</TD>
+</TR>
+</TABLE>
+<TABLE cellspacing="0" class="mmapBitfieldTable">
+<TR class="rowTop">
+<TD class="cellTopCol1">Bits</TD>
+<TD class="cellTopCol2">Field Name</TD>
+<TD class="cellTopCol3" colspan="3">Description</TD>
+<TD class="cellTopCol4">Type</TD>
+<TD class="cellTopCol5">Reset</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="ADCFIFOSTAT_RESERVED5">31:5</a>
+</TD>
+<TD class="cellBitfieldCol2">RESERVED5</TD>
+<TD class="cellBitfieldCol3" colspan="3">Software should not rely on the value of a reserved. Writing any other value than the reset value may result in undefined behavior.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0b000 0000 0000 0000 0000 0000 0000</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="ADCFIFOSTAT_OVERFLOW">4</a>
+</TD>
+<TD class="cellBitfieldCol2">OVERFLOW</TD>
+<TD class="cellBitfieldCol3" colspan="3">FIFO overflow flag.<BR>
+<BR>
+0: FIFO has not overflowed.<BR>
+1: FIFO has overflowed, this flag is sticky until you flush the FIFO.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="ADCFIFOSTAT_UNDERFLOW">3</a>
+</TD>
+<TD class="cellBitfieldCol2">UNDERFLOW</TD>
+<TD class="cellBitfieldCol3" colspan="3">FIFO underflow flag.<BR>
+<BR>
+0: FIFO has not underflowed.<BR>
+1: FIFO has underflowed, this flag is sticky until you flush the FIFO.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="ADCFIFOSTAT_FULL">2</a>
+</TD>
+<TD class="cellBitfieldCol2">FULL</TD>
+<TD class="cellBitfieldCol3" colspan="3">FIFO full flag.<BR>
+<BR>
+0: FIFO is not full, there is less than 4 samples in the FIFO. <BR>
+1: FIFO is full, there are 4 samples in the FIFO.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="ADCFIFOSTAT_ALMOST_FULL">1</a>
+</TD>
+<TD class="cellBitfieldCol2">ALMOST_FULL</TD>
+<TD class="cellBitfieldCol3" colspan="3">FIFO almost full flag.<BR>
+<BR>
+0: There are less than 3 samples in the FIFO, or the FIFO is full. The <A class="xref" href="#ADCFIFOSTAT_FULL">FULL</A> flag is also asserted in the latter case.<BR>
+1: There are 3 samples in the FIFO, there is room for one more sample.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="ADCFIFOSTAT_EMPTY">0</a>
+</TD>
+<TD class="cellBitfieldCol2">EMPTY</TD>
+<TD class="cellBitfieldCol3" colspan="3">FIFO empty flag.<BR>
+<BR>
+0: FIFO contains one or more samples.<BR>
+1: FIFO is empty.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">1</TD>
+</TR>
+</TABLE>
+<H3 class="mmapRegisterTitle"><A name="ADCFIFO"></A><A class="mmapRegisterTitle" href="CPU_MMAP.html">TOP</A>:<A class="mmapRegisterTitle" href="#Top_Tag">AUX_ANAIF</A>:ADCFIFO</H3><TABLE cellspacing="0" class="mmapRegisterTable">
+<TR class="row">
+<TD class="cellCol1"><B>Address Offset</B></TD>
+<TD class="cellCol2" colspan="3">0x0000 0018</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Physical Address</TD>
+<TD class="cellCol2">0x400C 9018</TD>
+<TD class="cellCol3">Instance</TD>
+<TD class="cellCol4">0x400C 9018</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Description</TD>
+<TD class="cellCol2" colspan="3"><A class="mmap_legend_link" href="../legend.html#ADC">ADC</A> <A class="mmap_legend_link" href="../legend.html#FIFO">FIFO</A></TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Type</TD>
+<TD class="cellCol2" colspan="3">RW</TD>
+</TR>
+</TABLE>
+<TABLE cellspacing="0" class="mmapBitfieldTable">
+<TR class="rowTop">
+<TD class="cellTopCol1">Bits</TD>
+<TD class="cellTopCol2">Field Name</TD>
+<TD class="cellTopCol3" colspan="3">Description</TD>
+<TD class="cellTopCol4">Type</TD>
+<TD class="cellTopCol5">Reset</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="ADCFIFO_RESERVED12">31:12</a>
+</TD>
+<TD class="cellBitfieldCol2">RESERVED12</TD>
+<TD class="cellBitfieldCol3" colspan="3">Software should not rely on the value of a reserved. Writing any other value than the reset value may result in undefined behavior.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0x0 0000</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="ADCFIFO_DATA">11:0</a>
+</TD>
+<TD class="cellBitfieldCol2">DATA</TD>
+<TD class="cellBitfieldCol3" colspan="3">FIFO data.<BR>
+<BR>
+Read:<BR>
+Get oldest ADC sample from FIFO.<BR>
+<BR>
+Write:<BR>
+Write dummy sample to FIFO. This is useful for code development when you do not have real ADC samples.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0x000</TD>
+</TR>
+</TABLE>
+<H3 class="mmapRegisterTitle"><A name="ADCTRIG"></A><A class="mmapRegisterTitle" href="CPU_MMAP.html">TOP</A>:<A class="mmapRegisterTitle" href="#Top_Tag">AUX_ANAIF</A>:ADCTRIG</H3><TABLE cellspacing="0" class="mmapRegisterTable">
+<TR class="row">
+<TD class="cellCol1"><B>Address Offset</B></TD>
+<TD class="cellCol2" colspan="3">0x0000 001C</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Physical Address</TD>
+<TD class="cellCol2">0x400C 901C</TD>
+<TD class="cellCol3">Instance</TD>
+<TD class="cellCol4">0x400C 901C</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Description</TD>
+<TD class="cellCol2" colspan="3"><A class="mmap_legend_link" href="../legend.html#ADC">ADC</A> Trigger</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Type</TD>
+<TD class="cellCol2" colspan="3">RW</TD>
+</TR>
+</TABLE>
+<TABLE cellspacing="0" class="mmapBitfieldTable">
+<TR class="rowTop">
+<TD class="cellTopCol1">Bits</TD>
+<TD class="cellTopCol2">Field Name</TD>
+<TD class="cellTopCol3" colspan="3">Description</TD>
+<TD class="cellTopCol4">Type</TD>
+<TD class="cellTopCol5">Reset</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="ADCTRIG_RESERVED1">31:1</a>
+</TD>
+<TD class="cellBitfieldCol2">RESERVED1</TD>
+<TD class="cellBitfieldCol3" colspan="3">Software should not rely on the value of a reserved. Writing any other value than the reset value may result in undefined behavior.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0b000 0000 0000 0000 0000 0000 0000 0000</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="ADCTRIG_START">0</a>
+</TD>
+<TD class="cellBitfieldCol2">START</TD>
+<TD class="cellBitfieldCol3" colspan="3">Manual ADC trigger. <BR>
+<BR>
+0: No effect.<BR>
+1: Single ADC trigger. <BR>
+<BR>
+To manually trigger the ADC, you must set <A class="xref" href="#ADCCTL_START_SRC">ADCCTL.START_SRC</A> to NO_EVENT to avoid conflict with event-driven ADC trigger.</TD>
+<TD class="cellBitfieldCol4">WO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+</TABLE>
+<H3 class="mmapRegisterTitle"><A name="ISRCCTL"></A><A class="mmapRegisterTitle" href="CPU_MMAP.html">TOP</A>:<A class="mmapRegisterTitle" href="#Top_Tag">AUX_ANAIF</A>:ISRCCTL</H3><TABLE cellspacing="0" class="mmapRegisterTable">
+<TR class="row">
+<TD class="cellCol1"><B>Address Offset</B></TD>
+<TD class="cellCol2" colspan="3">0x0000 0020</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Physical Address</TD>
+<TD class="cellCol2">0x400C 9020</TD>
+<TD class="cellCol3">Instance</TD>
+<TD class="cellCol4">0x400C 9020</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Description</TD>
+<TD class="cellCol2" colspan="3">Current Source Control</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Type</TD>
+<TD class="cellCol2" colspan="3">RW</TD>
+</TR>
+</TABLE>
+<TABLE cellspacing="0" class="mmapBitfieldTable">
+<TR class="rowTop">
+<TD class="cellTopCol1">Bits</TD>
+<TD class="cellTopCol2">Field Name</TD>
+<TD class="cellTopCol3" colspan="3">Description</TD>
+<TD class="cellTopCol4">Type</TD>
+<TD class="cellTopCol5">Reset</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="ISRCCTL_RESERVED1">31:1</a>
+</TD>
+<TD class="cellBitfieldCol2">RESERVED1</TD>
+<TD class="cellBitfieldCol3" colspan="3">Software should not rely on the value of a reserved. Writing any other value than the reset value may result in undefined behavior.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0b000 0000 0000 0000 0000 0000 0000 0000</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="ISRCCTL_RESET_N">0</a>
+</TD>
+<TD class="cellBitfieldCol2">RESET_N</TD>
+<TD class="cellBitfieldCol3" colspan="3"><A class="mmap_legend_link" href="../legend.html#ISRC">ISRC</A> reset control.<BR>
+<BR>
+0: ISRC drives 0 uA.<BR>
+1: ISRC drives current <A class="xref" href="../ANATOP_MMAP/ADI_4_AUX.html#ISRC_TRIM">ADI_4_AUX:ISRC.TRIM</A> to <A class="mmap_legend_link" href="../legend.html#COMPA_IN">COMPA_IN</A>.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">1</TD>
+</TR>
+</TABLE>
+<H3 class="mmapRegisterTitle"><A name="DACCTL"></A><A class="mmapRegisterTitle" href="CPU_MMAP.html">TOP</A>:<A class="mmapRegisterTitle" href="#Top_Tag">AUX_ANAIF</A>:DACCTL</H3><TABLE cellspacing="0" class="mmapRegisterTable">
+<TR class="row">
+<TD class="cellCol1"><B>Address Offset</B></TD>
+<TD class="cellCol2" colspan="3">0x0000 0030</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Physical Address</TD>
+<TD class="cellCol2">0x400C 9030</TD>
+<TD class="cellCol3">Instance</TD>
+<TD class="cellCol4">0x400C 9030</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Description</TD>
+<TD class="cellCol2" colspan="3"><A class="mmap_legend_link" href="../legend.html#DAC">DAC</A> Control<BR>
+<BR>
+This register controls the analog part of the DAC.</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Type</TD>
+<TD class="cellCol2" colspan="3">RW</TD>
+</TR>
+</TABLE>
+<TABLE cellspacing="0" class="mmapBitfieldTable">
+<TR class="rowTop">
+<TD class="cellTopCol1">Bits</TD>
+<TD class="cellTopCol2">Field Name</TD>
+<TD class="cellTopCol3" colspan="3">Description</TD>
+<TD class="cellTopCol4">Type</TD>
+<TD class="cellTopCol5">Reset</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="DACCTL_RESERVED6">31:6</a>
+</TD>
+<TD class="cellBitfieldCol2">RESERVED6</TD>
+<TD class="cellBitfieldCol3" colspan="3">Software should not rely on the value of a reserved. Writing any other value than the reset value may result in undefined behavior.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0b00 0000 0000 0000 0000 0000 0000</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="DACCTL_DAC_EN">5</a>
+</TD>
+<TD class="cellBitfieldCol2">DAC_EN</TD>
+<TD class="cellBitfieldCol3" colspan="3">DAC module enable.<BR>
+<BR>
+0: Disable DAC.<BR>
+1: Enable DAC.<BR>
+<BR>
+The Sensor Controller must not use the DAC when <A class="xref" href="AUX_SYSIF.html#OPMODEREQ_REQ">AUX_SYSIF:OPMODEREQ.REQ</A> equals PDA.<BR>
+<BR>
+The System CPU must not use the DAC when <A class="xref" href="AUX_SYSIF.html#OPMODEREQ_REQ">AUX_SYSIF:OPMODEREQ.REQ</A> equals PDA in Standby TI-RTOS power mode. The System CPU must set <A class="xref" href="AUX_SYSIF.html#PEROPRATE_ANAIF_DAC_OP_RATE">AUX_SYSIF:PEROPRATE.ANAIF_DAC_OP_RATE</A> to BUS_RATE to use the DAC in Active and Idle TI-RTOS power modes.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="DACCTL_DAC_BUFFER_EN">4</a>
+</TD>
+<TD class="cellBitfieldCol2">DAC_BUFFER_EN</TD>
+<TD class="cellBitfieldCol3" colspan="3">DAC buffer enable.<BR>
+<BR>
+DAC buffer reduces the time required to produce the programmed voltage at the expense of increased current consumption.<BR>
+<BR>
+0: Disable DAC buffer.<BR>
+1: Enable DAC buffer.<BR>
+<BR>
+Enable buffer when <A class="xref" href="#DACCTL_DAC_VOUT_SEL">DAC_VOUT_SEL</A> equals COMPA_IN.<BR>
+<BR>
+Do not enable the buffer when <A class="xref" href="AUX_SYSIF.html#OPMODEREQ_REQ">AUX_SYSIF:OPMODEREQ.REQ</A> equals PDA or PDLP.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="DACCTL_DAC_PRECHARGE_EN">3</a>
+</TD>
+<TD class="cellBitfieldCol2">DAC_PRECHARGE_EN</TD>
+<TD class="cellBitfieldCol3" colspan="3">DAC precharge enable.<BR>
+<BR>
+Only enable precharge when <A class="xref" href="../ANATOP_MMAP/ADI_4_AUX.html#MUX2_DAC_VREF_SEL">ADI_4_AUX:MUX2.DAC_VREF_SEL</A> equals DCOUPL and VDDS is higher than 2.65 V. <BR>
+<BR>
+DAC output voltage range:<BR>
+<BR>
+0: 0 V to 1.28 V.<BR>
+1: 1.28 V to 2.56 V. <BR>
+<BR>
+Otherwise, see <A class="xref" href="../ANATOP_MMAP/ADI_4_AUX.html#MUX2_DAC_VREF_SEL">ADI_4_AUX:MUX2.DAC_VREF_SEL</A> for DAC output voltage range. <BR>
+<BR>
+Enable precharge 1 us before you enable the DAC and the buffer.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="DACCTL_DAC_VOUT_SEL">2:0</a>
+</TD>
+<TD class="cellBitfieldCol2">DAC_VOUT_SEL</TD>
+<TD class="cellBitfieldCol3" colspan="3">DAC output connection.<BR>
+<BR>
+An analog node must only have one driver. Other drivers for the following analog nodes are configured in [ANATOP_MMAP::ADI_4_AUX:*].<TABLE cellspacing="0" class="LprfEnum">
+<TR class="rowEnumHead">
+<TD class="cellEnumTableHeadCol1">Value</TD>
+<TD class="cellEnumTableHeadCol2">ENUM Name</TD>
+<TD class="cellEnumTableHeadCol3">Description</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x0</TD>
+<TD class="cellEnumTableCol2">NC</TD>
+<TD class="cellEnumTableCol3">Connect to nothing<BR>
+<BR>
+It is recommended to use NC as intermediate step when you change DAC_VOUT_SEL.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1</TD>
+<TD class="cellEnumTableCol2">COMPB_REF</TD>
+<TD class="cellEnumTableCol3">Connect to <A class="mmap_legend_link" href="../legend.html#COMPB_REF">COMPB_REF</A> analog node.<BR>
+<BR>
+Required setting to use Comparator B.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x2</TD>
+<TD class="cellEnumTableCol2">COMPA_REF</TD>
+<TD class="cellEnumTableCol3">Connect to <A class="mmap_legend_link" href="../legend.html#COMPA_REF">COMPA_REF</A> analog node.<BR>
+<BR>
+It is not possible to drive external loads connected to <A class="mmap_legend_link" href="../legend.html#COMPA_REF">COMPA_REF</A> I/O mux with this setting.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x4</TD>
+<TD class="cellEnumTableCol2">COMPA_IN</TD>
+<TD class="cellEnumTableCol3">Connect to <A class="mmap_legend_link" href="../legend.html#COMPA_IN">COMPA_IN</A> analog node.<BR>
+<BR>
+Required setting to drive external load selected in <A class="xref" href="../ANATOP_MMAP/ADI_4_AUX.html#MUX1_COMPA_IN">ADI_4_AUX:MUX1.COMPA_IN</A>.</TD>
+</TR>
+</TABLE>
+</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0b000</TD>
+</TR>
+</TABLE>
+<H3 class="mmapRegisterTitle"><A name="LPMBIASCTL"></A><A class="mmapRegisterTitle" href="CPU_MMAP.html">TOP</A>:<A class="mmapRegisterTitle" href="#Top_Tag">AUX_ANAIF</A>:LPMBIASCTL</H3><TABLE cellspacing="0" class="mmapRegisterTable">
+<TR class="row">
+<TD class="cellCol1"><B>Address Offset</B></TD>
+<TD class="cellCol2" colspan="3">0x0000 0034</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Physical Address</TD>
+<TD class="cellCol2">0x400C 9034</TD>
+<TD class="cellCol3">Instance</TD>
+<TD class="cellCol4">0x400C 9034</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Description</TD>
+<TD class="cellCol2" colspan="3">Low Power Mode Bias Control<BR>
+<BR>
+The low power mode bias module provides bias current to <A class="mmap_legend_link" href="../legend.html#DAC">DAC</A> and Comparator A when <A class="xref" href="AUX_SYSIF.html#OPMODEREQ_REQ">AUX_SYSIF:OPMODEREQ.REQ</A> differers from A.</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Type</TD>
+<TD class="cellCol2" colspan="3">RW</TD>
+</TR>
+</TABLE>
+<TABLE cellspacing="0" class="mmapBitfieldTable">
+<TR class="rowTop">
+<TD class="cellTopCol1">Bits</TD>
+<TD class="cellTopCol2">Field Name</TD>
+<TD class="cellTopCol3" colspan="3">Description</TD>
+<TD class="cellTopCol4">Type</TD>
+<TD class="cellTopCol5">Reset</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="LPMBIASCTL_RESERVED1">31:1</a>
+</TD>
+<TD class="cellBitfieldCol2">RESERVED1</TD>
+<TD class="cellBitfieldCol3" colspan="3">Software should not rely on the value of a reserved. Writing any other value than the reset value may result in undefined behavior.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0b000 0000 0000 0000 0000 0000 0000 0000</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="LPMBIASCTL_EN">0</a>
+</TD>
+<TD class="cellBitfieldCol2">EN</TD>
+<TD class="cellBitfieldCol3" colspan="3">Module enable.<BR>
+<BR>
+0: Disable low power mode bias module.<BR>
+1: Enable low power mode bias module.<BR>
+<BR>
+Set EN to 1 15 us before you enable the DAC or Comparator A.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+</TABLE>
+<H3 class="mmapRegisterTitle"><A name="DACSMPLCTL"></A><A class="mmapRegisterTitle" href="CPU_MMAP.html">TOP</A>:<A class="mmapRegisterTitle" href="#Top_Tag">AUX_ANAIF</A>:DACSMPLCTL</H3><TABLE cellspacing="0" class="mmapRegisterTable">
+<TR class="row">
+<TD class="cellCol1"><B>Address Offset</B></TD>
+<TD class="cellCol2" colspan="3">0x0000 0038</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Physical Address</TD>
+<TD class="cellCol2">0x400C 9038</TD>
+<TD class="cellCol3">Instance</TD>
+<TD class="cellCol4">0x400C 9038</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Description</TD>
+<TD class="cellCol2" colspan="3"><A class="mmap_legend_link" href="../legend.html#DAC">DAC</A> Sample Control<BR>
+<BR>
+The DAC sample clock maintains the DAC voltage stored in the sample-and-hold capacitor. The DAC sample clock waveform consists of a setup phase followed by a hold phase. In the setup phase the sample-and-hold capacitor charges to the programmed voltage. The hold phase  maintains the voltage with minimal power. <BR>
+<BR>
+<A class="xref" href="#DACSMPLCFG0">DACSMPLCFG0</A> and <A class="xref" href="#DACSMPLCFG1">DACSMPLCFG1</A> configure the DAC sample clock waveform.</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Type</TD>
+<TD class="cellCol2" colspan="3">RW</TD>
+</TR>
+</TABLE>
+<TABLE cellspacing="0" class="mmapBitfieldTable">
+<TR class="rowTop">
+<TD class="cellTopCol1">Bits</TD>
+<TD class="cellTopCol2">Field Name</TD>
+<TD class="cellTopCol3" colspan="3">Description</TD>
+<TD class="cellTopCol4">Type</TD>
+<TD class="cellTopCol5">Reset</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="DACSMPLCTL_RESERVED7">31:1</a>
+</TD>
+<TD class="cellBitfieldCol2">RESERVED7</TD>
+<TD class="cellBitfieldCol3" colspan="3">Software should not rely on the value of a reserved. Writing any other value than the reset value may result in undefined behavior.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0b000 0000 0000 0000 0000 0000 0000 0000</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="DACSMPLCTL_EN">0</a>
+</TD>
+<TD class="cellBitfieldCol2">EN</TD>
+<TD class="cellBitfieldCol3" colspan="3">DAC sample clock enable.<BR>
+<BR>
+0: Disable sample clock. The sample clock stops low and <A class="xref" href="#DACSTAT">DACSTAT</A> becomes 0 when the current sample clock period completes.<BR>
+1: Enable DAC sample clock. <A class="xref" href="#DACSTAT">DACSTAT</A> must be 0 before you enable sample clock.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+</TABLE>
+<H3 class="mmapRegisterTitle"><A name="DACSMPLCFG0"></A><A class="mmapRegisterTitle" href="CPU_MMAP.html">TOP</A>:<A class="mmapRegisterTitle" href="#Top_Tag">AUX_ANAIF</A>:DACSMPLCFG0</H3><TABLE cellspacing="0" class="mmapRegisterTable">
+<TR class="row">
+<TD class="cellCol1"><B>Address Offset</B></TD>
+<TD class="cellCol2" colspan="3">0x0000 003C</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Physical Address</TD>
+<TD class="cellCol2">0x400C 903C</TD>
+<TD class="cellCol3">Instance</TD>
+<TD class="cellCol4">0x400C 903C</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Description</TD>
+<TD class="cellCol2" colspan="3"><A class="mmap_legend_link" href="../legend.html#DAC">DAC</A> Sample Configuration 0</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Type</TD>
+<TD class="cellCol2" colspan="3">RW</TD>
+</TR>
+</TABLE>
+<TABLE cellspacing="0" class="mmapBitfieldTable">
+<TR class="rowTop">
+<TD class="cellTopCol1">Bits</TD>
+<TD class="cellTopCol2">Field Name</TD>
+<TD class="cellTopCol3" colspan="3">Description</TD>
+<TD class="cellTopCol4">Type</TD>
+<TD class="cellTopCol5">Reset</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="DACSMPLCFG0_RESERVED6">31:6</a>
+</TD>
+<TD class="cellBitfieldCol2">RESERVED6</TD>
+<TD class="cellBitfieldCol3" colspan="3">Software should not rely on the value of a reserved. Writing any other value than the reset value may result in undefined behavior.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0b00 0000 0000 0000 0000 0000 0000</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="DACSMPLCFG0_CLKDIV">5:0</a>
+</TD>
+<TD class="cellBitfieldCol2">CLKDIV</TD>
+<TD class="cellBitfieldCol3" colspan="3">Clock division.<BR>
+<BR>
+<A class="xref" href="AUX_SYSIF.html#PEROPRATE_ANAIF_DAC_OP_RATE">AUX_SYSIF:PEROPRATE.ANAIF_DAC_OP_RATE</A> divided by (CLKDIV + 1) determines the sample clock base frequency. <BR>
+<BR>
+0: Divide by 1.<BR>
+1: Divide by 2.<BR>
+... <BR>
+63: Divide by 64.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0b00 0000</TD>
+</TR>
+</TABLE>
+<H3 class="mmapRegisterTitle"><A name="DACSMPLCFG1"></A><A class="mmapRegisterTitle" href="CPU_MMAP.html">TOP</A>:<A class="mmapRegisterTitle" href="#Top_Tag">AUX_ANAIF</A>:DACSMPLCFG1</H3><TABLE cellspacing="0" class="mmapRegisterTable">
+<TR class="row">
+<TD class="cellCol1"><B>Address Offset</B></TD>
+<TD class="cellCol2" colspan="3">0x0000 0040</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Physical Address</TD>
+<TD class="cellCol2">0x400C 9040</TD>
+<TD class="cellCol3">Instance</TD>
+<TD class="cellCol4">0x400C 9040</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Description</TD>
+<TD class="cellCol2" colspan="3"><A class="mmap_legend_link" href="../legend.html#DAC">DAC</A> Sample Configuration 1<BR>
+<BR>
+The sample clock period equals (high time + low time) * base period. <A class="xref" href="#DACSMPLCFG0_CLKDIV">DACSMPLCFG0.CLKDIV</A> determines the base period.<BR>
+<BR>
+Timing  requirements (DAC Buffer On / DAC Buffer Off):<BR>
+- (high time + low time) * base period &#62; (4 us / 1 us)<BR>
+- (high time * base period) &#62; (2 us / 0.5 us)<BR>
+- (low time * base period)  &#62; (2 us / 0.5 us)<BR>
+- (low time * base period + <A class="xref" href="#DACSMPLCFG1_HOLD_INTERVAL">HOLD_INTERVAL</A> * sample clock period) &#60; 32 us <BR>
+<BR>
+If <A class="xref" href="AUX_SYSIF.html#OPMODEREQ_REQ">AUX_SYSIF:OPMODEREQ.REQ</A> equals PDLP, you must set:<BR>
+- <A class="xref" href="#DACSMPLCFG1_H_PER">H_PER</A> = <A class="xref" href="#DACSMPLCFG1_L_PER">L_PER</A> = <A class="xref" href="#DACSMPLCFG1_HOLD_INTERVAL">HOLD_INTERVAL</A> = 0.</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Type</TD>
+<TD class="cellCol2" colspan="3">RW</TD>
+</TR>
+</TABLE>
+<TABLE cellspacing="0" class="mmapBitfieldTable">
+<TR class="rowTop">
+<TD class="cellTopCol1">Bits</TD>
+<TD class="cellTopCol2">Field Name</TD>
+<TD class="cellTopCol3" colspan="3">Description</TD>
+<TD class="cellTopCol4">Type</TD>
+<TD class="cellTopCol5">Reset</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="DACSMPLCFG1_RESERVED15">31:15</a>
+</TD>
+<TD class="cellBitfieldCol2">RESERVED15</TD>
+<TD class="cellBitfieldCol3" colspan="3">Software should not rely on the value of a reserved. Writing any other value than the reset value may result in undefined behavior.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0b0 0000 0000 0000 0000</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="DACSMPLCFG1_H_PER">14</a>
+</TD>
+<TD class="cellBitfieldCol2">H_PER</TD>
+<TD class="cellBitfieldCol3" colspan="3">High time.<BR>
+<BR>
+The sample clock period is high for this many base periods.<BR>
+<BR>
+0: 2 periods<BR>
+1: 4 periods</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="DACSMPLCFG1_L_PER">13:12</a>
+</TD>
+<TD class="cellBitfieldCol2">L_PER</TD>
+<TD class="cellBitfieldCol3" colspan="3">Low time.<BR>
+<BR>
+The sample clock period is low for this many base periods.<BR>
+<BR>
+0: 1 period<BR>
+1: 2 periods<BR>
+2: 3 periods<BR>
+3: 4 periods</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0b00</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="DACSMPLCFG1_SETUP_CNT">11:8</a>
+</TD>
+<TD class="cellBitfieldCol2">SETUP_CNT</TD>
+<TD class="cellBitfieldCol3" colspan="3">Setup count.<BR>
+<BR>
+Number of active sample clock periods during the setup phase.<BR>
+<BR>
+0: 1 sample clock period <BR>
+1: 2 sample clock periods <BR>
+... <BR>
+15 : 16 sample clock periods</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0x0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="DACSMPLCFG1_HOLD_INTERVAL">7:0</a>
+</TD>
+<TD class="cellBitfieldCol2">HOLD_INTERVAL</TD>
+<TD class="cellBitfieldCol3" colspan="3">Hold interval.<BR>
+<BR>
+Number of inactive sample clock periods between each active sample clock period during hold phase. The sample clock is low when inactive. <BR>
+<BR>
+The range is 0 to 255.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0x00</TD>
+</TR>
+</TABLE>
+<H3 class="mmapRegisterTitle"><A name="DACVALUE"></A><A class="mmapRegisterTitle" href="CPU_MMAP.html">TOP</A>:<A class="mmapRegisterTitle" href="#Top_Tag">AUX_ANAIF</A>:DACVALUE</H3><TABLE cellspacing="0" class="mmapRegisterTable">
+<TR class="row">
+<TD class="cellCol1"><B>Address Offset</B></TD>
+<TD class="cellCol2" colspan="3">0x0000 0044</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Physical Address</TD>
+<TD class="cellCol2">0x400C 9044</TD>
+<TD class="cellCol3">Instance</TD>
+<TD class="cellCol4">0x400C 9044</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Description</TD>
+<TD class="cellCol2" colspan="3"><A class="mmap_legend_link" href="../legend.html#DAC">DAC</A> Value</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Type</TD>
+<TD class="cellCol2" colspan="3">RW</TD>
+</TR>
+</TABLE>
+<TABLE cellspacing="0" class="mmapBitfieldTable">
+<TR class="rowTop">
+<TD class="cellTopCol1">Bits</TD>
+<TD class="cellTopCol2">Field Name</TD>
+<TD class="cellTopCol3" colspan="3">Description</TD>
+<TD class="cellTopCol4">Type</TD>
+<TD class="cellTopCol5">Reset</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="DACVALUE_RESERVED8">31:8</a>
+</TD>
+<TD class="cellBitfieldCol2">RESERVED8</TD>
+<TD class="cellBitfieldCol3" colspan="3">Software should not rely on the value of a reserved. Writing any other value than the reset value may result in undefined behavior.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0x00 0000</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="DACVALUE_VALUE">7:0</a>
+</TD>
+<TD class="cellBitfieldCol2">VALUE</TD>
+<TD class="cellBitfieldCol3" colspan="3">DAC value.<BR>
+<BR>
+Digital data word for the DAC.<BR>
+<BR>
+Only change VALUE when <A class="xref" href="#DACCTL_DAC_EN">DACCTL.DAC_EN</A> is 0. Then wait 1 us before you enable the DAC.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0x00</TD>
+</TR>
+</TABLE>
+<H3 class="mmapRegisterTitle"><A name="DACSTAT"></A><A class="mmapRegisterTitle" href="CPU_MMAP.html">TOP</A>:<A class="mmapRegisterTitle" href="#Top_Tag">AUX_ANAIF</A>:DACSTAT</H3><TABLE cellspacing="0" class="mmapRegisterTable">
+<TR class="row">
+<TD class="cellCol1"><B>Address Offset</B></TD>
+<TD class="cellCol2" colspan="3">0x0000 0048</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Physical Address</TD>
+<TD class="cellCol2">0x400C 9048</TD>
+<TD class="cellCol3">Instance</TD>
+<TD class="cellCol4">0x400C 9048</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Description</TD>
+<TD class="cellCol2" colspan="3"><A class="mmap_legend_link" href="../legend.html#DAC">DAC</A> Status</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Type</TD>
+<TD class="cellCol2" colspan="3">RO</TD>
+</TR>
+</TABLE>
+<TABLE cellspacing="0" class="mmapBitfieldTable">
+<TR class="rowTop">
+<TD class="cellTopCol1">Bits</TD>
+<TD class="cellTopCol2">Field Name</TD>
+<TD class="cellTopCol3" colspan="3">Description</TD>
+<TD class="cellTopCol4">Type</TD>
+<TD class="cellTopCol5">Reset</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="DACSTAT_RESERVED2">31:2</a>
+</TD>
+<TD class="cellBitfieldCol2">RESERVED2</TD>
+<TD class="cellBitfieldCol3" colspan="3">Software should not rely on the value of a reserved. Writing any other value than the reset value may result in undefined behavior.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0b00 0000 0000 0000 0000 0000 0000 0000</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="DACSTAT_SETUP_ACTIVE">1</a>
+</TD>
+<TD class="cellBitfieldCol2">SETUP_ACTIVE</TD>
+<TD class="cellBitfieldCol3" colspan="3">DAC setup phase status.<BR>
+<BR>
+0: Sample clock is disabled or setup phase is complete.<BR>
+1: Setup phase in progress.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="DACSTAT_HOLD_ACTIVE">0</a>
+</TD>
+<TD class="cellBitfieldCol2">HOLD_ACTIVE</TD>
+<TD class="cellBitfieldCol3" colspan="3">DAC hold phase status.<BR>
+<BR>
+0: Sample clock is disabled or DAC is not in hold phase.<BR>
+1: Hold phase in progress.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+</TABLE>
+<BR>
+<BR>
+<hr><table class="footer"><tr><td>&copy; 2015 - 2016. Texas Instruments | All Rights Reserved</td></tr></table>
+</BODY>
+</HTML>

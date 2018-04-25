@@ -1,0 +1,6 @@
+<map id="AUXADCDisable" name="AUXADCDisable">
+<area shape="rect" id="node2" href="$group__adi__api.html#gaf149b232b9a9632c52fd26a7513d330d" title="Clear specific bits in an 8 bit ADI register. " alt="" coords="171,31,273,57"/>
+<area shape="rect" id="node3" href="$group__ddi__api.html#ga06d6b1eee2c8757b8431eb6e1ab98f68" title="Safely write to AUX ADI/DDI interfaces using a semaphore. " alt="" coords="321,31,461,57"/>
+<area shape="rect" id="node4" href="$group__cpu__api.html#ga491d851c4f7fff1f9f66aa778b0671b0" title="Disable all external interrupts. " alt="" coords="509,5,589,32"/>
+<area shape="rect" id="node5" href="$group__cpu__api.html#ga6922d401cbc951632f495ffcf2e71dfc" title="Enable all external interrupts. " alt="" coords="509,56,589,83"/>
+</map>

@@ -1,0 +1,456 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Developing a Bluetooth Low Energy Application &mdash; BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation" href="../index.html"/>
+        <link rel="next" title="Overview" href="overview.html"/>
+        <link rel="prev" title="Memory Management" href="../cc2640/memory_management.html"/> 
+    <script language="JavaScript">
+        var tiPageName;
+        tiPageName = "sug ble-stack-3.x index";
+
+        if (location.protocol == "file:"){
+            var ci_analytics_poc_load = true;
+        }
+    </script> 
+
+    <script src="http://www.ti.com/assets/js/headerfooter/analytics.js" type="text/javascript" charset="utf-8">     
+
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../ble-stack-3.x-guide/index.html" class="icon icon-home"> BLE-Stack User's Guide for Bluetooth 4.2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.01.01.00
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../cc2640/disclaimer.html">Disclaimer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/get-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cc2640/platform.html">The CC2640R2F SDK Platform</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Developing a Bluetooth Low Energy Application</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="the-application.html">The Application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-stack">The Stack</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="gap.html">Generic Access Profile (GAP)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gaprole.html">GAPRole Task</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gatt.html">Generic Attribute Profile (GATT)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gatt.html#gap-gatt-service-ggs">GAP GATT Service (GGS)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gatt.html#generic-attribute-profile-service-gatt-service">Generic Attribute Profile Service (GATT Service)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gatt.html#gattservapp-module">GATTServApp Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gapbondmngr.html">GAP Bond Manager and LE Secure Connections</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gapbondmngr.html#le-privacy-1-2">LE Privacy 1.2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="l2cap.html">Logical Link Control and Adaptation Layer Protocol (L2CAP)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data-length-extensions.html">LE Data Length Extension (DLE)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hci.html">Host Controller Interface (HCI)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#creating-a-custom-bluetooth-low-energy-application">Creating a Custom Bluetooth low energy Application</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="creating-a-custom-bluetooth-low-energy-application.html">Defining Application Behavior</a></li>
+<li class="toctree-l3"><a class="reference internal" href="creating-a-custom-bluetooth-low-energy-application.html#compiler-options">Compiler Options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="creating-a-custom-bluetooth-low-energy-application.html#creating-additional-icall-enabled-tasks">Creating Additional ICall Enabled Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="creating-a-custom-bluetooth-low-energy-application.html#using-production-test-mode-ptm">Using Production Test Mode (PTM)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="creating-a-custom-bluetooth-low-energy-application.html#optimizing-bluetooth-low-energy-stack-memory-usage">Optimizing Bluetooth low energy Stack Memory Usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="creating-a-custom-bluetooth-low-energy-application.html#defining-bluetooth-low-energy-behavior">Defining Bluetooth Low Energy Behavior</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stack-configuration.html">Stack Configurations</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#running-the-sdk-on-custom-boards">Running the SDK on Custom Boards</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="custom-hardware.html">TI Provided Board Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="custom-hardware.html#package-type-and-board-files">Package Type and  Board Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="custom-hardware.html#creating-a-custom-board-file">Creating a Custom Board File</a></li>
+<li class="toctree-l3"><a class="reference internal" href="custom-hardware.html#board-level-middleware">Board Level Middleware</a></li>
+<li class="toctree-l3"><a class="reference internal" href="custom-hardware.html#using-32-khz-crystal-less-mode">Using 32-kHz Crystal-Less Mode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="custom-hardware.html#configuring-the-rf-front-end-for-custom-hardware">Configuring the RF Front-End for Custom Hardware</a></li>
+<li class="toctree-l3"><a class="reference internal" href="custom-hardware.html#configuring-device-parameters-for-custom-hardware">Configuring Device Parameters for Custom Hardware</a></li>
+<li class="toctree-l3"><a class="reference internal" href="custom-hardware.html#initial-board-bring-up">Initial Board Bring Up</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../u-stack/index.html">Micro BLE Stack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../oad-ble-stack-3.x/oad.html">Over the Air Download (OAD)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../voice/voice.html">Creating a Voice Enabled Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../secure-fw-3.x/index.html">Secure Firmware (SFW)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensor-controller/sensor-controller.html">Sensor Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../debugging/ble-index.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/migration.html">Migration Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/api-reference.html">API References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/reference.html">Terms and Definitions</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../ble-stack-3.x-guide/index.html">BLE-Stack User's Guide for Bluetooth 4.2</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../ble-stack-3.x-guide/index.html">Docs</a> &raquo;</li>
+        
+      <li>Developing a Bluetooth Low Energy Application</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="developing-a-bluetooth-low-energy-application">
+<h1>Developing a Bluetooth Low Energy Application<a class="headerlink" href="#developing-a-bluetooth-low-energy-application" title="Permalink to this headline">¶</a></h1>
+<p class="rubric">Table of contents</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#bluetooth-low-energy-protocol-stack-basics">Bluetooth low energy Protocol Stack Basics</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="the-application.html">The Application</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="the-application.html#pre-main-initialization">Pre-main initialization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="the-application.html#icall">ICall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="the-application.html#simple-peripheral-task">Simple Peripheral Task</a></li>
+<li class="toctree-l2"><a class="reference internal" href="the-application.html#intertask-messages">Intertask Messages</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="the-stack">
+<span id="id2"></span><h2>The Stack<a class="headerlink" href="#the-stack" title="Permalink to this headline">¶</a></h2>
+<p class="rubric">Table of contents</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="gap.html">Generic Access Profile (GAP)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="gap.html#connection-parameters">Connection Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gap.html#effective-connection-interval">Effective Connection Interval</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gap.html#connection-parameter-considerations">Connection Parameter Considerations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gap.html#connection-parameter-limitations-with-multiple-connections">Connection Parameter Limitations with Multiple Connections</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gap.html#connection-parameter-update">Connection Parameter Update</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gap.html#connection-termination">Connection Termination</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gap.html#gap-abstraction">GAP Abstraction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gap.html#configuring-the-gap-layer">Configuring the GAP Layer</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="gaprole.html">GAPRole Task</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="gaprole.html#peripheral-role">Peripheral Role</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gaprole.html#central-role">Central Role</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="gatt.html">Generic Attribute Profile (GATT)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="gatt.html#gatt-characteristics-and-attributes">GATT Characteristics and Attributes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gatt.html#gatt-client-abstraction">GATT Client Abstraction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gatt.html#gatt-server-abstraction">GATT Server Abstraction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gatt.html#gatt-services-and-profile">GATT Services and Profile</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gatt.html#gatt-security">GATT Security</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gatt.html#using-the-gatt-layer-directly">Using the GATT Layer Directly</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="gatt.html#gap-gatt-service-ggs">GAP GATT Service (GGS)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="gatt.html#using-the-ggs">Using the GGS</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="gatt.html#generic-attribute-profile-service-gatt-service">Generic Attribute Profile Service (GATT Service)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="gatt.html#using-the-gatt-service">Using the GATT Service</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="gatt.html#gattservapp-module">GATTServApp Module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="gatt.html#building-up-the-attribute-table">Building up the Attribute Table</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gatt.html#implementing-profiles-in-attributes-table">Implementing Profiles in Attributes Table</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gatt.html#add-service-function">Add Service Function</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gatt.html#register-application-callback-function">Register Application Callback Function</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gatt.html#read-and-write-callback-functions">Read and Write Callback Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gatt.html#read-request-from-client">Read Request from Client</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gatt.html#write-request-from-client">Write Request from Client</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gatt.html#get-and-set-functions">Get and Set Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gatt.html#queued-writes">Queued Writes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gatt.html#allocating-memory-for-gatt-procedures">Allocating Memory for GATT Procedures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gatt.html#registering-to-receive-additional-gatt-events-in-the-application">Registering to Receive Additional GATT Events in the Application</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="gapbondmngr.html">GAP Bond Manager and LE Secure Connections</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="gapbondmngr.html#selection-of-pairing-mode">Selection of Pairing Mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gapbondmngr.html#using-gapbondmgr">Using GAPBondMgr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gapbondmngr.html#gapbondmgr-examples-for-different-pairing-modes">GAPBondMgr Examples for Different Pairing Modes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gapbondmngr.html#gapbondmgr-example-with-bonding-enabled">GAPBondMgr Example With Bonding Enabled</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gapbondmngr.html#gapbondmgr-and-snv">GAPBondMgr and SNV</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="gapbondmngr.html#le-privacy-1-2">LE Privacy 1.2</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="gapbondmngr.html#summary">Summary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gapbondmngr.html#theory-of-operation">Theory of Operation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gapbondmngr.html#new-hci-commands">New HCI Commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gapbondmngr.html#privacy-and-white-list">Privacy and White List</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="l2cap.html">Logical Link Control and Adaptation Layer Protocol (L2CAP)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="l2cap.html#general-l2cap-terminology">General L2CAP Terminology</a></li>
+<li class="toctree-l2"><a class="reference internal" href="l2cap.html#maximum-transmission-unit-mtu">Maximum Transmission Unit (MTU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="l2cap.html#configuring-for-larger-mtu-values">Configuring for Larger MTU Values</a></li>
+<li class="toctree-l2"><a class="reference internal" href="l2cap.html#l2cap-channels">L2CAP Channels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="l2cap.html#l2cap-connection-oriented-channel-coc-example">L2CAP Connection-Oriented Channel (CoC) Example</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="data-length-extensions.html">LE Data Length Extension (DLE)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="data-length-extensions.html#dle-update-procedure-and-definitions">DLE Update Procedure and Definitions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data-length-extensions.html#default-application-dle-behavior">Default Application DLE Behavior</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data-length-extensions.html#utilizing-dle-in-the-application">Utilizing DLE in the Application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data-length-extensions.html#disabling-dle-at-runtime">Disabling DLE at Runtime</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data-length-extensions.html#interoperability-with-legacy-peers">Interoperability with Legacy Peers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="data-length-extensions.html#ram-considerations-when-using-dle">RAM Considerations when using DLE</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="hci.html">Host Controller Interface (HCI)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="hci.html#using-hci-and-hci-vendor-specific-commands-in-the-application">Using HCI and HCI Vendor-Specific Commands in the Application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hci.html#standard-le-hci-commands-and-events">Standard LE HCI Commands and Events</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hci.html#hci-vendor-specific-commands">HCI Vendor-Specific Commands</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="creating-a-custom-bluetooth-low-energy-application">
+<span id="creating-custom-ble-app"></span><h2>Creating a Custom Bluetooth low energy Application<a class="headerlink" href="#creating-a-custom-bluetooth-low-energy-application" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="creating-a-custom-bluetooth-low-energy-application.html">Defining Application Behavior</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="creating-a-custom-bluetooth-low-energy-application.html#directed-advertisements-as-gatt-server">Directed Advertisements as GATT Server</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="creating-a-custom-bluetooth-low-energy-application.html#compiler-options">Compiler Options</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="creating-a-custom-bluetooth-low-energy-application.html#modifying">Modifying</a></li>
+<li class="toctree-l2"><a class="reference internal" href="creating-a-custom-bluetooth-low-energy-application.html#options">Options</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="creating-a-custom-bluetooth-low-energy-application.html#creating-additional-icall-enabled-tasks">Creating Additional ICall Enabled Tasks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="creating-a-custom-bluetooth-low-energy-application.html#using-production-test-mode-ptm">Using Production Test Mode (PTM)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="creating-a-custom-bluetooth-low-energy-application.html#add-npi-to-application-project">Add NPI to Application Project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="creating-a-custom-bluetooth-low-energy-application.html#configure-npi-to-receive-commands-from-transport-protocol">Configure NPI to Receive Commands from Transport Protocol</a></li>
+<li class="toctree-l2"><a class="reference internal" href="creating-a-custom-bluetooth-low-energy-application.html#sending-hci-commands-using-icall-direct-api">Sending HCI Commands Using ICall Direct API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="creating-a-custom-bluetooth-low-energy-application.html#explicitly-enable-ptm-and-configure-hci-transport-layer">Explicitly Enable PTM and Configure HCI Transport Layer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="creating-a-custom-bluetooth-low-energy-application.html#configure-npi-to-forward-responses-to-transport-protocol">Configure NPI to Forward Responses to Transport Protocol</a></li>
+<li class="toctree-l2"><a class="reference internal" href="creating-a-custom-bluetooth-low-energy-application.html#ptm-changes-for-simple-peripheral-example">PTM Changes for Simple Peripheral Example</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="creating-a-custom-bluetooth-low-energy-application.html#optimizing-bluetooth-low-energy-stack-memory-usage">Optimizing Bluetooth low energy Stack Memory Usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="creating-a-custom-bluetooth-low-energy-application.html#additional-memory-configuration-options">Additional Memory Configuration Options</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="creating-a-custom-bluetooth-low-energy-application.html#defining-bluetooth-low-energy-behavior">Defining Bluetooth Low Energy Behavior</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stack-configuration.html">Stack Configurations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="stack-configuration.html#configuring-bluetooth-low-energy-protocol-stack-features">Configuring Bluetooth low energy Protocol Stack Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stack-configuration.html#run-time-bluetooth-low-energy-protocol-stack-configuration">Run-Time Bluetooth low energy Protocol Stack Configuration</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="running-the-sdk-on-custom-boards">
+<span id="sect-custom-hardware"></span><h2>Running the SDK on Custom Boards<a class="headerlink" href="#running-the-sdk-on-custom-boards" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="custom-hardware.html">TI Provided Board Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="custom-hardware.html#package-type-and-board-files">Package Type and  Board Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="custom-hardware.html#creating-a-custom-board-file">Creating a Custom Board File</a></li>
+<li class="toctree-l1"><a class="reference internal" href="custom-hardware.html#board-level-middleware">Board Level Middleware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="custom-hardware.html#using-32-khz-crystal-less-mode">Using 32-kHz Crystal-Less Mode</a></li>
+<li class="toctree-l1"><a class="reference internal" href="custom-hardware.html#configuring-the-rf-front-end-for-custom-hardware">Configuring the RF Front-End for Custom Hardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="custom-hardware.html#configuring-device-parameters-for-custom-hardware">Configuring Device Parameters for Custom Hardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="custom-hardware.html#initial-board-bring-up">Initial Board Bring Up</a></li>
+</ul>
+</div>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="overview.html" class="btn btn-neutral float-right" title="Overview" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../cc2640/memory_management.html" class="btn btn-neutral" title="Memory Management" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Texas Instruments.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.01.01.00',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

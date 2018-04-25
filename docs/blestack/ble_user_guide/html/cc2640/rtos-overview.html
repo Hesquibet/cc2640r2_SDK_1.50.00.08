@@ -1,0 +1,1793 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>TI-RTOS Overview &mdash; BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation" href="../index.html"/>
+        <link rel="up" title="The CC2640R2F SDK Platform" href="platform.html"/>
+        <link rel="next" title="Memory Management" href="memory_management.html"/>
+        <link rel="prev" title="Developing with IAR" href="developing_in_iar.html"/> 
+    <script language="JavaScript">
+        var tiPageName;
+        tiPageName = "sug cc2640 rtos-overview";
+
+        if (location.protocol == "file:"){
+            var ci_analytics_poc_load = true;
+        }
+    </script> 
+
+    <script src="http://www.ti.com/assets/js/headerfooter/analytics.js" type="text/javascript" charset="utf-8">     
+
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../ble-stack-3.x-guide/index.html" class="icon icon-home"> BLE-Stack User's Guide for Bluetooth 4.2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.01.01.00
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="disclaimer.html">Disclaimer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/get-started.html">Getting Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="platform.html">The CC2640R2F SDK Platform</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="architecture.html">Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="install_ble_stack.html">Installing BLE-Stack 3.01.01.00</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developing_in_ccs.html">Developing with CCS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developing_in_iar.html">Developing with IAR</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">TI-RTOS Overview</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#threading-modules">Threading Modules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#hardware-interrupts-hwi">Hardware Interrupts (Hwi)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#software-interrupts-swi">Software Interrupts (Swi)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#task">Task</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#idle-task">Idle Task</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#kernel-configuration">Kernel Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#creating-vs-constructing">Creating vs. Constructing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#thread-synchronization">Thread Synchronization</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#semaphores">Semaphores</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#event">Event</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#queues">Queues</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#tasks">Tasks</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#initializing-a-task">Initializing a Task</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#a-task-function">A Task Function</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#clocks">Clocks</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#sec-rtos-overview-functional-clock-example">Functional Example</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#drivers">Drivers</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#adding-a-driver">Adding a Driver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#board-file">Board File</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#available-drivers">Available Drivers</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#power-management">Power Management</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="memory_management.html">Memory Management</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x/index.html">Developing a Bluetooth Low Energy Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../u-stack/index.html">Micro BLE Stack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../oad-ble-stack-3.x/oad.html">Over the Air Download (OAD)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../voice/voice.html">Creating a Voice Enabled Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../secure-fw-3.x/index.html">Secure Firmware (SFW)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensor-controller/sensor-controller.html">Sensor Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../debugging/ble-index.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/migration.html">Migration Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/api-reference.html">API References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/reference.html">Terms and Definitions</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../ble-stack-3.x-guide/index.html">BLE-Stack User's Guide for Bluetooth 4.2</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../ble-stack-3.x-guide/index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="platform.html">The CC2640R2F SDK Platform</a> &raquo;</li>
+        
+      <li>TI-RTOS Overview</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="ti-rtos-overview">
+<span id="sec-tirtos-overview"></span><h1>TI-RTOS Overview<a class="headerlink" href="#ti-rtos-overview" title="Permalink to this headline">¶</a></h1>
+<p>TI-RTOS is the operating environment for Bluetooth low energy projects on
+CC2640R2F devices. The TI-RTOS kernel is a tailored version of the legacy
+SYS/BIOS kernel and operates as a real-time, preemptive, multi-threaded
+operating system with drivers, tools for synchronization and scheduling.</p>
+<div class="section" id="threading-modules">
+<h2>Threading Modules<a class="headerlink" href="#threading-modules" title="Permalink to this headline">¶</a></h2>
+<p>The TI-RTOS kernel manages four distinct context levels of thread execution as
+shown in <a class="reference internal" href="#tirtos-threads"><span class="std std-numref">Figure 26.</span></a> The list of thread modules are shown below in
+a descending order in terms of priority.</p>
+<blockquote>
+<div><ul class="simple">
+<li>A <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-hwi"><span class="xref std std-term">Hwi</span></a> or Hardware interrupt.</li>
+<li>A <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-swi"><span class="xref std std-term">Swi</span></a> or Software interrupt.</li>
+<li>Tasks</li>
+<li>The <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-idle-task"><span class="xref std std-term">Idle Task</span></a> for background idle functions.</li>
+</ul>
+</div></blockquote>
+<div class="figure align-center" id="id4">
+<span id="tirtos-threads"></span><img alt="../_images/image45.jpeg" src="../_images/image45.jpeg" />
+<p class="caption"><span class="caption-number">Figure 26. </span><span class="caption-text">TI-RTOS Execution Threads</span></p>
+</div>
+<p>This section describes these four execution threads and various structures used
+throughout the TI-RTOS for messaging and synchronization. In most cases, the
+underlying TI-RTOS functions have been abstracted to higher-level functions in
+util.c (<a class="reference external" href="../../doxygen/group___util.html">Util</a>). The lower-level TI-RTOS functions are described in the
+TI-RTOS Kernel API Guide found here <a class="reference external" href="../../../../tirtos/sysbios/docs/Bios_User_Guide.pdf">TI-RTOS Kernel User Guide</a>. This document
+also defines the packages and modules included with the TI-RTOS.</p>
+<div class="section" id="hardware-interrupts-hwi">
+<h3>Hardware Interrupts (Hwi)<a class="headerlink" href="#hardware-interrupts-hwi" title="Permalink to this headline">¶</a></h3>
+<p>Hwi threads (also called Interrupt Service Routines or ISRs) are the threads
+with the highest priority in a TI-RTOS application. Hwi threads are used to
+perform time critical tasks that are subject to hard deadlines. They are
+triggered in response to external asynchronous events (interrupts) that occur in
+the real-time environment. Hwi threads always run to completion but can be
+preempted temporarily by Hwi threads triggered by other interrupts, if enabled.
+Specific information on the nesting, vectoring, and functionality of interrupts
+can be found in the <a class="reference external" href="http://www.ti.com/lit/pdf/swcu117">CC26xx Technical Reference Manual</a>.</p>
+<p>Generally, interrupt service routines are kept short as not to affect the
+hard real-time system requirements. Also, as Hwis must run to completion, no
+blocking APIs may be called from within this context.</p>
+<p>TI-RTOS drivers that require interrupts will initialize the required interrupts
+for the assigned peripheral. See <a class="reference internal" href="#tirtos-drivers"><span class="std std-ref">Drivers</span></a> for more information.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><a class="reference internal" href="../debugging/ble-index.html#sec-debugging"><span class="std std-ref">Debugging</span></a> provides an example of using GPIOs and Hwis.
+While the SDK includes a peripheral driver library to abstract hardware
+register access, it is suggested to use the thread-safe TI-RTOS drivers as
+described in <a class="reference internal" href="#tirtos-drivers"><span class="std std-ref">Drivers</span></a>.</p>
+</div>
+<p>The Hwi module for the CC2640R2F also supports <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-zero-latency-interrupts"><span class="xref std std-term">Zero-latency interrupts</span></a>.
+These interrupts do not go through the TI-RTOS Hwi dispatcher and therefore are
+more responsive than standard interrupts, however this feature prohibits its
+interrupt service routine from invoking any TI-RTOS kernel APIs directly. It
+is up to the ISR to preserve its own context to prevent it from interfering with
+the kernel&#8217;s scheduler.</p>
+<p>For the Bluetooth low energy protocol stack to meet RF time-critical
+requirements, all application-defined Hwis execute at the lowest priority.
+TI does not recommend modifying the default Hwi priority when adding new
+Hwis to the system. No application-defined critical sections should exist to
+prevent breaking TI-RTOS or time-critical sections of the Bluetooth low
+energy protocol stack. Code executing in a critical section prevents
+processing of real-time interrupt-related events.</p>
+</div>
+<div class="section" id="software-interrupts-swi">
+<h3>Software Interrupts (Swi)<a class="headerlink" href="#software-interrupts-swi" title="Permalink to this headline">¶</a></h3>
+<p>Patterned after hardware interrupts (<a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-hwi"><span class="xref std std-term">Hwi</span></a>), software interrupt threads
+provide additional priority levels between Hwi threads and Task threads. Unlike
+Hwis, which are triggered by hardware interrupts, Swis are triggered
+programmatically by calling certain Swi module APIs. Swis handle threads subject
+to time constraints that preclude them from being run as tasks, but whose
+deadlines are not as severe as those of hardware ISRs. Like Hwis, Swi threads
+always run to completion. Swis allow Hwis to defer less critical processing to a
+lower-priority thread, minimizing the time the CPU spends inside an interrupt
+service routine, where other Hwis can be disabled. Swis require only enough
+space to save the context for each Swi interrupt priority level, while Tasks use
+a separate stack for each thread.</p>
+<p>Similar with Hwis, Swis should be kept to short and may not include any blocking
+API calls. This allows high priority tasks such as the wireless protocol
+stack to execute as needed. It is suggested to <code class="docutils literal"><span class="pre">_post()</span></code> some TI-RTOS
+synchronization primitive to allow for further post processing from within a
+Task context. See <a class="reference internal" href="#fig-preemption-scenario"><span class="std std-numref">Figure 27.</span></a> to illustrate such a
+use-case.</p>
+<div class="figure align-center" id="id5">
+<span id="fig-preemption-scenario"></span><img alt="../_images/image56.jpeg" src="../_images/image56.jpeg" />
+<p class="caption"><span class="caption-number">Figure 27. </span><span class="caption-text">Preemption Scenario</span></p>
+</div>
+<p>The commonly used Clock module operates from within a Swi context. It is
+important that functions called by a Clock object do not invoke blocking APIs
+and are rather short in execution.</p>
+</div>
+<div class="section" id="task">
+<h3>Task<a class="headerlink" href="#task" title="Permalink to this headline">¶</a></h3>
+<p>Task threads have higher priority than the background (Idle) thread and lower
+priority than software interrupts. Tasks differ from software interrupts in that
+they can wait (block) during execution until necessary resources are available.
+Tasks require a separate stack for each thread. TI-RTOS provides a number of
+mechanisms that can be used for inter-task communication and synchronization.
+These include Semaphores, Event, Message queues, and Mailboxes.</p>
+<p>See <a class="reference internal" href="#sec-rtos-overview-tasks"><span class="std std-ref">Tasks</span></a> for more details.</p>
+</div>
+<div class="section" id="idle-task">
+<h3>Idle Task<a class="headerlink" href="#idle-task" title="Permalink to this headline">¶</a></h3>
+<p>Idle threads execute at the lowest priority in a TI-RTOS application and are
+executed one after another in a continuous loop (the Idle Loop). After main
+returns, a TI-RTOS application calls the startup routine for each TI-RTOS module
+and then falls into the Idle Loop. Each thread must wait for all others to
+finish executing before it is called again. The Idle Loop runs continuously
+except when it is preempted by higher-priority threads. Only functions that do
+not have hard deadlines should be executed in the Idle Loop.</p>
+<p>For CC2640R2F devices, the Idle Task allows the Power Policy Manager to enter
+the lowest allowable power savings.</p>
+</div>
+</div>
+<div class="section" id="kernel-configuration">
+<h2>Kernel Configuration<a class="headerlink" href="#kernel-configuration" title="Permalink to this headline">¶</a></h2>
+<p>A TI-RTOS application configures the TI-RTOS kernel using a configuration
+(<code class="docutils literal"><span class="pre">.cfg</span></code> file) that is found within the project. In <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-iar"><span class="xref std std-term">IAR</span></a> and <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-ccs"><span class="xref std std-term">CCS</span></a>
+projects, this file is found in the application project workspace under the
+<code class="docutils literal"><span class="pre">TOOLS</span></code> folder.</p>
+<p>The configuration is accomplished by selectively including or <em>using</em>
+<a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-rtsc"><span class="xref std std-term">RTSC</span></a> modules available to the kernel. To <em>use</em> a module, the <code class="docutils literal"><span class="pre">.cfg</span></code>
+calls <code class="docutils literal"><span class="pre">xdc.useModule()</span></code> after which it can set various options as defined
+in the <a class="reference external" href="../../../../tirtos/sysbios/docs/Bios_User_Guide.pdf">TI-RTOS Kernel User Guide</a>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Projects in the BLE-Stack (such as simple_peripheral) typically will
+contain an <code class="docutils literal"><span class="pre">app_ble.cfg</span></code> configuration file.</p>
+</div>
+<p>Some of the option that can be configured in the <code class="docutils literal"><span class="pre">.cfg</span></code> file include but are
+not limited to:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Boot options</li>
+<li>Number of Hwi, Swi, and Task priorities</li>
+<li>Exception and Error handling</li>
+<li>The duration of a System tick (the most fundamental <em>unit</em> of time in the
+TI-RTOS kernel).</li>
+<li>Defining the application&#8217;s entry point and interrupt vector</li>
+<li>TI-RTOS heaps and stacks</li>
+<li>Including pre-compiled kernel and TI-RTOS driver libraries</li>
+<li>System provides (for <code class="docutils literal"><span class="pre">System_printf()</span></code>)</li>
+</ul>
+</div></blockquote>
+<p>Whenever a change in the <code class="docutils literal"><span class="pre">.cfg</span></code> file is made, you will rerun the XDCTools&#8217;
+<code class="docutils literal"><span class="pre">configuro</span></code> tool. This step is already handled for you as a pre-build step in
+the provided <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-iar"><span class="xref std std-term">IAR</span></a> and <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-ccs"><span class="xref std std-term">CCS</span></a> examples.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The name of the .cfg doesn&#8217;t really matter. A project should however only
+include one <code class="docutils literal"><span class="pre">.cfg</span></code> file.</p>
+</div>
+<p>For the CC2640R2F, a TI-RTOS kernel exists in <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-rom"><span class="xref std std-term">ROM</span></a>.
+Typically for flash footprint savings, the <code class="docutils literal"><span class="pre">.cfg</span></code> will include the kernel&#8217;s
+<a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-rom"><span class="xref std std-term">ROM</span></a> module as shown in <a class="reference internal" href="#rom-listing"><span class="std std-numref">Listing 1.</span></a></p>
+<div class="literal-block-wrapper docutils container" id="id6">
+<span id="rom-listing"></span><div class="code-block-caption"><span class="caption-number">Listing 1. </span><span class="caption-text">How to include the TI-RTOS kernel in ROM</span><a class="headerlink" href="#id6" title="Permalink to this code">¶</a></div>
+<div class="highlight-js"><div class="highlight"><pre><span></span><span class="cm">/* ================ ROM configuration ================ */</span>
+<span class="cm">/*</span>
+<span class="cm"> * To use BIOS in flash, comment out the code block below.</span>
+<span class="cm"> */</span>
+<span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">NO_ROM</span> <span class="o">==</span> <span class="s1">&#39;undefined&#39;</span> <span class="o">||</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">NO_ROM</span> <span class="o">!=</span> <span class="s1">&#39;undefined&#39;</span> <span class="o">&amp;&amp;</span> <span class="nx">NO_ROM</span> <span class="o">==</span> <span class="mi">0</span><span class="p">))</span>
+<span class="p">{</span>
+<span class="hll">  <span class="kd">var</span> <span class="nx">ROM</span> <span class="o">=</span> <span class="nx">xdc</span><span class="p">.</span><span class="nx">useModule</span><span class="p">(</span><span class="s1">&#39;ti.sysbios.rom.ROM&#39;</span><span class="p">);</span>
+</span>  <span class="k">if</span> <span class="p">(</span><span class="nx">Program</span><span class="p">.</span><span class="nx">cpu</span><span class="p">.</span><span class="nx">deviceName</span><span class="p">.</span><span class="nx">match</span><span class="p">(</span><span class="sr">/CC26/</span><span class="p">))</span> <span class="p">{</span>
+<span class="hll">      <span class="nx">ROM</span><span class="p">.</span><span class="nx">romName</span> <span class="o">=</span> <span class="nx">ROM</span><span class="p">.</span><span class="nx">CC2640R2F</span><span class="p">;</span>
+</span>  <span class="p">}</span>
+  <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">Program</span><span class="p">.</span><span class="nx">cpu</span><span class="p">.</span><span class="nx">deviceName</span><span class="p">.</span><span class="nx">match</span><span class="p">(</span><span class="sr">/CC13/</span><span class="p">))</span> <span class="p">{</span>
+<span class="hll">      <span class="nx">ROM</span><span class="p">.</span><span class="nx">romName</span> <span class="o">=</span> <span class="nx">ROM</span><span class="p">.</span><span class="nx">CC1350</span><span class="p">;</span>
+</span>  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<p>The TI-RTOS kernel in <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-rom"><span class="xref std std-term">ROM</span></a> is optimized for performance. If additional
+instrumentation is required in your application (typically for debugging), you
+must include the TI-RTOS kernel in flash which will increase flash memory
+consumption. Shown below is a short list of requirements to use the TI-RTOS
+kernel in <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-rom"><span class="xref std std-term">ROM</span></a>.</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">BIOS.assertsEnabled</span></code> <strong>must</strong> be set to <code class="docutils literal"><span class="pre">false</span></code></li>
+<li><code class="docutils literal"><span class="pre">BIOS.logsEnabled</span></code> <strong>must</strong> be set to <code class="docutils literal"><span class="pre">false</span></code></li>
+<li><code class="docutils literal"><span class="pre">BIOS.taskEnabled</span></code> <strong>must</strong> be set to <code class="docutils literal"><span class="pre">true</span></code></li>
+<li><code class="docutils literal"><span class="pre">BIOS.swiEnabled</span></code> <strong>must</strong> be set to <code class="docutils literal"><span class="pre">true</span></code></li>
+<li><code class="docutils literal"><span class="pre">BIOS.runtimeCreatesEnabled</span></code> <strong>must</strong> be set to <code class="docutils literal"><span class="pre">true</span></code></li>
+<li>BIOS <strong>must</strong> use the <code class="docutils literal"><span class="pre">ti.sysbios.gates.GateMutex</span></code> module</li>
+<li><code class="docutils literal"><span class="pre">Clock.tickSource</span></code> <strong>must</strong> be set to <code class="docutils literal"><span class="pre">Clock.TickSource_TIMER</span></code></li>
+<li><code class="docutils literal"><span class="pre">Semaphore.supportsPriority</span></code> <strong>must</strong> be <code class="docutils literal"><span class="pre">false</span></code></li>
+<li>Swi, Task, and Hwi hooks are <strong>not</strong> permitted</li>
+<li>Swi, Task, and Hwi name instances are <strong>not</strong> permitted</li>
+<li>Task stack checking is <strong>disabled</strong></li>
+<li><code class="docutils literal"><span class="pre">Hwi.disablePriority</span></code> <strong>must</strong> be set to <code class="docutils literal"><span class="pre">0x20</span></code></li>
+<li><code class="docutils literal"><span class="pre">Hwi.dispatcherAutoNestingSupport</span></code> <strong>must</strong> be set to true</li>
+</ul>
+</div></blockquote>
+<p>For additional documentation in regards to the list described above, see the
+<a class="reference external" href="../../../../tirtos/sysbios/docs/Bios_User_Guide.pdf">TI-RTOS Kernel User Guide</a>.</p>
+</div>
+<div class="section" id="creating-vs-constructing">
+<span id="create-vs-construct"></span><h2>Creating vs. Constructing<a class="headerlink" href="#creating-vs-constructing" title="Permalink to this headline">¶</a></h2>
+<p>Most TI-RTOS modules commonly have <code class="docutils literal"><span class="pre">_create()</span></code> and <code class="docutils literal"><span class="pre">_construct()</span></code> APIs to
+initialize primitive instances. The main <strong>runtime</strong> differences between the two
+APIs are memory allocation and error handling.</p>
+<p><strong>Create</strong> APIs perform a memory allocation from the default TI-RTOS heap before
+initialization. As a result, the application <em>must</em> check the return value for a
+valid handle before continuing.</p>
+<div class="literal-block-wrapper docutils container" id="id7">
+<span id="create-example-listing"></span><div class="code-block-caption"><span class="caption-number">Listing 2. </span><span class="caption-text">Creating a Semaphore</span><a class="headerlink" href="#id7" title="Permalink to this code">¶</a></div>
+<div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">Semaphore_Handle</span> <span class="n">sem</span><span class="p">;</span>
+<span class="n">Semaphore_Params</span> <span class="n">semParams</span><span class="p">;</span>
+
+<span class="n">Semaphore_Params_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">semParams</span><span class="p">);</span>
+<span class="hll"><span class="n">sem</span> <span class="o">=</span> <span class="n">Semaphore_create</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">semParams</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span> <span class="cm">/* Memory allocated in here */</span>
+</span>
+<span class="hll"><span class="k">if</span> <span class="p">(</span><span class="n">sem</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="cm">/* Check if the handle is valid */</span>
+</span><span class="p">{</span>
+  <span class="n">System_abort</span><span class="p">(</span><span class="s">&quot;Semaphore could not be created&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<p><strong>Construct</strong> APIs are given a data structure with which to store the instance&#8217;s
+variables. As the memory has been pre-allocated for the instance, error checking
+may not be required after constructing.</p>
+<div class="literal-block-wrapper docutils container" id="id8">
+<span id="construct-example-listing"></span><div class="code-block-caption"><span class="caption-number">Listing 3. </span><span class="caption-text">Constructing a Semaphore</span><a class="headerlink" href="#id8" title="Permalink to this code">¶</a></div>
+<div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">Semaphore_Handle</span> <span class="n">sem</span><span class="p">;</span>
+<span class="n">Semaphore_Params</span> <span class="n">semParams</span><span class="p">;</span>
+<span class="hll"><span class="n">Semaphore_Struct</span> <span class="n">structSem</span><span class="p">;</span> <span class="cm">/* Memory allocated at build time */</span>
+</span>
+<span class="n">Semaphore_Params_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">semParams</span><span class="p">);</span>
+<span class="hll"><span class="n">Semaphore_construct</span><span class="p">(</span><span class="o">&amp;</span><span class="n">structSem</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">semParams</span><span class="p">);</span>
+</span>
+<span class="cm">/* It&#39;s optional to store the handle */</span>
+<span class="n">sem</span> <span class="o">=</span> <span class="n">Semaphore_handle</span><span class="p">(</span><span class="o">&amp;</span><span class="n">structSem</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+</div>
+<div class="section" id="thread-synchronization">
+<h2>Thread Synchronization<a class="headerlink" href="#thread-synchronization" title="Permalink to this headline">¶</a></h2>
+<p>The TI-RTOS kernel provides several modules for synchronizing tasks such as
+Semaphore, Event, and Queue. The following sections discuss these common
+TI-RTOS primitives.</p>
+<div class="section" id="semaphores">
+<h3>Semaphores<a class="headerlink" href="#semaphores" title="Permalink to this headline">¶</a></h3>
+<p>Semaphores are commonly used for task synchronization and mutual exclusions
+throughout TI-RTOS applications. <a class="reference internal" href="#fig-semaphore"><span class="std std-numref">Figure 28.</span></a> shows the semaphore
+functionality. Semaphores can be counting semaphores or binary semaphores.
+Counting semaphores keep track of the number of times the semaphore is posted
+with <code class="docutils literal"><span class="pre">Semaphore_post()</span></code>. When a group of resources are shared between tasks,
+this function is useful. Such tasks might call <code class="docutils literal"><span class="pre">Semaphore_pend()</span></code> to see if a
+resource is available before using one. Binary semaphores can have only two
+states: available (count = 1) and unavailable (count = 0). Binary semaphores
+can be used to share a single resource between tasks or for a basic-signaling
+mechanism where the semaphore can be posted multiple times. Binary semaphores do
+not keep track of the count; they track only whether the semaphore has been
+posted.</p>
+<div class="figure align-center" id="id9">
+<span id="fig-semaphore"></span><img alt="../_images/image47.jpeg" src="../_images/image47.jpeg" />
+<p class="caption"><span class="caption-number">Figure 28. </span><span class="caption-text">Semaphore Functionality</span></p>
+</div>
+<div class="section" id="initializing-a-semaphore">
+<h4>Initializing a Semaphore<a class="headerlink" href="#initializing-a-semaphore" title="Permalink to this headline">¶</a></h4>
+<p>The following code depicts how a semaphore is initialized in TI-RTOS. Semaphores
+can be <em>created</em> and <em>constructed</em> as explained in <a class="reference internal" href="#create-vs-construct"><span class="std std-ref">Creating vs. Constructing</span></a>.</p>
+<p>See <a class="reference internal" href="#create-example-listing"><span class="std std-numref">Listing 2.</span></a> on how to create a Semaphore.</p>
+<p>See <a class="reference internal" href="#construct-example-listing"><span class="std std-numref">Listing 3.</span></a> on how to construct a Semaphore.</p>
+</div>
+<div class="section" id="pending-on-a-semaphore">
+<h4>Pending on a Semaphore<a class="headerlink" href="#pending-on-a-semaphore" title="Permalink to this headline">¶</a></h4>
+<p><code class="docutils literal"><span class="pre">Semaphore_pend()</span></code> is a blocking function call. This call may only be called
+from within a Task context. A task calling this function will allow lower
+priority tasks to execute, if they are ready to run. A task calling
+<code class="docutils literal"><span class="pre">Semaphore_pend()</span></code> will block if its counter is 0, otherwise it will decrement
+the counter by one. The task will remain blocked until another thread calls
+<code class="docutils literal"><span class="pre">Semaphore_post()</span></code> or if the supplied system tick timeout has occurred;
+whichever comes first. By reading the return value of <code class="docutils literal"><span class="pre">Semaphore_pend()</span></code> it is
+possible to distinguish if a semaphore was posted or if it timed out.</p>
+<div class="literal-block-wrapper docutils container" id="id10">
+<span id="pending-semaphore-listing"></span><div class="code-block-caption"><span class="caption-number">Listing 4. </span><span class="caption-text">Pending on a Semaphore</span><a class="headerlink" href="#id10" title="Permalink to this code">¶</a></div>
+<div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kt">bool</span> <span class="n">isSuccessful</span><span class="p">;</span>
+<span class="kt">uint32_t</span> <span class="n">timeout</span> <span class="o">=</span> <span class="mi">1000</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1000</span><span class="o">/</span><span class="n">Clock_tickPeriod</span><span class="p">);</span>
+
+<span class="cm">/* Pend (approximately) up to 1 second */</span>
+<span class="hll"><span class="n">isSuccessful</span> <span class="o">=</span> <span class="n">Semaphore_pend</span><span class="p">(</span><span class="n">sem</span><span class="p">,</span> <span class="n">timeoutInTicks</span><span class="p">);</span>
+</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">isSuccessful</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">System_printf</span><span class="p">(</span><span class="s">&quot;Semaphore was posted&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="k">else</span>
+<span class="p">{</span>
+    <span class="n">System_printf</span><span class="p">(</span><span class="s">&quot;Semaphore timed out&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>The default TI-RTOS system tick period is 1 millisecond. This default is
+reconfigured to 10 microseconds for CC26xx and CC13xx devices by setting
+<code class="docutils literal"><span class="pre">Clock.tickPeriod</span> <span class="pre">=</span> <span class="pre">10</span></code> in the <code class="docutils literal"><span class="pre">.cfg</span></code> file.</p>
+<p class="last">Given a system tick of 10 microseconds, <code class="docutils literal"><span class="pre">timeout</span></code> in
+<a class="reference internal" href="#pending-semaphore-listing"><span class="std std-numref">Listing 4.</span></a> will be approximately 1 second.</p>
+</div>
+</div>
+<div class="section" id="posting-a-semaphore">
+<h4>Posting a Semaphore<a class="headerlink" href="#posting-a-semaphore" title="Permalink to this headline">¶</a></h4>
+<p>Posting a semaphore is accomplished via a call to <code class="docutils literal"><span class="pre">Semaphore_post()</span></code>. A task
+that is pending on a posted semaphore will transition from a <em>blocked</em> state to
+a <em>ready</em> state. If no higher priority thread is <em>ready</em> to run, it will allow
+the previously pending task to execute. If no task is pending on the semaphore,
+a call to <code class="docutils literal"><span class="pre">Semaphore_post()</span></code> will increment its counter. Binary semaphores
+have a maximum count of 1.</p>
+<div class="literal-block-wrapper docutils container" id="id11">
+<span id="posting-semaphore-listing"></span><div class="code-block-caption"><span class="caption-number">Listing 5. </span><span class="caption-text">Posting a Semaphore</span><a class="headerlink" href="#id11" title="Permalink to this code">¶</a></div>
+<div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="hll"><span class="n">Semaphore_post</span><span class="p">(</span><span class="n">sem</span><span class="p">);</span>
+</span></pre></div>
+</td></tr></table></div>
+</div>
+</div>
+</div>
+<div class="section" id="event">
+<span id="sec-rtos-overview-event"></span><h3>Event<a class="headerlink" href="#event" title="Permalink to this headline">¶</a></h3>
+<p>Semaphores themselves provide rudimentary synchronization between threads. There
+are cases just the Semaphore itself is enough to understand on what process
+needs to be triggered. Often however, a specific causes for the synchronization
+need to be passed across threads as well. To help accomplish this, one can
+utilize the TI-RTOS <strong>Event</strong> module.
+Events are similar to Semaphores in a sense that each instance of an Event
+object actually contains a Semaphore. The added advantage of using Events lie in
+the fact that tasks can be notified of specific events in a thread-safe manner.</p>
+<div class="section" id="initializing-an-event">
+<h4>Initializing an Event<a class="headerlink" href="#initializing-an-event" title="Permalink to this headline">¶</a></h4>
+<p><em>Creating</em> and <em>constructing</em> Events follow the same guidelines as explained in
+<a class="reference internal" href="#create-vs-construct"><span class="std std-ref">Creating vs. Constructing</span></a>. Shown in <a class="reference internal" href="#event-initialize-listing"><span class="std std-numref">Listing 6.</span></a> is an
+example on how to <em>construct</em> an Event instance.</p>
+<div class="literal-block-wrapper docutils container" id="id12">
+<span id="event-initialize-listing"></span><div class="code-block-caption"><span class="caption-number">Listing 6. </span><span class="caption-text">Constructing an Event</span><a class="headerlink" href="#id12" title="Permalink to this code">¶</a></div>
+<div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">Event_Handle</span> <span class="n">event</span><span class="p">;</span>
+<span class="n">Event_Params</span> <span class="n">eventParams</span><span class="p">;</span>
+<span class="n">Event_Struct</span> <span class="n">structEvent</span><span class="p">;</span> <span class="cm">/* Memory allocated at build time */</span>
+
+<span class="n">Event_Params_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">eventParams</span><span class="p">);</span>
+<span class="hll"><span class="n">Event_construct</span><span class="p">(</span><span class="o">&amp;</span><span class="n">structEvent</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">eventParams</span><span class="p">);</span>
+</span>
+<span class="cm">/* It&#39;s optional to store the handle */</span>
+<span class="n">event</span> <span class="o">=</span> <span class="n">Event_handle</span><span class="p">(</span><span class="o">&amp;</span><span class="n">structEvent</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+</div>
+<div class="section" id="pending-on-an-event">
+<h4>Pending on an Event<a class="headerlink" href="#pending-on-an-event" title="Permalink to this headline">¶</a></h4>
+<p>Similar to <code class="docutils literal"><span class="pre">Semaphore_pend()</span></code>, a Task thread would typically block on an
+<code class="docutils literal"><span class="pre">Event_pend()</span></code> until an event is posted via an <code class="docutils literal"><span class="pre">Event_post()</span></code> or if the
+specified timeout expired. Shown in <a class="reference internal" href="#pending-event-listing"><span class="std std-numref">Listing 7.</span></a> is a snippet
+of a task pending on <em>any</em> of the 3 sample event IDs shown below.
+<code class="docutils literal"><span class="pre">BIOS_WAIT_FOREVER</span></code> is used to prevent a timeout from occurring. As a result,
+<code class="docutils literal"><span class="pre">Event_pend()</span></code> will have one or more events posted in the returned bit-masked
+value.</p>
+<p>Each event returned from <code class="docutils literal"><span class="pre">Event_pend()</span></code> has been automatically cleared within
+the event instance in a thread-safe manner. Therefore, it is only necessary to
+keep a local copy of posted events. For full details on how to use
+<code class="docutils literal"><span class="pre">Event_pend()</span></code>, see the <a class="reference external" href="../../../../tirtos/sysbios/docs/Bios_User_Guide.pdf">TI-RTOS Kernel User Guide</a>.</p>
+<div class="literal-block-wrapper docutils container" id="id13">
+<span id="pending-event-listing"></span><div class="code-block-caption"><span class="caption-number">Listing 7. </span><span class="caption-text">Pending on an Event</span><a class="headerlink" href="#id13" title="Permalink to this code">¶</a></div>
+<div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cp">#define START_ADVERTISING_EVT         Event_Id_00</span>
+<span class="cp">#define START_CONN_UPDATE_EVT         Event_Id_01</span>
+<span class="cp">#define CONN_PARAM_TIMEOUT_EVT        Event_Id_02</span>
+
+<span class="kt">void</span> <span class="nf">TaskFxn</span><span class="p">(..)</span>
+<span class="p">{</span>
+    <span class="cm">/* Local copy of events that have been posted */</span>
+<span class="hll">    <span class="kt">uint32_t</span> <span class="n">events</span><span class="p">;</span>
+</span>
+    <span class="k">while</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="cm">/* Wait for an event to be posted */</span>
+<span class="hll">        <span class="n">events</span> <span class="o">=</span> <span class="n">Event_pend</span><span class="p">(</span><span class="n">event</span><span class="p">,</span>
+</span><span class="hll">                            <span class="n">Event_Id_NONE</span><span class="p">,</span>
+</span><span class="hll">                            <span class="n">START_ADVERTISING_EVT</span> <span class="o">|</span>
+</span><span class="hll">                            <span class="n">START_CONN_UPDATE_EVT</span> <span class="o">|</span>
+</span><span class="hll">                            <span class="n">CONN_PARAM_TIMEOUT_EVT</span><span class="p">,</span>
+</span><span class="hll">                            <span class="n">BIOS_WAIT_FOREVER</span><span class="p">);</span>
+</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">events</span> <span class="o">&amp;</span> <span class="n">START_ADVERTISING_EVT</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="cm">/* Process this event */</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">events</span> <span class="o">&amp;</span> <span class="n">START_CONN_UPDATE_EVT</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="cm">/* Process this event */</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">events</span> <span class="o">&amp;</span> <span class="n">CONN_PARAM_TIMEOUT_EVT</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="cm">/* Process this event */</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>The default TI-RTOS system tick period is 1 millisecond. This default is
+reconfigured to 10 microseconds for CC26xx and CC13xx devices by setting
+<code class="docutils literal"><span class="pre">Clock.tickPeriod</span> <span class="pre">=</span> <span class="pre">10</span></code> in the <code class="docutils literal"><span class="pre">.cfg</span></code> file.</p>
+<p class="last">Given a system tick of 10 microseconds, <code class="docutils literal"><span class="pre">timeout</span></code> in
+<a class="reference internal" href="#pending-semaphore-listing"><span class="std std-numref">Listing 4.</span></a> will be approximately 1 second.</p>
+</div>
+</div>
+<div class="section" id="posting-an-event">
+<h4>Posting an Event<a class="headerlink" href="#posting-an-event" title="Permalink to this headline">¶</a></h4>
+<p>Events may be posted from any TI-RTOS kernel contexts and is simply done by
+calling <code class="docutils literal"><span class="pre">Event_post()</span></code> of the Event instance and the Event ID.
+<a class="reference internal" href="#posting-event-listing"><span class="std std-numref">Listing 8.</span></a> shows how a high priority thread such as a Swi
+could post a specific event.</p>
+<div class="literal-block-wrapper docutils container" id="id14">
+<span id="posting-event-listing"></span><div class="code-block-caption"><span class="caption-number">Listing 8. </span><span class="caption-text">Posting an Event</span><a class="headerlink" href="#id14" title="Permalink to this code">¶</a></div>
+<div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cp">#define START_ADVERTISING_EVT         Event_Id_00</span>
+<span class="cp">#define START_CONN_UPDATE_EVT         Event_Id_01</span>
+<span class="cp">#define CONN_PARAM_TIMEOUT_EVT        Event_Id_02</span>
+
+<span class="kt">void</span> <span class="nf">SwiFxn</span><span class="p">(</span><span class="n">UArg</span> <span class="n">arg</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="hll">    <span class="n">Event_post</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">START_ADVERTISING_EVT</span><span class="p">);</span>
+</span><span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+</div>
+</div>
+<div class="section" id="queues">
+<h3>Queues<a class="headerlink" href="#queues" title="Permalink to this headline">¶</a></h3>
+<p>The TI-RTOS Queue module provides a thread-safe unidirectional message passing
+module operating in a first in, first out (FIFO) basis. Queues are commonly
+used to allow high priority threads to pass messages to lower priority tasks
+for deferred processing; therefore allowing low priority tasks to block until
+necessary to run.</p>
+<p>In <a class="reference internal" href="#fig-queue-messaging-process"><span class="std std-numref">Figure 29.</span></a> a queue is configured for
+unidirectional communication from task A to task B. Task A &#8220;puts&#8221; messages into
+the queue and task B &#8220;gets&#8221; messages from the queue.</p>
+<div class="figure align-center" id="id15">
+<span id="fig-queue-messaging-process"></span><img alt="../_images/image51.jpeg" src="../_images/image51.jpeg" />
+<p class="caption"><span class="caption-number">Figure 29. </span><span class="caption-text">Queue Messaging Process</span></p>
+</div>
+<p>In BLE-Stack, TI-RTOS Queue functions have been abstracted into functions
+in <code class="docutils literal"><span class="pre">util.c</span></code> See the Queue module documentation in the
+<a class="reference external" href="../../../../tirtos/sysbios/docs/Bios_User_Guide.pdf">TI-RTOS Kernel User Guide</a> for the underlying functions. The functions in
+<code class="docutils literal"><span class="pre">util.c</span></code> combine a queue from the Queue module with an event from the
+Event module to pass messages between threads.</p>
+<p>In CC2640R2F software, ICall uses queues and events from their respective
+modules to pass messages between the application and stack tasks.
+An example of this can be seen in <code class="docutils literal"><span class="pre">SimpleBLECentral_enqueueMsg()</span></code>. A high
+priority Task, Swi, or Hwi queues a message to the application task. The
+application task will then process this message in its own context when no
+other high priority threads are running.</p>
+<p>The <code class="docutils literal"><span class="pre">util</span></code> module contains a set of abstracted TI-RTOS Queue functions as
+shown here:</p>
+<ul class="simple">
+<li><a class="reference external" href="../../doxygen/ble/html/group___util.html#ga1a402aa73798e67c21ea960bb67ed516">Util_constructQueue()</a> creates a queue.</li>
+<li><a class="reference external" href="../../doxygen/ble/html/group___util.html#gada1270148b25421486d6a0f6e001a3b5">Util_enqueueMsg()</a> puts items into the queue.</li>
+<li><a class="reference external" href="../../doxygen/ble/html/group___util.html#ga2119072ce502da984eed8a9dd614da07">Util_dequeueMsg()</a> gets items from the queue.</li>
+</ul>
+<div class="section" id="functional-example">
+<h4>Functional Example<a class="headerlink" href="#functional-example" title="Permalink to this headline">¶</a></h4>
+<p><a class="reference internal" href="#fig-enqueue-message"><span class="std std-numref">Figure 30.</span></a> and <a class="reference internal" href="#fig-dequeue-message"><span class="std std-numref">Figure 31.</span></a> illustrate
+how a queue is used to enqueue a button press message from a Hwi (to a Swi in
+the Board Key module) to be post-processed within a task context. This example
+is taken from the from the simple_central project in BLE-Stack.</p>
+<div class="figure align-center" id="id16">
+<span id="fig-enqueue-message"></span><p class="plantuml">
+<img src="../_images/plantuml-0c947cf0f66a5ea55c69bfe1e2f3068eabcbe756.png" alt="&#64;startuml
+hide footbox
+
+box &quot;Swi context&quot;
+    participant &quot;Board Key module&quot; as A
+    participant simple_central.c as B
+    database appMsgQueue as C
+end box
+
+-[#red]&gt; A : Key press interrupt
+&lt;[#red]-- A
+
+activate A
+
+autonumber
+A -&gt; B : SimpleBLECentral_keyChangeHandler();
+activate B
+
+note right: Add SBC_KEY_CHANGE_EVT into the queue
+B -&gt; B : SimpleBLECentral_enqueueMsg();
+activate B
+autonumber stop
+B -&gt; : ICall_malloc();
+B -&gt; C: Util_enqueueMsg();
+activate C
+C --&gt; B:
+deactivate C
+B -&gt; : Event_post();
+deactivate B
+B --&gt; A
+deactivate B
+deactivate A
+
+&#64;enduml" />
+</p>
+<p class="caption"><span class="caption-number">Figure 30. </span><span class="caption-text">Sequence diagram for enqueuing a message</span><a class="headerlink" href="#id16" title="Permalink to this image">¶</a></p>
+</div>
+<p>With interrupts enabled, a pin interrupt can occur asynchronously within a
+<a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-hwi"><span class="xref std std-term">Hwi</span></a> context. To keep interrupts as short as possible, the work
+associated to the interrupt is deferred to tasks for processing. In the
+simple_central example found in BLE-Stack, pin interrupts are abstracted
+via the <em>Board Key module</em>. This module notifies registered functions via a
+<a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-swi"><span class="xref std std-term">Swi</span></a> callback. In this case, <code class="docutils literal"><span class="pre">SimpleBLECentral_keyChangeHandler</span></code>
+is the registered callback function.</p>
+<p><strong>Step 1</strong> in <a class="reference internal" href="#fig-enqueue-message"><span class="std std-numref">Figure 30.</span></a> shows the callback to
+<code class="docutils literal"><span class="pre">SimpleBLECentral_keyChangeHandler</span></code> when a key is pressed. This event is
+placed into the application&#8217;s queue for processing.</p>
+<div class="literal-block-wrapper docutils container" id="id17">
+<span id="board-key-change-handler-listing"></span><div class="code-block-caption"><span class="caption-number">Listing 9. </span><span class="caption-text">Defining SimpleBLECentral_keyChangeHandler()</span><a class="headerlink" href="#id17" title="Permalink to this code">¶</a></div>
+<div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="nf">SimpleBLECentral_keyChangeHandler</span><span class="p">(</span><span class="n">uint8</span> <span class="n">keys</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="hll">  <span class="n">SimpleBLECentral_enqueueMsg</span><span class="p">(</span><span class="n">SBC_KEY_CHANGE_EVT</span><span class="p">,</span> <span class="n">keys</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+</span><span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<p><strong>Step 2</strong> in <a class="reference internal" href="#fig-enqueue-message"><span class="std std-numref">Figure 30.</span></a> shows how this key press is enqueued
+for simple_central task. Here, memory is allocated via <a class="reference external" href="../../doxygen/ble/html/group___i_call.html#ga00ce08b268a246cee700442af6ac10ec">ICall_malloc()</a>
+so the message can be added to the queue. Once added, <a class="reference external" href="../../doxygen/ble/html/group___util.html#gada1270148b25421486d6a0f6e001a3b5">Util_enqueueMsg()</a>
+will generate a <code class="xref c c-macro docutils literal"><span class="pre">UTIL_QUEUE_EVENT_ID</span></code> event to signal the application
+for processing.</p>
+<div class="literal-block-wrapper docutils container" id="id18">
+<div class="code-block-caption"><span class="caption-number">Listing 10. </span><span class="caption-text">Defining SimpleBLECentral_enqueueMsg()</span><a class="headerlink" href="#id18" title="Permalink to this code">¶</a></div>
+<div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">static</span> <span class="kt">uint8_t</span> <span class="nf">SimpleBLECentral_enqueueMsg</span><span class="p">(</span><span class="kt">uint8_t</span> <span class="n">event</span><span class="p">,</span> <span class="kt">uint8_t</span> <span class="n">state</span><span class="p">,</span> <span class="kt">uint8_t</span> <span class="o">*</span><span class="n">pData</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="hll">  <span class="n">sbcEvt_t</span> <span class="o">*</span><span class="n">pMsg</span> <span class="o">=</span> <span class="n">ICall_malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">sbcEvt_t</span><span class="p">));</span>
+</span>
+  <span class="c1">// Create dynamic pointer to message.</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">pMsg</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="n">pMsg</span><span class="o">-&gt;</span><span class="n">hdr</span><span class="p">.</span><span class="n">event</span> <span class="o">=</span> <span class="n">event</span><span class="p">;</span>
+    <span class="n">pMsg</span><span class="o">-&gt;</span><span class="n">hdr</span><span class="p">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">state</span><span class="p">;</span>
+    <span class="n">pMsg</span><span class="o">-&gt;</span><span class="n">pData</span> <span class="o">=</span> <span class="n">pData</span><span class="p">;</span>
+
+    <span class="c1">// Enqueue the message.</span>
+<span class="hll">    <span class="k">return</span> <span class="n">Util_enqueueMsg</span><span class="p">(</span><span class="n">appMsgQueue</span><span class="p">,</span> <span class="n">sem</span><span class="p">,</span> <span class="p">(</span><span class="kt">uint8_t</span> <span class="o">*</span><span class="p">)</span><span class="n">pMsg</span><span class="p">);</span>
+</span>  <span class="p">}</span>
+
+  <span class="k">return</span> <span class="n">FALSE</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="figure align-center" id="id19">
+<span id="fig-dequeue-message"></span><p class="plantuml">
+<img src="../_images/plantuml-38ec5dd43e7dc07f48b314e2df06c5a59c7e5d44.png" alt="&#64;startuml
+hide footbox
+
+box &quot;Task context&quot;
+    participant simple_central.c as A
+    database appMsgQueue as B
+end box
+
+activate A
+A -&gt; : Event_pend()
+note right: Task called Event_pend() and gets blocked
+deactivate A
+
+...
+
+-&gt; A : Posted event
+activate A
+autonumber 3
+A -&gt; A : while (!Queue_empty())
+activate A
+autonumber stop
+note right: Queue_empty() checks if queue is not empty
+A -&gt; B
+activate B
+A &lt;-- B
+deactivate B
+
+autonumber resume
+A -&gt; B : pMsg = Util_dequeueMsg(appMsgQueue)
+activate B
+autonumber stop
+B --&gt; A
+deactivate B
+
+A -&gt; : SipmleBLECentral_proccessAppMsg(pMsg);
+note right: SipmleBLECentral_proccessAppMsg \n{\n\tcase (SBC_KEY_CHANGE_EVT):\n\t\tSimpleBLECentral_handleKeys()\n};
+autonumber resume
+A -&gt; : ICall_free(pMsg)
+
+autonumber stop
+note right: Repeat while there are more messages\nin the queue
+deactivate A
+
+&#64;enduml" />
+</p>
+<p class="caption"><span class="caption-number">Figure 31. </span><span class="caption-text">Sequence diagram for dequeuing a message</span><a class="headerlink" href="#id19" title="Permalink to this image">¶</a></p>
+</div>
+<p><strong>Step 3</strong> in <a class="reference internal" href="#fig-dequeue-message"><span class="std std-numref">Figure 31.</span></a>, the simple_central application is
+unblocked by the posted <code class="xref c c-macro docutils literal"><span class="pre">UTIL_QUEUE_EVENT_ID</span></code> event where it proceeds
+to check if messages have been placed in the queue for processing.</p>
+<div class="literal-block-wrapper docutils container" id="id20">
+<div class="code-block-caption"><span class="caption-number">Listing 11. </span><span class="caption-text">Processing application messages</span><a class="headerlink" href="#id20" title="Permalink to this code">¶</a></div>
+<div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1">// If TI-RTOS queue is not empty, process app message</span>
+<span class="hll"><span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">Queue_empty</span><span class="p">(</span><span class="n">appMsgQueue</span><span class="p">))</span>
+</span><span class="p">{</span>
+<span class="hll">  <span class="n">sbcEvt_t</span> <span class="o">*</span><span class="n">pMsg</span> <span class="o">=</span> <span class="p">(</span><span class="n">sbcEvt_t</span> <span class="o">*</span><span class="p">)</span><span class="n">Util_dequeueMsg</span><span class="p">(</span><span class="n">appMsgQueue</span><span class="p">);</span>
+</span>  <span class="k">if</span> <span class="p">(</span><span class="n">pMsg</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="c1">// Process message</span>
+<span class="hll">    <span class="n">SimpleBLECentral_processAppMsg</span><span class="p">(</span><span class="n">pMsg</span><span class="p">);</span>
+</span>
+    <span class="c1">// Free the space from the message</span>
+<span class="hll">    <span class="n">ICall_free</span><span class="p">(</span><span class="n">pMsg</span><span class="p">);</span>
+</span>  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<p><strong>Step 4</strong> in <a class="reference internal" href="#fig-dequeue-message"><span class="std std-numref">Figure 31.</span></a>, the simple_central application
+takes the dequeued message and processes it.</p>
+<div class="literal-block-wrapper docutils container" id="id21">
+<div class="code-block-caption"><span class="caption-number">Listing 12. </span><span class="caption-text">Processing key interrupt message</span><a class="headerlink" href="#id21" title="Permalink to this code">¶</a></div>
+<div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">static</span> <span class="kt">void</span> <span class="nf">SimpleBLECentral_processAppMsg</span><span class="p">(</span><span class="n">sbcEvt_t</span> <span class="o">*</span><span class="n">pMsg</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="k">switch</span> <span class="p">(</span><span class="n">pMsg</span><span class="o">-&gt;</span><span class="n">hdr</span><span class="p">.</span><span class="n">event</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="k">case</span> <span class="nl">SBC_KEY_CHANGE_EVT</span><span class="p">:</span>
+<span class="hll">      <span class="n">SimpleBLECentral_handleKeys</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">pMsg</span><span class="o">-&gt;</span><span class="n">hdr</span><span class="p">.</span><span class="n">state</span><span class="p">);</span>
+</span>      <span class="k">break</span><span class="p">;</span>
+    <span class="c1">//...</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<p><strong>Step 5</strong> in <a class="reference internal" href="#fig-dequeue-message"><span class="std std-numref">Figure 31.</span></a>, the simple_central application
+can now free the memory allocated in <strong>Step 2</strong>.</p>
+</div>
+</div>
+</div>
+<div class="section" id="tasks">
+<span id="sec-rtos-overview-tasks"></span><h2>Tasks<a class="headerlink" href="#tasks" title="Permalink to this headline">¶</a></h2>
+<p>TI-RTOS <em>Tasks</em> are equivalent to independent threads that conceptually execute
+functions in parallel within a single C program. In reality, switching the
+processor from one task to another helps achieve concurrency. Each Task is
+always in one of the following modes of execution:</p>
+<ul class="simple">
+<li><strong>Running</strong>: task is currently running</li>
+<li><strong>Ready</strong>: task is scheduled for execution</li>
+<li><strong>Blocked</strong>: task is suspended from execution</li>
+<li><strong>Terminated</strong>: task is terminated from execution</li>
+<li><strong>Inactive</strong>: task is on inactive list</li>
+</ul>
+<p>One (and only one) task is always running, even if it is only the Idle Task (see
+<a class="reference internal" href="#tirtos-threads"><span class="std std-numref">Figure 26.</span></a>). The current running task can be blocked from
+execution by calling certain Task module functions, as well as functions
+provided by other modules like Semaphores. The current task can also terminate
+itself. In either case, the processor is switched to the highest priority task
+that is ready to run. See the Task module in the package ti.sysbios.knl section
+of the <a class="reference external" href="../../../../tirtos/sysbios/docs/Bios_User_Guide.pdf">TI-RTOS Kernel User Guide</a> for more information on these functions.</p>
+<p>Numeric priorities are assigned to tasks, and multiple tasks can have the same
+priority. Tasks are readied to execute by highest to lowest priority level;
+tasks of the same priority are scheduled in order of arrival. The priority of
+the currently running task is never lower than the priority of any ready task.
+The running task is preempted and rescheduled to execute when there is a ready
+task of higher priority.</p>
+<p>In the simple_peripheral application, the Bluetooth low energy protocol
+stack task is given the highest priority (5) and the application task is
+given the lowest priority (1).</p>
+<div class="section" id="initializing-a-task">
+<span id="sec-rtos-overview-initializing-a-task"></span><h3>Initializing a Task<a class="headerlink" href="#initializing-a-task" title="Permalink to this headline">¶</a></h3>
+<p>When a task is initialized, it has its own runtime stack for storing local
+variables as well as further nesting of function calls. All tasks executing
+within a single program share a common set of global variables, accessed
+according to the standard rules of scope for C functions. This set of memory is
+the context of the task. The following is an example of the application task
+being constructed.</p>
+<div class="literal-block-wrapper docutils container" id="id22">
+<span id="creating-task-listing"></span><div class="code-block-caption"><span class="caption-number">Listing 13. </span><span class="caption-text">A TI-RTOS task</span><a class="headerlink" href="#id22" title="Permalink to this code">¶</a></div>
+<div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;xdc/std.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;ti/sysbios/BIOS.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;ti/sysbios/knl/Task.h&gt;</span><span class="cp"></span>
+
+<span class="cm">/* Task&#39;s stack */</span>
+<span class="kt">uint8_t</span> <span class="n">sbcTaskStack</span><span class="p">[</span><span class="n">TASK_STACK_SIZE</span><span class="p">];</span>
+
+<span class="cm">/* Task object (to be constructed) */</span>
+<span class="n">Task_Struct</span> <span class="n">task0</span><span class="p">;</span>
+
+<span class="cm">/* Task function */</span>
+<span class="hll"><span class="kt">void</span> <span class="nf">taskFunction</span><span class="p">(</span><span class="n">UArg</span> <span class="n">arg0</span><span class="p">,</span> <span class="n">UArg</span> <span class="n">arg1</span><span class="p">)</span>
+</span><span class="hll"><span class="p">{</span>
+</span><span class="hll">    <span class="cm">/* Local variables. Variables here go onto task stack!! */</span>
+</span><span class="hll">
+</span><span class="hll">    <span class="cm">/* Run one-time code when task starts */</span>
+</span><span class="hll">
+</span><span class="hll">    <span class="k">while</span> <span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="cm">/* Run loop forever (unless terminated) */</span>
+</span><span class="hll">    <span class="p">{</span>
+</span><span class="hll">        <span class="cm">/*</span>
+</span><span class="hll"><span class="cm">         * Block on a signal or for a duration. Examples:</span>
+</span><span class="hll"><span class="cm">         *  ``Sempahore_pend()``</span>
+</span><span class="hll"><span class="cm">         *  ``Event_pend()``</span>
+</span><span class="hll"><span class="cm">         *  ``Task_sleep()``</span>
+</span><span class="hll"><span class="cm">         *</span>
+</span><span class="hll"><span class="cm">         * &quot;Process data&quot;</span>
+</span><span class="hll"><span class="cm">         */</span>
+</span><span class="hll">    <span class="p">}</span>
+</span><span class="hll"><span class="p">}</span>
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+
+    <span class="n">Task_Params</span> <span class="n">taskParams</span><span class="p">;</span>
+
+    <span class="c1">// Configure task</span>
+    <span class="n">Task_Params_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">taskParams</span><span class="p">);</span>
+    <span class="n">taskParams</span><span class="p">.</span><span class="n">stack</span> <span class="o">=</span> <span class="n">sbcTaskStack</span><span class="p">;</span>
+    <span class="n">taskParams</span><span class="p">.</span><span class="n">stackSize</span> <span class="o">=</span> <span class="n">TASK_STACK_SIZE</span><span class="p">;</span>
+    <span class="n">taskParams</span><span class="p">.</span><span class="n">priority</span> <span class="o">=</span> <span class="n">TASK_PRIORITY</span><span class="p">;</span>
+
+<span class="hll">    <span class="n">Task_construct</span><span class="p">(</span><span class="o">&amp;</span><span class="n">task0</span><span class="p">,</span> <span class="n">taskFunction</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">taskParams</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+</span>
+    <span class="n">BIOS_start</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<p>The task creation is done in the main() function, before the TI-RTOS Kernel&#8217;s
+scheduler is started by <code class="docutils literal"><span class="pre">BIOS_start()</span></code>. The task executes at its assigned
+priority level after the scheduler is started.</p>
+<p>TI recommends using an existing application task for application-specific
+processing. When adding an additional task to the application project, the
+priority of the task must be assigned a priority within the TI-RTOS
+priority-level range, defined in the TI-RTOS configuration file (<code class="docutils literal"><span class="pre">.cfg</span></code>).</p>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p>Reduce the number of Task priority levels to gain additional RAM savings in
+the TI-RTOS configuration file (<code class="docutils literal"><span class="pre">.cfg</span></code>):</p>
+<div class="last highlight-c"><div class="highlight"><pre><span></span><span class="n">Task</span><span class="p">.</span><span class="n">numPriorities</span> <span class="o">=</span> <span class="mi">6</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<p>Do not add a task with a priority equal to or higher than the Bluetooth low
+energy protocol stack task and related supporting tasks. See <a class="reference internal" href="architecture.html#sec-inc-architecture-standard-project-task-hierarchy"><span class="std std-ref">Standard Project Task Hierarchy</span></a>
+for details on the system task hierarchy.</p>
+<p>Ensure the task has a minimum task stack size of 512 bytes of predefined memory.
+At a minimum, each stack must be large enough to handle normal subroutine calls
+and one task preemption context. A task preemption context is the context that
+is saved when one task preempts another as a result of an interrupt thread
+readying a higher priority task. Using the TI-RTOS profiling tools of the IDE,
+the task can be analyzed to determine the peak task stack usage.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The term <em>created</em> describes the instantiation of a task. The actual TI-RTOS
+method is to construct the task. See <a class="reference internal" href="#create-vs-construct"><span class="std std-ref">Creating vs. Constructing</span></a> for
+details on constructing TI-RTOS objects.</p>
+</div>
+</div>
+<div class="section" id="a-task-function">
+<h3>A Task Function<a class="headerlink" href="#a-task-function" title="Permalink to this headline">¶</a></h3>
+<p>When a task is initialized, a function pointer to a task function is passed to
+the <code class="docutils literal"><span class="pre">Task_construct</span></code> function. When the task first gets a chance to process,
+this is the function which the TI-RTOS runs. <a class="reference internal" href="#creating-task-listing"><span class="std std-numref">Listing 13.</span></a>
+shows the general topology of this Task function.</p>
+<p>In typical use cases, the task spends most of its time in the blocked state,
+where it calls a <code class="docutils literal"><span class="pre">_pend()</span></code> API such as <code class="docutils literal"><span class="pre">Semaphore_pend()</span></code>. Often,
+high priority threads such as Hwis or Swis unblock the task with a <code class="docutils literal"><span class="pre">_post()</span></code>
+API such as <code class="docutils literal"><span class="pre">Semaphore_post()</span></code>.</p>
+</div>
+</div>
+<div class="section" id="clocks">
+<h2>Clocks<a class="headerlink" href="#clocks" title="Permalink to this headline">¶</a></h2>
+<p>Clock instances are functions that can be scheduled to run after a certain
+number of system ticks. Clock instances are either one-shot or periodic. These
+instances start immediately upon creation, are configured to start after a
+delay, and can be stopped at any time. All clock instances are executed when
+they expire in the context of a <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-swi"><span class="xref std std-term">Swi</span></a>. The following example shows the
+minimum resolution is the TI-RTOS clock tick period set in the TI-RTOS
+configuration file (<code class="docutils literal"><span class="pre">.cfg</span></code>).</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>The default TI-RTOS kernel tick period is 1 millisecond. For CC2640R2F
+devices, this is reconfigured in the TI-RTOS configuration file (<code class="docutils literal"><span class="pre">.cfg</span></code>):</p>
+<div class="last highlight-c"><div class="highlight"><pre><span></span><span class="n">Clock</span><span class="p">.</span><span class="n">tickPeriod</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<p>Each system tick, which is derived from the real-time clock <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-rtc"><span class="xref std std-term">RTC</span></a>,
+launches a Clock object that compares the running tick count with the period of
+each clock to determine if the associated function should run. For
+higher-resolution timers, TI recommends using a 16-bit hardware timer channel or
+the sensor controller. See the Clock module in the package ti.sysbios.knl
+section of the <a class="reference external" href="../../../../tirtos/sysbios/docs/Bios_User_Guide.pdf">TI-RTOS Kernel User Guide</a> for more information on these
+functions.</p>
+<p>You can use the Kernel&#8217;s Clock APIs directly in your application and in addition
+the <code class="docutils literal"><span class="pre">Util</span></code> module also contains a set of abstracted TI-RTOS Clock functions as
+shown here:</p>
+<ul class="simple">
+<li><a class="reference external" href="../../doxygen/ble/html/group___util.html#ga761dca11dc0c6199168011949db793c5">Util_constructClock()</a> creates a Clock object.</li>
+<li><a class="reference external" href="../../doxygen/ble/html/group___util.html#ga1c499454cba90c216ab2514b54f7ce88">Util_startClock()</a> starts an existing Clock object.</li>
+<li><a class="reference external" href="../../doxygen/ble/html/group___util.html#ga3d36870c30686d68d7096fd333090c3f">Util_restartClock()</a> stops, restarts an existing Clock object.</li>
+<li><a class="reference external" href="../../doxygen/ble/html/group___util.html#ga077436ed5f5a43a39f8c96cba253160e">Util_isActive()</a> checks if a Clock object is running.</li>
+<li><a class="reference external" href="../../doxygen/ble/html/group___util.html#gae0a8cd00a21d57e55a96283336ceab17">Util_stopClock()</a> stop an existing Clock object.</li>
+<li><a class="reference external" href="../../doxygen/ble/html/group___util.html#ga59503ce945c3762bb32e8a1e2cb9c8f9">Util_rescheduleClock()</a> reconfigure an existing Clock object.</li>
+</ul>
+<div class="section" id="sec-rtos-overview-functional-clock-example">
+<span id="id2"></span><h3>Functional Example<a class="headerlink" href="#sec-rtos-overview-functional-clock-example" title="Permalink to this headline">¶</a></h3>
+<p>The following example was taken from the simple_peripheral project in
+BLE-Stack.</p>
+<div class="figure align-center" id="id23">
+<span id="fig-periodic-clock"></span><p class="plantuml">
+<img src="../_images/plantuml-a448b9966ee94238ca0a118e4cd245eca57f33da.png" alt="&#64;startuml
+hide footbox
+
+participant simple_perpherial.c as A
+box &quot;Swi context&quot;
+    participant &quot;Clock Object&quot; as B
+end box
+
+activate A
+group Initialize Clock object
+    autonumber
+    A -&gt; B : Util_clockConstruct()
+    autonumber stop
+    A &lt;-- B
+end
+
+...
+
+group Start Clock object
+    A -&gt; B : Util_clockStart()
+
+    B --&gt; A
+    note left: Event_pend(event,...)
+
+    deactivate A
+end
+
+...
+
+group Clock function triggers after expiration
+    autonumber resume
+    rnote over B
+        The Clock object invokes supplied function pointer
+        (e.g. SimpleBLEPeripheral_performPeriodicTask())
+        This function only posts a signal such as an Event
+    end note
+    B -&gt; B : SimpleBLEPeripheral_clockHandler();
+    activate B
+    autonumber stop
+    B -&gt; : Event_post(event, SBP_PERIODIC_EVT);
+    B &lt;--
+    deactivate B
+end
+
+group Process period function and restart Clock object
+    -&gt; A : Unblocked due to posted SBP_PERIODIC_EVT.
+    activate A
+    rnote over A
+        Given that an event was posted, we can process the
+        periodic function from a Task context
+        (e.g. SimpleBLEPeripheral_performPeriodicTask())
+    end note
+    autonumber resume
+    A -&gt; A : SimpleBLEPeripheral_performPeriodicTask()
+    activate A
+
+    rnote over A
+        Restart the clock after the periodic process
+    end note
+    deactivate A
+    autonumber stop
+    A -&gt; B : Util_startClock();
+    B --&gt; A
+
+    deactivate A
+    note left: Event_pend(event,...)
+end
+
+rnote over A, B
+    The Clock object will trigger after
+    expiration and the cycle will repeat itself.
+end note
+
+...
+
+&#64;enduml" />
+</p>
+<p class="caption"><span class="caption-number">Figure 32. </span><span class="caption-text">Triggering Clock objects</span><a class="headerlink" href="#id23" title="Permalink to this image">¶</a></p>
+</div>
+<p><strong>Step 1</strong> in <a class="reference internal" href="#fig-periodic-clock"><span class="std std-ref">Triggering Clock objects</span></a> constructs the Clock object via
+<a class="reference external" href="../../doxygen/ble/html/group___util.html#ga761dca11dc0c6199168011949db793c5">Util_constructClock()</a>. After the example entered a connected state, it
+will then start the Clock object via a <a class="reference external" href="../../doxygen/ble/html/group___util.html#ga1c499454cba90c216ab2514b54f7ce88">Util_startClock()</a>.</p>
+<div class="literal-block-wrapper docutils container" id="id24">
+<div class="code-block-caption"><span class="caption-number">Listing 14. </span><span class="caption-text">Constructing <code class="docutils literal"><span class="pre">periodicClock</span></code> Clock object in simple_peripheral</span><a class="headerlink" href="#id24" title="Permalink to this code">¶</a></div>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="c1">// Clock instances for internal periodic events.</span>
+<span class="hll"><span class="k">static</span> <span class="n">Clock_Struct</span> <span class="n">periodicClock</span><span class="p">;</span>
+</span>
+<span class="c1">// Create one-shot clocks for internal periodic events.</span>
+<span class="hll"><span class="n">Util_constructClock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">periodicClock</span><span class="p">,</span> <span class="n">SimpleBLEPeripheral_clockHandler</span><span class="p">,</span>
+</span><span class="hll">    <span class="n">SBP_PERIODIC_EVT_PERIOD</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">false</span><span class="p">,</span> <span class="n">SBP_PERIODIC_EVT</span><span class="p">);</span>
+</span></pre></div>
+</div>
+</div>
+<p><strong>Step 2</strong> in <a class="reference internal" href="#fig-periodic-clock"><span class="std std-ref">Triggering Clock objects</span></a>, after the Clock object&#8217;s timer expired,
+it will execute <code class="docutils literal"><span class="pre">SimpleBLEPeripheral_clockHandler()</span></code> within a Swi context. As
+this call cannot be blocked and blocks all Tasks, it is kept short by invoking
+an <code class="docutils literal"><span class="pre">Event_post(SBP_PERIODIC_EVT)</span></code> for post processing in simple_peripheral.</p>
+<div class="literal-block-wrapper docutils container" id="id25">
+<div class="code-block-caption"><span class="caption-number">Listing 15. </span><span class="caption-text">Defining SimpleBLEPeripheral_clockHandler()</span><a class="headerlink" href="#id25" title="Permalink to this code">¶</a></div>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="k">static</span> <span class="kt">void</span> <span class="nf">SimpleBLEPeripheral_clockHandler</span><span class="p">(</span><span class="n">UArg</span> <span class="n">arg</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="cm">/* arg is passed in from Clock_construct() */</span>
+<span class="hll">    <span class="n">Event_post</span><span class="p">(</span><span class="n">events</span><span class="p">,</span> <span class="n">arg</span><span class="p">);</span>
+</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="admonition attention">
+<p class="first admonition-title">Attention</p>
+<p class="last">Clock functions must not call blocking kernel APIs or TI-RTOS driver APIs!
+Executing long routines will impact real-time constraints placed in high
+priority tasks allocated for wireless protocol stacks!</p>
+</div>
+<p><strong>Step 3</strong> in <a class="reference internal" href="#fig-periodic-clock"><span class="std std-ref">Triggering Clock objects</span></a>, the simple_peripheral task is
+unblocked due the <code class="docutils literal"><span class="pre">Event_post(SBP_PERIODIC_EVT)</span></code>, where it proceeds to invoke
+the <code class="docutils literal"><span class="pre">SimpleBLEPeripheral_performPeriodicTask()</span></code> function. Afterwards, to
+restart the periodic execution of this function, it will restart the
+<code class="docutils literal"><span class="pre">periodicClock</span></code> Clock object.</p>
+<div class="literal-block-wrapper docutils container" id="id26">
+<div class="code-block-caption"><span class="caption-number">Listing 16. </span><span class="caption-text">Servicing the SBP_PERIODIC_EVT event</span><a class="headerlink" href="#id26" title="Permalink to this code">¶</a></div>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="p">(</span><span class="n">events</span> <span class="o">&amp;</span> <span class="n">SBP_PERIODIC_EVT</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="c1">// Perform periodic application task</span>
+<span class="hll">  <span class="n">SimpleBLEPeripheral_performPeriodicTask</span><span class="p">();</span>
+</span>
+<span class="hll">  <span class="n">Util_startClock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">periodicClock</span><span class="p">);</span>
+</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="drivers">
+<span id="tirtos-drivers"></span><span id="peripherals-and-drivers"></span><h2>Drivers<a class="headerlink" href="#drivers" title="Permalink to this headline">¶</a></h2>
+<p>The TI-RTOS provides a suite of CC26xx peripheral drivers that can
+be added to an application. The drivers provide a mechanism for the
+application to interface with the CC26xx onboard peripherals and
+communicate with external devices. These drivers make use of
+DriverLib to abstract register access.</p>
+<p>There is significant documentation relating to each TI-RTOS driver located in
+the BLE-Stack. Refer to the BLE-Stack release notes for the specific location. This
+section only provides an overview of how drivers fit into the software
+ecosystem.  For a description of available features and driver APIs, refer to
+the TI-RTOS API Reference.</p>
+<div class="section" id="adding-a-driver">
+<span id="id3"></span><h3>Adding a Driver<a class="headerlink" href="#adding-a-driver" title="Permalink to this headline">¶</a></h3>
+<p>Some of the drivers are added to the project as source files in their
+respective folder under the Drivers folder in the project workspace,
+as shown in <a class="reference internal" href="#drivers-folder"><span class="std std-numref">Figure 33.</span></a></p>
+<div class="figure align-center" id="id27">
+<span id="drivers-folder"></span><img alt="../_images/drivers_folder.jpg" src="../_images/drivers_folder.jpg" />
+<p class="caption"><span class="caption-number">Figure 33. </span><span class="caption-text">Drivers Folder</span></p>
+</div>
+<p>The driver source files can be found in their respective folder at
+<em>$TI_RTOS_DRIVERS_BASE$\ti\drivers</em>.</p>
+<p>The $TI_RTOS_DRIVERS_BASE$ argument variable refers to the
+installation location and can be viewed in IAR Tools\
+Configure Custom Argument Variables menu. For CCS, the corresponding
+path variables are defined in the Project Options\
+Resource\Linked Resources, Path Variables tab.</p>
+<p>The ECC and TRNG drivers, for example, are part of the BLE-Stack, not the
+TIRTOS, and they are located at
+<em>&lt;SDK_INSTALL_DIR&gt;\source\ti\ble5stack\common\cc26xx\ecc</em> and
+<em>&lt;SDK_INSTALL_DIR&gt;\source\ti\ble5stack\hal\src\target\_common</em>
+respectively.</p>
+<p>To add a driver to a project, include the C and include file of the
+respective driver in the application file (or files) where the
+driver APIs are referenced.</p>
+<p>For example, to add the PIN driver for reading or controlling an
+output I/O pin, add the following:</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;ti/drivers/pin/PINCC26XX.h&gt;</span><span class="cp"></span>
+</pre></div>
+</div>
+<p>Also add the following TI-RTOS driver files to the project under the
+Drivers\PIN folder:</p>
+<ul class="simple">
+<li>PINCC26XX.c</li>
+<li>PINCC26XX.h</li>
+<li>PIN.h</li>
+</ul>
+<p>This is described in more detail in the following sections.</p>
+</div>
+<div class="section" id="board-file">
+<h3>Board File<a class="headerlink" href="#board-file" title="Permalink to this headline">¶</a></h3>
+<p>The board file sets the parameters of the fixed driver configuration
+for a specific board configuration, such as configuring the GPIO
+table for the PIN driver or defining which pins are allocated to the
+I2C, SPI, or UART driver.</p>
+<p>See the <a class="reference internal" href="../ble-stack-3.x/custom-hardware.html#board-file"><span class="std std-ref">TI Provided Board Files</span></a> section for more information on board files and how to
+switch between TI EMs and LPs or port to custom hardware.</p>
+</div>
+<div class="section" id="available-drivers">
+<h3>Available Drivers<a class="headerlink" href="#available-drivers" title="Permalink to this headline">¶</a></h3>
+<p>This section describes each available driver and provides a basic
+example of adding the driver to the simple_peripheral project. For
+more detailed information on each driver, see the TI-RTOS API
+Reference.</p>
+<div class="section" id="pin">
+<h4>PIN<a class="headerlink" href="#pin" title="Permalink to this headline">¶</a></h4>
+<p>The PIN driver allows control of the I/O pins for
+software-controlled general-purpose I/O (GPIO) or connections to
+hardware peripherals. As stated in the <a class="reference internal" href="../ble-stack-3.x/custom-hardware.html#board-file"><span class="std std-ref">TI Provided Board Files</span></a> section,
+the pins must first be initialized to a safe state (configured in the board
+file) in main(). After this initialization, any module can use the PIN
+driver to configure a set of pins for use. The following is an
+example of configuring the simple_peripheral task to use one pin as
+an interrupt and another as an output, to toggle when the interrupt
+occurs. IOID_x pin numbers map to DIO pin numbers as referenced in
+<a class="reference external" href="http://www.ti.com/lit/pdf/swcu117">CC26xx Technical Reference Manual</a>. The following
+table lists pins used and their mapping on the CC2640R2F LaunchPad.
+These are already defined in the board file.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="44%" />
+<col width="20%" />
+<col width="35%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Signal Name</th>
+<th class="head">Pin ID</th>
+<th class="head">CC2640R2F LaunchPad Mapping</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>CC2640R2_LAUNCHXL_PIN_RLED</td>
+<td>IOID_6</td>
+<td>DIO6 (Red)</td>
+</tr>
+<tr class="row-odd"><td>CC2640R2_LAUNCHXL_PIN_BTN1</td>
+<td>IOID_13</td>
+<td>DIO13 (BTN_1)</td>
+</tr>
+</tbody>
+</table>
+<p>The following simple_peripheral.c code modifications are required.</p>
+<ol class="arabic">
+<li><p class="first">Include PIN driver files:</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;ti/drivers/pin/PINCC26xx.h&gt;</span><span class="cp"></span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Declare the pin configuration table and pin state and handle
+variables to be used by the simple_peripheral task:</p>
+<blockquote>
+<div><div class="literal-block-wrapper docutils container" id="id28">
+<span id="lst-peripheral-and-drivers-pin-configuration-table"></span><div class="code-block-caption"><span class="caption-number">Listing 17. </span><span class="caption-text">Pin configuration table</span><a class="headerlink" href="#id28" title="Permalink to this code">¶</a></div>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="k">static</span> <span class="n">PIN_Config</span> <span class="n">SBP_configTable</span><span class="p">[]</span> <span class="o">=</span>
+<span class="p">{</span>
+    <span class="n">CC2640R2_LAUNCHXL_PIN_RLED</span> <span class="o">|</span> <span class="n">PIN_GPIO_OUTPUT_EN</span> <span class="o">|</span> <span class="n">PIN_GPIO_LOW</span> <span class="o">|</span> <span class="n">PIN_PUSHPULL</span> <span class="o">|</span> <span class="n">PIN_DRVSTR_MAX</span><span class="p">,</span>
+    <span class="n">CC2640R2_LAUNCHXL_PIN_BTN1</span> <span class="o">|</span> <span class="n">PIN_INPUT_EN</span> <span class="o">|</span> <span class="n">PIN_PULLUP</span> <span class="o">|</span> <span class="n">PIN_IRQ_BOTHEDGES</span> <span class="o">|</span> <span class="n">PIN_HYSTERESIS</span><span class="p">,</span>
+    <span class="n">PIN_TERMINATE</span>
+<span class="p">};</span>
+
+<span class="k">static</span> <span class="n">PIN_State</span> <span class="n">sbpPins</span><span class="p">;</span>
+<span class="k">static</span> <span class="n">PIN_Handle</span> <span class="n">hSbpPins</span><span class="p">;</span>
+<span class="k">static</span> <span class="kt">uint8_t</span> <span class="n">LED_value</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">Declare the ISR to be performed in the Hwi context:</p>
+<div class="literal-block-wrapper docutils container" id="isr-code">
+<div class="code-block-caption"><span class="caption-number">Listing 18. </span><span class="caption-text">Declare the ISR</span><a class="headerlink" href="#isr-code" title="Permalink to this code">¶</a></div>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="k">static</span> <span class="kt">void</span> <span class="nf">buttonHwiFxn</span><span class="p">(</span><span class="n">PIN_Handle</span> <span class="n">hPin</span><span class="p">,</span> <span class="n">PIN_Id</span> <span class="n">pinId</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">SimpleBLEPeripheral_enqueueMsg</span><span class="p">(</span><span class="n">SBP_BTN_EVT</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</li>
+<li><p class="first">In SimpleBLEPeripheral_processAppMsg, add a case to handle the event from
+above, and define the event:</p>
+<blockquote>
+<div><div class="literal-block-wrapper docutils container" id="id29">
+<span id="lst-peripheral-and-drivers-process-isr"></span><div class="code-block-caption"><span class="caption-number">Listing 19. </span><span class="caption-text">Processing of ISR event</span><a class="headerlink" href="#id29" title="Permalink to this code">¶</a></div>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="cp">#define SBP_BTN_EVT</span>
+
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">SimpleBLEPeripheral_processAppMsg</span><span class="p">(</span><span class="n">sbcEvt_t</span> <span class="o">*</span><span class="n">pMsg</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">switch</span> <span class="p">(</span><span class="n">pMsg</span><span class="o">-&gt;</span><span class="n">hdr</span><span class="p">.</span><span class="n">event</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">case</span> <span class="nl">SBP_BTN_EVT</span><span class="p">:</span>
+            <span class="c1">//toggle red LED</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">LED_value</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="n">PIN_setOutputValue</span><span class="p">(</span><span class="n">hSbpPins</span><span class="p">,</span> <span class="n">CC2640R2_LAUNCHXL_PIN_RLED</span> <span class="p">,</span> <span class="n">LED_value</span><span class="o">--</span><span class="p">);</span>
+            <span class="p">}</span>
+            <span class="k">else</span>
+            <span class="p">{</span>
+                <span class="n">PIN_setOutputValue</span><span class="p">(</span><span class="n">hSbpPins</span><span class="p">,</span> <span class="n">CC2640R2_LAUNCHXL_PIN_RLED</span><span class="p">,</span> <span class="n">LED_value</span><span class="o">++</span><span class="p">);</span>
+            <span class="p">}</span>
+            <span class="k">break</span><span class="p">;</span>
+            <span class="c1">//...</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">Open the pins for use and configure the interrupt in
+simple_peripheral_init():</p>
+<div class="literal-block-wrapper docutils container" id="id30">
+<span id="lst-peripheral-and-drivers-open-pins"></span><div class="code-block-caption"><span class="caption-number">Listing 20. </span><span class="caption-text">Open the pins and configure the interrupt</span><a class="headerlink" href="#id30" title="Permalink to this code">¶</a></div>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="c1">// Open pin structure for use</span>
+<span class="n">hSbpPins</span> <span class="o">=</span> <span class="n">PIN_open</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sbpPins</span><span class="p">,</span> <span class="n">SBP_configTable</span><span class="p">);</span>
+<span class="c1">// Register ISR</span>
+<span class="n">PIN_registerIntCb</span><span class="p">(</span><span class="n">hSbpPins</span><span class="p">,</span> <span class="n">buttonHwiFxn</span><span class="p">);</span>
+<span class="c1">// Configure interrupt</span>
+<span class="n">PIN_setConfig</span><span class="p">(</span><span class="n">hSbpPins</span><span class="p">,</span> <span class="n">PIN_BM_IRQ</span><span class="p">,</span> <span class="n">CC2640R2_LAUNCHXL_PIN_BTN1</span> <span class="o">|</span> <span class="n">PIN_IRQ_NEGEDGE</span><span class="p">);</span>
+<span class="c1">// Enable wakeup</span>
+<span class="n">PIN_setConfig</span><span class="p">(</span><span class="n">hSbpPins</span><span class="p">,</span> <span class="n">PINCC26XX_BM_WaKEUP</span><span class="p">,</span> <span class="n">CC2640R2_LAUNCHXL_PIN_BTN1</span><span class="o">|</span><span class="n">PINCC26XX_WAKEUP_NEGEDGE</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</li>
+<li><p class="first">Compile</p>
+</li>
+<li><p class="first">Download</p>
+</li>
+<li><p class="first">Run</p>
+</li>
+</ol>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Pushing the BTN-1 button on the CC2640R2F LaunchPad toggles the red LED.
+No debouncing is implemented.</p>
+</div>
+</div>
+<div class="section" id="gpio">
+<h4>GPIO<a class="headerlink" href="#gpio" title="Permalink to this headline">¶</a></h4>
+<p>The GPIO module allows you to manage General Purpose I/O pins via simple and
+portable APIs. GPIO pin behavior is usually configured statically, but can also
+be configured or reconfigured at runtime.</p>
+<p>Because of its simplicity, the GPIO driver does not follow the model of other
+TI-RTOS drivers in which a driver application interface has separate
+device-specific implementations. This difference is most apparent in the
+GPIOxxx_Config structure, which does not require you to specify a particular
+function table or object.</p>
+<p>The following is an example of how to configure a GPIO pin to generate and
+interrupt and how to toggle an LED on and off within the registered interrupt
+callback function in Simple Peripheral.</p>
+<ol class="arabic">
+<li><p class="first">Include GPIO driver files in simple_peripheral.c:</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;ti/drivers/GPIO.h&gt;</span><span class="cp"></span>
+</pre></div>
+</div>
+</li>
+</ol>
+<p>The following must be added to Board.c:</p>
+<ol class="arabic" start="2">
+<li><p class="first">An array of GPIO_PinConfig elements that defines the initial configuration of
+each pin used by the application. The pin type (that is, INPUT/OUTPUT), its
+initial state (that is OUTPUT_HIGH or LOW), interrupt behavior
+(RISING/FALLING edge, etc.), and device specific pin identification are
+configured in each element of this array. Below is a CC26XX device specific
+example of the GPIO_PinConfig array:</p>
+<div class="literal-block-wrapper docutils container" id="id31">
+<span id="lst-gpio-pin-config-array"></span><div class="code-block-caption"><span class="caption-number">Listing 21. </span><span class="caption-text">Set up the GPIO pin config array</span><a class="headerlink" href="#id31" title="Permalink to this code">¶</a></div>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="c1">//</span>
+<span class="c1">// Array of Pin configurations</span>
+<span class="c1">// NOTE: The order of the pin configurations must coincide with what was</span>
+<span class="c1">//       defined in CC2640R2_LAUNCH.h</span>
+<span class="c1">// NOTE: Pins not used for interrupts should be placed at the end of the</span>
+<span class="c1">//       array.  Callback entries can be omitted from callbacks array to</span>
+<span class="c1">//       reduce memory usage.</span>
+<span class="c1">//</span>
+<span class="n">GPIO_PinConfig</span> <span class="n">gpioPinConfigs</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="c1">// Input pins</span>
+    <span class="n">GPIOCC26XX_DIO_13</span> <span class="o">|</span> <span class="n">GPIO_CFG_IN_PU</span> <span class="o">|</span> <span class="n">GPIO_CFG_IN_INT_RISING</span><span class="p">,</span>  <span class="c1">// Button 0</span>
+    <span class="n">GPIOCC26XX_DIO_14</span> <span class="o">|</span> <span class="n">GPIO_CFG_IN_PU</span> <span class="o">|</span> <span class="n">GPIO_CFG_IN_INT_RISING</span><span class="p">,</span>  <span class="c1">// Button 1</span>
+    <span class="c1">// Output pins</span>
+    <span class="n">GPIOCC26XX_DIO_07</span> <span class="o">|</span> <span class="n">GPIO_CFG_OUT_STD</span> <span class="o">|</span> <span class="n">GPIO_CFG_OUT_STR_HIGH</span> <span class="o">|</span> <span class="n">GPIO_CFG_OUT_LOW</span><span class="p">,</span>     <span class="c1">//  Green LED</span>
+    <span class="n">GPIOCC26XX_DIO_06</span> <span class="o">|</span> <span class="n">GPIO_CFG_OUT_STD</span> <span class="o">|</span> <span class="n">GPIO_CFG_OUT_STR_HIGH</span> <span class="o">|</span> <span class="n">GPIO_CFG_OUT_LOW</span><span class="p">,</span>     <span class="c1">//  Red LED</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+</li>
+<li><p class="first">An array of GPIO_CallbackFxn elements that is used to store callback function
+pointers for GPIO pins configured with interrupts. The indexes for these
+array elements correspond to the pins defined in the GPIO_PinConfig array.
+These function pointers can be defined statically by referencing the callback
+function name in the array element, or dynamically, by setting the array
+element to NULL and using GPIO_setCallback() at runtime to plug the callback
+entry. Pins not used for interrupts can be omitted from the callback array to
+reduce memory usage (if they are placed at the end of the GPIO_PinConfig
+array). The callback function syntax should match the following:</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">GPIO_CallbackFxn</span><span class="p">)(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">index</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The index parameter is the same index that was passed to GPIO_setCallback().
+This allows the same callback function to be used for multiple GPIO
+interrupts, by using the index to identify the GPIO that caused the
+interrupt. Below is an CC26XX device specific example of the GPIO_CallbackFxn
+array:</p>
+<div class="literal-block-wrapper docutils container" id="id32">
+<span id="lst-gpio-callback-fxn-array"></span><div class="code-block-caption"><span class="caption-number">Listing 22. </span><span class="caption-text">Set up the GPIO callback function array</span><a class="headerlink" href="#id32" title="Permalink to this code">¶</a></div>
+<div class="highlight-c"><div class="highlight"><pre><span></span> <span class="c1">//</span>
+ <span class="c1">// Array of callback function pointers</span>
+ <span class="c1">// NOTE: The order of the pin configurations must coincide with what was</span>
+ <span class="c1">//       defined in CC2640R2_LAUNCH.h</span>
+ <span class="c1">// NOTE: Pins not used for interrupts can be omitted from callbacks array to</span>
+ <span class="c1">//       reduce memory usage (if placed at end of gpioPinConfigs array).</span>
+ <span class="c1">//</span>
+ <span class="n">GPIO_CallbackFxn</span> <span class="n">gpioCallbackFunctions</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span>
+     <span class="nb">NULL</span><span class="p">,</span>  <span class="c1">//  Button 0</span>
+     <span class="nb">NULL</span><span class="p">,</span>  <span class="c1">//  Button 1</span>
+ <span class="p">};</span>
+</pre></div>
+</div>
+</div>
+</li>
+<li><p class="first">The device specific GPIOCC26XX_Config structure tells the GPIO driver
+where the two aforementioned arrays are and the number of elements in each.
+The interrupt priority of all pins configured to generate interrupts is also
+specified here. Values for the interrupt priority are device-specific. You
+should be well-acquainted with the interrupt controller used in your device
+before setting this parameter to a non-default value. The sentinel value of
+(~0) (the default value) is used to indicate that the lowest possible
+priority should be used. Below is an example of an initialized
+GPIOCC26XX_Config structure:</p>
+<div class="literal-block-wrapper docutils container" id="id33">
+<span id="lst-gpio-config-structure"></span><div class="code-block-caption"><span class="caption-number">Listing 23. </span><span class="caption-text">Set up the GPIO config structure</span><a class="headerlink" href="#id33" title="Permalink to this code">¶</a></div>
+<div class="highlight-c"><div class="highlight"><pre><span></span> <span class="k">const</span> <span class="n">GPIOCC26XX_Config</span> <span class="n">GPIOCC26XX_config</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="p">.</span><span class="n">pinConfigs</span> <span class="o">=</span> <span class="p">(</span><span class="n">GPIO_PinConfig</span> <span class="o">*</span><span class="p">)</span><span class="n">gpioPinConfigs</span><span class="p">,</span>
+      <span class="p">.</span><span class="n">callbacks</span> <span class="o">=</span> <span class="p">(</span><span class="n">GPIO_CallbackFxn</span> <span class="o">*</span><span class="p">)</span><span class="n">gpioCallbackFunctions</span><span class="p">,</span>
+      <span class="p">.</span><span class="n">numberOfPinConfigs</span> <span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">gpioPinConfigs</span><span class="p">)</span><span class="o">/</span><span class="k">sizeof</span><span class="p">(</span><span class="n">GPIO_PinConfig</span><span class="p">),</span>
+      <span class="p">.</span><span class="n">numberOfCallbacks</span> <span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">gpioCallbackFunctions</span><span class="p">)</span><span class="o">/</span><span class="k">sizeof</span><span class="p">(</span><span class="n">GPIO_CallbackFxn</span><span class="p">),</span>
+      <span class="p">.</span><span class="n">intPriority</span> <span class="o">=</span> <span class="p">(</span><span class="o">~</span><span class="mi">0</span><span class="p">)</span>
+  <span class="p">};</span>
+</pre></div>
+</div>
+</div>
+</li>
+</ol>
+<p>Add the following to simple_peripheral.c:</p>
+<ol class="arabic" start="5">
+<li><p class="first">The button callback function:</p>
+<div class="literal-block-wrapper docutils container" id="id34">
+<span id="lst-button-callback-fxn"></span><div class="code-block-caption"><span class="caption-number">Listing 24. </span><span class="caption-text">Set up the button callback function</span><a class="headerlink" href="#id34" title="Permalink to this code">¶</a></div>
+<div class="highlight-c"><div class="highlight"><pre><span></span> <span class="c1">//</span>
+ <span class="c1">//  ======== gpioButtonFxn0 ========</span>
+ <span class="c1">//  Callback function for the GPIO interrupt on CC2640R2_LAUNCHXL_PIN_BTN1.</span>
+ <span class="c1">//</span>
+ <span class="kt">void</span> <span class="nf">gpioButtonFxn0</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">index</span><span class="p">)</span>
+ <span class="p">{</span>
+     <span class="c1">// Toggle the LED</span>
+     <span class="n">GPIO_toggle</span><span class="p">(</span><span class="n">CC2640R2_LAUNCHXL_PIN_BTN1</span><span class="p">);</span>
+ <span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</li>
+<li><p class="first">Initialization and use of the GPIOs (add this to simple_peripheral_init()):</p>
+<div class="literal-block-wrapper docutils container" id="id35">
+<span id="lst-initialize-use-gpios"></span><div class="code-block-caption"><span class="caption-number">Listing 25. </span><span class="caption-text">Initialize and use GPIOs</span><a class="headerlink" href="#id35" title="Permalink to this code">¶</a></div>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="c1">// Call GPIO driver init function</span>
+<span class="n">GPIO_init</span><span class="p">();</span>
+
+<span class="c1">// Turn on user LED</span>
+<span class="n">GPIO_write</span><span class="p">(</span><span class="n">CC2640R2_LAUNCHXL_PIN_RLED</span><span class="p">,</span> <span class="n">Board_GPIO_LED_ON</span><span class="p">);</span>
+
+<span class="c1">// install Button callback</span>
+<span class="n">GPIO_setCallback</span><span class="p">(</span><span class="n">CC2640R2_LAUNCHXL_PIN_BTN1</span><span class="p">,</span> <span class="n">gpioButtonFxn0</span><span class="p">);</span>
+
+<span class="c1">// Enable interrupts</span>
+<span class="n">GPIO_enableInt</span><span class="p">(</span><span class="n">CC2640R2_LAUNCHXL_PIN_BTN1</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</li>
+<li><p class="first">Compile</p>
+</li>
+<li><p class="first">Download</p>
+</li>
+<li><p class="first">Run</p>
+</li>
+</ol>
+</div>
+<div class="section" id="other-drivers">
+<h4>Other Drivers<a class="headerlink" href="#other-drivers" title="Permalink to this headline">¶</a></h4>
+<p>The other drivers included with TI-RTOS are: UART, SPI, Crypto (AES), I2C, PDM,
+Power, RF, and UDMA. The stack makes use of the power, RF, and UDMA, so extra
+care must be taken if using these. As with the other drivers, these are
+well-documented, and examples are provided in the BLE-Stack.</p>
+</div>
+</div>
+</div>
+<div class="section" id="power-management">
+<h2>Power Management<a class="headerlink" href="#power-management" title="Permalink to this headline">¶</a></h2>
+<p>All power-management functionality is handled by the peripheral
+drivers and the Bluetooth low energy protocol stack. This feature
+can be enabled or disabled by including or excluding the
+POWER_SAVING preprocessor-defined symbol. When POWER_SAVING is
+enabled, the device enters and exits sleep as required for Bluetooth
+low energy events, peripheral events, application timers, and so
+forth. When POWER_SAVING is undefined, the device stays awake. See
+<a class="reference internal" href="developing_in_ccs.html#sec-developing-with-ccs-accessing-preprocessor-symbols"><span class="std std-ref">Accessing Preprocessor Symbols</span></a> in CCS or
+<a class="reference internal" href="developing_in_iar.html#sec-developing-with-iar-accessing-preprocessor-symbols"><span class="std std-ref">Accessing Preprocessor Symbols</span></a> in IAR for steps
+to modify preprocessor-defined symbols.</p>
+<p>More information on power-management functionality, including the
+API and a sample use case for a custom UART driver, can be found in
+the TI-RTOS Power Management for CC26xx included in the TI-RTOS
+install. These APIs are required only when using a custom driver.</p>
+<p>Also see <em>Measuring Bluetooth Smart Power Consumption</em> (SWRA478) for
+steps to analyze the system power consumption and battery life.</p>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="memory_management.html" class="btn btn-neutral float-right" title="Memory Management" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="developing_in_iar.html" class="btn btn-neutral" title="Developing with IAR" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Texas Instruments.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.01.01.00',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

@@ -1,0 +1,653 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Developing with CCS &mdash; BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation" href="../index.html"/>
+        <link rel="up" title="The CC2640R2F SDK Platform" href="platform.html"/>
+        <link rel="next" title="Developing with IAR" href="developing_in_iar.html"/>
+        <link rel="prev" title="Installing BLE-Stack 3.01.01.00" href="install_ble_stack.html"/> 
+    <script language="JavaScript">
+        var tiPageName;
+        tiPageName = "sug cc2640 developing_in_ccs";
+
+        if (location.protocol == "file:"){
+            var ci_analytics_poc_load = true;
+        }
+    </script> 
+
+    <script src="http://www.ti.com/assets/js/headerfooter/analytics.js" type="text/javascript" charset="utf-8">     
+
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../ble-stack-3.x-guide/index.html" class="icon icon-home"> BLE-Stack User's Guide for Bluetooth 4.2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.01.01.00
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="disclaimer.html">Disclaimer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/get-started.html">Getting Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="platform.html">The CC2640R2F SDK Platform</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="architecture.html">Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="install_ble_stack.html">Installing BLE-Stack 3.01.01.00</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Developing with CCS</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#installing-code-composer-studio-ccs">Installing Code Composer Studio (CCS)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#installing-a-specific-ti-arm-compiler">Installing a Specific TI ARM Compiler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#discovering-ccs-products">Discovering CCS products</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#importing-ccs-projects">Importing CCS projects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#blestack-ccs-project-build-configurations">BLE-Stack CCS project build configurations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#compile-and-download">Compile and Download</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#accessing-preprocessor-symbols">Accessing Preprocessor Symbols</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#accessing-linker-symbols">Accessing Linker Symbols</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#resetting-the-device-in-ccs">Resetting the CC2640R2F in CCS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#additional-training-and-support-for-ccs">Additional training and support for CCS</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="developing_in_iar.html">Developing with IAR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rtos-overview.html">TI-RTOS Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="memory_management.html">Memory Management</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x/index.html">Developing a Bluetooth Low Energy Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../u-stack/index.html">Micro BLE Stack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../oad-ble-stack-3.x/oad.html">Over the Air Download (OAD)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../voice/voice.html">Creating a Voice Enabled Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../secure-fw-3.x/index.html">Secure Firmware (SFW)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensor-controller/sensor-controller.html">Sensor Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../debugging/ble-index.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/migration.html">Migration Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/api-reference.html">API References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/reference.html">Terms and Definitions</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../ble-stack-3.x-guide/index.html">BLE-Stack User's Guide for Bluetooth 4.2</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../ble-stack-3.x-guide/index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="platform.html">The CC2640R2F SDK Platform</a> &raquo;</li>
+        
+      <li>Developing with CCS</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="developing-with-ccs">
+<span id="sec-developing-with-ccs"></span><h1>Developing with CCS<a class="headerlink" href="#developing-with-ccs" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="installing-code-composer-studio-ccs">
+<h2>Installing Code Composer Studio (CCS)<a class="headerlink" href="#installing-code-composer-studio-ccs" title="Permalink to this headline">¶</a></h2>
+<p>The CCS toolchain contains many features beyond the scope of this document.
+More information and documentation can be found on the
+<a class="reference external" href="http://www.ti.com/tool/CCSTUDIO">CCS Webpage</a>.</p>
+<p>Check the BLE-Stack 3.01.01.00 release notes to see which CCS version to use and any
+required workarounds. Object code produced by CCS may differ in size and
+performance as compared to IAR produced object code.</p>
+<p>The following procedure describes installing and configuring the correct version
+of CCS and the necessary tools.</p>
+<ol class="arabic">
+<li><p class="first">Install Code Composer Studio for ARM</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="http://processors.wiki.ti.com/index.php/Download_CCS">Download Code Composer Studio</a></li>
+<li>Start the installation process and accept the license agreement. It is
+recommended to install CCS in its default location.</li>
+<li>In the <strong>Processor Support</strong> section, select <strong>SimpleLink CC13xx and
+CC26xx Wireless MCUs</strong>.</li>
+<li>Under the <strong>Debug Probes</strong> section, CCS will install support for <strong>TI XDS
+Debug Probe Support</strong>. This option supports the XDS110 debugger.</li>
+<li>Start the installation by selecting <strong>Finish</strong>.</li>
+</ul>
+<div class="admonition attention">
+<p class="first admonition-title">Attention</p>
+<p class="last">The version required is stated in the release notes.</p>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">Verify ARM Compiler Tools version</p>
+<blockquote>
+<div><ul class="simple">
+<li>If needed, the CCS and ARM compiler versions can be verified by going to
+into <strong>Help</strong> -&gt; <strong>About Code Composer Studio</strong>. Under the <strong>Installation
+Details</strong> button, you can determine the <strong>ARM Compiler Tools</strong> version.
+Please ensure this version satisfies the version requirements as stated in
+the release notes.</li>
+<li>If an update is required, refer to <a class="reference internal" href="#sec-install-ti-arm-compiler"><span class="std std-ref">Installing a Specific TI ARM Compiler</span></a>
+for the procedure to install the required TI ARM Compiler version.</li>
+</ul>
+</div></blockquote>
+</li>
+</ol>
+</div>
+<div class="section" id="installing-a-specific-ti-arm-compiler">
+<span id="sec-install-ti-arm-compiler"></span><h2>Installing a Specific TI ARM Compiler<a class="headerlink" href="#installing-a-specific-ti-arm-compiler" title="Permalink to this headline">¶</a></h2>
+<p>To install a specific TI ARM Compiler, refer to the following steps and
+<a class="reference internal" href="#fig-verify-ccs-compiler"><span class="std std-numref">Figure 7.</span></a></p>
+<ol class="arabic simple">
+<li><strong>Help</strong> -&gt; <strong>Install New Software</strong></li>
+<li>Under the <strong>Work with:</strong> drop-down list, select <strong>Code Generation Tools
+Update</strong></li>
+<li>Uncheck <strong>Show only the latest versions of available software</strong></li>
+<li>Expand <strong>TI Compiler Update</strong>.</li>
+<li>Select the desired ARM Compiler Tools version as stated in the release notes.</li>
+<li>Press <strong>Next</strong> to complete the installation. You may have to restart CCS
+afterwards.</li>
+</ol>
+<div class="figure align-center" id="id2">
+<span id="fig-verify-ccs-compiler"></span><a class="reference internal image-reference" href="../_images/ti-arm-compiler-version.jpg"><img alt="../_images/ti-arm-compiler-version.jpg" src="../_images/ti-arm-compiler-version.jpg" style="width: 400px;" /></a>
+<p class="caption"><span class="caption-number">Figure 7. </span><span class="caption-text">TI ARM Compiler Version in Code Composer Studio</span></p>
+</div>
+</div>
+<div class="section" id="discovering-ccs-products">
+<h2>Discovering CCS products<a class="headerlink" href="#discovering-ccs-products" title="Permalink to this headline">¶</a></h2>
+<p>Code Composer Studio automatically discovers the SimpleLink CC2640R2 SDK if it installed in its
+default installation directory (<code class="docutils literal"><span class="pre">c:/ti</span></code>). Once discovered by CCS, it defines a
+build environment variable named <code class="docutils literal"><span class="pre">COM_TI_SIMPLELINK_CC2640R2_SDK_INSTALL_DIR</span></code>
+which is used by BLE-Stack projects.</p>
+<p>If a BLE-Stack project is imported from a path other than what was specified
+during the SimpleLink CC2640R2 SDK installation, the <code class="docutils literal"><span class="pre">COM_TI_SIMPLELINK_CC2640R2_SDK_INSTALL_DIR</span></code>
+variable must be redefined after the import proceeding at a project-by-project
+basis.</p>
+<p>To redefine this variable:</p>
+<ol class="arabic">
+<li><p class="first">Open the CCS project&#8217;s properties (<strong>Project</strong> -&gt; <strong>Properties</strong>)</p>
+</li>
+<li><p class="first">Navigate to <strong>Resource</strong> -&gt; <strong>Linked Resources</strong> and <em>edit</em>
+<code class="docutils literal"><span class="pre">COM_TI_SIMPLELINK_CC2640R2_SDK_INSTALL_DIR</span></code> and have it point to your
+imported root directory location.</p>
+<div class="figure align-center" id="id3">
+<span id="fig-inc-developing-in-ccs-redefine-ccs-linked-resources"></span><a class="reference internal image-reference" href="../_images/redefine-ccs-linked-resources.jpg"><img alt="../_images/redefine-ccs-linked-resources.jpg" src="../_images/redefine-ccs-linked-resources.jpg" style="width: 75%;" /></a>
+<p class="caption"><span class="caption-number">Figure 8. </span><span class="caption-text">Redefining <code class="docutils literal"><span class="pre">COM_TI_SIMPLELINK_CC2640R2_SDK_INSTALL_DIR</span></code></span></p>
+</div>
+</li>
+</ol>
+</div>
+<div class="section" id="importing-ccs-projects">
+<h2>Importing CCS projects<a class="headerlink" href="#importing-ccs-projects" title="Permalink to this headline">¶</a></h2>
+<p>This section describes how to import and build an existing project and
+references the multi_role project. All of BLE-Stack projects included
+in the development kit have a similar structure.</p>
+<ol class="arabic">
+<li><p class="first">Open the CCS IDE from the Start Menu.</p>
+</li>
+<li><p class="first">Create a workspace.</p>
+<blockquote>
+<div><div class="admonition attention">
+<p class="first admonition-title">Attention</p>
+<p class="last">Ensure that the CCS workspace path does not contain a whitespace.</p>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">Import a CCS Project using Resource Explorer</p>
+<blockquote>
+<div><ul class="simple">
+<li>Open Resource Explorer (if not open already) <strong>View</strong> -&gt; <strong>Resource Explorer</strong></li>
+<li>Navigate to the CCS folder for your chosen example: <strong>Software -&gt;</strong> SimpleLink CC2640R2 SDK <strong>-&gt; Examples -&gt;</strong> <a class="reference external" href="http://www.ti.com.cn/tool/launchxl-cc2640r2">CC2640R2 Launchpad</a> <strong>-&gt; ble5stack -&gt; multi_role -&gt; TI-RTOS -&gt; CCS Compiler -&gt; multi_role_app</strong></li>
+</ul>
+<div class="figure align-center" id="id4">
+<span id="fig-ccs-import-projects"></span><img alt="../_images/import_multi_role.png" src="../_images/import_multi_role.png" />
+<p class="caption"><span class="caption-number">Figure 9. </span><span class="caption-text">Import CCS Projects</span></p>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">Select the CCS Logo button to import project into Project Explorer</p>
+<div class="admonition attention">
+<p class="first admonition-title">Attention</p>
+<p>The import process will also install the SimpleLink CC2640R2 SDK if a local version does
+not exist. You must accept the End User License Agreement to proceeed.</p>
+<div class="last figure align-center" id="id5">
+<span id="fig-resource-explorer-eula"></span><img alt="../_images/eula.png" src="../_images/eula.png" />
+<p class="caption"><span class="caption-number">Figure 10. </span><span class="caption-text">Install SimpleLink CC2640R2 SDK</span></p>
+</div>
+</div>
+<ul class="simple">
+<li>If you get a pop-up window with an error message, under &#8220;Details &gt;&gt;&#8221;</li>
+</ul>
+<p>saying &#8220;Error: A project with the name &#8216;xx_stack_library&#8217; already exists in
+the workplace!&#8221;, that is fine. You accidentally imported the stack twice.
+Just click OK.</p>
+<ul class="simple">
+<li>If everything is successful, two projects should appear in Resource</li>
+</ul>
+<p>Explorer: one for the application code and one for the stack code
+(either stack or stack_library project).</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Only projects part of the BLE stack will have an app and a stack
+project.</p>
+</div>
+<div class="figure align-center" id="id6">
+<span id="fig-ccs-project-explorer-after-import"></span><img alt="../_images/project_explorer_after_import.png" src="../_images/project_explorer_after_import.png" />
+<p class="caption"><span class="caption-number">Figure 11. </span><span class="caption-text">Projects Imported into CCS</span></p>
+</div>
+</li>
+</ol>
+<div class="admonition attention">
+<p class="first admonition-title">Attention</p>
+<p>Do not use the <code class="docutils literal"><span class="pre">Rename</span></code> option found inside CCS to rename your project.
+This may change certain build parameters and not others, which can lead to
+build errors and is irreversible.</p>
+<p>To rename a project, you should use the <code class="docutils literal"><span class="pre">Copy</span></code> and <code class="docutils literal"><span class="pre">paste</span></code> options found
+inside CCS. As you <code class="docutils literal"><span class="pre">Paste</span></code> the project, you have the option of choosing a
+new project name. This process is to be repeated for both application and
+stack projects.</p>
+<p class="last">After pasting both project, you need to modify the application project&#8217;s
+properties and update its &#8220;Project Reference&#8221; (need to show advanced
+settings) to only select newly pasted stack project.</p>
+</div>
+</div>
+<div class="section" id="blestack-ccs-project-build-configurations">
+<span id="sec-inc-developing-in-ccs-discover-ccs-products"></span><h2>BLE-Stack CCS project build configurations<a class="headerlink" href="#blestack-ccs-project-build-configurations" title="Permalink to this headline">¶</a></h2>
+<div class="sidebar">
+<p class="first sidebar-title">CCS Project Explorer</p>
+<div class="last figure align-center" id="id7">
+<span id="fig-ccs-project-explorer"></span><img alt="../_images/image33.jpeg" src="../_images/image33.jpeg" />
+<p class="caption"><span class="caption-number">Figure 12. </span><span class="caption-text">CCS Project Explorer</span></p>
+</div>
+</div>
+<p>This and all BLE-Stack project workspaces contain various projects and build
+configurations as shown in <a class="reference internal" href="#tbl-inc-developing-in-ccs-build-configs"><span class="std std-numref">Table 6.</span></a>
+*_StackLibrary build configurations build the stack as a library as
+described in <a class="reference internal" href="architecture.html#sec-inc-architecture-stack-image-as-a-library"><span class="std std-ref">Stack Library Configuration (_stack_library)</span></a>.</p>
+<p>Click the project name in the file explorer to select the project as the active
+project. In <a class="reference internal" href="#fig-ccs-project-explorer"><span class="std std-numref">Figure 12.</span></a>, the application is selected as
+the active project. Each of these projects produces a separate, downloadable
+image.</p>
+<p>The simple_peripheral sample project is the primary sample application for the
+description of a generic application in this guide. The simple_peripheral
+project implements a basic Bluetooth low energy peripheral device including a
+GATT server with GATT services. This project can be used as a framework for
+developing peripheral-role applications.</p>
+<span id="tbl-inc-developing-in-ccs-build-configs"></span><table border="1" class="docutils" id="id8">
+<caption><span class="caption-number">Table 6. </span><span class="caption-text">Available CCS project build configurations</span><a class="headerlink" href="#id8" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="10%" />
+<col width="24%" />
+<col width="22%" />
+<col width="44%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Project type</th>
+<th class="head">Project naming convention</th>
+<th class="head">Project&#8217;s build configuration</th>
+<th class="head">Compatible project complement</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td rowspan="5">Application</td>
+<td rowspan="3"><code class="docutils literal"><span class="pre">*_cc2640r2lp_app</span></code></td>
+<td>FlashROM</td>
+<td><code class="docutils literal"><span class="pre">*_cc2640r2lp_stack</span></code></td>
+</tr>
+<tr class="row-odd"><td>FlashROM_StackLibrary</td>
+<td><code class="docutils literal"><span class="pre">*_cc2640r2lp_stack_library</span></code></td>
+</tr>
+<tr class="row-even"><td>FlashROM_StackLibrary_RCOSC</td>
+<td><code class="docutils literal"><span class="pre">*_cc2640r2lp_stack_library</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">*_cc2640r2lp_app_oad_onchip</span></code></td>
+<td>FlashROM_OAD_ImgB</td>
+<td><code class="docutils literal"><span class="pre">*_cc2640r2lp_stack</span></code> with FlashROM configuration</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">*_cc2640r2lp_app_oad_offchip</span></code></td>
+<td>FlashROM_OAD_Offchip</td>
+<td><code class="docutils literal"><span class="pre">*_cc2640r2lp_stack</span></code> with FlashROM configuration</td>
+</tr>
+<tr class="row-odd"><td rowspan="2">Stack</td>
+<td><code class="docutils literal"><span class="pre">*_cc2640r2lp_stack_library</span></code></td>
+<td>FlashROM_Library</td>
+<td><code class="docutils literal"><span class="pre">*_cc2640r2lp_app</span></code> with FlashROM_StackLibrary configuration</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">*_cc2640r2lp_stack</span></code></td>
+<td>FlashROM</td>
+<td><code class="docutils literal"><span class="pre">*_cc2640r2lp_app</span></code> with FlashROM configuration</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="compile-and-download">
+<h2>Compile and Download<a class="headerlink" href="#compile-and-download" title="Permalink to this headline">¶</a></h2>
+<p>For all build configurations, the stack project should always be built before
+the application project. The default configuration is to build the stack as a library.
+Split image steps are only applicable if you use the OAD split-image project or if you
+are <a class="reference internal" href="architecture.html#section-converting-lib-build-to-split-image"><span class="std std-ref">Converting Library Build to Split Image</span></a>.</p>
+<p>For projects where the stack is built as a <strong>library</strong>:</p>
+<blockquote>
+<div><ol class="arabic">
+<li><p class="first">Build the stack library project.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Set the stack project as the active project.</li>
+<li>Select <strong>Project</strong> -&gt; <strong>Build All</strong> to build the stack project.</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">Build the application project.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Set the application project as the active project.</li>
+<li>Select <strong>Project -&gt; Build All</strong> to build the application project.</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">Load the whole application</p>
+<blockquote>
+<div><ul class="simple">
+<li>Select <strong>Run</strong> -&gt; <strong>Debug</strong> to download the application</li>
+</ul>
+</div></blockquote>
+</li>
+</ol>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Application project that consume the stack in a library form will not
+have hard defined image boundaries.</p>
+<p class="last">After the initial build, if the stack project is not modified, only the
+application project needs to be rebuilt.</p>
+</div>
+</div></blockquote>
+<p>For projects where the stack and application are <strong>split images</strong> (not a library):</p>
+<blockquote>
+<div><ol class="arabic">
+<li><p class="first">Build the stack project.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Set the stack project as the active project.</li>
+<li>Select <strong>Project</strong> -&gt; <strong>Build All</strong> to build the stack project.</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">Build the application project.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Set the application project as the active project.</li>
+<li>Select <strong>Project -&gt; Build All</strong> to build the application project.</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">Load the stack project</p>
+<blockquote>
+<div><ul class="simple">
+<li>Set the stack project as the active project.</li>
+<li>Select <strong>Run</strong> -&gt; <strong>Debug</strong> to download the stack</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">Load the application project</p>
+<blockquote>
+<div><ul class="simple">
+<li>Set the application project as the active project.</li>
+<li>Select <strong>Run</strong> -&gt; <strong>Debug</strong> to download the application</li>
+</ul>
+</div></blockquote>
+</li>
+</ol>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>The stack project defines the flash and RAM boundary parameters used by
+the application project. Any modifications to the stack project require
+a rebuild of the stack project, followed by a rebuild of the application
+project to use the new boundary settings. See <a class="reference internal" href="memory_management.html#sec-fontier-tool"><span class="std std-ref">Frontier Tool</span></a>.</p>
+<p class="last">After the initial build, if the stack project is not modified, only the
+application project needs to be rebuilt.</p>
+</div>
+</div></blockquote>
+<div class="admonition caution">
+<p class="first admonition-title">Caution</p>
+<p class="last">Do not modify the CPU Variant in the project settings. All sample projects
+are configured with a CPU type, and changing this setting (that is, from
+CC2640R2F) may result in build errors.</p>
+</div>
+<p>Sample applications that implement the Over the Air Download (OAD) firmware
+update capability require the Boot Image Manager (BIM) project to be built.
+Refer to the <a class="reference internal" href="../oad-ble-stack-3.x/oad.html#sec-oad"><span class="std std-ref">Over the Air Download (OAD)</span></a> section for more details.</p>
+</div>
+<div class="section" id="accessing-preprocessor-symbols">
+<span id="sec-developing-with-ccs-accessing-preprocessor-symbols"></span><h2>Accessing Preprocessor Symbols<a class="headerlink" href="#accessing-preprocessor-symbols" title="Permalink to this headline">¶</a></h2>
+<p>Various C preprocessor symbols may need to be set or adjusted at the project
+level. The following procedure describes how to access and modify preprocessor
+symbols.</p>
+<ol class="arabic simple">
+<li>Open <strong>Project Properties</strong></li>
+<li>Navigate to <strong>Build</strong> -&gt; <strong>ARM Compiler</strong> -&gt; <strong>Predefined Symbols</strong></li>
+<li>Use the buttons highlighted in <a class="reference internal" href="#fig-ccs-defines-box"><span class="std std-numref">Figure 13.</span></a> to add, delete,
+or edit a preprocessor.</li>
+</ol>
+<div class="figure align-center" id="id9">
+<span id="fig-ccs-defines-box"></span><a class="reference internal image-reference" href="../_images/image42.jpeg"><img alt="../_images/image42.jpeg" src="../_images/image42.jpeg" style="width: 75%;" /></a>
+<p class="caption"><span class="caption-number">Figure 13. </span><span class="caption-text">CCS Predefined Symbols</span></p>
+</div>
+</div>
+<div class="section" id="accessing-linker-symbols">
+<span id="sec-developing-with-ccs-accessing-linker-symbols"></span><h2>Accessing Linker Symbols<a class="headerlink" href="#accessing-linker-symbols" title="Permalink to this headline">¶</a></h2>
+<p>Linker symbols may need to be set or adjusted at the project level in order to
+control the memory layout of the generated image.
+The following procedure describes how to access and modify linker
+symbols.</p>
+<ol class="arabic simple">
+<li>Open <strong>Project Properties</strong></li>
+<li>Navigate to <strong>Build</strong> -&gt; <strong>ARM Linker</strong> -&gt; <strong>Command File Preprocessing</strong></li>
+<li>Use the buttons highlighted in <a class="reference internal" href="#fig-ccs-linker-defines-box"><span class="std std-numref">Figure 14.</span></a> to add,
+delete, or edit a linker symbol.</li>
+</ol>
+<div class="figure align-center" id="id10">
+<span id="fig-ccs-linker-defines-box"></span><a class="reference internal image-reference" href="../_images/ccs_linker_opts.png"><img alt="../_images/ccs_linker_opts.png" src="../_images/ccs_linker_opts.png" style="width: 75%;" /></a>
+<p class="caption"><span class="caption-number">Figure 14. </span><span class="caption-text">CCS Linker Symbols</span></p>
+</div>
+</div>
+<div class="section" id="resetting-the-device-in-ccs">
+<h2>Resetting the CC2640R2F in CCS<a class="headerlink" href="#resetting-the-device-in-ccs" title="Permalink to this headline">¶</a></h2>
+<p>Select Board Reset from the reset menu.</p>
+<div class="figure align-center" id="id11">
+<img alt="../_images/image183.jpeg" src="../_images/image183.jpeg" />
+<p class="caption"><span class="caption-number">Figure 15. </span><span class="caption-text">CCS Board Reset</span></p>
+</div>
+</div>
+<div class="section" id="additional-training-and-support-for-ccs">
+<h2>Additional training and support for CCS<a class="headerlink" href="#additional-training-and-support-for-ccs" title="Permalink to this headline">¶</a></h2>
+<p>For additional training and support with Code Composer Studio, refer to:
+<a class="reference external" href="http://processors.wiki.ti.com/index.php/Category:Code_Composer_Studio_v6">Code Composer Studio Wiki</a>
+<a class="reference external" href="http://processors.wiki.ti.com/index.php/Category:CCSv6_Training">Code Composer Studio Training</a></p>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="developing_in_iar.html" class="btn btn-neutral float-right" title="Developing with IAR" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="install_ble_stack.html" class="btn btn-neutral" title="Installing BLE-Stack 3.01.01.00" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Texas Instruments.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.01.01.00',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

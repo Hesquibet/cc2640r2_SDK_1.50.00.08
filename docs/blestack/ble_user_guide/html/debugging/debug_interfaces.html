@@ -1,0 +1,380 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Debug Interfaces &mdash; BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation" href="../index.html"/>
+        <link rel="up" title="Debugging" href="ble-index.html"/>
+        <link rel="next" title="Breakpoints" href="breakpoints.html"/>
+        <link rel="prev" title="External Resources" href="external_resources.html"/> 
+    <script language="JavaScript">
+        var tiPageName;
+        tiPageName = "sug debugging debug_interfaces";
+
+        if (location.protocol == "file:"){
+            var ci_analytics_poc_load = true;
+        }
+    </script> 
+
+    <script src="http://www.ti.com/assets/js/headerfooter/analytics.js" type="text/javascript" charset="utf-8">     
+
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../ble-stack-3.x-guide/index.html" class="icon icon-home"> BLE-Stack User's Guide for Bluetooth 4.2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.01.01.00
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../cc2640/disclaimer.html">Disclaimer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/get-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cc2640/platform.html">The CC2640R2F SDK Platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x/index.html">Developing a Bluetooth Low Energy Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../u-stack/index.html">Micro BLE Stack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../oad-ble-stack-3.x/oad.html">Over the Air Download (OAD)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../voice/voice.html">Creating a Voice Enabled Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../secure-fw-3.x/index.html">Secure Firmware (SFW)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensor-controller/sensor-controller.html">Sensor Controller</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="ble-index.html">Debugging</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="external_resources.html">External Resources</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Debug Interfaces</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#connecting-to-the-xds-debugger">Connecting to the XDS Debugger</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#configuring-debugger-in-ccs">Configuring Debugger in CCS</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#find-serial-number">Find Serial Number</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#configure-serial-number">Configure Serial Number</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#configuring-debugger-in-iar">Configuring Debugger in IAR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="breakpoints.html">Breakpoints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="breakpoints.html#considerations-on-breakpoints">Considerations on Breakpoints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="watches.html">Watching Variables and Registers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="watches.html#memory-watchpoints">Memory Watchpoints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rtos_object_view.html">TI-RTOS Object Viewer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="memory_browser.html">Using the Memory Browser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ble-common_heap.html">Debugging Common Heap Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="optimizations.html">Optimizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cpu_exceptions.html">Deciphering CPU Exceptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ble-memory_problems.html">Debugging Memory Problems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ble-memory_problems.html#check-system-flash-and-ram-usage-with-map-file">Check System Flash and RAM Usage With Map File</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ble-debugging.html">Debugging a Program Exit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ble-debugging.html#hal-assert-handling">HAL Assert Handling</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/migration.html">Migration Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/api-reference.html">API References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/reference.html">Terms and Definitions</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../ble-stack-3.x-guide/index.html">BLE-Stack User's Guide for Bluetooth 4.2</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../ble-stack-3.x-guide/index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="ble-index.html">Debugging</a> &raquo;</li>
+        
+      <li>Debug Interfaces</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="debug-interfaces">
+<span id="sec-debug-interface"></span><h1>Debug Interfaces<a class="headerlink" href="#debug-interfaces" title="Permalink to this headline">¶</a></h1>
+<p>The CC2640R2F platform supports the cJTAG (2-wire) and JTAG (4-wire)
+interfaces. Any debuggers that support cJTAG, like the TI XDS100v3
+and XDS200, work natively. Others interfaces, like the IAR I-Jet and
+Segger J-Link, can only be used in JTAG mode but their drivers
+inject a cJTAG sequence which enables JTAG mode when connecting. The
+hardware resources included on the devices for debugging are listed
+as follows. Not all debugging functionality is available in all
+combinations of debugger and IDE.</p>
+<ul class="simple">
+<li>Breakpoint unit (FBP) – 6 instruction comparators, 2 literal
+comparators</li>
+<li>Data watchpoint unit (DWT) – 4 watchpoints on memory access</li>
+<li>Instrumentation Trace Module (ITM) – 32 × 32 bit stimulus registers</li>
+<li>Trace Port Interface Unit (TPIU) – serialization and time-stamping of
+DWT and ITM events</li>
+</ul>
+<p>The SmartRF06 Board contains a XDS100v3 debug probe, and the CC2650
+LaunchPad contains the XDS110 debug probe. These debuggers are used
+by default in the respective sample projects.</p>
+<div class="section" id="connecting-to-the-xds-debugger">
+<h2>Connecting to the XDS Debugger<a class="headerlink" href="#connecting-to-the-xds-debugger" title="Permalink to this headline">¶</a></h2>
+<p>If only one debugger is attached, the IDE uses it automatically when you click
+the <img alt="img_icon_debug_ccs" src="../_images/icon_debug_ccs.png" /> button in CCS or <img alt="img_icon_debug_iar" src="../_images/icon_debug_iar.png" /> in IAR.</p>
+<p>If <strong>multiple debuggers</strong> are connected, you must choose the individual
+debugger to use. The following steps detail how to select a debugger in CCS
+and IAR.</p>
+</div>
+</div>
+<div class="section" id="configuring-debugger-in-ccs">
+<h1>Configuring Debugger in CCS<a class="headerlink" href="#configuring-debugger-in-ccs" title="Permalink to this headline">¶</a></h1>
+<p>When multiple debuggers are attached, and a CCS debugging
+session is started, CCS will prompt user to select the
+debugger to utilize.</p>
+<p>To select a specific debugger in CCS for every session, do as follows:</p>
+<div class="section" id="find-serial-number">
+<h2>Find Serial Number<a class="headerlink" href="#find-serial-number" title="Permalink to this headline">¶</a></h2>
+<p>To find the serial number for XDS110 or XDC 100v3 debuggers, do as follows.</p>
+<ol class="arabic simple">
+<li>Open a command prompt.</li>
+<li>Run <code class="docutils literal"><span class="pre">C:\ti\ccsv6\ccs_base\common\uscif\xds100serial.exe</span></code> to get
+a list of serial numbers of the connected debuggers.</li>
+</ol>
+<p>For XDS110 debuggers (LaunchPads), run the following command: <code class="docutils literal"><span class="pre">c:\ti\ccsv6\ccs_base\common\uscif\xds110\xdsdfu.exe</span> <span class="pre">-e</span></code></p>
+</div>
+<div class="section" id="configure-serial-number">
+<h2>Configure Serial Number<a class="headerlink" href="#configure-serial-number" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="45%" />
+<col width="55%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><ol class="first last arabic simple">
+<li>Open the target configuration file.</li>
+</ol>
+</td>
+<td><img alt="../_images/ccs_targetconfig_file.png" class="first last" src="../_images/ccs_targetconfig_file.png" />
+</td>
+</tr>
+<tr class="row-even"><td><ol class="first last arabic simple" start="2">
+<li>Open the Advanced pane.</li>
+</ol>
+</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td><ol class="first last arabic simple" start="3">
+<li>Choose the top-level debugger entry.</li>
+</ol>
+</td>
+<td><img alt="../_images/ccs_targetconfig_probe.png" class="first last" src="../_images/ccs_targetconfig_probe.png" />
+</td>
+</tr>
+<tr class="row-even"><td><ol class="first last arabic simple" start="4">
+<li>Enter the serial number.</li>
+</ol>
+</td>
+<td><img alt="../_images/ccs_targetconfig_serial.png" class="first last" src="../_images/ccs_targetconfig_serial.png" />
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="configuring-debugger-in-iar">
+<h1>Configuring Debugger in IAR<a class="headerlink" href="#configuring-debugger-in-iar" title="Permalink to this headline">¶</a></h1>
+<p>To debug using IAR, do as follows.</p>
+<ol class="arabic simple">
+<li>Open the project options (Project -&gt; Options)</li>
+<li>Go to the Debugger entry.</li>
+<li>Go to Extra options.</li>
+<li>Add the following command line option:
+<code class="docutils literal"><span class="pre">--drv_communication=USB:#select</span></code></li>
+</ol>
+<p>Adding this command line option makes the IAR prompt which debugger
+to use for every connection.</p>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="breakpoints.html" class="btn btn-neutral float-right" title="Breakpoints" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="external_resources.html" class="btn btn-neutral" title="External Resources" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Texas Instruments.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.01.01.00',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

@@ -1,0 +1,79 @@
+
+Debugging a Program Exit
+------------------------
+
+The program must never exit the ``main()`` function. The usual cause for this is
+that some software module has called ``abort()``.
+
+Both IAR and CCS will halt execution when this happens, and the disassembly and
+call stack will show some type of `__exit` symbol.
+
+The BLE Stack will call ``ICall_abort()`` when one of the below happens:
+
+* Calling an ICall function from a stack callback
+* Misconfiguring of additional ICall tasks or entities
+* Incorrect ICall task registering
+
+Should the call stack not give enough information to deduce the cause of the
+abort, a breakpoint can be set in the ``ICall_abort`` function to trace from
+where this error is coming.
+
+HAL Assert Handling
+-------------------
+
+Asserts can be useful when debugging, to trap undesirable states in
+the code. The BLE Stack projects are by default set up to have the global
+preprocessor symbol ``EXT_HAL_ASSERT`` enabled, which will try to call an assert
+handler that the user application can define.
+
+
+Catching Stack Asserts in the Application
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The application has an assert callback to catch asserts in the stack
+project. The assert callback is registered in main() function of
+each project::
+
+    /* Register Application callback to trap asserts raised in the Stack */
+    RegisterAssertCback(AssertHandler);
+
+The ``main.c`` file also contains an example ``AssertHandler`` function.
+
+Some generic assert causes that can be returned in the callback
+include ``HAL_ASSERT_CAUSE_TRUE``,
+``HAL_ASSERT_CAUSE_OUT_OF_MEMORY``, and
+``HAL_ASSERT_CAUSE_ICALL_ABORT``.
+
+When using a split-image build configuration, it may be possible to get a
+``HAL_ASSERT_CAUSE_INTERNAL_ERROR`` assertion. This typically indicates that
+the ICall ``bleAPITable`` dispatch table is missing some functions so it calls
+a generic ``icall_liteErrorFunction`` error handler. Typically, a fix for this
+is error is to enable a missing predefined compiler option to get correct APIs
+into ``bleAPITable``.
+
+The user can decide how to handle
+these asserts in the callback. By default, it goes into spinlock for
+most of the asserts.
+
+The assert can also define a subcause that gives a more specific
+reason for the assert. An example of a subcause is
+``HAL_ASSERT_OUT_OF_HEAP``, which describes the type of memory
+causing the assert for ``HAL_ASSERT_CAUSE_OUT_OF_MEMORY``.
+
+If no application callback is registered, the default assert
+callback is called and returns without further action unless
+``HAL_ASSERT_SPIN`` is defined in the application project, which traps
+the application in an infinite while loop. In addition, one of the
+following can also be defined in the stack project if it is not
+caught in the application callback:
+
+*  ``HAL_ASSERT_RESET``: Resets the device
+*  ``HAL_ASSERT_LIGHTS``: Turn on the hazard lights (to be configured by
+   user)
+*  ``HAL_ASSERT_SPIN``: Spinlock in a while loop indefinitely
+
+Enable these by ensuring that one of the above corresponding symbols
+are defined in the preprocessor symbols.
+
+See hal\_assert.h and hal\_assert.c in the stack project for
+implementation details.

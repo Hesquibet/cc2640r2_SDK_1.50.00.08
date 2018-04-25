@@ -1,0 +1,585 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>LE Data Length Extension (DLE) &mdash; BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation" href="../index.html"/>
+        <link rel="up" title="Developing a Bluetooth Low Energy Application" href="index.html"/>
+        <link rel="next" title="Host Controller Interface (HCI)" href="hci.html"/>
+        <link rel="prev" title="Logical Link Control and Adaptation Layer Protocol (L2CAP)" href="l2cap.html"/> 
+    <script language="JavaScript">
+        var tiPageName;
+        tiPageName = "sug ble-stack-3.x data-length-extensions";
+
+        if (location.protocol == "file:"){
+            var ci_analytics_poc_load = true;
+        }
+    </script> 
+
+    <script src="http://www.ti.com/assets/js/headerfooter/analytics.js" type="text/javascript" charset="utf-8">     
+
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../ble-stack-3.x-guide/index.html" class="icon icon-home"> BLE-Stack User's Guide for Bluetooth 4.2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.01.01.00
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../cc2640/disclaimer.html">Disclaimer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/get-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cc2640/platform.html">The CC2640R2F SDK Platform</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Developing a Bluetooth Low Energy Application</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="the-application.html">The Application</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#the-stack">The Stack</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="gap.html">Generic Access Profile (GAP)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gaprole.html">GAPRole Task</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gatt.html">Generic Attribute Profile (GATT)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gatt.html#gap-gatt-service-ggs">GAP GATT Service (GGS)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gatt.html#generic-attribute-profile-service-gatt-service">Generic Attribute Profile Service (GATT Service)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gatt.html#gattservapp-module">GATTServApp Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gapbondmngr.html">GAP Bond Manager and LE Secure Connections</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gapbondmngr.html#le-privacy-1-2">LE Privacy 1.2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="l2cap.html">Logical Link Control and Adaptation Layer Protocol (L2CAP)</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">LE Data Length Extension (DLE)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dle-update-procedure-and-definitions">DLE Update Procedure and Definitions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#default-application-dle-behavior">Default Application DLE Behavior</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#utilizing-dle-in-the-application">Utilizing DLE in the Application</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#disabling-dle-at-runtime">Disabling DLE at Runtime</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#interoperability-with-legacy-peers">Interoperability with Legacy Peers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ram-considerations-when-using-dle">RAM Considerations when using DLE</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="hci.html">Host Controller Interface (HCI)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#creating-a-custom-bluetooth-low-energy-application">Creating a Custom Bluetooth low energy Application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#running-the-sdk-on-custom-boards">Running the SDK on Custom Boards</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../u-stack/index.html">Micro BLE Stack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../oad-ble-stack-3.x/oad.html">Over the Air Download (OAD)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../voice/voice.html">Creating a Voice Enabled Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../secure-fw-3.x/index.html">Secure Firmware (SFW)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensor-controller/sensor-controller.html">Sensor Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../debugging/ble-index.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/migration.html">Migration Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/api-reference.html">API References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/reference.html">Terms and Definitions</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../ble-stack-3.x-guide/index.html">BLE-Stack User's Guide for Bluetooth 4.2</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../ble-stack-3.x-guide/index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">Developing a Bluetooth Low Energy Application</a> &raquo;</li>
+        
+      <li>LE Data Length Extension (DLE)</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="le-data-length-extension-dle">
+<span id="le-data-length-extension"></span><h1>LE Data Length Extension (DLE)<a class="headerlink" href="#le-data-length-extension-dle" title="Permalink to this headline">¶</a></h1>
+<p>The data length extension feature allows the LE controller to send
+data channel packet data units (PDUs) with payloads of up to 251
+bytes of application data, while in the connected state.
+Furthermore, a new PDU size can be negotiated by either side at any
+time during a connection.</p>
+<p>Previously, the controller&#8217;s largest data
+channel payload was 27 bytes. This Feature increases the data rate by around
+250% when compared to Bluetooth Core Specification Versions 4.0 and 4.1
+devices (if both devices support extended packet length and are
+configured properly).</p>
+<p>The CC2640R2F has Data Length Extension enabled by default - allowing
+peer devices to utilize this feature with no application overhead.</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference internal" href="#sec-data-length-update-procedure"><span class="std std-ref">DLE Update Procedure and Definitions</span></a></li>
+<li><a class="reference internal" href="#initial-values"><span class="std std-ref">Default Application DLE Behavior</span></a></li>
+<li><a class="reference internal" href="#sec-using-dle-at-runtime"><span class="std std-ref">Utilizing DLE in the Application</span></a></li>
+<li><a class="reference internal" href="#sec-disabling-data-length-ext-at-run-time"><span class="std std-ref">Disabling DLE at Runtime</span></a></li>
+<li><a class="reference internal" href="#sec-interoperability-with-peers"><span class="std std-ref">Interoperability with Legacy Peers</span></a></li>
+<li><a class="reference internal" href="#sec-ram-considerations-dle"><span class="std std-ref">RAM Considerations when using DLE</span></a></li>
+</ul>
+</div></blockquote>
+<div class="section" id="dle-update-procedure-and-definitions">
+<span id="sec-data-length-update-procedure"></span><h2>DLE Update Procedure and Definitions<a class="headerlink" href="#dle-update-procedure-and-definitions" title="Permalink to this headline">¶</a></h2>
+<p>This section describes what is done from a controller perspective during
+a connection as well as terminology.</p>
+<p>Once a connection is formed, the controller will behave in one of
+two possible ways:</p>
+<blockquote>
+<div><ul>
+<li><p class="first">If prior to the connection, the  suggested PDU size and time are set
+to the defaults for both TX and RX (27B, 328 us) then the CC2640R2F
+will not initiate a data length exchange (i.e. a <code class="docutils literal"><span class="pre">LL_LENGTH_REQ</span></code>
+will not be sent).</p>
+<p>If the peer device sends a <code class="docutils literal"><span class="pre">LL_LENGTH_REQ</span></code> then the controller
+of the device will send a  <code class="docutils literal"><span class="pre">LL_LENGTH_RSP</span></code> corresponding to the
+default sizes of 4.0 devices autonomously.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">See <a class="reference internal" href="#sec-disabling-data-length-ext-at-run-time"><span class="std std-ref">Disabling DLE at Runtime</span></a> for
+information on how to modify this behavior.</p>
+</div>
+</li>
+<li><p class="first">If prior to the connection, the PDU size or the maximum time for RX or
+TX are not default, then the LE controller of the device will
+use the <code class="docutils literal"><span class="pre">LL_LENGTH_REQ</span></code> and <code class="docutils literal"><span class="pre">LL_LENGTH_RSP</span></code> control PDUs to
+negotiate a larger payload size for data channel PDUs.</p>
+<p>A data length update may be initiated by the host or performed
+autonomously by the controller. Either the master or the slave
+can initiate the procedure.</p>
+</li>
+</ul>
+</div></blockquote>
+<p>After the data length update procedure is complete, both controllers
+select a new data length based on two parameters: PDU size and time.
+The largest size supported by both local and remote controller is
+selected; time is taken into account to support different data
+rates. These parameters are defined below:</p>
+<ul class="simple">
+<li><dl class="first docutils">
+<dt>PDU size</dt>
+<dd>The largest application data payload size supported by the
+controller. This size does not include packet overhead, such as
+access address or preamble.</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Time</dt>
+<dd>The maximum number of microseconds that the device takes to
+transmit or receive a PDU at the PHY rate. This parameter uses
+units of microseconds (us).</dd>
+</dl>
+</li>
+</ul>
+<p>Each direction has a PDU size and time; in other words there is a
+Receive PDU size/time and a separate Transmit PDU size/time. A device
+can only influence a peer&#8217;s Receive PDU size/time by adjusting it&#8217;s
+own Transmit PDU size/time via the DLE Update Procedure.</p>
+<p>Reference ([Vol 6], Part B, Section 5.1.9) of the <a class="reference external" href="https://www.bluetooth.com/specifications/adopted-specifications">Bluetooth Core Specification Version 4.2</a>
+for more information about the data length update procedure.</p>
+<p>Reference ([Vol 6], Part B, Section 4.5.10) of the <a class="reference external" href="https://www.bluetooth.com/specifications/adopted-specifications">Bluetooth Core Specification Version 4.2</a>
+for information on the valid ranges for data PDU length and
+timing parameters.</p>
+</div>
+<div class="section" id="default-application-dle-behavior">
+<span id="initial-values"></span><h2>Default Application DLE Behavior<a class="headerlink" href="#default-application-dle-behavior" title="Permalink to this headline">¶</a></h2>
+<p>This section describes the default behavior of the CC2640R2F
+due to the feature being enabled by default.</p>
+<p>The controller defaults to using TX PDU sizes compatible with 4.0 and
+4.1 devices. It uses 27 bytes as its initial maximum PDU size, and 328
+us as the maximum PDU transmit time.</p>
+<p>On the RX PDU size and time, the controller
+defaults to the maximum PDU size and the maximum PDU transit time for
+a LE Data Packet Length Extension enabled device. In other words,
+the RX PDU size will be 251, and the RX PDU transmit time will be 2120 us.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">As mentioned in <a class="reference internal" href="#sec-data-length-update-procedure"><span class="std std-ref">DLE Update Procedure and Definitions</span></a>, by default
+a <code class="docutils literal"><span class="pre">LL_LENGTH_REQ</span></code> control packet will be sent due
+to the RX max PDU size and max PDU transmit time not being default 4.0
+PDU sizes and timings.</p>
+</div>
+</div>
+<div class="section" id="utilizing-dle-in-the-application">
+<span id="sec-using-dle-at-runtime"></span><h2>Utilizing DLE in the Application<a class="headerlink" href="#utilizing-dle-in-the-application" title="Permalink to this headline">¶</a></h2>
+<p>This section describes how the application can influence
+the controller to use DLE for transmission of data at runtime.</p>
+<p>The application can update the data length in two ways.</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>the application can set the connection initial TX PDU size
+or time to cause the controller to request the peer&#8217;s RX PDU size
+and time to change for every connection.</li>
+<li>the controller can initialize the connection with the default
+values of 27 octets and 328 us, then dynamically negotiate
+the data length at a later time in the connection using HCI commands.</li>
+</ol>
+</div></blockquote>
+<p>For maximum throughput, high layer protocols such as the BLE host
+should also use a larger PDU size (see <a class="reference internal" href="l2cap.html#maximum-transmission-unit-mtu"><span class="std std-ref">Maximum Transmission Unit (MTU)</span></a>).
+<a class="reference internal" href="#l2cap-pdu-sizes"><span class="std std-numref">Figure 67.</span></a> illustrates various PDU sizes in the stack.</p>
+<div class="figure align-center" id="id2">
+<span id="l2cap-pdu-sizes"></span><img alt="../_images/l2cap_pdu_sizes.jpg" src="../_images/l2cap_pdu_sizes.jpg" />
+<p class="caption"><span class="caption-number">Figure 67. </span><span class="caption-text">Various PDUs within the Stack</span></p>
+</div>
+<p>The following HCI commands can be used to interact with the
+controller related to the data length extension feature:</p>
+<ul class="simple">
+<li>LE Read Suggested Default Data Length Command (<a class="reference external" href="../../doxygen/ble/html/group___h_c_i.html#gaec617ade902119b1cb23e4c1dc35acdf">HCI_LE_ReadSuggestedDefaultDataLenCmd()</a>)</li>
+<li>LE Write Suggested Default Data Length Command (<a class="reference external" href="../../doxygen/ble/html/group___h_c_i.html#gaee60ea41f67b959589e696984356a30e">HCI_LE_WriteSuggestedDefaultDataLenCmd()</a>)</li>
+<li>LE Read Maximum Data Length Command (<a class="reference external" href="../../doxygen/ble/html/group___h_c_i.html#ga76d88fd2ee34027ecd370b9659e81922">HCI_LE_ReadMaxDataLenCmd()</a>)</li>
+<li>LE Set Data Length Command (<a class="reference external" href="../../doxygen/ble/html/group___h_c_i.html#gae69c8fd7434c02abe3cf504cbe37db21">HCI_LE_SetDataLenCmd()</a>)</li>
+</ul>
+<p>The above commands may generate:</p>
+<ul class="simple">
+<li>LE Data Length Change Event</li>
+</ul>
+<p>For example, to dynamically change the TX PDU size and timing, the
+command <a class="reference external" href="../../doxygen/ble/html/group___h_c_i.html#gae69c8fd7434c02abe3cf504cbe37db21">HCI_LE_SetDataLenCmd()</a> during a connection. This
+will cause the LE controller to negotiate with the peer&#8217;s LE controller
+to adjust it&#8217;s RX PDU size and timing as described in <a class="reference internal" href="#sec-data-length-update-procedure"><span class="std std-ref">DLE Update Procedure and Definitions</span></a>.</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="kt">uint16_t</span> <span class="n">cxnHandle</span><span class="p">;</span> <span class="c1">//Request max supported size</span>
+<span class="kt">uint16_t</span> <span class="n">requestedPDUSize</span> <span class="o">=</span> <span class="mi">251</span><span class="p">;</span>
+<span class="kt">uint16_t</span> <span class="n">requestedTxTime</span> <span class="o">=</span> <span class="mi">2120</span><span class="p">;</span>
+
+<span class="n">GAPRole_GetParameter</span><span class="p">(</span><span class="n">GAPROLE_CONNHANDLE</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">cxnHandle</span><span class="p">);</span> <span class="c1">//This API is documented in hci.h</span>
+
+<span class="n">HCI_LE_SetDataLenCmd</span><span class="p">(</span><span class="n">cxnHandle</span><span class="p">,</span> <span class="n">requestedPDUSize</span><span class="p">,</span> <span class="n">requestedTxTime</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">For more information about these HCI commands and their fields, see the
+LE Controller Commands and Events sections ([Vol 2], Part E, Section
+7.7-7.8) of the <a class="reference external" href="https://www.bluetooth.com/specifications/adopted-specifications">Bluetooth Core Specification Version 4.2</a>. Additionally, the APIs for these commands
+are documented under <a class="reference internal" href="../ble-stack-3.x-guide/api-reference.html#ble-api-reference"><span class="std std-ref">BLE Stack API Reference</span></a>.</p>
+</div>
+</div>
+<div class="section" id="disabling-dle-at-runtime">
+<span id="sec-disabling-data-length-ext-at-run-time"></span><h2>Disabling DLE at Runtime<a class="headerlink" href="#disabling-dle-at-runtime" title="Permalink to this headline">¶</a></h2>
+<p>This section describes how to disable the DLE feature at runtime.</p>
+<p>There are two main steps to disable this feature, one is by
+modifying the controller PDU sizes directly, and the other is by
+modifying the features the controller supports. Both steps should
+be used to completely remove DLE.</p>
+<p>As discussed in <a class="reference internal" href="#initial-values"><span class="std std-ref">Default Application DLE Behavior</span></a>, the LE controller initially uses packet length
+values compatible with 4.0 and 4.1 devices in new connections for TX.
+The controller will automatically attempt to
+negotiate the data length at the beginning of every new
+connection. To disable this feature, add <a class="reference external" href="../../doxygen/ble/html/group___h_c_i.html#ga22b6dd11d3edd80aeb2f2518577aee56">HCI_EXT_SetMaxDataLenCmd()</a>
+to the application:</p>
+<div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cp">#define APP_TX_PDU_SIZE 27</span>
+<span class="cp">#define APP_RX_PDU_SIZE 27</span>
+<span class="cp">#define APP_TX_TIME 328</span>
+<span class="cp">#define APP_RX_TIME 328</span>
+
+<span class="c1">//This API is documented in hci.h</span>
+<span class="n">HCI_EXT_SetMaxDataLenCmd</span><span class="p">(</span><span class="n">APP_TX_PDU_SIZE</span> <span class="p">,</span>  <span class="n">APP_TX_TIME</span><span class="p">,</span>
+   <span class="n">APP_RX_PDU_SIZE</span><span class="p">,</span> <span class="n">APP_RX_TIME</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+<p>Once a connection is formed, the peer device may request
+features supported by CC2640R2F and attempt to negotiate a new
+PDU size/time. This can be prevented by also utilizing the following
+vendor specific command <a class="reference external" href="../../doxygen/ble/html/group___h_c_i.html#ga040091db19b02697911fb043179070fc">HCI_EXT_SetLocalSupportedFeaturesCmd()</a>.</p>
+<div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1">// featSet is an array of bytes representing features supported</span>
+<span class="c1">// of the Device. Clear DLE Feature bit</span>
+<span class="n">CLR_FEATURE_FLAG</span><span class="p">(</span> <span class="n">featSet</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">LL_FEATURE_DATA_PACKET_LENGTH_EXTENSION</span> <span class="p">);</span>
+<span class="n">HCI_EXT_SetLocalSupportedFeaturesCmd</span><span class="p">(</span> <span class="n">featSet</span> <span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+<p>Both <a class="reference external" href="../../doxygen/ble/html/group___h_c_i.html#ga22b6dd11d3edd80aeb2f2518577aee56">HCI_EXT_SetMaxDataLenCmd()</a> and <a class="reference external" href="../../doxygen/ble/html/group___h_c_i.html#ga040091db19b02697911fb043179070fc">HCI_EXT_SetLocalSupportedFeaturesCmd()</a>
+should be called prior to forming a connection.</p>
+</div>
+<div class="section" id="interoperability-with-legacy-peers">
+<span id="sec-interoperability-with-peers"></span><h2>Interoperability with Legacy Peers<a class="headerlink" href="#interoperability-with-legacy-peers" title="Permalink to this headline">¶</a></h2>
+<p>Legacy Bluetooth Core Specification Versions 4.0 and 4.1 peer Hosts
+or Controllers may run to interoperability issues. These may manifest
+in Link Layer or Controller Command Collisions among other issues.</p>
+<p>An example of this collision can be seen in the following:</p>
+<div class="figure align-center" id="id3">
+<span id="dle-older-peer-diagram"></span><p class="plantuml">
+<img src="../_images/plantuml-8e55124539d0956bfdb4a4f4050bd020aef551f2.png" alt="&#64;startuml
+hide footbox
+
+
+participant Master
+participant Slave
+
+  == Connection Established ==
+
+  group Connection Event 1
+     Master -&gt; Slave: LL_FEATURE_REQ
+        note right: Master requests Slave features
+
+     Slave -&gt; Master: Empty Packet
+  end
+
+  group Connection Event 2
+     Master -&gt; Slave: Empty Packet
+
+     Slave -&gt; Master: LL_FEATURE_RSP
+        note right: Slave informs master of supported features
+  end
+
+  group Connection Event 3
+     Master -&gt; Slave: Empty Packet
+
+     Slave -&gt; Master: LL_LENGTH_REQ
+        note right: Slave wishes to negotiate DLE
+  end
+
+  group Connection Event 4
+     Master -&gt; Slave: LL_ENC_REQ
+        note right: Master wishes to start encryption
+
+     Slave -&gt; Master: Empty Packet
+  end
+
+  ...
+
+  group Connection Events Until Termination
+     Master -&gt; Slave: Empty Packet
+
+     Slave -&gt; Master: Empty Packet
+  end
+
+  ...
+
+  == Connection Terminated ==
+
+&#64;enduml" />
+</p>
+<p class="caption"><span class="caption-number">Figure 68. </span><span class="caption-text">Example collision from an older peer due to DLE.</span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
+</div>
+<p><a class="reference internal" href="#dle-older-peer-diagram"><span class="std std-numref">Figure 68.</span></a> shows one way an older
+central device may behave when communicating with a
+DLE supporting peripheral. The connection terminates due to
+the master failing to respond to the Slave&#8217;s DLE request.
+Master expected a response to the encryption request,
+thus never responding to the DLE request.</p>
+<p>To support these older peers, it is recommended to
+completely disable the feature as outlined in
+<a class="reference internal" href="#sec-disabling-data-length-ext-at-run-time"><span class="std std-ref">Disabling DLE at Runtime</span></a>.</p>
+</div>
+<div class="section" id="ram-considerations-when-using-dle">
+<span id="sec-ram-considerations-dle"></span><h2>RAM Considerations when using DLE<a class="headerlink" href="#ram-considerations-when-using-dle" title="Permalink to this headline">¶</a></h2>
+<p>This section describes the how DLE impacts the BLE-Stack&#8216;s HEAP
+memory usage.</p>
+<p>The BLE-Stack utilizes the ICall HEAP for all dynamic memory
+allocations. This includes both the Transmit and Receive Buffers
+used in the controller.</p>
+<p>This is important to understand; both the transmit and receive buffers
+are allocated based on the respective PDU sizes negotiated for
+each connection. By default, there can be up to 8 TX buffers and 4 RX buffers
+active per connection at a given time. In the worst case scenario,
+this could mean about 3012 Bytes per connection of HEAP utilization
+with a PDU size of 251 Bytes.</p>
+<p>To prevent HEAP exhaustion or other issues in the rest of the application
+the developer should choose the PDU size for both RX and TX, as well
+as limit the max number of connections to meet the demands of the
+application.</p>
+<p>To modify the size of the both the RX and TX buffers - the vendor
+specific command <a class="reference external" href="../../doxygen/ble/html/group___h_c_i.html#ga22b6dd11d3edd80aeb2f2518577aee56">HCI_EXT_SetMaxDataLenCmd()</a> can be used.
+This must be used prior to establishing the connection.</p>
+<p>To modify the number of connections, see <a class="reference internal" href="stack-configuration.html#stack-features-configuration"><span class="std std-ref">Stack Configurations</span></a>
+for details.</p>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="hci.html" class="btn btn-neutral float-right" title="Host Controller Interface (HCI)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="l2cap.html" class="btn btn-neutral" title="Logical Link Control and Adaptation Layer Protocol (L2CAP)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Texas Instruments.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.01.01.00',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

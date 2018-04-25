@@ -1,0 +1,921 @@
+<HTML>
+<HEAD><META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
+<link href="..//elements/mmap.css" rel="stylesheet" type="text/css">
+<TITLE>AUX_AIODIO0</TITLE>
+</HEAD>
+<BODY class=mmapBody>
+<h2 class="mmapCellTitle">
+  <a name="Top_Tag">AUX_AIODIO0</a>
+</h2>
+<P>Instance: AUX_AIODIO0<BR>
+Component: AUX_AIODIO<BR>
+Base address: 0x400C1000</P>
+<BR>
+<P>AUX Analog/Digital Input Output Controller</P>
+ <H3 class="mmapRegisterSummaryTitle"><A name="AUX_AIODIO0"></A><A href="CPU_MMAP.html"> TOP</A>:<B>AUX_AIODIO0</B> Register Summary</H3>
+<TABLE cellspacing="0" class="mmapRegisterSummaryTable">
+<TR class="rowTop">
+<TD class="cellTopCol1">
+  <P>Register Name</P>
+</TD>
+<TD class="cellTopCol2">
+  <P>Type</P>
+</TD>
+<TD class="cellTopCol3">
+  <P>Register Width (Bits)</P>
+</TD>
+<TD class="cellTopCol4">
+  <P>Register Reset</P>
+</TD>
+<TD class="cellTopCol5">
+  <P>Address Offset</P>
+</TD>
+<TD class="cellTopCol5">
+  <P>Physical Address</P>
+</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">
+  <P>
+    <A href="#GPIODOUT" title="General Purpose Input Output Data Out">GPIODOUT</A>
+  </P>
+</TD>
+<TD class="cellCol2">
+  <P>RW</P>
+</TD>
+<TD class="cellCol3">
+  <P>32</P>
+</TD>
+<TD class="cellCol4">
+  <P>0x0000 0000</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x0000 0000</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x400C 1000</P>
+</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">
+  <P>
+    <A href="#IOMODE" title="Input Output Mode">IOMODE</A>
+  </P>
+</TD>
+<TD class="cellCol2">
+  <P>RW</P>
+</TD>
+<TD class="cellCol3">
+  <P>32</P>
+</TD>
+<TD class="cellCol4">
+  <P>0x0000 0000</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x0000 0004</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x400C 1004</P>
+</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">
+  <P>
+    <A href="#GPIODIN" title="General Purpose Input Output Data In">GPIODIN</A>
+  </P>
+</TD>
+<TD class="cellCol2">
+  <P>RO</P>
+</TD>
+<TD class="cellCol3">
+  <P>32</P>
+</TD>
+<TD class="cellCol4">
+  <P>0x0000 0000</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x0000 0008</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x400C 1008</P>
+</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">
+  <P>
+    <A href="#GPIODOUTSET" title="General Purpose Input Output Data Out Set">GPIODOUTSET</A>
+  </P>
+</TD>
+<TD class="cellCol2">
+  <P>RW</P>
+</TD>
+<TD class="cellCol3">
+  <P>32</P>
+</TD>
+<TD class="cellCol4">
+  <P>0x0000 0000</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x0000 000C</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x400C 100C</P>
+</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">
+  <P>
+    <A href="#GPIODOUTCLR" title="General Purpose Input Output Data Out Clear">GPIODOUTCLR</A>
+  </P>
+</TD>
+<TD class="cellCol2">
+  <P>RW</P>
+</TD>
+<TD class="cellCol3">
+  <P>32</P>
+</TD>
+<TD class="cellCol4">
+  <P>0x0000 0000</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x0000 0010</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x400C 1010</P>
+</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">
+  <P>
+    <A href="#GPIODOUTTGL" title="General Purpose Input Output Data Out Toggle">GPIODOUTTGL</A>
+  </P>
+</TD>
+<TD class="cellCol2">
+  <P>RW</P>
+</TD>
+<TD class="cellCol3">
+  <P>32</P>
+</TD>
+<TD class="cellCol4">
+  <P>0x0000 0000</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x0000 0014</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x400C 1014</P>
+</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">
+  <P>
+    <A href="#GPIODIE" title="General Purpose Input Output Digital Input Enable">GPIODIE</A>
+  </P>
+</TD>
+<TD class="cellCol2">
+  <P>RW</P>
+</TD>
+<TD class="cellCol3">
+  <P>32</P>
+</TD>
+<TD class="cellCol4">
+  <P>0x0000 0000</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x0000 0018</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x400C 1018</P>
+</TD>
+</TR>
+</TABLE>
+<H3 class="mmapRegisterSummaryTitle"><A href="CPU_MMAP.html"> TOP</A>:AUX_AIODIO0 Register Descriptions</H3>
+<H3 class="mmapRegisterTitle"><A name="GPIODOUT"></A><A class="mmapRegisterTitle" href="CPU_MMAP.html">TOP</A>:<A class="mmapRegisterTitle" href="#Top_Tag">AUX_AIODIO0</A>:GPIODOUT</H3><TABLE cellspacing="0" class="mmapRegisterTable">
+<TR class="row">
+<TD class="cellCol1"><B>Address Offset</B></TD>
+<TD class="cellCol2" colspan="3">0x0000 0000</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Physical Address</TD>
+<TD class="cellCol2">0x400C 1000</TD>
+<TD class="cellCol3">Instance</TD>
+<TD class="cellCol4">0x400C 1000</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Description</TD>
+<TD class="cellCol2" colspan="3">General Purpose Input Output Data Out<BR>
+<BR>
+The output data register is used to set data on <A class="mmap_legend_link" href="../legend.html#AUXIO">AUXIO</A> that are controlled by instance i of AUX_AIODIO.  Hence, in formulas below i = 0 for <A class="xref" href="AUX_AIODIO0.html">AUX_AIODIO0</A> and  i = 1 for <A class="xref" href="AUX_AIODIO1.html">AUX_AIODIO1</A></TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Type</TD>
+<TD class="cellCol2" colspan="3">RW</TD>
+</TR>
+</TABLE>
+<TABLE cellspacing="0" class="mmapBitfieldTable">
+<TR class="rowTop">
+<TD class="cellTopCol1">Bits</TD>
+<TD class="cellTopCol2">Field Name</TD>
+<TD class="cellTopCol3" colspan="3">Description</TD>
+<TD class="cellTopCol4">Type</TD>
+<TD class="cellTopCol5">Reset</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="GPIODOUT_RESERVED8">31:8</a>
+</TD>
+<TD class="cellBitfieldCol2">RESERVED8</TD>
+<TD class="cellBitfieldCol3" colspan="3">Software should not rely on the value of a reserved. Writing any other value than the reset value may result in undefined behavior.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0x00 0000</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="GPIODOUT_IO7_0">7:0</a>
+</TD>
+<TD class="cellBitfieldCol2">IO7_0</TD>
+<TD class="cellBitfieldCol3" colspan="3">Write 1 to bit index n in this bit vector to set AUXIO[8i+n].<BR>
+Write 0 to bit index n in this bit vector to clear AUXIO[8i+n].</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0x00</TD>
+</TR>
+</TABLE>
+<H3 class="mmapRegisterTitle"><A name="IOMODE"></A><A class="mmapRegisterTitle" href="CPU_MMAP.html">TOP</A>:<A class="mmapRegisterTitle" href="#Top_Tag">AUX_AIODIO0</A>:IOMODE</H3><TABLE cellspacing="0" class="mmapRegisterTable">
+<TR class="row">
+<TD class="cellCol1"><B>Address Offset</B></TD>
+<TD class="cellCol2" colspan="3">0x0000 0004</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Physical Address</TD>
+<TD class="cellCol2">0x400C 1004</TD>
+<TD class="cellCol3">Instance</TD>
+<TD class="cellCol4">0x400C 1004</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Description</TD>
+<TD class="cellCol2" colspan="3">Input Output Mode<BR>
+<BR>
+This register controls pull-up, pull-down, and output mode for <A class="mmap_legend_link" href="../legend.html#AUXIO">AUXIO</A> that are controlled by instance i of AUX_AIODIO. Hence, in formulas below i = 0 for <A class="xref" href="AUX_AIODIO0.html">AUX_AIODIO0</A> and i = 1 for <A class="xref" href="AUX_AIODIO1.html">AUX_AIODIO1</A></TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Type</TD>
+<TD class="cellCol2" colspan="3">RW</TD>
+</TR>
+</TABLE>
+<TABLE cellspacing="0" class="mmapBitfieldTable">
+<TR class="rowTop">
+<TD class="cellTopCol1">Bits</TD>
+<TD class="cellTopCol2">Field Name</TD>
+<TD class="cellTopCol3" colspan="3">Description</TD>
+<TD class="cellTopCol4">Type</TD>
+<TD class="cellTopCol5">Reset</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="IOMODE_RESERVED16">31:16</a>
+</TD>
+<TD class="cellBitfieldCol2">RESERVED16</TD>
+<TD class="cellBitfieldCol3" colspan="3">Software should not rely on the value of a reserved. Writing any other value than the reset value may result in undefined behavior.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0x0000</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="IOMODE_IO7">15:14</a>
+</TD>
+<TD class="cellBitfieldCol2">IO7</TD>
+<TD class="cellBitfieldCol3" colspan="3">Select mode for AUXIO[8i+7].<TABLE cellspacing="0" class="LprfEnum">
+<TR class="rowEnumHead">
+<TD class="cellEnumTableHeadCol1">Value</TD>
+<TD class="cellEnumTableHeadCol2">ENUM Name</TD>
+<TD class="cellEnumTableHeadCol3">Description</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x0</TD>
+<TD class="cellEnumTableCol2">OUT</TD>
+<TD class="cellEnumTableCol3">Output Mode:<BR>
+<BR>
+<A class="xref" href="#GPIODOUT">GPIODOUT</A> bit 7 drives AUXIO[8i+7].</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1</TD>
+<TD class="cellEnumTableCol2">IN</TD>
+<TD class="cellEnumTableCol3">Input Mode:<BR>
+<BR>
+When <A class="xref" href="#GPIODIE">GPIODIE</A> bit 7 is 0: AUXIO[8i+7] is enabled for analog signal transfer.<BR>
+<BR>
+When <A class="xref" href="#GPIODIE">GPIODIE</A> bit 7 is 1: AUXIO[8i+7] is enabled for digital input.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x2</TD>
+<TD class="cellEnumTableCol2">OPEN_DRAIN</TD>
+<TD class="cellEnumTableCol3">Open-Drain Mode: <BR>
+<BR>
+When <A class="xref" href="#GPIODOUT">GPIODOUT</A> bit 7 is 0: AUXIO[8i+7] is driven low.  <BR>
+<BR>
+When <A class="xref" href="#GPIODOUT">GPIODOUT</A> bit 7 is 1: AUXIO[8i+7] is tri-stated or pulled. This depends on <A class="xref" href="IOC.html#IOCFG0_PULL_CTL">IOC:IOCFGn.PULL_CTL</A>.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x3</TD>
+<TD class="cellEnumTableCol2">OPEN_SOURCE</TD>
+<TD class="cellEnumTableCol3">Open-Source Mode: <BR>
+<BR>
+When <A class="xref" href="#GPIODOUT">GPIODOUT</A> bit 7 is 0: AUXIO[8i+7] is tri-stated or pulled. This depends on <A class="xref" href="IOC.html#IOCFG0_PULL_CTL">IOC:IOCFGn.PULL_CTL</A>.<BR>
+<BR>
+When <A class="xref" href="#GPIODOUT">GPIODOUT</A> bit 7 is 1: AUXIO[8i+7] is driven high.</TD>
+</TR>
+</TABLE>
+</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0b00</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="IOMODE_IO6">13:12</a>
+</TD>
+<TD class="cellBitfieldCol2">IO6</TD>
+<TD class="cellBitfieldCol3" colspan="3">Select mode for AUXIO[8i+6].<TABLE cellspacing="0" class="LprfEnum">
+<TR class="rowEnumHead">
+<TD class="cellEnumTableHeadCol1">Value</TD>
+<TD class="cellEnumTableHeadCol2">ENUM Name</TD>
+<TD class="cellEnumTableHeadCol3">Description</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x0</TD>
+<TD class="cellEnumTableCol2">OUT</TD>
+<TD class="cellEnumTableCol3">Output Mode:<BR>
+<BR>
+<A class="xref" href="#GPIODOUT">GPIODOUT</A> bit 6 drives AUXIO[8i+6].</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1</TD>
+<TD class="cellEnumTableCol2">IN</TD>
+<TD class="cellEnumTableCol3">Input Mode:<BR>
+<BR>
+When <A class="xref" href="#GPIODIE">GPIODIE</A> bit 6 is 0: AUXIO[8i+6] is enabled for analog signal transfer.<BR>
+<BR>
+When <A class="xref" href="#GPIODIE">GPIODIE</A> bit 6 is 1: AUXIO[8i+6] is enabled for digital input.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x2</TD>
+<TD class="cellEnumTableCol2">OPEN_DRAIN</TD>
+<TD class="cellEnumTableCol3">Open-Drain Mode: <BR>
+<BR>
+When <A class="xref" href="#GPIODOUT">GPIODOUT</A> bit 6 is 0: AUXIO[8i+6] is driven low.  <BR>
+<BR>
+When <A class="xref" href="#GPIODOUT">GPIODOUT</A> bit 6 is 1: AUXIO[8i+6] is tri-stated or pulled. This depends on <A class="xref" href="IOC.html#IOCFG0_PULL_CTL">IOC:IOCFGn.PULL_CTL</A>.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x3</TD>
+<TD class="cellEnumTableCol2">OPEN_SOURCE</TD>
+<TD class="cellEnumTableCol3">Open-Source Mode: <BR>
+<BR>
+When <A class="xref" href="#GPIODOUT">GPIODOUT</A> bit 6 is 0: AUXIO[8i+6] is tri-stated or pulled. This depends on <A class="xref" href="IOC.html#IOCFG0_PULL_CTL">IOC:IOCFGn.PULL_CTL</A>.<BR>
+<BR>
+When <A class="xref" href="#GPIODOUT">GPIODOUT</A> bit 6 is 1: AUXIO[8i+6] is driven high.</TD>
+</TR>
+</TABLE>
+</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0b00</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="IOMODE_IO5">11:10</a>
+</TD>
+<TD class="cellBitfieldCol2">IO5</TD>
+<TD class="cellBitfieldCol3" colspan="3">Select mode for AUXIO[8i+5].<TABLE cellspacing="0" class="LprfEnum">
+<TR class="rowEnumHead">
+<TD class="cellEnumTableHeadCol1">Value</TD>
+<TD class="cellEnumTableHeadCol2">ENUM Name</TD>
+<TD class="cellEnumTableHeadCol3">Description</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x0</TD>
+<TD class="cellEnumTableCol2">OUT</TD>
+<TD class="cellEnumTableCol3">Output Mode:<BR>
+<BR>
+<A class="xref" href="#GPIODOUT">GPIODOUT</A> bit 5 drives AUXIO[8i+5].</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1</TD>
+<TD class="cellEnumTableCol2">IN</TD>
+<TD class="cellEnumTableCol3">Input Mode:<BR>
+<BR>
+When <A class="xref" href="#GPIODIE">GPIODIE</A> bit 5 is 0: AUXIO[8i+5] is enabled for analog signal transfer.<BR>
+<BR>
+When <A class="xref" href="#GPIODIE">GPIODIE</A> bit 5 is 1: AUXIO[8i+5] is enabled for digital input.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x2</TD>
+<TD class="cellEnumTableCol2">OPEN_DRAIN</TD>
+<TD class="cellEnumTableCol3">Open-Drain Mode: <BR>
+<BR>
+When <A class="xref" href="#GPIODOUT">GPIODOUT</A> bit 5 is 0: AUXIO[8i+5] is driven low.  <BR>
+<BR>
+When <A class="xref" href="#GPIODOUT">GPIODOUT</A> bit 5 is 1: AUXIO[8i+5] is tri-stated or pulled. This depends on <A class="xref" href="IOC.html#IOCFG0_PULL_CTL">IOC:IOCFGn.PULL_CTL</A>.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x3</TD>
+<TD class="cellEnumTableCol2">OPEN_SOURCE</TD>
+<TD class="cellEnumTableCol3">Open-Source Mode: <BR>
+<BR>
+When <A class="xref" href="#GPIODOUT">GPIODOUT</A> bit 5 is 0: AUXIO[8i+5] is tri-stated or pulled. This depends on <A class="xref" href="IOC.html#IOCFG0_PULL_CTL">IOC:IOCFGn.PULL_CTL</A>.<BR>
+<BR>
+When <A class="xref" href="#GPIODOUT">GPIODOUT</A> bit 5 is 1: AUXIO[8i+5] is driven high.</TD>
+</TR>
+</TABLE>
+</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0b00</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="IOMODE_IO4">9:8</a>
+</TD>
+<TD class="cellBitfieldCol2">IO4</TD>
+<TD class="cellBitfieldCol3" colspan="3">Select mode for AUXIO[8i+4].<TABLE cellspacing="0" class="LprfEnum">
+<TR class="rowEnumHead">
+<TD class="cellEnumTableHeadCol1">Value</TD>
+<TD class="cellEnumTableHeadCol2">ENUM Name</TD>
+<TD class="cellEnumTableHeadCol3">Description</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x0</TD>
+<TD class="cellEnumTableCol2">OUT</TD>
+<TD class="cellEnumTableCol3">Output Mode:<BR>
+<BR>
+<A class="xref" href="#GPIODOUT">GPIODOUT</A> bit 4 drives AUXIO[8i+4].</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1</TD>
+<TD class="cellEnumTableCol2">IN</TD>
+<TD class="cellEnumTableCol3">Input Mode:<BR>
+<BR>
+When <A class="xref" href="#GPIODIE">GPIODIE</A> bit 4 is 0: AUXIO[8i+4] is enabled for analog signal transfer.<BR>
+<BR>
+When <A class="xref" href="#GPIODIE">GPIODIE</A> bit 4 is 1: AUXIO[8i+4] is enabled for digital input.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x2</TD>
+<TD class="cellEnumTableCol2">OPEN_DRAIN</TD>
+<TD class="cellEnumTableCol3">Open-Drain Mode: <BR>
+<BR>
+When <A class="xref" href="#GPIODOUT">GPIODOUT</A> bit 4 is 0: AUXIO[8i+4] is driven low.  <BR>
+<BR>
+When <A class="xref" href="#GPIODOUT">GPIODOUT</A> bit 4 is 1: AUXIO[8i+4] is tri-stated or pulled. This depends on <A class="xref" href="IOC.html#IOCFG0_PULL_CTL">IOC:IOCFGn.PULL_CTL</A>.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x3</TD>
+<TD class="cellEnumTableCol2">OPEN_SOURCE</TD>
+<TD class="cellEnumTableCol3">Open-Source Mode: <BR>
+<BR>
+When <A class="xref" href="#GPIODOUT">GPIODOUT</A> bit 4 is 0: AUXIO[8i+4] is tri-stated or pulled. This depends on <A class="xref" href="IOC.html#IOCFG0_PULL_CTL">IOC:IOCFGn.PULL_CTL</A>.<BR>
+<BR>
+When <A class="xref" href="#GPIODOUT">GPIODOUT</A> bit 4 is 1: AUXIO[8i+4] is driven high.</TD>
+</TR>
+</TABLE>
+</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0b00</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="IOMODE_IO3">7:6</a>
+</TD>
+<TD class="cellBitfieldCol2">IO3</TD>
+<TD class="cellBitfieldCol3" colspan="3">Select mode for AUXIO[8i+3].<TABLE cellspacing="0" class="LprfEnum">
+<TR class="rowEnumHead">
+<TD class="cellEnumTableHeadCol1">Value</TD>
+<TD class="cellEnumTableHeadCol2">ENUM Name</TD>
+<TD class="cellEnumTableHeadCol3">Description</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x0</TD>
+<TD class="cellEnumTableCol2">OUT</TD>
+<TD class="cellEnumTableCol3">Output Mode:<BR>
+<BR>
+<A class="xref" href="#GPIODOUT">GPIODOUT</A> bit 3 drives AUXIO[8i+3].</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1</TD>
+<TD class="cellEnumTableCol2">IN</TD>
+<TD class="cellEnumTableCol3">Input Mode:<BR>
+<BR>
+When <A class="xref" href="#GPIODIE">GPIODIE</A> bit 3 is 0: AUXIO[8i+3] is enabled for analog signal transfer.<BR>
+<BR>
+When <A class="xref" href="#GPIODIE">GPIODIE</A> bit 3 is 1: AUXIO[8i+3] is enabled for digital input.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x2</TD>
+<TD class="cellEnumTableCol2">OPEN_DRAIN</TD>
+<TD class="cellEnumTableCol3">Open-Drain Mode: <BR>
+<BR>
+When <A class="xref" href="#GPIODOUT">GPIODOUT</A> bit 3 is 0: AUXIO[8i+3] is driven low.  <BR>
+<BR>
+When <A class="xref" href="#GPIODOUT">GPIODOUT</A> bit 3 is 1: AUXIO[8i+3] is tri-stated or pulled. This depends on <A class="xref" href="IOC.html#IOCFG0_PULL_CTL">IOC:IOCFGn.PULL_CTL</A>.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x3</TD>
+<TD class="cellEnumTableCol2">OPEN_SOURCE</TD>
+<TD class="cellEnumTableCol3">Open-Source Mode: <BR>
+<BR>
+When <A class="xref" href="#GPIODOUT">GPIODOUT</A> bit 3 is 0: AUXIO[8i+3] is tri-stated or pulled. This depends on <A class="xref" href="IOC.html#IOCFG0_PULL_CTL">IOC:IOCFGn.PULL_CTL</A>.<BR>
+<BR>
+When <A class="xref" href="#GPIODOUT">GPIODOUT</A> bit 3 is 1: AUXIO[8i+3] is driven high.</TD>
+</TR>
+</TABLE>
+</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0b00</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="IOMODE_IO2">5:4</a>
+</TD>
+<TD class="cellBitfieldCol2">IO2</TD>
+<TD class="cellBitfieldCol3" colspan="3">Select mode for AUXIO[8i+2].<TABLE cellspacing="0" class="LprfEnum">
+<TR class="rowEnumHead">
+<TD class="cellEnumTableHeadCol1">Value</TD>
+<TD class="cellEnumTableHeadCol2">ENUM Name</TD>
+<TD class="cellEnumTableHeadCol3">Description</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x0</TD>
+<TD class="cellEnumTableCol2">OUT</TD>
+<TD class="cellEnumTableCol3">Output Mode:<BR>
+<BR>
+<A class="xref" href="#GPIODOUT">GPIODOUT</A> bit 2 drives AUXIO[8i+2].</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1</TD>
+<TD class="cellEnumTableCol2">IN</TD>
+<TD class="cellEnumTableCol3">Input Mode:<BR>
+<BR>
+When <A class="xref" href="#GPIODIE">GPIODIE</A> bit 2 is 0: AUXIO[8i+2] is enabled for analog signal transfer.<BR>
+<BR>
+When <A class="xref" href="#GPIODIE">GPIODIE</A> bit 2 is 1: AUXIO[8i+2] is enabled for digital input.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x2</TD>
+<TD class="cellEnumTableCol2">OPEN_DRAIN</TD>
+<TD class="cellEnumTableCol3">Open-Drain Mode: <BR>
+<BR>
+When <A class="xref" href="#GPIODOUT">GPIODOUT</A> bit 2 is 0: AUXIO[8i+2] is driven low.  <BR>
+<BR>
+When <A class="xref" href="#GPIODOUT">GPIODOUT</A> bit 2 is 1: AUXIO[8i+2] is tri-stated or pulled. This depends on <A class="xref" href="IOC.html#IOCFG0_PULL_CTL">IOC:IOCFGn.PULL_CTL</A>.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x3</TD>
+<TD class="cellEnumTableCol2">OPEN_SOURCE</TD>
+<TD class="cellEnumTableCol3">Open-Source Mode: <BR>
+<BR>
+When <A class="xref" href="#GPIODOUT">GPIODOUT</A> bit 2 is 0: AUXIO[8i+2] is tri-stated or pulled. This depends on <A class="xref" href="IOC.html#IOCFG0_PULL_CTL">IOC:IOCFGn.PULL_CTL</A>.<BR>
+<BR>
+When <A class="xref" href="#GPIODOUT">GPIODOUT</A> bit 2 is 1: AUXIO[8i+2] is driven high.</TD>
+</TR>
+</TABLE>
+</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0b00</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="IOMODE_IO1">3:2</a>
+</TD>
+<TD class="cellBitfieldCol2">IO1</TD>
+<TD class="cellBitfieldCol3" colspan="3">Select mode for AUXIO[8i+1].<TABLE cellspacing="0" class="LprfEnum">
+<TR class="rowEnumHead">
+<TD class="cellEnumTableHeadCol1">Value</TD>
+<TD class="cellEnumTableHeadCol2">ENUM Name</TD>
+<TD class="cellEnumTableHeadCol3">Description</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x0</TD>
+<TD class="cellEnumTableCol2">OUT</TD>
+<TD class="cellEnumTableCol3">Output Mode:<BR>
+<BR>
+<A class="xref" href="#GPIODOUT">GPIODOUT</A> bit 1 drives AUXIO[8i+1].</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1</TD>
+<TD class="cellEnumTableCol2">IN</TD>
+<TD class="cellEnumTableCol3">Input Mode:<BR>
+<BR>
+When <A class="xref" href="#GPIODIE">GPIODIE</A> bit 1 is 0: AUXIO[8i+1] is enabled for analog signal transfer.<BR>
+<BR>
+When <A class="xref" href="#GPIODIE">GPIODIE</A> bit 1 is 1: AUXIO[8i+1] is enabled for digital input.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x2</TD>
+<TD class="cellEnumTableCol2">OPEN_DRAIN</TD>
+<TD class="cellEnumTableCol3">Open-Drain Mode: <BR>
+<BR>
+When <A class="xref" href="#GPIODOUT">GPIODOUT</A> bit 1 is 0: AUXIO[8i+1] is driven low.  <BR>
+<BR>
+When <A class="xref" href="#GPIODOUT">GPIODOUT</A> bit 1 is 1: AUXIO[8i+1] is tri-stated or pulled. This depends on <A class="xref" href="IOC.html#IOCFG0_PULL_CTL">IOC:IOCFGn.PULL_CTL</A>.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x3</TD>
+<TD class="cellEnumTableCol2">OPEN_SOURCE</TD>
+<TD class="cellEnumTableCol3">Open-Source Mode: <BR>
+<BR>
+When <A class="xref" href="#GPIODOUT">GPIODOUT</A> bit 1 is 0: AUXIO[8i+1] is tri-stated or pulled. This depends on <A class="xref" href="IOC.html#IOCFG0_PULL_CTL">IOC:IOCFGn.PULL_CTL</A>.<BR>
+<BR>
+When <A class="xref" href="#GPIODOUT">GPIODOUT</A> bit 1 is 1: AUXIO[8i+1] is driven high.</TD>
+</TR>
+</TABLE>
+</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0b00</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="IOMODE_IO0">1:0</a>
+</TD>
+<TD class="cellBitfieldCol2">IO0</TD>
+<TD class="cellBitfieldCol3" colspan="3">Select mode for AUXIO[8i+0].<TABLE cellspacing="0" class="LprfEnum">
+<TR class="rowEnumHead">
+<TD class="cellEnumTableHeadCol1">Value</TD>
+<TD class="cellEnumTableHeadCol2">ENUM Name</TD>
+<TD class="cellEnumTableHeadCol3">Description</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x0</TD>
+<TD class="cellEnumTableCol2">OUT</TD>
+<TD class="cellEnumTableCol3">Output Mode:<BR>
+<BR>
+<A class="xref" href="#GPIODOUT">GPIODOUT</A> bit 0 drives AUXIO[8i+0].</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1</TD>
+<TD class="cellEnumTableCol2">IN</TD>
+<TD class="cellEnumTableCol3">Input Mode:<BR>
+<BR>
+When <A class="xref" href="#GPIODIE">GPIODIE</A> bit 0 is 0: AUXIO[8i+0] is enabled for analog signal transfer.<BR>
+<BR>
+When <A class="xref" href="#GPIODIE">GPIODIE</A> bit 0 is 1: AUXIO[8i+0] is enabled for digital input.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x2</TD>
+<TD class="cellEnumTableCol2">OPEN_DRAIN</TD>
+<TD class="cellEnumTableCol3">Open-Drain Mode: <BR>
+<BR>
+When <A class="xref" href="#GPIODOUT">GPIODOUT</A> bit 0 is 0: AUXIO[8i+0] is driven low.  <BR>
+<BR>
+When <A class="xref" href="#GPIODOUT">GPIODOUT</A> bit 0 is 1: AUXIO[8i+0] is tri-stated or pulled. This depends on <A class="xref" href="IOC.html#IOCFG0_PULL_CTL">IOC:IOCFGn.PULL_CTL</A>.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x3</TD>
+<TD class="cellEnumTableCol2">OPEN_SOURCE</TD>
+<TD class="cellEnumTableCol3">Open-Source Mode: <BR>
+<BR>
+When <A class="xref" href="#GPIODOUT">GPIODOUT</A> bit 0 is 0: AUXIO[8i+0] is tri-stated or pulled. This depends on <A class="xref" href="IOC.html#IOCFG0_PULL_CTL">IOC:IOCFGn.PULL_CTL</A>.<BR>
+<BR>
+When <A class="xref" href="#GPIODOUT">GPIODOUT</A> bit 0 is 1: AUXIO[8i+0] is driven high.</TD>
+</TR>
+</TABLE>
+</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0b00</TD>
+</TR>
+</TABLE>
+<H3 class="mmapRegisterTitle"><A name="GPIODIN"></A><A class="mmapRegisterTitle" href="CPU_MMAP.html">TOP</A>:<A class="mmapRegisterTitle" href="#Top_Tag">AUX_AIODIO0</A>:GPIODIN</H3><TABLE cellspacing="0" class="mmapRegisterTable">
+<TR class="row">
+<TD class="cellCol1"><B>Address Offset</B></TD>
+<TD class="cellCol2" colspan="3">0x0000 0008</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Physical Address</TD>
+<TD class="cellCol2">0x400C 1008</TD>
+<TD class="cellCol3">Instance</TD>
+<TD class="cellCol4">0x400C 1008</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Description</TD>
+<TD class="cellCol2" colspan="3">General Purpose Input Output Data In<BR>
+<BR>
+This register provides synchronized input data for <A class="mmap_legend_link" href="../legend.html#AUXIO">AUXIO</A>  that are controlled by instance i of AUX_AIODIO. Hence, in formulas below i = 0 for <A class="xref" href="AUX_AIODIO0.html">AUX_AIODIO0</A> and I = 1 for <A class="xref" href="AUX_AIODIO1.html">AUX_AIODIO1</A>.</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Type</TD>
+<TD class="cellCol2" colspan="3">RO</TD>
+</TR>
+</TABLE>
+<TABLE cellspacing="0" class="mmapBitfieldTable">
+<TR class="rowTop">
+<TD class="cellTopCol1">Bits</TD>
+<TD class="cellTopCol2">Field Name</TD>
+<TD class="cellTopCol3" colspan="3">Description</TD>
+<TD class="cellTopCol4">Type</TD>
+<TD class="cellTopCol5">Reset</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="GPIODIN_RESERVED8">31:8</a>
+</TD>
+<TD class="cellBitfieldCol2">RESERVED8</TD>
+<TD class="cellBitfieldCol3" colspan="3">Software should not rely on the value of a reserved. Writing any other value than the reset value may result in undefined behavior.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0x00 0000</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="GPIODIN_IO7_0">7:0</a>
+</TD>
+<TD class="cellBitfieldCol2">IO7_0</TD>
+<TD class="cellBitfieldCol3" colspan="3">Bit n in this bit vector contains the value for AUXIO[8i+n] when <A class="xref" href="#GPIODIE">GPIODIE</A> bit n is set. Otherwise, bit n value is old.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0x00</TD>
+</TR>
+</TABLE>
+<H3 class="mmapRegisterTitle"><A name="GPIODOUTSET"></A><A class="mmapRegisterTitle" href="CPU_MMAP.html">TOP</A>:<A class="mmapRegisterTitle" href="#Top_Tag">AUX_AIODIO0</A>:GPIODOUTSET</H3><TABLE cellspacing="0" class="mmapRegisterTable">
+<TR class="row">
+<TD class="cellCol1"><B>Address Offset</B></TD>
+<TD class="cellCol2" colspan="3">0x0000 000C</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Physical Address</TD>
+<TD class="cellCol2">0x400C 100C</TD>
+<TD class="cellCol3">Instance</TD>
+<TD class="cellCol4">0x400C 100C</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Description</TD>
+<TD class="cellCol2" colspan="3">General Purpose Input Output Data Out Set<BR>
+<BR>
+Set bits in <A class="xref" href="#GPIODOUT">GPIODOUT</A> in instance i of AUX_AIODIO. Hence, in formulas below i = 0 for <A class="xref" href="AUX_AIODIO0.html">AUX_AIODIO0</A> and  i = 1 for <A class="xref" href="AUX_AIODIO1.html">AUX_AIODIO1</A>.</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Type</TD>
+<TD class="cellCol2" colspan="3">RW</TD>
+</TR>
+</TABLE>
+<TABLE cellspacing="0" class="mmapBitfieldTable">
+<TR class="rowTop">
+<TD class="cellTopCol1">Bits</TD>
+<TD class="cellTopCol2">Field Name</TD>
+<TD class="cellTopCol3" colspan="3">Description</TD>
+<TD class="cellTopCol4">Type</TD>
+<TD class="cellTopCol5">Reset</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="GPIODOUTSET_RESERVED8">31:8</a>
+</TD>
+<TD class="cellBitfieldCol2">RESERVED8</TD>
+<TD class="cellBitfieldCol3" colspan="3">Software should not rely on the value of a reserved. Writing any other value than the reset value may result in undefined behavior.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0x00 0000</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="GPIODOUTSET_IO7_0">7:0</a>
+</TD>
+<TD class="cellBitfieldCol2">IO7_0</TD>
+<TD class="cellBitfieldCol3" colspan="3">Write 1 to bit index n in this bit vector to set <A class="xref" href="#GPIODOUT">GPIODOUT</A> bit n. <BR>
+<BR>
+Read value is 0.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0x00</TD>
+</TR>
+</TABLE>
+<H3 class="mmapRegisterTitle"><A name="GPIODOUTCLR"></A><A class="mmapRegisterTitle" href="CPU_MMAP.html">TOP</A>:<A class="mmapRegisterTitle" href="#Top_Tag">AUX_AIODIO0</A>:GPIODOUTCLR</H3><TABLE cellspacing="0" class="mmapRegisterTable">
+<TR class="row">
+<TD class="cellCol1"><B>Address Offset</B></TD>
+<TD class="cellCol2" colspan="3">0x0000 0010</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Physical Address</TD>
+<TD class="cellCol2">0x400C 1010</TD>
+<TD class="cellCol3">Instance</TD>
+<TD class="cellCol4">0x400C 1010</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Description</TD>
+<TD class="cellCol2" colspan="3">General Purpose Input Output Data Out Clear<BR>
+<BR>
+Clear bits in <A class="xref" href="#GPIODOUT">GPIODOUT</A> instance i of AUX_AIODIO. Hence, in formulas below i = 0 for <A class="xref" href="AUX_AIODIO0.html">AUX_AIODIO0</A> and i = 1 for <A class="xref" href="AUX_AIODIO1.html">AUX_AIODIO1</A>.</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Type</TD>
+<TD class="cellCol2" colspan="3">RW</TD>
+</TR>
+</TABLE>
+<TABLE cellspacing="0" class="mmapBitfieldTable">
+<TR class="rowTop">
+<TD class="cellTopCol1">Bits</TD>
+<TD class="cellTopCol2">Field Name</TD>
+<TD class="cellTopCol3" colspan="3">Description</TD>
+<TD class="cellTopCol4">Type</TD>
+<TD class="cellTopCol5">Reset</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="GPIODOUTCLR_RESERVED8">31:8</a>
+</TD>
+<TD class="cellBitfieldCol2">RESERVED8</TD>
+<TD class="cellBitfieldCol3" colspan="3">Software should not rely on the value of a reserved. Writing any other value than the reset value may result in undefined behavior.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0x00 0000</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="GPIODOUTCLR_IO7_0">7:0</a>
+</TD>
+<TD class="cellBitfieldCol2">IO7_0</TD>
+<TD class="cellBitfieldCol3" colspan="3">Write 1 to bit index n in this bit vector to clear <A class="xref" href="#GPIODOUT">GPIODOUT</A> bit n.<BR>
+<BR>
+Read value is 0.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0x00</TD>
+</TR>
+</TABLE>
+<H3 class="mmapRegisterTitle"><A name="GPIODOUTTGL"></A><A class="mmapRegisterTitle" href="CPU_MMAP.html">TOP</A>:<A class="mmapRegisterTitle" href="#Top_Tag">AUX_AIODIO0</A>:GPIODOUTTGL</H3><TABLE cellspacing="0" class="mmapRegisterTable">
+<TR class="row">
+<TD class="cellCol1"><B>Address Offset</B></TD>
+<TD class="cellCol2" colspan="3">0x0000 0014</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Physical Address</TD>
+<TD class="cellCol2">0x400C 1014</TD>
+<TD class="cellCol3">Instance</TD>
+<TD class="cellCol4">0x400C 1014</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Description</TD>
+<TD class="cellCol2" colspan="3">General Purpose Input Output Data Out Toggle<BR>
+<BR>
+Toggle bits in <A class="xref" href="#GPIODOUT">GPIODOUT</A> in instance i of AUX_AIODIO. Hence, in formulas below i = 0 for <A class="xref" href="AUX_AIODIO0.html">AUX_AIODIO0</A> and i = 1 for <A class="xref" href="AUX_AIODIO1.html">AUX_AIODIO1</A>.</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Type</TD>
+<TD class="cellCol2" colspan="3">RW</TD>
+</TR>
+</TABLE>
+<TABLE cellspacing="0" class="mmapBitfieldTable">
+<TR class="rowTop">
+<TD class="cellTopCol1">Bits</TD>
+<TD class="cellTopCol2">Field Name</TD>
+<TD class="cellTopCol3" colspan="3">Description</TD>
+<TD class="cellTopCol4">Type</TD>
+<TD class="cellTopCol5">Reset</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="GPIODOUTTGL_RESERVED8">31:8</a>
+</TD>
+<TD class="cellBitfieldCol2">RESERVED8</TD>
+<TD class="cellBitfieldCol3" colspan="3">Software should not rely on the value of a reserved. Writing any other value than the reset value may result in undefined behavior.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0x00 0000</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="GPIODOUTTGL_IO7_0">7:0</a>
+</TD>
+<TD class="cellBitfieldCol2">IO7_0</TD>
+<TD class="cellBitfieldCol3" colspan="3">Write 1 to bit index n in this bit vector to toggle <A class="xref" href="#GPIODOUT">GPIODOUT</A> bit n. <BR>
+<BR>
+Read value is 0.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0x00</TD>
+</TR>
+</TABLE>
+<H3 class="mmapRegisterTitle"><A name="GPIODIE"></A><A class="mmapRegisterTitle" href="CPU_MMAP.html">TOP</A>:<A class="mmapRegisterTitle" href="#Top_Tag">AUX_AIODIO0</A>:GPIODIE</H3><TABLE cellspacing="0" class="mmapRegisterTable">
+<TR class="row">
+<TD class="cellCol1"><B>Address Offset</B></TD>
+<TD class="cellCol2" colspan="3">0x0000 0018</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Physical Address</TD>
+<TD class="cellCol2">0x400C 1018</TD>
+<TD class="cellCol3">Instance</TD>
+<TD class="cellCol4">0x400C 1018</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Description</TD>
+<TD class="cellCol2" colspan="3">General Purpose Input Output Digital Input Enable<BR>
+<BR>
+This register controls input buffers for <A class="mmap_legend_link" href="../legend.html#AUXIO">AUXIO</A> that are controlled by instance i of AUX_AIODIO.  Hence, in formulas below i = 0 for <A class="xref" href="AUX_AIODIO0.html">AUX_AIODIO0</A> and I = 1 for <A class="xref" href="AUX_AIODIO1.html">AUX_AIODIO1</A>.</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Type</TD>
+<TD class="cellCol2" colspan="3">RW</TD>
+</TR>
+</TABLE>
+<TABLE cellspacing="0" class="mmapBitfieldTable">
+<TR class="rowTop">
+<TD class="cellTopCol1">Bits</TD>
+<TD class="cellTopCol2">Field Name</TD>
+<TD class="cellTopCol3" colspan="3">Description</TD>
+<TD class="cellTopCol4">Type</TD>
+<TD class="cellTopCol5">Reset</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="GPIODIE_RESERVED8">31:8</a>
+</TD>
+<TD class="cellBitfieldCol2">RESERVED8</TD>
+<TD class="cellBitfieldCol3" colspan="3">Software should not rely on the value of a reserved. Writing any other value than the reset value may result in undefined behavior.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0x00 0000</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="GPIODIE_IO7_0">7:0</a>
+</TD>
+<TD class="cellBitfieldCol2">IO7_0</TD>
+<TD class="cellBitfieldCol3" colspan="3">Write 1 to bit index n in this bit vector to enable digital input buffer for AUXIO[8i+n]. <BR>
+Write 0 to bit index n in this bit vector to disable digital input buffer for AUXIO[8i+n].<BR>
+<BR>
+You must enable the digital input buffer for AUXIO[8i+n] to read the pin value in <A class="xref" href="#GPIODIN">GPIODIN</A>.  <BR>
+You must disable the digital input buffer for analog input or pins that float to avoid current leakage.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0x00</TD>
+</TR>
+</TABLE>
+<BR>
+<BR>
+<hr><table class="footer"><tr><td>&copy; 2015 - 2016. Texas Instruments | All Rights Reserved</td></tr></table>
+</BODY>
+</HTML>

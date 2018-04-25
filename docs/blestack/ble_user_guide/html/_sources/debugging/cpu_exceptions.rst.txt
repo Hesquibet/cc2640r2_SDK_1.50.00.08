@@ -1,0 +1,184 @@
+Deciphering CPU Exceptions
+--------------------------
+
+Several possible exception causes exist. If an exception is caught,
+an exception handler function can be called. Depending on the
+project settings, this handler may be a default handler in ROM,
+which is just an infinite loop or a custom function called from this
+default handler instead of a loop.
+
+When an exception occurs, the exception may be caught and halted in
+debug mode immediately, depending on the debugger. If the execution
+halted manually later through the Break debugger, it is then stopped
+within the exception handler loop.
+
+Exception Cause
+^^^^^^^^^^^^^^^
+
+With the default setup using TI-RTOS, the exception cause can be
+found in the System Control Space register group (CPU\_SCS) in the
+register CFSR (Configurable Fault Status Register). The ARM
+Cortex-M3 User Guide describes this register. Most exception causes
+fall into the following three categories.
+
+* Stack overflow or corruption leads to arbitrary code execution.
+
+  * Almost any exception is possible.
+
+* A NULL pointer has been dereferenced and written to.
+
+  * Typically (IM)PRECISERR exceptions
+
+* A peripheral module (like UART, Timer, and so forth) is accessed
+  without being powered.
+
+  * Typically (IM)PRECISERR exceptions
+
+The ``CFSR`` register is available in View --> Registers in IAR and CCS.
+
+When an access violation occurs, the exception type is IMPRECISERR
+because writes to flash and peripheral memory regions are mostly
+buffered writes.
+
+If the CFSR:BFARVALID flag is set when the exception occurs (typical
+for PRECISERR), the BFAR register in CPU\_SCS can be read out to
+find which memory address caused the exception.
+
+If the exception is IMPRECISERR, PRECISERR can be forced by manually
+disabling buffered writes. Set [CPU\_SCS:ACTRL:DISDEFWBUF] to 1, by
+either manually setting the bit in the register view in IAR/CCS or
+by including <hw\_cpu\_scs.h> from Driverlib and calling the
+following.
+
+.. code-block:: c
+
+   #include <ti/devices/cc26x0r2/inc/hw_cpu_scs.h>
+   //..
+   int main()
+   {
+     // Disable write-buffering. Note that this negatively affect performance.
+     HWREG(CPU_SCS_BASE + CPU_SCS_O_ACTLR) = CPU_SCS_ACTLR_DISDEFWBUF;
+
+     // ..
+   }
+
+
+Using TI-RTOS and ROV to Parse Exceptions
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+To enable exception decoding in the RTOS Object View (ROV) without using
+too much memory, use the Minimal exception handler in TI-RTOS. The
+default choice in the |STACK| projects is to use no exception handler.
+
+To set this up, change the section of the TI-RTOS configuration file
+that relates to M3Hwi so that it looks like the code below:
+
+.. code-block:: js
+
+   //m3Hwi.enableException = true;
+   m3Hwi.enableException = false;
+   //m3Hwi.excHandlerFunc = null;
+   m3Hwi.excHookFunc = "&execHandlerHook";
+
+Then, make a function somewhere with the signature
+``void (*Hwi_ExceptionHookFuncPtr)(Hwi_ExcContext*);`` such as the one below:
+
+.. code-block:: c
+
+   #include <ti/sysbios/family/arm/m3/Hwi.h>
+   // ...
+   volatile uintptr_t *excPC = 0;
+   volatile uintptr_t *excCaller = 0;
+   // ...
+   void execHandlerHook(Hwi_ExcContext *ctx)
+   {
+       excPC = ctx->pc;     // Program counter where exception occurred
+       excCaller = ctx->lr; // Link Register when exception occurred
+
+       while(2);
+   }
+
+
+
+Setting ``m3Hwi.enableException`` to false enables the minimal handler,
+which fills out the global Hwi\_ExcContext structure that the ROV
+looks at to show the decoded exception. By setting up an
+excHookFunc, the minimal exception handler will call this function
+and pass along a pointer to the exception context for the user to
+work with. This structure is defined in
+``<ti/sysbios/family/arm/m3/Hwi.h>``.
+
+When an exception occurs, the device should end up in that infinite
+loop. Inspect the ROV -> Hwi -> Exception information.
+
+.. figure:: resources/rov_hwi_exception.png
+    :align: center
+
+    Decoded exception, intentional write to address 0x0013 which is illegal. Note
+    that writebuffering has been disabled to get a precise error location, and that
+    m3Hwi.enableException has been set to false to get the decoding.
+
+In this case, a bus fault was forced in the function writeToAddress by
+dereferencing address 0x0013 and trying to write to it:
+
+.. code-block:: c
+   :caption: Write to an address in the FLASH memory region.
+
+   void writeToAddress(uintptr_t *addr, int val)
+   {
+      *(int *)addr = val;
+   }
+
+   // ..
+
+   void taskFxn(...)
+   {
+      // ..
+      writeToAddress( (void*)19, 4 ); // Randomly chosen values
+   }
+
+The write instruction was placed on line 79 of application.c, as indicated.
+To get a precise location, the write buffer was disabled as described earlier.
+
+It can be instructive to look at the disassembly view for the locations
+specified by PC (program counter) and LR (link register). PC is the
+presumed exception location, and LR is normally the location the failing
+function should have returned to. As an example, the PC at this
+exception:
+
+.. figure:: resources/exception_pc_of_write.png
+    :align: center
+
+    Here the ``pc`` from the decoded exception was looked up in the disassembly
+    view.
+
+Some forensics is required here. We have from the Hwi decoding in ROV (and from
+the exception context in the exception hook) that the program counter was
+``0x708e`` when the exception occurred.
+
+At that location there is a store instruction ``str r0, [r1]`` meaning, store
+in R0 the value of what the memory address in R1 points to. The business with ``SP`` in the
+figure above is related to optimization being turned off, so all local variables
+are stored on the stack, even though in this case R0 and R1 could have been used
+directly from the caller.
+
+Now we know that the exception occurred because someone called `writeToAddress`
+with an invalid address.
+
+Thanks to the exception decoder we can easily find the call site by
+looking at the call stack, but if the call stack isn't helpful, we can look
+at ``lr``, which is seen in the exception decoder to be ``0x198f``
+
+.. figure:: resources/exception_lr_of_write.png
+    :align: center
+
+    Call site as specified in ``lr``. Note that lr is the instruction after the
+    call to ``writeToAddress`` because execution would have resumed here.
+
+We can see here that R0 and R1 are initialized with constants. This means that some
+programmer has intentionally called the write function with an address that
+causes a busfault.
+
+Most often the reason for a bus-fault is that a pointer is not initialized
+and a function like ``writeToAddress`` gets the pointer, assumes it's valid and
+dereferences the pointer and writes to the invalid address.

@@ -1,0 +1,91 @@
+.. _development-and-debugging-debugging-memory-problems:
+
+Debugging Memory Problems
+-------------------------
+
+This section describes how to debug a situation where the program
+runs out of memory, either on the heap or on the runtime stack for
+the individual thread contexts. Exceeding array bounds or
+dynamically allocating too little memory for a structure corrupts
+the memory and can cause an exception like INVPC, INVSTATE, IBUSERR
+to appear in the CFSR register.
+
+Task and System Stack Overflow
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+If an overflow on the runtime stack of the task or the system stack
+occurs (as found using the ROV plug-in), perform the following steps.
+
+1. Note the current size of the runtime stack of each task.
+2. Increase by a few 100 bytes as described in
+   :ref:`sec-rtos-overview-initializing-a-task` and
+   :ref:`sec-memory-management-system-stack`
+
+3. Reduce the runtime stack sizes so that they are larger than their
+   respective stackPeaks to save some memory.
+
+.. _development-and-debugging-dynamic-allocation-errors:
+
+Dynamic Allocation Errors
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+:ref:`sect_icall_profiling` describes how to use the ICall Heap profiling
+functionality. To check if dynamic allocation errors occurred, do as
+follows:
+
+1. Check whether ``heapmgrMemAlo`` or ``heapmgrMemAlo`` are close to
+   ``HEAPMGR_SIZE``
+2. Check memFail to see if allocation failures have occurred.
+3. Call the sanity check function.
+
+If the heap is sane but there are allocation errors, increase
+``HEAPMGR_SIZE`` and see if the problem persists.
+
+You can set a breakpoint in heapmgr.h in ``HEAPMGR_MALLOC()`` on the
+line ``hdr = NULL;`` to find an allocation that is failing.
+
+.. _development-and-debugging-check-system-flash-and-ram-usage-with-map-file:
+
+Check System Flash and RAM Usage With Map File
+----------------------------------------------
+
+Both application and stack projects produce a map file which can be
+used to compute the combined flash and RAM system memory usage. Both
+projects have their own memory space and both map files must be
+analyzed to determine the total system memory usage. The map file is
+in the output folder of the respective project in IAR. To compute
+the total memory usage, do as follows.
+
+1. Open the application map file (that is,
+   simple\_peripheral\_cc2650r2lp\_app.map).
+
+.. note::
+   At the end of the file, three lines contain a breakdown of
+   memory usage for read-only code, read-only data, and read/write
+   data.
+
+2. Add the two values for read-only code and read-only data memory.
+
+.. note::
+   This sum is the total flash memory usage for the
+   application project. The read/write data memory is the total RAM
+   usage by the application project.
+
+3. Note these values.
+
+4. Open the stack map file.
+
+5. Compute the same flash and RAM values for the stack project.
+
+6. Add the total flash memory value from the application with the total
+   flash usage of the stack to determine the total system flash
+   usage.
+
+7. Add the total RAM usage from the application with the stack to get
+   the total system RAM usage.
+
+For CCS, the map file of the respective project gives a summary of
+flash and RAM usage. To determine the remaining available memory for
+each project, see :ref:`flash` and :ref:`ram`. Due to section placement and
+alignment requirements, some remaining memory may be unavailable. The map file
+memory usage is valid only if the project builds and links successfully.

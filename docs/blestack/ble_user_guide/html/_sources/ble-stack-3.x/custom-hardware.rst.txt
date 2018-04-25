@@ -1,0 +1,453 @@
+This section will explain how to adapt a BLE application from the |SDK| to run on
+custom hardware. In general, the steps required to migrate a BLE application
+from a development kit to a custom board are minimal and involve changing the
+pin configuration as well as selecting the correct RF configuration.
+These steps, including a bring up guide, are detailed in the subsections below.
+
+.. _board-file:
+
+TI Provided Board Files
+-----------------------
+
+In order to make the |SDK|'s sample applications portable across different board
+and package types, a high level gateway file is used to select the proper board
+file based on the <board\_type> predefined symbol. The top-level board file
+(board.c) then uses this symbol to include the correct board file into the
+project. This top-level board file can be found at
+*<SDK\_INSTALL\_DIR>\\source\\ti\\blestack\\target\\board.c*, and is located
+under the Startup folder in the project workspace:
+
+.. _startup:
+.. figure:: /tirtos/resources/image178.jpeg
+    :align: center
+
+The board file links in another gateway board file located at
+*<SDK\_INSTALL\_DIR>\\source\\ti\\blestack\\target\\<kit\_type>*,
+which finally links in the actual board file from
+*<SDK\_INSTALL\_DIR>\\source\\ti\\boards\\<board\_type>*.
+
+<kit\_type> indicates a handful of reference board files  supported by the
+|SDK| such as:
+
+ - cc2640r2em
+ - cc2640r2lp
+ - cc2640r2rc
+
+.. warning::
+  The <kit\_type> is an intermediate step within the board gateway and will not
+  need to be modified by the user while running on a TI EM or LP. Don't try to
+  set <kit\_type> as a predefined symbol  in your application.
+
+The <board\_type> define is set by the app project's predefined symbols.
+The following defines are supported by the |SDK| and refer to a reference design
+(EM or LaunchPad) created by TI.
+
+  - `CC2640R2_LAUNCHXL <http://www.ti.com/lit/zip/swrc335>`_.
+  - `CC2640R2DK_4XS <http://www.ti.com/lit/zip/swrc300>`_.
+  - `CC2640R2DK_5XD <http://www.ti.com/lit/zip/swrc299>`_.
+  - `CC2640R2DK_7ID <http://www.ti.com/lit/zip/swrc298>`_.
+  - `CC2640R2DK_CXS <http://www.ti.com/lit/zip/swrc336>`_.
+  - `CC2640R2RC <http://www.ti.com/tool/CC2650RC#technicaldocuments>`_.
+
+By changing the define above, the application project will pull in a board file
+that is adopted for the TI reference designs or development kits with same name.
+Click the links above for more information on their respective TI reference
+designs.
+
+.. note::
+  The |DEVICE| is pin compatible with the CC2650 and CC2640 wireless MCUs in
+  equivalent QFN package sizes, so the above reference designs can be used when
+  designing with the |DEVICE|.
+
+Note that within the ``<board_name>.h`` file the symbol used to select the board's
+RF front end configuration will be defined. See ``ble_user_config.h`` and
+:ref:`sec-creating-a-custom-ble-app-rf-front-end-and-antennas` for more
+information on available RF front end configurations.
+
+.. _sect-packages-and-board-files:
+
+Package Type and  Board Files
+-----------------------------
+
+Most of the examples within the |SDK| will run on the |LP| out of the box. Board
+files based on the TI CC26xx evaluation module (EM) reference designs are also
+provided for your convenience. (See :ref:`board-file` for more info)
+However, for custom hardware designs it may be necessary to modify the provided
+board files based on your selected package and RF configuration.
+
+
+The board file for CC2640R2_LAUNCHXL is made for the 7x7 mm QFN package using
+differential RF front end and internal biasing. To convert this board file to
+use for other smaller device packages (5x5 mm and 4x4 mm QFN), the board file
+will need to be modified since limited number of IO pins are available in the
+smaller packages.
+
+.. note::
+  It is recommended to start customizing board file(s) based on a reference
+  design that is similar to your selected package type and RF configuration.
+  For example a design for a 5x5 mm QFN package with a differential front end
+  and external bias should use the `CC2640R2DK_5XD <http://www.ti.com/lit/zip/swrc299>`_
+  board files as a reference.
+
+See the datasheet for all the package options and IO descriptions:
+|DATASHEET|
+
+For example, to change to the 4x4 package, remove all defines for all IOs
+not available (IOID_10 and higher) since the 4x4 package
+has only 10 DIO pins  as listed in the datasheet.
+
+The table below shows the number of GPIOs supported by each package:
+
++------------------------------------+------------------+----------------------+
+|     Package Option                 |  Total GPIO Pins |  MAX IOID            |
++====================================+==================+======================+
+|     7x7 mm QFN                     |     31           |  IOID_30             |
++------------------------------------+------------------+----------------------+
+|     5x5 mm QFN                     |     15           |  IOID_14             |
++------------------------------------+------------------+----------------------+
+|     4x4 mm QFN                     |     10           |  IOID_9              |
++------------------------------------+------------------+----------------------+
+|     2.7 x 2.7 mm WCSP              |     14           |  IOID_13             |
++------------------------------------+------------------+----------------------+
+
+
+Creating a Custom Board File
+----------------------------
+
+TI-RTOS drivers rely on "board files" for their board-specific configuration
+parameters. The convention is to name these files based on the development kits
+provided by TI in addition to a generic ``Board.h`` with ``Board_*`` definitions
+to map the proper pins defined by ``ioc.h``.
+
+For example, for the simple\_peripheral project, the following comprise the
+set of board files used by the CC2640R2 LaunchPad development kit:
+
+    Board.h
+    CC2640R2_LAUNCHXL.h
+    CC2640R2_LAUNCHXL.c
+
+.. note::
+    simple\_peripheral board files are located in
+    ``<SDK_INSTALL_DIR>\source\ti\boards\CC2640R2_LAUNCHXL``
+
+TI recommends to start with the existing set of board files when porting
+a BLE application to custom development boards. When modifying or porting these
+board files, the user should consult with
+`TI Driver APIs <..\/..\/..\/..\/tidrivers\/tidriversAPIs.html>`__.
+
+.. tip::
+    Board files provided by TI include TI-RTOS driver configuration data
+    structures for various drivers. If the application does not use the
+    associated TI-RTOS drivers, the linker will simply omit them from the
+    application image.
+
+The following steps provide guidance on customizing board files for a
+|BLESTACKVER| project.
+
+#. Duplicate existing board files from existing CC2640R2\_LAUNCHXL board files.
+
+    - These files can be found at:
+      ``<SDK_INSTALL_DIR>\source\ti\boards\CC2640R2_LAUNCHXL``
+
+    - Create a copy of the ``CC2640R2_LAUNCHXL`` directory and give it a unique
+      meaningful name for your development platform. In this example, we call
+      it ``MYBOARD``.
+
+    .. caution::
+        The |SDK| also contains board files for TI-RTOS kernel and driver examples.
+        These are not compatible with the |BLESTACKVER| because of differences in
+        RF driver SWI priorities and custom drivers (e.g. TRNG) required by
+        |BLESTACKVER|. For |BLESTACK| projects, use the files specified above for
+        reference from simple\_peripheral.
+
+    - In the ``MYBOARD`` directory, rename ``CC2640R2_LAUNCHXL.c`` and
+      ``CC2640R2_LAUNCHXL.h`` to their ``MYBOARD.c`` and ``MYBOARD.h``
+      respectively.
+
+    - Search and replace all references of ``CC2640R2_LAUNCHXL`` with
+      ``MYBOARD`` in ``Board.h``, ``MYBOARD.c`` and ``MYBOARD.h``.
+
+#. Add a new preprocessor define in your project's ``board.c`` and ``board.h``
+   files.
+
+    Continuing with the ``MYBOARD`` example, modify ``board.c`` and ``board.h``
+    in ``<SDK_INSTALL_DIR>\source\ti\target``
+
+    - Replace ``CC2640R2_LAUNCHXL`` by ``MYBOARD`` in your project's application
+      predefined symbols
+      (See :ref:`sec-developing-with-ccs-accessing-preprocessor-symbols`
+      or :ref:`sec-developing-with-iar-accessing-preprocessor-symbols`)
+
+    - In ``board.h``, add a link to your ``Board.h`` file.
+
+        .. code-block:: c
+            :linenos:
+            :emphasize-lines: 3-4
+
+            #elif defined(CC2640R2_LAUNCHXL)
+                #include "./cc2640r2lp/cc2640r2lp_board.h"
+            #elif defined(MYBOARD)
+                #include "../../boards/MYBOARD/Board.h"
+
+    - In ``board.c``, add the highlighted lines shown below:
+
+        .. code-block:: c
+            :linenos:
+            :emphasize-lines: 3-5
+
+            #elif defined(CC2640R2_LAUNCHXL)
+                #include "./cc2640r2lp/cc2640r2lp_board.c"
+            #elif defined(MYBOARD)
+                #include "../../boards/MYBOARD/Board.h"
+                #include "../../boards/MYBOARD/MYBOARD.c"
+
+    - Explicit references to ``CC2640R2_LAUNCHXL.h`` need to be replaced by
+      ``MYBOARD.h``
+
+#. Modify board files to match application requirements
+
+    - PIN structure to match the layout of the board.
+      See :ref:`sect-packages-and-board-files`.
+
+    - Add peripheral driver initialization objects according to the board design.
+      See :ref:`peripherals-and-drivers` for more information on drivers.
+
+    - For RF driver configuration,
+      see :ref:`sec-creating-a-custom-ble-app-rf-front-end-and-antennas`
+
+Board Level Middleware
+----------------------
+
+There are also several board driver files which are a layer of
+abstraction on top of TI-RTOS drivers, to function for a specific
+board, for example Board_key.c, or ExtFlash.c If desired, these files can be
+adapted to work for a custom board.
+
+Using 32-kHz Crystal-Less Mode
+------------------------------
+
+|BLESTACKVER| includes support for operating the |DEVICE| in a 32-kHz
+crystal-less mode for peripheral and broadcaster (beacon) role configurations.
+By using the internal low-frequency RC oscillator (``RCOSC_LF``), the 32-kHz crystal
+can be removed from the board layout. By removing it you lower the bill of
+material (BOM) cost, reduce the required board space and simplify procurement.
+On the other hand, the current consumption will vary depending on the role of the
+device compared to when using the external 32-kHz crystal. More info in the
+`SWRA499 Applicaion Note <http://www.ti.com/lit/pdf/swra499>`_.
+
+.. note::
+    Following project in the SDK already have a RCOSC build configuration:
+
+      - simple_broadcaster
+
+      - host_test
+
+      - simple_np (SPI)
+
+      - simple_peripheral
+
+
+
+
+There are a few steps that must be taken into account to enable this feature.
+For any peripheral project, the following change is required for IAR.
+CCS users should see the
+`Running Bluetooth Low Energy on CC2640 Without 32 kHz Crystal <http://www.ti.com/lit/pdf/swra499>`_
+for the needed steps to enable RCOSC_LF in a project.
+You will find more detail regarding this feature in the aforementioned application note.
+
+1. Include `rcosc_calibration.c`, `rcosc_calibration.h` and `ccfg_app_ble_rcosc.c` files which locate at
+   *<SDK\_INSTALL\_DIR>\\source\\ti\\blestack\\common\\cc26xx\\rcosc*
+
+2. Exclude ccfg_app_ble.c from build.
+
+3. Add USE_RCOSC to Defined symbols.
+
+4. Add the following code to your ``peripheral project.c``
+
+   .. code-block:: c
+        :caption: RCOSC calibration include
+        :name: include RCOSC_calibration
+
+        #ifdef USE_RCOSC
+        #include "rcosc_calibration.h"
+        #endif //USE_RCOSC
+
+5. Add the following code to your ``peripheral project_init`` function in ``peripheral project.c``:
+
+   .. code-block:: c
+        :caption: RCOSC calibration enable
+        :name: enable RCOSC_calibration
+
+        #ifdef USE_RCOSC
+        RCOSC_enableCalibration();
+        #endif // USE_RCOSC
+
+6. If you are using a custom board file, enable the RCOSC in the power config.
+   The board files included with the |BLESTACK|:
+
+   .. code-block:: c
+        :caption: Power driver configuration
+        :name: Power driver code snippet
+        :emphasize-lines: 6
+
+        PowerCC26XX_Config PowerCC26XX_config = {
+          .policyInitFxn     = NULL,
+          .policyFxn         = &PowerCC26XX_standbyPolicy,
+          .calibrateFxn      = &PowerCC26XX_calibrate,
+          .enablePolicy      = TRUE,
+          .calibrateRCOSC_LF = TRUE,
+          .calibrateRCOSC_HF = TRUE,
+        };
+
+7. Constrain the temperature variation to be less than 1°C/sec. If the
+   temperature is to change faster than 1°C/sec, then a short
+   calibration interval must be used.
+   Calibration interval can be tuned in rcosc_calibration.h
+
+   .. code-block:: c
+        :caption: RCOSCLF calibration interval
+        :name: RCOSCLF calibration interval setup
+
+        // 1000 ms
+        #define RCOSC_CALIBRATION_PERIOD   1000
+
+.. note::
+    Use of the internal RCOSC_LF requires a sleep clock accuracy (SCA) of 500 ppm.
+
+
+.. _sec-creating-a-custom-ble-app-rf-front-end-and-antennas:
+
+Configuring the RF Front-End for Custom Hardware
+------------------------------------------------
+
+The CC2640R2F supports multiple RF front-end options to optimize performance or
+cost. Reference designs are available for multiple RF front-end options to aid
+in decoupling and RF layout. In order to achieve optimal sensitivity, it is
+important to configure the BLE application with the correct RF front-end setting
+used on the custom board. An incorrectly configured RF front-end may result in
+substantially degraded RF performance such as the inability to maintain a
+connection with a peer device. Configuration of the RF front-end is
+done within the board file.
+
+For example, within the simple\_peripheral project, the RF front-end
+configuration is defined in ``CC2640R2_LAUNCHXL.h`` with:
+
+  .. code-block:: c
+    :linenos:
+
+    #define CC2650EM_7ID
+
+The defined symbol is used in ``ble_user_config.h`` and ``ble_user_config.c``
+to set the correct RF front-end mode, and the select the appropriate PA table
+for that configuration. In ble_user_config.h, ``CC2650EM_7ID`` is processed to
+define ``RF_FE_MODE_AND_BIAS``:
+
+  .. code-block:: c
+    :linenos:
+
+    #define CC2650EM_7ID
+
+    // RF Front End Mode and Bias configuration
+
+    #if defined( CC26XX )
+
+    #if defined( CC2650EM_7ID )
+
+    #define RF_FE_MODE_AND_BIAS           ( RF_FE_DIFFERENTIAL |\
+                                            RF_FE_INT_BIAS)
+
+
+This configures the project to use a differential RF with internal bias.
+Other configurations can also be found in ``ble_user_config.h``, select the
+configuration appropriate to your project.
+
+In ``ble_user_config.c``, ``CC2650EM_7ID`` selects the appropriate PA table,
+in this case for differential RF. For |DEVICE|, there are three PA tables;
+one for differential operation on QFN packages, one for single ended on QFN,
+and one for single ended on WCSP.
+
+  .. code-block:: c
+    :linenos:
+
+    #elif defined( CC26XX )
+
+      #if defined( CC2650EM_7ID ) || defined( CC2650EM_5XD ) || defined( CC2650M5A )
+
+      // Differential Output
+
+      // Tx Power Values (Pout, IB, GC, TC)
+      const txPwrVal_t TxPowerTable[] =
+
+
+.. note::
+  There are several other parameters being configured in ``ble_user_config``.
+  For CC2640R2F it is only the RF front-end mode and PA table that have to be
+  changed for different boards.
+
+For information on front ends and antenna configurations, see
+`CC26xx RF FrontEnds and Antennas <http://processors.wiki.ti.com/images/4/45/CC26xx_HW_training_RF_Frontends_and_Antennas.pdf>`_.
+
+For information on other hardware considerations, see |BLEWIKI|.
+
+Configuring Device Parameters for Custom Hardware
+-------------------------------------------------
+
+  1.  Set parameters, such as the sleep clock accuracy of the 32.768-kHz
+      crystal. See :ble_api:`HCI_EXT_SetSCACmd`
+
+  2.  Define the CCFG parameters in ccfg\_app\_ble.c to enable or
+      disable the ROM serial bootloader, JTAG access (DAP), flash
+      protection, and so forth.
+
+.. note::
+    For a description of CCFG configuration parameters, see
+    the |TRM|.
+
+Initial Board Bring Up
+----------------------
+
+When powering up a custom board with the CC2640R2F for the first time, it is
+recommended to complete the HW checklist items on the TI BLE Wiki.
+After confirming that the board is being powered correctly by the battery or
+power supply and can be identified by the JTAG tool, programming the device with
+a minimal SW application to verify stability is also suggested.
+
+TI recommends using the simple_peripheral sample application for initial board
+bring  up with modifications to the board file to:
+
+1. Disable all GPIO pin access
+2. Select the correct RF front end setting.
+
+
+To disable all GPIO pin configuration, set the ``BoardGpioInitTable`` in the
+board file to ``PIN_TERMINATE``:
+
+  .. code-block:: c
+    :linenos:
+
+    const PIN_Config BoardGpioInitTable[] = {
+
+        PIN_TERMINATE
+    };
+
+The TI |BLESTACK| does not require any GPIO pins to be configured in order to
+establish and maintain a BLE connection. Ensure that ``Display_DISABLE_ALL``
+is defined in the application Predefined Symbols so that diagnostic logging
+data is not routed to any GPIO pin. If your custom board uses a different device
+configuration, such as the 32 kHz crystal-less RCOSC_LF configuration, be sure
+to make these device changes to the project. With this minimal application
+configuration you should be able to establish a BLE connection
+(e.g., with a smart phone or BTool) to your board at the expected range.
+If you are not able to complete this step, then it is likely there is a
+misconfiguration of the RF front end or you have other board related or layout
+issues. Refer to the hardware troubleshooting tips on the TI BLE Wiki.
+
+After confirming that your board can maintain a BLE connection, you can now
+validate that your BLE application functions as expected on the custom board.
+Again, it is suggested to enable your GPIO pins one at a time in the board file
+and comment-out access to other GPIO pins in your application. If you do
+encounter a CPU exception (HWI abort) during this phase it is likely that a
+GPIO pin is incorrectly mapped in your custom board file or your application is
+attempting to access a GPIO pin that does not exist in your device package type.
+

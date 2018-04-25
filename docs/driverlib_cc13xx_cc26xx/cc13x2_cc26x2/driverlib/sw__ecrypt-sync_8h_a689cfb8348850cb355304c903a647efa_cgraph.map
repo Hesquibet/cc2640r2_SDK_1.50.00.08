@@ -1,0 +1,4 @@
+<map id="ECRYPT_keystream_bytes" name="ECRYPT_keystream_bytes">
+<area shape="rect" id="node2" href="$sw__chacha_8c.html#afee76261f163770e6814176253bf4fac" title="ECRYPT_encrypt_bytes" alt="" coords="235,5,397,32"/>
+<area shape="rect" id="node3" href="$sw__chacha_8c.html#a94358fd4e4156863bb0962175a89b905" title="salsa20_wordtobyte" alt="" coords="445,5,583,32"/>
+</map>

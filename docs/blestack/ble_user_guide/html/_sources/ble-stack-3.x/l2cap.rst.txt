@@ -1,0 +1,223 @@
+.. _sec-l2cap:
+
+Logical Link Control and Adaptation Layer Protocol (L2CAP)
+----------------------------------------------------------
+
+The L2CAP layer sits on top of the HCI layer on the host side and
+transfers data between the upper layers of the host (GAP, GATT,
+application) and the lower layer protocol stack. This layer is
+responsible for protocol multiplexing capability, segmentation, and
+reassembly operation for data exchanged between the host and the
+protocol stack. L2CAP permits higher-level protocols and
+applications to transmit and receive upper layer data packets (L2CAP
+service data units, SDU) up to 64KB long. See :numref:`l2cap-architectural-blocks` for more
+information.
+
+.. note:: The actual size is limited by the amount of memory available on the
+   specific device being implemented. L2CAP also permits per-channel
+   flow control and retransmission.
+
+.. _l2cap-architectural-blocks:
+.. figure:: resources/l2cap-architectural-blocks.jpg
+    :align: center
+
+    L2CAP Architectural blocks.
+
+General L2CAP Terminology
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. _general-l2cap-terminology:
+.. table:: General L2CAP Terminology
+
+   +-------------------------------------------------+----------------------------------------------------------------------+
+   |   Term                                          |     Description                                                      |
+   +=================================================+======================================================================+
+   |   L2CAP channel                                 |     The logical connection between two endpoints in peer devices,    |
+   |                                                 |     characterized by their Channel Identifiers (CIDs)                |
+   +-------------------------------------------------+----------------------------------------------------------------------+
+   |   SDU or L2CAP SDU                              |     Service Data Unit: a packet of data that L2CAP exchanges with    |
+   |                                                 |     the upper layer and transports transparently over an L2CAP       |
+   |                                                 |     channel using the procedures specified in this document          |
+   +-------------------------------------------------+----------------------------------------------------------------------+
+   |   PDU or L2CAP PDU                              |     Protocol Data Unit: a packet of data containing L2CAP protocol   |
+   |                                                 |     information fields, control information, and/or upper layer      |
+   |                                                 |     information data                                                 |
+   +-------------------------------------------------+----------------------------------------------------------------------+
+   |   Maximum Transmission Unit (MTU)               |     The maximum size of payload data, in octets, that the upper      |
+   |                                                 |     layer entity can accept (that is, the MTU corresponds to the     |
+   |                                                 |     maximum SDU size).                                               |
+   +-------------------------------------------------+----------------------------------------------------------------------+
+   |   Maximum PDU Payload Size (MPS)                |     The maximum size of payload data in octets that the L2CAP        |
+   |                                                 |     layer entity can accept (that is, the MPS corresponds to the     |
+   |                                                 |     maximum PDU payload size).                                       |
+   +-------------------------------------------------+----------------------------------------------------------------------+
+
+.. _maximum-transmission-unit-mtu:
+
+Maximum Transmission Unit (MTU)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The Bluetooth low energy stack supports fragmentation and
+recombination of L2CAP PDUs at the link layer. This fragmentation
+support allows L2CAP and higher-level protocols built on top of
+L2CAP, such as the attribute protocol (ATT), to use larger payload
+sizes, and reduce the overhead associated with larger data
+transactions. When fragmentation is used, larger packets are split
+into multiple link layer packets and reassembled by the link layer
+of the peer device. :numref:`l2cap-packet-fragmentation` shows this relationship.
+
+.. _l2cap-packet-fragmentation:
+.. figure:: resources/l2cap-packet-fragmentation.jpg
+    :align: center
+
+    L2CAP Packet Fragmentation.
+
+The size of the L2CAP PDU also defines the size of the Attribute
+Protocol Maximum Transmission Unit (``ATT_MTU``). By default, LE
+devices assume the size of the L2CAP PDU is 27 bytes, which
+corresponds to the maximum size of the LE packet that can transmit
+in a single connection event packet. In this case, the L2CAP
+protocol header is 4 bytes, resulting in a default size for ``ATT_MTU``
+of 23.
+
+.. note::
+   When using the LE Data Length Extension feature, the
+   length of the LE packet can be up to 251 bytes. See :ref:`le_data_length_extension`
+
+.. _configuring_for_larger_MTU_values:
+
+Configuring for Larger MTU Values
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+A client device can request a larger ``ATT_MTU`` during a connection by
+using the :ble_api:`GATT_ExchangeMTU` command.
+During this procedure, the client informs the server of its maximum
+supported receive MTU size and the server responds with its maximum supported
+receive MTU size. Only the client can initiate this procedure. When
+the messages are exchanged, the ``ATT_MTU`` for the duration of the
+connection is the minimum of the client MTU and server MTU values.
+If the client indicates it can support an MTU of 200 bytes and the
+server responds with a maximum size of 150 bytes, the ``ATT_MTU`` size
+is 150 for that connection.
+
+For more information, see the MTU
+Exchange section of the |CORESPEC|.
+
+Take the following steps to configure the stack to support larger
+MTU values.
+
+1. Set the ``MAX_PDU_SIZE`` preprocessor symbol in the application project
+   to the desired value to the maximum desired
+   size of the L2CAP PDU size. The maximum ``ATT_MTU`` size is always 4
+   bytes less than the value of the ``MAX_PDU_SIZE``.
+
+2. Call :ble_api:`GATT_ExchangeMTU` after a connection is formed (GATT client
+   only). The MTU parameter passed into this function must be less
+   than or equal to the definition from step 1.
+
+3. Receive the ``ATT_MTU_UPDATED_EVENT`` in the calling task to verify
+   that the MTU was successfully updated. This update requires the
+   calling task to have registered for GATT messages. See :ref:`registering_to_receive_additional_gatt_events_in_the_application` for more information.
+
+Though the stack can be configured to support a ``MAX_PDU_SIZE`` up to
+255 bytes, each Bluetooth low energy connection initially uses the
+default 27 bytes (``ATT_MTU`` = 23 bytes) value until the exchange MTU
+procedure results in a larger MTU size. The exchange MTU procedure
+must be performed on each Bluetooth low energy connection and must
+be initiated by the client.
+
+.. note::
+    If the Secure Connections BLE 4.2 Feature is enabled,
+    the default MTU size will be 69 upon connection.
+
+    See ``ble_user_config.h`` for details.
+
+Increasing the size of the ``ATT_MTU`` increases the amount of data
+that can be sent in a single ATT packet. The longest attribute that
+can be sent in a single packet is (``ATT_MTU``-1) bytes. Procedures,
+such as notifications, have additional length restrictions. If an
+attribute value has a length of 100 bytes, a read of this entire
+attribute requires a read request to obtain the first (``ATT_MTU``-1)
+bytes, followed by multiple read blob request to obtain the
+subsequent (``ATT_MTU``-1) bytes. To transfer the entire 100 bytes of
+payload data with the default ``ATT_MTU`` = 23 bytes, five request or
+response procedures are required, each returning 22 bytes. If the
+exchange MTU procedure was performed and an ``ATT_MTU`` was configured
+to 101 bytes (or greater), the entire 100 bytes could be read in a
+single read request or response procedure.
+
+.. note::
+   Due to memory and processing limitations, not all
+   Bluetooth low energy systems support larger MTU sizes. Know the
+   capabilities of expected peer devices when defining the behavior of
+   the system. If the capability of peer devices is unknown, design the
+   system to work with the default 27-byte L2CAP PDU/23-byte ``ATT_MTU``
+   size. For example, sending notifications with a length greater than
+   20 bytes (``ATT_MTU``-3) bytes results in truncation of data on devices
+   that do not support larger MTU sizes.
+
+L2CAP Channels
+^^^^^^^^^^^^^^
+
+L2CAP is based around channels. Each endpoint of an L2CAP channel is
+referred to by a channel identifier (CID). See the Channel Identifiers section
+([Vol 3], Part A, Section 2.1) of the |CORESPEC| for more details on L2CAP Channel
+Identifiers. Channels can be divided into fixed and dynamic
+channels. For example, data exchanged over the GATT protocol uses
+channel 0x0004. A dynamically allocated CID is allocated to identify
+the logical link and the local endpoint. The local endpoint must be
+in the range from 0x0040 to 0xFFFF. This endpoint is used in the
+connection-orientated L2CAP channels described in the following
+section.
+
+L2CAP Connection-Oriented Channel (CoC) Example
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The Bluetooth low energy stack SDK provides APIs to create L2CAP CoC
+channels to transfer bidirectional data between two Bluetooth low
+energy devices supporting this feature. This feature is enabled by
+default in the protocol stack. :numref:`sample-connection-master-slave`
+shows a sample connection and data exchange process between master
+and slave device using a L2CAP connection-oriented channel in LE
+Credit Based Flow Control Mode.
+
+.. _sample-connection-master-slave:
+.. uml::
+  :caption: Sample Connection and Data Exchange Between a Master and Slave Device Using a L2CAP.
+  :align: center
+
+   @startuml
+    participant Master
+    participant Slave
+
+    rnote over Master
+    Resgister PSM
+    end note
+
+    rnote over Slave
+    Register PSM
+    end note
+
+    Master -> Slave : GAPCentralRole_EstablishLink()
+    Master <-> Slave : L2CAP_ConnectReq()
+    Master <-> Slave : L2CAP_FlowCtrlCredit()
+    Master <-> Slave : L2CAP_SendSDU()
+
+    rnote over Master
+    App task process data
+    end note
+    rnote over Slave
+    App task process data
+    end note
+
+    Master <-> Slave : L2CAP_DisconnectReq()
+    Master <-> Slave : L2CAP_DeregisterPsm()
+  @enduml
+
+
+Connection-Oriented Channel in LE Credit Based Flow Control Mode
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+Credit Based Flow Control mode is used by the L2CAP layer for Connection-Oriented Channels.
+
+For more information on these L2CAP APIs, refer to :ref:`ble_api_reference`.

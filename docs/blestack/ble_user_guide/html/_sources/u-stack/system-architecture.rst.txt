@@ -1,0 +1,98 @@
+.. _system-architecture:
+
+System Architecture
+===================
+
+The Micro BLE Stack consists of the Micro Link Layer (Micro LL or
+uLL), Micro Generic Access Profile (Micro GAP or uGAP), and
+a Micro Radio Interface (Micro RFI or uRFI).
+
+The uLL is mainly responsible for maintaining the device state and scheduling
+radio commands to perform advertising operations. The pre- and
+post-processing for each radio command execution are also done by the uLL. The
+uLL directly invokes the RF Driver and will utilize the MicroRFI to initialize
+the radio for the  Micro BLE Stack features being exercised.
+
+The uGAP sits between the uLL and the application and is mainly responsible for
+controlling the uLL to set up and run a profile role. The application can
+indirectly configure the uLL through uGAP and be notified of events from uLL
+through uGAP callbacks. uGAP needs TI-RTOS because the clock/timer service is
+used.
+
+The uRFI is primarily used to initialize the Radio and allow Radio
+commands to be sent. Depending on the features enabled the uRFI will define
+the proper parameter structures which the uLL will externally reference
+to utilize the RF driver.
+
+Micro BLE Stack is not designed to run as a separate TI-RTOS task, in order
+to save memory that would otherwise be required to maintain an additional task.
+Instead, it is integrated in the application, from TI-RTOS context’s point of
+view, so that all the application callbacks that are originated from RF and
+Clock SWIs in the Micro BLE Stack and might have lengthy operations such as
+command completion post processing and error handling are called in the
+application task context. How the Micro BLE Stack is integrated context-wise in
+the application is illustrated in :numref:`system_context_diagram` Note that
+only the subcomponents directly relevant to the Micro BLE Stack in the
+application and the RF driver are depicted.
+
+.. _system_context_diagram:
+.. figure:: /u-stack/resources/system_context_diagram.jpg
+    :align: center
+    :alt: alternate text
+
+    System Context Diagram
+
+For that integration a message queue associated with the events is managed by
+the Micro BLE Stack internally. The message and loop code will look like
+the following:
+
+.. code-block:: c
+    :name: callback-and-event-loop-code
+
+     void uBLEStack_eventProxy()
+     {
+       MicroEddystoneBeacon_enqueueMsg(UEB_EVT_MICROBLESTACK, 0);
+     }
+
+     static void MicroEddystoneBeacon_taskFxn(UArg a0, UArg a1)
+     {
+       // Initialize application
+       MicroEddystoneBeacon_init();
+
+       for (;;)
+       {
+         uint32 events;
+
+         // Waits for an event to be posted associated with the calling thread.
+         // Note that an event associated with a thread is posted when a
+         // message is queued to the message receive queue of the thread
+     #ifdef USE_ICALL
+         events = Event_pend(syncEvent, Event_Id_NONE, UEB_ALL_EVENTS,
+                            ICALL_TIMEOUT_FOREVER);
+     #else /* !USE_ICALL */
+         events = Event_pend(syncEvent, Event_Id_NONE, UEB_ALL_EVENTS,
+                            BIOS_WAIT_FOREVER);
+     #endif /* USE_ICALL */
+
+         if (events | UEB_QUEUE_EVT)
+         {
+           // If RTOS queue is not empty, process app message.
+           while (!Queue_empty(appMsgQueue))
+           {
+             uebEvt_t *pMsg = (uebEvt_t *) Util_dequeueMsg(appMsgQueue);
+             if (pMsg)
+             {
+               // Process message.
+               MicroEddystoneBeacon_processAppMsg(pMsg);
+
+               // Free the space from the message.
+     #ifdef USE_ICALL
+               ICall_free(pMsg);
+     #else /* USE_ICALL */
+               free(pMsg);
+     #endif /* USE_ICALL */
+             }
+           }
+         }
+       }
+     }

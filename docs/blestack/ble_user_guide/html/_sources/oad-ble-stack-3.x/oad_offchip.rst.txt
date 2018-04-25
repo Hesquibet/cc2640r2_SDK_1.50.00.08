@@ -1,0 +1,718 @@
+.. _sect-off-chip-oad:
+
+Off-Chip OAD
+------------
+
+This section describes the TI Off-chip OAD implementation.
+Off-chip OAD utilizes an external memory component (Flash) to store the new
+image during download and image selection/update.
+
+The following procedures are unique to Off-chip OAD:
+
+  - :ref:`sect-off-chip-limitations`
+  - :ref:`sect-off-chip-bim-memory-layout`
+  - :ref:`sect-bim-for-off-chip-oad`
+  - :ref:`sect-off-chip-demo`
+  - :ref:`sect-off-chip-add-to-proj`
+
+For information about the OAD profile and image header, please see
+:ref:`sec-oad-concepts`.
+
+For information about the TI OAD Sample Applications that showcase On-Chip OAD,
+see :ref:`oad_projects_overview`.
+
+.. _sec-library-off-chip-oad:
+
+Supported Stack Image Types
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Off-chip OAD supports the split image build configuration. Stack library image
+types can be upgraded through Off-chip OAD but that is outside the scope of this
+document.
+
+Off-chip OAD supports Application Only, Stack Only, or App + Stack Merged OADs.
+This means that the user can update both the application and stack during
+the same OAD session.
+
+    ..
+        .. _sec-split-image-off-chip-oad:
+
+        Split Image Off-Chip OAD
+        """"""""""""""""""""""""
+
+        Split Image Off-Chip OAD has following benefits that an application developer
+        would find useful:
+
+          * Flexibility of OAD Image & Transfer Time
+
+              The developer can choose what type of OAD Image makes the best sense
+              to perform OAD with. If decreased OAD transfer time, the developer can
+              choose to generate an App Only OAD Image. If the developer wants to upgrade
+              the application as well as the stack at the cost of additional transfer time,
+              an App+Stack OAD Image can be generated.
+
+          * |SDK| Examples for Reference
+
+              Contained within |SDK| the simple\_peripheral\_oad\_offchip project has an
+              implementation of App Only Off-Chip OAD for reference.
+              See :ref:`sect-off-chip-demo`.
+
+        However, Split Image Off-Chip OAD has the following drawbacks:
+
+          * Increased Flash Usage
+
+              The introduction of the page aligned image boundary can potentially remove
+              up to nearly a page of flash. Global linking of application and stack
+              is also disabled for Split Image Off-Chip OAD, further reducing flash
+              availability.
+
+        .. _sec-library-off-chip-oad:
+
+        Library Off-Chip OAD
+        """"""""""""""""""""
+
+        Library Off-Chip OAD, or StackLibrary Off-Chip OAD has the following benefits
+        that an application developer would find useful:
+
+          * Additional Flash for Application
+
+              The developer will be able to get all the benefits related to the Library
+              build configuration outlined in the :ref:`cc2640-cc2640r2-migration-guide`.
+
+        However, Library Off-Chip OAD has the following drawbacks:
+
+          * OAD Transfer Time and Image is Large
+
+              The Library Off-Chip configuration requires the developer to transfer
+              an image containing both the application and the stack, always. If SNV
+              is included, it's possible trim out excess padded data to the nearest page.
+              (This step would also remove the :term:`SNV` from the OAD image as well).
+              See the :term:`SNV` section within :ref:`sect-off-chip-add-to-proj`
+              for more information on preserving :term:`SNV`
+
+          * No Reference Example in |SDK|
+
+              Although there's no example to reference, the same procedure outlined in this guide
+              cane be used to generate a Library Off-chip OAD project from a Library Project:
+
+              #. Conversion of ``cc26xx_app_and_stack.icf`` to be OAD enabled
+
+                  Following the steps outlined in :ref:`sec-generating-oad-linker-file`
+                  convert the |SDK| provided ``cc26xx_app_and_stack.icf`` to be OAD
+                  enabled.
+
+                  All Library projects in |SDK| utilize ``cc26xx_app_and_stack.icf`` for
+                  the applications ``FlashROM_StackLibrary`` configuration.
+
+              #.  Adding Off-chip OAD Functionality to an existing Library configuration project
+
+                  With the Off-chip OAD enabled ``cc26xx_app_and_stack.icf`` from the previous step,
+                  follow the steps outlined in :ref:`sect-off-chip-add-to-proj` with any
+                  library enabled project in |SDK|. (for example, simple\_peripheral or
+                  simple\_central)
+
+.. _sect-off-chip-limitations:
+
+Constraints and Requirements for Off-chip OAD
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+In order to perform an Off-chip OAD the target system must contain have:
+
+  - An off-chip flash storage of at least 124kB and space for storing external
+    flash image header block is required for a full flash update. One flash page
+    (4Kb) is occupied by BIM. A serial connection (SPI) is used to communicate
+    with the off-chip flash component.
+  - Free GPIO pins to interface to the external memory (i.e. 4 wires for SPI)
+  - Enough free code space to reserve the entire contents of pg 31 (4kB) for
+    :term:`BIM`
+  - The OAD Image to be downloaded to the off-chip flash memory can be an
+    application image, a stack image, a combined application plus stack, an
+    image intended for the upgrade of a network processor, or any type of image
+    as far as it is supposed to eventually replace any part of the on-chip 120kB
+    area between the first page and the penultimate page. More than one image
+    can be downloaded before the system reset followed by BIM’s copying the
+    downloaded images from the off-chip flash memory to the on-chip flash memory.
+
+.. _sect-off-chip-bim-memory-layout:
+
+Off-chip OAD Memory layout
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The memory maps for both internal and external flash are detailed below.
+
+.. _fig-off-chip-oad-target-memory-partition:
+.. figure:: media/offchip_oad_mem_layout.png
+    :align: center
+
+    Off-Chip OAD Memory Layout
+
+Off-chip OAD applications use the both internal flash memory and an off-chip
+flash memory device. The internal flash memory contains the Interrupt Vectors
+(part of the User Application space),
+the Application where OAD Profile is embedded, the BLE stack image,
+the NV Storage Area, the :term:`BIM` and the :term:`CCFG`.
+
+The off-chip flash memory on the |LP| contains up to 3 OAD Images and up to 3
+metadata vectors corresponding to the OAD Images. The memory map layout of the
+external flash part is defined in :code:`ext_flash_layout.h`. The size of each
+OAD Image placeholder is 128kB. The memory partition of the application for
+Off-chip OAD is depicted in :numref:`fig-off-chip-oad-target-memory-partition`.
+Each OAD image, either App only or App+Stack, must support OAD Profile so that
+further OAD is enabled after it is downloaded to the off-chip memory, copied to
+the on-chip memory, and executed.
+
+The sectors in :numref:`fig-off-chip-oad-target-memory-partition` in red are
+designed to be permanently resident on the device. The BIM and CCFG are not
+intended to be upgraded via OAD. The OAD design was selected this way so that
+a failure during the OAD process does not yield a bricked device.
+
+External Flash Metadata
+"""""""""""""""""""""""
+The external flash metadata is an array of structures containing OAD
+downloadable information. Each structure will be stored at the start of
+a separate flash page to aid easy modification of an individual structure while
+retaining rest of the structures intact. The metadata header
+fields are identical to the image header with the following modifications:.
+
+ - OAD Image Identification Value is a different unique number than in the image
+   header. BIM uses this number to find the flash page containing external flash
+   metadata. This document will refer to this value as External Flash Image
+   Identification Value
+
+ - Instead of Boundary Information and Contiguous Image information, the header
+   length field is followed by the to the flash address where the actual OAD
+   image is stored on the external flash.
+   Note: The OAD client will calculate the storage address, by reading valid
+   external image metadata from the image metadata array, and finding the next
+   available storage area.
+
+After storing the image on the external flash, the
+OAD application will set the Image Copy status to 0xFE if it needs to be copied
+to the on-chip flash. To identify the latest image to be downloaded on the
+on-chip flash, BIM will read the ‘Image copy status’ field of the metadata array.
+There should be only one image with a value of 0xFE as BIM will copy the first
+image with metadata status to be copied. The BIM will modify the state to 0xFC
+when it is done copying image to on-chip flash.
+
+External Flash Metadata
+"""""""""""""""""""""""
+The external flash metadata pages and the image storage will grow in opposite
+directions. To make the implementation more generic, each external
+flash metadata will store the 8 byte External Flash Image Identification Value at
+the beginning of the external flash metadata. If a BLE factory image is stored at
+first flash pages then, metadata storage would start at flash page next to the
+end of the image. The external flash metadata’ storage location are not fixed
+and BIM can find their location by reading the first eight bytes of every
+external flash page. For efficient BIM implementation, the OAD external flash
+metadata will be stored from flash page 0 onwards.
+
+It would be application’s responsibility to find the available free storage for
+storing the newly downloaded image on the external flash.
+The image metadata area will contain the image header information for the stored
+OAD images with the modifications specified above.
+
+Factory programmed BLE and other images will have OAD download capability but
+will not be replaceable by over the air upgrade. The user application can choose
+to switch to factory image. The length and location of the user defined area is
+configurable and will have the image metadata header like any other image.
+
+The OAD target application gathers part of the external flash metadata
+information from image header and stores on the available metadata
+page except for the 'CRC Status' byte. The 'CRC Status' byte is updated at the
+last when all the image payload is stored on the flash and
+calculated CRC matched with the one embedded in the image header.
+
+The rest of the available space can be used in two possible ways:
+
+ - By allocating the dedicated memory area between OAD images types
+
+ - Using area to store multiple images of variable length.
+
+The second approach is more efficient in term of memory space usage. It
+requires the OAD client application to read the metadata information to figure
+out the length and location of available memory space. The number of co-existing
+OAD images will depend on individual image size and available area on the
+external flash.
+
+If there is no space left for the new image, OAD client/target
+application can re-use the oldest image storage area to replace with new one.
+This can result in fragmentation. This requires time stamping the images,
+which can be done by simply by incorporating the counter in external flash
+metadata header and incrementing it every time the image is
+downloaded.
+
+If application stores multiple images on the external flash, it can choose to
+enable a specific one of them by issuing the ‘enable’ command
+at OAD control point of by specifying the respective parameters
+(‘Image type’, 'image number', etc.) it wishes to activate. The active
+application can read the existing metadata to identify the correct image by
+reading the Image ID, and updating the status to 0xFE.
+
+The application can reuse the used metadata and actual image storage flash pages
+by erasing it to support downloading and storage of
+multiple images without having a dedicated storage area for each image type.
+
+.. _sect-bim-for-off-chip-oad:
+
+BIM for Off-chip OAD
+^^^^^^^^^^^^^^^^^^^^
+
+.. warning::
+    The :term:`BIM` will link the resident :term:`CCFG` sector. Furthermore,
+    this is a custom CCFG, with the :code:`IMAGE_VALID_CONF` field set to
+    0x1F000. This means that the boot ROM of the device will automatically
+    execute :term:`BIM` code instead of application code at startup. :term:`BIM`
+    will handle starting the application. OAD applications will not need to
+    include a :term:`CCFG`. This is a feature of |DEVICE|, and not compatible
+    with CC2650 devices.
+
+The OAD solution requires that permanently resident boot code, the :term:`BIM`,
+exists in order to provide a fail-safe mechanism for determining whether
+to run the existing application image or to copy a new image or images
+from off-chip flash to internal flash (code) memory. It is assumed that a valid
+image exists either in off-chip flash ready to be copied or already placed in
+on-chip flash at any given time. Given this assumption, the initial
+image placed in internal flash which does not exist in external flash
+will have invalid external image metadata, and so the :term:`BIM` will
+choose to jump to the existing image’s entry point.
+
+At startup, BIM finds the location of image metadata header flash page by
+iterating through each page of external flash starting from page 0, by reading
+the first 8 bytes to find the valid External Flash Image Identification value.
+After locating the image metadata information, it verifies the
+compatibility of BIM and metadata versions. Then it checks if the 'Image copy
+status' is set to be copied to the on-chip flash(0xFE) and has a valid
+CRC (CRC status=0xFE). If it is, copies the image to on-chip flash, as per the
+image copy procedure. If any other status value is found the image will
+not be verified or copied to internal flash.
+
+If it finds status 'CRC not calculated'(CRC Status = 0xFF), it calculates the
+CRC and updates the CRC status byte accordingly. If it finds the valid
+CRC status, it copies the image to on-chip flash starting at the address pointed
+by 'Start Address' in image header of the image payload. On
+finding the invalid CRC it moves on to read the next image metadata. If BIM
+reaches the end of metadata without finding a valid image, then it will try to
+find an on-chip image and execute it. BIM will put the device to low power
+mode if it fails to find a valid application image.
+
+An image is considered bad/invalid if it's calculated CRC32 does not match with
+the image's CRC bytes embedded in the image header.
+
+.. _functional_overview_of_offchip_bim:
+.. figure:: ./media/offchip_oad_bim.png
+    :align: center
+
+    Functional Overview of Off-chip BIM
+
+Finding the last flash page containing flash metadata
+"""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+In the normal condition when there are empty flash pages, the OAD client
+application will write the image metadata to the very first available flash
+page sequentially starting from flash page 0 as shown in the external flash
+layout. It is recommended that the application leaves least one empty
+flash page between metadata pages and stored image at any point in time. If the
+application encounters such a condition that no empty flash
+page is left in between the stored image pages and image metadata page, it should
+reuse the flash metadata pages by erasing one metadata page
+at a time and writing the new one. If all metadata pages are used
+or there would only one be empty page between the metadata pages and the image
+payload then the older metadata pages should be erased and reused.
+
+Forced Image Copy
+"""""""""""""""""
+
+BIM will implement this optional feature based on the hardware capability, to
+forcibly copy a designated image from external flash to on-chip
+flash(using button combinations). It would help recover the target in case an
+invalid image has been copied on onchip flash which left the device
+unresponsive. This feature is disabled by default as this
+can pose a security risk.
+
+.. _sect-off-chip-demo:
+
+Out of the Box Demo (Off-Chip App Only OAD)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The |SDK| includes demo projects that are setup to use OAD in advance. These
+build configurations may be flashed onto the device out of the box. All out of
+the box demos use BTool as the :term:`OAD Downloader`. Please see
+:ref:`sec-oad-topology` for more information. Ensure that BTool is setup
+correctly first. See :ref:`sec-oad-btool-setup` for steps on how to do so.
+
+.. warning::
+
+    There are two BTool version shipped with the |SDK|. For these steps, use
+    the BTool version located at :code:`tools/blestack/btool`.
+
+The steps listed below assume that
+a |LP| is being used. Additional steps may be required for custom hardware.
+
+Furthermore, the steps in this section are referring to the
+:term:`OAD Target` device, the images referenced below should be flashed onto
+that device.
+
+
+Using CCS
+"""""""""
+
+.. warning::
+
+    If both the :term:`OAD Target` and the :term:`OAD Downloader` are connected
+    at the same time, CCS may load the image to the wrong device. This is because
+    CCS will select the first XDS110 it finds. This behavior can be avoided by
+    unplugging the :term:`OAD Target` device, or by setting a multi emulator
+    debug session using CCS.
+    See the wiki `Debug with Multiple Emulators <http://processors.wiki.ti.com/index.php/Multi-Emulator_Debug_with_CCS>`_
+    for more information.
+
+The steps below will describe how to run the out of the box demo for OAD on CCS.
+
+#. Import the bim_oad_offchip, stack, and app projects into the workspace. This
+   can be done by importing the :code:`simple_peripheral_cc2640r2lp_oad_offchip_app`
+   project. It will automatically pull in the other projects it needs.
+
+    .. _fig-offchip-oad-ccs-workspace:
+    .. figure:: media/offchip_oad_workspace_ccs.png
+        :align: center
+
+        Offchip OAD CCS Workspace
+
+#. Build and load the :term:`BIM` project onto the |LP|
+#. Build and load the :code:`simple_peripheral_cc2640r2lp_stack_oad_offchip`
+   project onto the |LP|
+   
+    - Note that a special post build step will run and generate a new image
+      file called :code:`simple_peripheral_cc2640r2lp_oad_offchip_stack_FlashROM_oad.bin`. 
+      This is the file can be provided to BTool and sent over the air.
+
+#. Build the :code:`simple_peripheral_cc2640r2lp_app_oad_offchip` project
+
+    - Note that a special post build step will run and generate three new image
+      files called :code:`simple_peripheral_cc2640r2lp_oad_offchip_app_FlashROM_oad.bin`,
+      :code:`simple_peripheral_cc2640r2lp_oad_offchip_app_FlashROM_oad_merged.bin`,
+      and :code:`simple_peripheral_cc2640r2lp_oad_offchip_app_FlashROM_oad_merged.hex`.
+      The bin files can provided to BTool and sent over the air.
+
+#. Open SmartRF Flash Programmer 2 to flash the application bin file. Make sure
+   the "Pages in image" option is selected in the Erase settings. Make sure to use
+   either the :code:`simple_peripheral_cc2640r2lp_oad_offchip_app_FlashROM_oad.bin`
+   file (app only) or the :code:`simple_peripheral_cc2640r2lp_oad_offchip_app_FlashROM_oad_merged.bin`
+   file (app + stack merged). By default, these images are located at :code:`\workspace_v7\<PROJECT_NAME>\FlashOnly`.
+   The start address should be given as 0x00000000.  
+      
+#. You should now be able to observe that the device is advertising using BTool.
+
+    - See :ref:`sec-oad-btool-verify-adv` for steps.
+    
+   If your device is not advertising, make sure it is disconnected from 
+   SmartRF Flash Programmer 2.
+
+#. Make your application level changes that are intended for OAD update.
+   Follow steps in :ref:`sec-oad-adv-change` for a trivial way to change app to
+   verify the OAD. Build the application with changes.
+
+#. Use BTool to OAD your modified application file following the steps detailed in
+   :ref:`sec-oad-btool-procedure`
+
+    - Make sure you are using the :code:`simple_peripheral_cc2640r2lp_oad_offchip_app_FlashROM_oad.bin`
+      or the :code:`simple_peripheral_cc2640r2lp_oad_offchip_app_FlashROM_oad_merged.bin` 
+      file with BTool as this file contains the image header.
+
+.. attention::
+    After a successful OAD, you may need to re-start your |DEVICE| in order for
+    it to advertise again. This is because the XDS110 driver may be still
+    attached from previous debug sessions.
+
+
+Using IAR
+"""""""""
+
+The steps below will describe how to run the out of the box demo for OAD on IAR.
+
+#. Open the :code:`simple_peripheral_oad_offchip` workspace from the
+   simple_peripheral_oad_offchip folder within the BLE-stack examples. This will
+   import the BIM, stack, and application projects.
+
+#. Build and load the :code:`cc2640r2lp_bim_offchip` project onto the |LP|
+
+#. Build and load the :code:`cc2640r2lp_stack` project onto the |LP|.
+
+#. Build the :code:`cc2640r2lp_app` project.
+
+#. Open SmartRF Flash Programmer 2 to flash the application bin file. Make sure
+   the "Pages in image" option is selected in the Erase settings. Make sure to use
+   either the :code:`sp_oad_offchip_cc2640r2lp_app_FlashROM_oad.bin`
+   file (app only image)or the 
+   :code:`sp_oad_offchip_cc2640r2lp_app_FlashROM_oad_merged.bin`
+   file (app + stack merged image). By default, these images are located at 
+   :code:`\examples\rtos\CC2640R2_LAUNCHXL\blestack\simple_peripheral_oad_offchip\tirtos\iar\app\FlashROM\Exe`
+   The start address should be given as 0x00000000.
+
+#. You should now be able to observe that the device is advertising via BTool.
+
+    - See :ref:`sec-oad-btool-verify-adv` for steps.
+    
+    If your device is not advertising, make sure it is disconnected from 
+    SmartRF Flash Programmer 2.
+
+#. Make your application level changes that are intended for OAD update.
+   Follow steps in :ref:`sec-oad-adv-change` for a trivial way to change app to
+   verify the OAD. Build the application with changes.
+
+#. Use BTool to OAD your modified application file following the steps detailed in
+   :ref:`sec-oad-btool-procedure`
+
+    - Make sure you are using the :code:`simple_peripheral_cc2640r2lp_oad_offchip_app_FlashROM_oad.bin`
+      or the :code:`simple_peripheral_cc2640r2lp_oad_offchip_app_FlashROM_oad_merged.bin` 
+      file with BTool as this file contains the image header. 
+
+.. attention::
+    After a successful OAD, you may need to re-start your |DEVICE| in order for
+    it to advertise again. This is because the XDS110 driver may be still
+    attached from previous debug sessions.
+
+..
+    .. _sect-off-chip-add-to-proj:
+
+    Add Off-chip OAD to an existing project
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    .. note::
+        All the following changes get applied to the application side.
+        Stack side should remain untouched for all OAD configurations.
+        For more information see :ref:`sec-stack-side-changes-oad`.
+
+    #. Use :code:`bim_oad_offchip` project, as is. No change is required.
+
+    #. Add OAD profile code to the application project:
+
+        - The required files can be found in
+          :code:`\source\ti\blestack\profiles\oad\cc26xx`
+
+          - :code:`crc32.c`
+          - :code:`crc32.h`
+          - :code:`oad_image_header_app.c`
+          - :code:`oad_image_header.h`
+          - :code:`oad.c`
+          - :code:`oad.h`
+
+    #. Add External Flash support files to application project
+
+        - The off-chip OAD projects rely on the ExtFlash module from
+          the middleware folder :code:`\source\ti\mw\extflash`. Add these files to
+          the application project.
+
+          - :code:`ExtFlash.c`
+          - :code:`ExtFlash.h`
+
+        - Add the following files from :code:`\source\ti\blestack\common\cc26xx\flash_interface\external`
+
+          - :code:`flash_interface_ext_rtos.c`
+          - :code:`flash_interface.h`
+
+    #. Add the necessary include paths to the project:
+
+        - The OAD profile code can be found at
+          :code:`\source\ti\blestack\profiles\oad\cc26xx`
+
+    #. Use the proper off-chip OAD linker file and configure it properly.
+
+        - IAR projects should use:
+            :code:`cc26xx_app_oad.icf` for App Only, App + Stack
+
+        - CCS projects should use:
+            :code:`cc26xx_app_oad.cmd` for App Only, App + Stack, Library
+
+        For information on how to modify an existing linker command file for
+        OAD see :ref:`sec-generating-oad-linker-file`.
+
+    #. Add the following preprocessor defines to your application:
+
+        - HAL_IMAGE_E
+
+    #. Add necessary code to your high level application file to include OAD.
+
+        - Add the following defines to your application file (i.e. simple_peripheral)
+
+          .. code-block:: c
+
+            #include "oad_target.h"
+            #include "oad.h"
+            // ...
+            #define OAD_PACKET_SIZE                       ((OAD_BLOCK_SIZE) + 2)
+            // ...
+            #define SBP_QUEUE_PING_EVT                    Event_Id_02
+
+            #define SBP_ALL_EVENTS                        (SBP_ICALL_EVT        | \
+                                                           SBP_QUEUE_EVT        | \
+                                                           SBP_PERIODIC_EVT     | \
+                                                           SBP_CONN_EVT_END_EVT | \
+                                                           SBP_QUEUE_PING_EVT)
+
+        - Add the following TI-RTOS Queue structures in your application:
+
+          .. code-block:: c
+
+            // Event data from OAD profile.
+            static Queue_Struct oadQ;
+            static Queue_Handle hOadQ;
+
+        - Add a callback to your application
+
+          .. code-block:: c
+
+            void SimpleBLEPeripheral_processOadWriteCB(uint8_t event, uint16_t connHandle,
+                                                       uint8_t *pData);\
+            // ...
+            static oadTargetCBs_t simpleBLEPeripheral_oadCBs =
+            {
+              SimpleBLEPeripheral_processOadWriteCB // Write Callback.
+            };
+
+        - Register the OAD service, initialize Queues.
+
+          .. code-block:: c
+
+            VOID OAD_addService();                 // OAD Profile
+            OAD_register((oadTargetCBs_t *)&simpleBLEPeripheral_oadCBs);
+            hOadQ = Util_constructQueue(&oadQ);
+
+        - Add the OAD Queue processing code to your application
+
+          .. code-block:: c
+
+            if (events & SBP_QUEUE_PING_EVT)
+            {
+              while (!Queue_empty(hOadQ))
+              {
+                oadTargetWrite_t *oadWriteEvt = Queue_get(hOadQ);
+
+                // Identify new image.
+                if (oadWriteEvt->event == OAD_WRITE_IDENTIFY_REQ)
+                {
+                  OAD_imgIdentifyWrite(oadWriteEvt->connHandle, oadWriteEvt->pData);
+                }
+                // Write a next block request.
+                else if (oadWriteEvt->event == OAD_WRITE_BLOCK_REQ)
+                {
+                  OAD_imgBlockWrite(oadWriteEvt->connHandle, oadWriteEvt->pData);
+                }
+
+                // Free buffer.
+                ICall_free(oadWriteEvt);
+              }
+            }
+
+        - Add an application layer OAD callback
+
+          .. code-block:: c
+
+            void SimpleBLEPeripheral_processOadWriteCB(uint8_t event, uint16_t connHandle,
+                                                       uint8_t *pData)
+            {
+              oadTargetWrite_t *oadWriteEvt = ICall_malloc( sizeof(oadTargetWrite_t) + \
+                                                         sizeof(uint8_t) * OAD_PACKET_SIZE);
+
+              if ( oadWriteEvt != NULL )
+              {
+                oadWriteEvt->event = event;
+                oadWriteEvt->connHandle = connHandle;
+
+                oadWriteEvt->pData = (uint8_t *)(&oadWriteEvt->pData + 1);
+                memcpy(oadWriteEvt->pData, pData, OAD_PACKET_SIZE);
+
+                Queue_put(hOadQ, (Queue_Elem *)oadWriteEvt);
+
+                // Post the application's event.  For OAD, no event flag is used.
+                Event_post(syncEvent, SBP_QUEUE_PING_EVT);
+              }
+            }
+
+    #. Add the necessary arguments to your configuro script to relocate your app's
+       reset vector address.
+
+       - Add :code:`OAD_IMG_E=1` to your --cfgArgs.
+         See :ref:`sec-oad-reset-vect-change` for more information.
+
+    #. [Optional] On custom hardware, you may need to change the pinout of the
+       external flash part. This can be done in two steps:
+
+        - First, change the application layer code.
+
+          - The application interfaces to the external SPI flash via
+            :code:`ExtFlash.c`
+
+          - By default, the ExtFlash module uses :code:`Board_SPI0`, this can
+            be changed to `Board_SPI0`
+
+            .. code-block:: c
+              :caption: ExtFlash.c interface to SPI
+
+              /* Attempt to open SPI. */
+              spiHandle = SPI_open(Board_SPI0, &spiParams);
+
+          - The pins used by the :code:`Board_SPIX` group can be set in the board
+            file, i.e. CC2640R2_LAUNCHXL.c
+
+            .. code-block:: c
+              :caption: CC2640R2_LAUNCHXL.c SPI1 Pins
+
+              .mosiPin            = CC2640R2_LAUNCHXL_SPI1_MOSI,
+              .misoPin            = CC2640R2_LAUNCHXL_SPI1_MISO,
+              .clkPin             = CC2640R2_LAUNCHXL_SPI1_CLK,
+              .csnPin             = CC2640R2_LAUNCHXL_SPI1_CSN
+
+          - The defines above can be set in CC2640R2_LAUNCHXL.h
+
+        - Second, change the pins that the :term:`BIM` uses to access the SPI flash.
+          This can be done in the :code:`bim_oad_offchip` project. Since BIM is a bare
+          metal program (no-RTOS). It doesn't use the TI-RTOS SPI driver like the
+          application does. BIM SPI pins are set in
+          :code:`\examples\rtos\CC2640R2_LAUNCHXL\blestack\bim_oad_offchip\src\bsp.h`
+
+              .. code-block:: c
+                :caption: Off-chip OAD BIM interface to SPI
+
+                // Board external flash defines
+                #define BSP_IOID_FLASH_CS       IOID_20
+                #define BSP_SPI_MOSI            IOID_9
+                #define BSP_SPI_MISO            IOID_8
+                #define BSP_SPI_CLK_FLASH       IOID_10
+
+    #. [Optional] For App+Stack or Library OAD Images, trim :term:`SNV`/Unused Space
+
+        Library and App+Stack can generate large OAD images especially if the
+        end application utilizes :term:`SNV`. (App + Stack will always be large)
+
+        :term:`SNV` can be preserved on the OAD Target device by applying the '-r'
+        command to the OAD Image Tool. The '-r' command will limit the output
+        image to within the range specified. Page alignment must still be
+        preserved, so some 0xFFs may be kept in the image.
+
+        For example, to preserve page 31, or a 1 page :term:`SNV`:
+        the ``-r :1e000`` command can be appended to the post build step:
+
+          .. code-block:: c
+            :caption: Modified IAR post-build step to remove :term:`SNV` from an
+                      App+Stack OAD image
+
+            "$TOOLS_BLE$\oad\oad_image_tool.exe" "$PROJ_DIR$\FlashROM_OAD_Offchip\Exe\simple_peripheral_cc2640r2lp_app.hex" "$PROJ_DIR$\..\stack\FlashROM\Exe\simple_peripheral_cc2640r2lp_stack.hex" -t offchip -i app --imgVer 0 -ob "$PROJ_DIR$\FlashROM_OAD_Offchip\Exe\simple_peripheral_cc2640r2lp_app_oad.bin" -m 0x0000 -r :0x1e000
+
+        The result will be am OAD image file that will not overwrite a target's
+        31st page (if used for :term:`SNV`, adjust as necessary for 2 :term:`SNV` pages)
+
+        Lastly, for Library builds, there will be 0xFFs between the end of
+        the Application + Stack merged section and the :term:`SNV`. If :term:`SNV`
+        is being preserved then it is safe to also trim the OAD image to the nearest
+        page.
+
+        For example, if a Library OAD image is produced, only takes up the
+        first 15 pages and the :term:`SNV` does not need to preserved, then append
+        ``-r :0x0F000`` to the post-build step:
+
+          .. code-block:: c
+            :caption: Modified IAR post-build step to remove :term:`SNV` and 0xFFs
+                      from a Library OAD image.
+
+            "$TOOLS_BLE$\oad\oad_image_tool.exe" "$PROJ_DIR$\FlashROM_StackLibrary_OAD_Offchip\Exe\hid_adv_remote_cc2640r2rc_app.hex" -t offchip -i app --imgVer 0 -ob "$PROJ_DIR$\FlashROM_StackLibrary_OAD_Offchip\Exe\hid_adv_remote_cc2640r2rc_app.bin" -m 0x0000 -r :0xF000

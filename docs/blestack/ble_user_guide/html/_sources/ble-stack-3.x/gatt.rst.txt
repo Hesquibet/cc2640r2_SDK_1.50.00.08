@@ -1,0 +1,1470 @@
+.. _gatt:
+
+Generic Attribute Profile (GATT)
+--------------------------------
+
+Just as the GAP layer handles most connection-related functionality,
+the GATT layer of the Bluetooth low energy protocol stack is used by
+the application for data communication between two connected
+devices. Data is passed and stored in the form of characteristics
+which are stored in memory on the Bluetooth low energy device. From
+a GATT standpoint, when two devices are connected they are each in
+one of two roles.
+
+-  The **GATT server**
+      the device containing the characteristic
+      database that is being read or written by a GATT client.
+
+-  The **GATT client**
+      the device that is reading or writing data
+      from or to the GATT server.
+
+:numref:`gatt_client_server` shows this relationship in a sample Bluetooth low
+energy connection where the peripheral device (that is, a |LP|)
+is the GATT server and the central device (that is, a smart phone) is the GATT
+client.
+
+.. _gatt_client_server:
+
+.. figure:: resources/gatt_client_server.png
+    :align: center
+
+    GATT Client and Server Interaction Overview
+
+The GATT roles of client and server are independent from the GAP
+roles of peripheral and central. A peripheral can be either a GATT
+client or a GATT server, and a central can be either a GATT client
+or a GATT server. A peripheral can act as both a GATT client and a
+GATT server. For a hands-on review of GATT services and
+characteristics, see |SLA|.
+
+GATT Characteristics and Attributes
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+While characteristics and attributes are sometimes used
+interchangeably when referring to Bluetooth low energy, consider
+characteristics as groups of information called attributes.
+Attributes are the information actually transferred between devices.
+Characteristics organize and use attributes as data values,
+properties, and configuration information. A typical characteristic
+is composed of the following attributes.
+
+-  Characteristic Value
+      data value of the characteristic
+
+-  Characteristic Declaration
+      descriptor storing the properties,
+      location, and type of the characteristic value
+
+-  Client Characteristic Configuration
+      a configuration that allows the GATT server to
+      configure the characteristic to be notified (send message
+      asynchronously) or indicated (send message asynchronously
+      with acknowledgment)
+
+-  Characteristic User Description
+      an ASCII string describing the characteristic
+
+These attributes are stored in the GATT server in an attribute
+table. In addition to the value, the following properties are
+associated with each attribute.
+
+-  Handle
+      the index of the attribute in the table (Every attribute has
+      a unique handle.)
+
+-  Type
+      indicates what the attribute data represents (referred to as a
+      UUID [universal unique identifier]. Some of these are Bluetooth
+      SIG-defined and some are custom.)
+
+-  Permissions
+      enforces if and how a GATT client device can access the
+      value of an attribute
+
+GATT Client Abstraction
+^^^^^^^^^^^^^^^^^^^^^^^
+
+Like the GAP layer, the GATT layer is also abstracted. This
+abstraction depends on whether the device is acting as a GATT client
+or a GATT server. As defined by the |CORESPEC|, the
+GATT layer is an abstraction of the ATT layer.
+
+GATT clients do not have attribute tables or profiles as they are
+gathering, not serving, information. Most of the interfacing with
+the GATT layer occurs directly from the application.
+
+.. figure:: resources/gatt_client_abstract.jpg
+    :align: center
+
+    Visualization of GATT Client Abstraction.
+
+.. _gatt_server_abstraction:
+
+GATT Server Abstraction
+^^^^^^^^^^^^^^^^^^^^^^^
+
+As a GATT server, most of the GATT functionality is handled by the
+individual GATT profiles. These profiles use the
+GATTServApp ( see :ref:`ble_api_reference`, GATTServApp Section) (a
+configurable module that stores and manages the attribute table).
+:numref:`gatt_server_abstract` shows this abstraction hierarchy.
+
+.. _gatt_server_abstract:
+
+.. figure:: resources/gatt_server_abstract.jpg
+    :align: center
+
+    Visualization of GATT Server abstraction.
+
+The design process involves creating GATT profiles that configure
+the GATTServApp module and use its API to interface with the GATT
+layer. In this case of a GATT server, direct calls to GATT layer
+functions are unnecessary. The application then interfaces with the
+profiles.
+
+
+.. _gatt_services_and_profile:
+
+GATT Services and Profile
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+A GATT service is a collection of characteristics. For example, the
+heart rate service contains a heart rate measurement characteristic
+and a body location characteristic, among others. Multiple services
+can be grouped together to form a profile. Many profiles only
+implement one service so the two terms are sometimes used
+interchangeably.
+
+.. note::
+    TI intends this section as an introduction to the attribute
+    table by using simple\_peripheral as an example. For information on how this
+    profile is implemented within the stack, see :ref:`gatt_server_abstraction`.
+
+There are four GATT profiles defined in the simple\_peripheral example
+application project.
+
+*  :ref:`gap_gatt_service`
+      This service contains device and access information
+      such as the device name, vendor identification, and product
+      identification.
+
+      The following characteristics are defined for this service:
+
+      -  Device name
+      -  Appearance
+      -  Peripheral preferred connection parameters
+
+      .. note::
+         See the Gap Service and Characteristics for GATT Server section
+         ([Vol. 3], Part C, Section 12) of the
+         |CORESPEC| for more information on these characteristics.
+
+*  Generic Attribute Service
+
+      This service contains information about
+      the GATT server, is a part of the Bluetooth low energy protocol
+      stack, and is required for every GATT server device as per the
+      |CORESPEC|.
+
+*  Device Info Service
+
+      This service exposes information about the
+      device such as the hardware, software version, firmware version,
+      regulatory information, compliance information, and manufacturer
+      name. The Device Info Service is part of the Bluetooth low energy
+      protocol stack and configured by the application.
+
+*  simple\_gatt\_profile Service
+
+      This service is a sample profile for
+      testing and for demonstration. The full source code is provided
+      in the simple\_gatt\_profile.c and simple\_gatt\_profile.h files.
+
+:numref:`sbp_attr_table` shows the attribute table in the
+simple\_peripheral project.
+
+.. _sbp_attr_table:
+
+.. figure:: resources/sbp_attr_table.jpg
+    :align: center
+
+    Simple GATT Profile Characteristic Table taken with BTool. Red indicates
+    a Profile declaration, Yellow indicates character declaration, and White
+    indicates Attributes related to a particular characteristic declaration.
+
+The simple\_gatt\_profile contains the following characteristics:
+
+*  SIMPLEPROFILE\_CHAR1
+      1-byte value that can be read or written from a GATT client device
+
+*  SIMPLEPROFILE\_CHAR2
+      1-byte value that can be read from a GATT client device but cannot be
+      written
+
+*  SIMPLEPROFILE\_CHAR3
+      1-byte value that can be written from a GATT client device but cannot be
+      read
+
+*  SIMPLEPROFILE\_CHAR4
+      1-byte value that cannot be directly read or written from a GATT client
+      device (This value is notifiable: This value can be configured for
+      notifications to be sent to a GATT client device.)
+
+*  SIMPLEPROFILE\_CHAR5
+      5-byte value that can be read (but not written) from a GATT client device
+
+The following is a line-by-line description of the simple profile attribute
+table, referenced by the following handle.
+
+*  0x001C is the **simple\_gatt\_profile service declaration**.
+      This declaration has a UUID of 0x2800 (Bluetooth-defined
+      ``GATT_PRIMARY_SERVICE_UUID``). The value of this declaration is
+      the UUID of the simple\_gatt\_profile (custom-defined).
+
+*  0x001D is the **SimpleProfileChar1 characteristic declaration**.
+      This declaration can be thought of as a pointer to the
+      SimpleProfileChar1 value. The declaration has a UUID of 0x2803
+      (Bluetooth-defined ``GATT_CHARACTER_UUID``). The value of the
+      declaration characteristic, as well as all other characteristic
+      declarations, is a 5-byte value explained here (from MSB to LSB):
+
+      *  Byte 0 is the properties of the SimpleProfileChar1 as defined in the
+         |CORESPEC| (The following are some of the relevant
+         properties.)
+
+         -  0x02: permits reads of the characteristic value
+
+         -  0x04: permits writes of the characteristic value (without a response)
+
+         -  0x08: permits writes of the characteristic value (with a response)
+
+         -  0x10: permits of notifications of the characteristic value (without
+            acknowledgment)
+
+         -  0x20: permits notifications of the characteristic value (with
+            acknowledgment)
+
+      The value of 0x0A means the characteristic is readable (0x02) and
+      writeable (0x08).
+
+      *  Bytes 1-2: the byte-reversed handle where the SimpleProfileChar1's
+         value is (handle 0x001E)
+
+      *  Bytes 3-4: the UUID of the SimpleProfileChar1 value (custom-defined
+         0xFFF1)
+
+*  0x001E is the SimpleProfileChar1 Characteristic Value
+      This value has a UUID of
+      0xFFF1 (custom-defined). This value is the actual payload data of
+      the characteristic. As indicated by its characteristic
+      declaration (handle 0x01D), this value is readable and
+      writable.
+
+*  0x001F is the SimpleProfileChar1 Characteristic User Description
+      This description has a UUID of 0x2901 (Bluetooth-defined). The value of
+      this description is a user-readable string describing the characteristic.
+
+*  0x0020 - 0x002C
+      are attributes that follow the same structure as the simpleProfileChar1
+      described previously with regard to the remaining four characteristics.
+      The only different attribute, handle 0x0028, is described as follows.
+
+      **0x0028 is the SimpleProfileChar4 Client Characteristic Configuration**.
+      This configuration has a UUID of 0x2902 (Bluetooth-defined). By
+      writing to this attribute, a GATT server can configure the
+      SimpleProfileChar4 for notifications (writing 0x0001) or
+      indications (writing 0x0002). Writing 0x0000 to this attribute
+      disable notifications and indications.
+
+GATT Security
+^^^^^^^^^^^^^
+
+As described in :ref:`gatt_server_abstraction`, the GATT server may define
+permissions independently for each characteristic. The server may
+allow some characteristics to be accessed by any client, while
+limiting access to other characteristics to only authenticated or
+authorized clients. These permissions are usually defined as part of
+a higher level profile specification. For custom profiles, the user
+may select the permissions as they see fit. For more information
+about the GATT Security, refer to the Security Considerations section
+([Vol 3], Part G, Section 8) of the |CORESPEC|.
+
+Authentication
+""""""""""""""
+
+Characteristics that require authentication cannot be accessed until
+the client has gone through an authenticated pairing method. This
+verification is performed within the stack, with no processing
+required by the application. The only requirement is for the
+characteristic to be registered properly with the GATT server.
+
+For example, characteristic 5 of the simple\_gatt\_profile allows on
+authenticated reads.
+
+.. code-block:: c
+
+   // Characteristic Value 5
+   {
+      { ATT_BT_UUID_SIZE, simpleProfilechar5UUID },
+      GATT_PERMIT_AUTHEN_READ,
+      0,
+      simpleProfileChar5
+   },
+
+When an un-authenticated client attempts to read this value, the GATT
+server automatically rejects it with ``ERROR_INSUFFICIENT_AUTHEN (0x41)``,
+without invoking the simpleProfile\_ReadAttrCB(). See an example of this
+in :ref:`gatt_sniffer_capture`.
+
+.. _gatt_sniffer_capture:
+.. figure:: resources/image134.jpeg
+    :align: center
+
+    Sniffer Capture Example
+
+After the client has successfully authenticated, read/write requests
+are forwarded to the profiles read/write callback. See the code
+below for a simple\_gatt\_profile example:
+
+.. code-block:: c
+
+    case SIMPLEPROFILE_CHAR5_UUID:
+    *pLen = SIMPLEPROFILE_CHAR5_LEN;
+    VOID memcpy( pValue, pAttr->pValue, SIMPLEPROFILE_CHAR5_LEN );
+    break;
+
+
+Authorization
+"""""""""""""
+
+Authorization is a layer of security provided in addition to what
+BLE already implements. Because applications are required to define
+their own requirements for authorization, the stack forwards
+read/write requests on these characteristics to the application
+layer of the profile.
+
+For the profile to register for authorization information from the
+GATT server, it must define an authorization callback with the
+stack. The simple\_gatt\_profile does not do this by default, but
+below is an example of how it could be modified to do this.
+
+1. Register profile level authorization callback.
+
+.. code-block:: c
+
+   CONST gattServiceCBs_t simpleProfileCBs =
+   {
+      simpleProfile_ReadAttrCB,      // Read callback function pointer
+      simpleProfile_WriteAttrCB,     // Write callback function pointer
+      simpleProfile_authorizationCB  // Authorization callback function pointer
+   };
+
+2. Implement authorization callback code.
+
+.. code-block:: c
+
+   static bStatus_t simpleProfile_authorizationCB( uint16 connHandle, gattAttribute_t *pAttr, uint8 opcode )
+   {
+      //This is just an example implementation, normal use cases would require
+      //more complex logic to determine that the device is authorized
+
+      if(clientIsAuthorized)
+         return SUCCESS;
+      else
+         return ATT_ERR_INSUFFICIENT_AUTHOR;
+   }
+
+The authorization callback executes in the stack context, thus
+intensive processing should not be performed in this function. The
+implementation is left up to the developer; the above callback
+should be treated as a shell. The return value should be either
+``SUCCESS`` if the client is authorized to access the characteristic, or
+``ATT_ERR_INSUFFICIENT_AUTHOR`` if they have not yet obtained proper
+authorization. Authorization requires the connection to be authenticated
+beforehand, or ``ATT_ERR_INSUFFICIENT_AUTHEN`` will be sent as an error
+response.
+
+If a characteristic that requires authorization is registered with
+the GATT server, but no application level authorization callback is
+defined, the stack will return ``ATT_ERR_UNLIKELY``. Because this
+error can be cryptic, TI recommends using an authorization callback.
+
+.. _using_the_gatt_layer_directly:
+
+Using the GATT Layer Directly
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This section describes how to use the GATT layer in an application.
+The functionality of the GATT layer is implemented in the library
+but header functions can be found in the gatt.h file.
+The :ref:`ble_api_reference` within the ATT/GATT section has
+the complete API for the GATT layer. The |CORESPEC|
+provides more information on the functionality of these commands. These
+functions are used primarily for GATT client applications. A few server-specific
+functions are described in the API. Most of the GATT functions
+returns ATT events to the application, review :ref:`ble_api_reference` for details.
+
+The general procedure to use the GATT layer when functioning as a GATT client
+(in the simple\_central project) is as follows:
+
+.. _cd_gatt_att_write_rsp_event:
+.. uml::
+    :caption: Context Diagram of Application using GATT layer.
+    :align: center
+
+    @startuml
+    participant "Application \n(simple_central.c)" as App
+    participant ICALL
+    participant "BLE Stack"
+
+
+    App->ICALL: VOID GATT_InitClient(); \nInitialize Client
+    App->ICALL: GATT_RegisterForInd(selfEntity); \nRegister to receive incoming \nATT Indications or Notification
+
+    App->ICALL: GATT_WriteCharValue(connHandle,\n&req, selfEntity);
+
+    activate ICALL
+
+      rnote over "ICALL"
+      Translate into ATT function
+      and send it to the BLE stack
+      end note
+
+    ICALL->"BLE Stack" : ATT_WriteReq
+    Deactivate "ICALL"
+
+    group Invalid Write Req
+      "BLE Stack"-> ICALL : return(INVALIDPARAMETER)
+      ICALL-> App : return(INVALIDPARAMETER)
+    end
+
+    group Valid Write Req
+      "BLE Stack"-->]: Send ATT_WRITE_REQ
+
+      "BLE Stack"-->ICALL : return(SUCCESS)
+      ICALL-->App : return(SUCCESS)
+      ...
+      ... Wait for the server to respond ...
+      ...
+      "BLE Stack"<--]: Receive ATT_WRITE_RSP\nor ATT_ERROR_RSP
+
+    "BLE Stack"->ICALL: Parse the msg
+
+    activate ICALL
+
+      rnote over "ICALL"
+      Send GATT_MSG_EVENT
+      to the application layer
+      end note
+
+    ICALL->App : Notify application
+    deactivate "ICALL"
+
+    App->App: SimpleBLECentral_processStackMsg
+
+    rnote over "App"
+    GATT_MSG_EVENT
+    end note
+
+    App->App: SimpleBLECentral_processGATTMsg
+
+    rnote over "App"
+    ATT_WRITE_RSP
+    ATT_ERROR_RSP
+    end note
+    end
+
+    @enduml
+
+.. note::
+    Even though the event sent to the application is an ATT
+    event, it is sent as a GATT protocol stack message
+    (``GATT_MSG_EVENT``).
+
+.. note::
+    In addition to receiving responses to its own commands, a GATT client may
+    also receive asynchronous data from the GATT server as indications or
+    notifications. Use (``GATT_RegisterForInd(selfEntity)``) to receive these
+    ATT notifications and indications. These notifications and indications are
+    also sent as ATT events (``ATT_HANDLE_VALUE_NOTI`` &
+    ``ATT_HANDLE_VALUE_IND``) in GATT messages to the application. These events
+    must be handled as described in :ref:`gatt_services_and_profile`.
+
+.. _gap_gatt_service:
+
+GAP GATT Service (GGS)
+----------------------
+
+The GAP GATT Service (GGS) is required for low-energy devices that
+implement the **central** or **peripheral** role. Multirole devices that
+implement either of these roles **must** also contain the GGS. The
+purpose of the GGS is to aide in the device discovery and connection
+initiation process.
+
+.. note::
+    For more information about the GGS, refer to the GAP Service and
+    and Characteristics for GATT Server section ([Vol 3], Part C, Section 12)
+    of the |CORESPEC|.
+
+Using the GGS
+^^^^^^^^^^^^^
+
+This section describes what the application must do to configure,
+start, and use the GAP Gatt Service. The GGS is implemented as part
+of the Bluetooth Low Energy library code, the API can be found in
+GATTServApp. ATT/GATT describes the full API,
+including commands, configurable parameters, events, and callbacks.
+
+To review the above mentioned APIs, please see their respective sections in
+:ref:`ble_api_reference`.
+
+1. Include header
+
+.. code-block:: c
+
+   #include "gapgattserver.h"
+
+2. Initialize GGS parameters.
+
+.. code-block:: c
+   :linenos:
+
+   // GAP GATT Attributes
+   static uint8_t attDeviceName[GAP_DEVICE_NAME_LEN] = "Simple BLE Peripheral";
+
+   GGS_SetParameter(GGS_DEVICE_NAME_ATT, GAP_DEVICE_NAME_LEN, attDeviceName);
+
+3. Initialize application callbacks with GGS (optional). This notifies the
+   application when any of the characteristics in the GGS have changed.
+
+.. code-block:: c
+
+   GGS_RegisterAppCBs(&appGGSCBs);
+
+4. Add the GGS to the GATT server.
+
+.. code-block:: c
+
+   bStatus_t GGS_AddService(GATT_ALL_SERVICES);
+
+Generic Attribute Profile Service (GATT Service)
+------------------------------------------------
+
+The Generic Attribute Profile (GATT) Service provides information
+about the GATT services registered with a device.
+
+.. note::
+      For more information on the GATT Service, refer to the Defined Generic
+      Attribute Profile Service section ([Vol 3], Part G, Section 7) of the
+      |CORESPEC|.
+
+The service changed characteristic is used to inform bonded devices
+that services have changed on the server upon reconnection. Service
+changed updates are sent in the form of GATT indications, and the
+service changed characteristic is not writeable or readable. In the
+TI Bluetooth low energy stack, the service changed characteristic is
+implemented as part of the gattservapp, which is part of library
+code.
+
+Per the |CORESPEC|, it is safe for server
+devices whose characteristic tables do not change over their
+lifetime to exclude the service changed characteristic. Support for
+indications from this characteristic must be supported on GATT
+client devices.
+
+Using the GATT Service
+^^^^^^^^^^^^^^^^^^^^^^
+
+This section describes what the user must do to enable the GATT
+service changed feature in the Bluetooth low energy stack. Once the
+service changed feature is enabled, the GAPBondMgr will handle
+sending the service changed indication to clients who have enabled
+it using the CCCD.
+
+1. Use a supported build config for the stack; only stack libraries with
+   v4.1 features and L2CAP connection-oriented channels will support
+   the service changed characteristic.
+
+   Enable this feature with the project's build\_config.opt file, by
+   uncommenting the following line:
+
+   .. code-block:: c
+
+      -DBLE_V41_FEATURES=L2CAP_COC_CFG+V41_CTRL_CFG
+
+2. From this point, the GAPBondMgr handles sending an indication to
+   connected clients when the service has changed and the CCCD is
+   enabled. If the feature is enabled, the peripheral role invokes
+   the necessary APIs to send the indication through the GAPBondMgr.
+
+3. On the client side, service changed indications can be registered
+   using the same method as registering for other indications.
+
+.. _gattservapp_module:
+
+GATTServApp Module
+------------------
+
+The GATT Server Application (GATTServApp) stores and manages the application-wide attribute
+table. Various profiles use this module to add their characteristics
+to the attribute table. The Bluetooth low energy stack uses this
+module to respond to discovery requests from a GATT client. For
+example, a GATT client may send a **Discover all Primary
+Characteristics** message. The Bluetooth low energy stack on the GATT
+server side receives this message and uses the GATTServApp to find and
+send over-the-air all of the primary characteristics stored in the
+attribute table. This type of functionality is beyond the scope of
+this document and is implemented in the library code. The
+GATTServApp functions accessible from the profiles are defined in
+''gattservapp\_util.c'' and the API described in :ref:`ble_api_reference`
+(GATTServApp section).
+These functions include finding specific attributes and reading or modifying
+client characteristic configurations. See :numref:`gatt_att_table_init` for an
+example of how GATTServApp functions in an application.
+
+
+.. _gatt_att_table_init:
+.. uml::
+    :caption: Attribute Table Initialization Diagram.
+    :align: center
+
+    @startuml
+
+    participant App.c
+    participant "Profile A"
+    participant "Profile B"
+    participant GATTServApp
+    participant "GATT Server"
+
+    rnote over "Profile A", "Profile B"
+      Service A and Service B
+      Table initialization
+    end note
+
+    App.c -> "GATT Server" : GGS_AddService()
+
+    note right
+      GAP Service
+    end note
+
+    group Add GATTServApp to attribute table
+        App.c -> GATTServApp : GATTServApp_AddService()
+        GATTServApp -> "GATT Server" : RegisterService
+
+        note right
+          GAP Service
+          GATT Service
+        end note
+    end
+
+    App.c -> "Profile A" : ProfileA_AddService()
+    "Profile A" -> GATTServApp : RegisterService(A)
+
+
+    GATTServApp -> "GATT Server" : RegisterService
+
+    note right
+      GAP Service
+      GATT Service
+      Service A
+    end note
+
+    deactivate GATTServApp
+    deactivate "Profile A"
+
+
+    == Profile B ==
+
+
+    App.c -> "Profile B" : ProfileB_AddService()
+    "Profile B" -> GATTServApp : RegisterService(B)
+    GATTServApp -> "GATT Server" : RegisterService
+
+
+    note right
+      GAP Service
+      GATT Service
+      Service A
+      Service B
+    end note
+    @enduml
+
+
+Building up the Attribute Table
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Upon power-on or reset, the application builds the GATT table by
+using the GATTServApp to add services. Each service consists of a
+list of attributes with UUIDs, values, permissions, and read and
+write call-backs. As :numref:`gatt_att_table_init` shows, all of this
+information is passed through the GATTServApp to GATT and stored in the stack.
+
+Attribute table initialization must occur in the application
+initialization function, that is, simple\_peripheral\_init().
+
+.. code-block:: c
+
+   // Initialize GATT attributes
+   GGS_AddService(GATT_ALL_SERVICES);         // GAP
+   GATTServApp_AddService(GATT_ALL_SERVICES); // GATT attributes
+
+Implementing Profiles in Attributes Table
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This section describes the general architecture for implementing profiles and
+provides specific functional examples in relation to the
+simple\_gatt\_profile in the simple\_peripheral project. See
+:ref:`gatt_services_and_profile` for an overview of the simple\_gatt\_profile.
+
+Attribute Table Definition
+""""""""""""""""""""""""""
+
+Each service or group of GATT attributes must define a fixed size
+attribute table that gets passed into GATT. This table in
+simple\_gatt\_profile.c is defined as the following.
+
+.. code-block:: c
+
+   static gattAttribute_t simpleProfileAttrTbl[SERVAPP_NUM_ATTR_SUPPORTED]
+
+Each attribute in this table is of the following type.
+
+.. code-block:: c
+
+   typedef struct attAttribute_t
+   {
+      gattAttrType_t type; //!< Attribute type (2 or 16 octet UUIDs)
+      uint8 permissions; //!< Attribute permissions
+
+      uint16 handle; //!< Attribute handle - assigned internally by attribute server
+
+      uint8* const pValue; //!< Attribute value - encoding of the octet array is defined in
+                           //!< the applicable profile. The maximum length of an attribute
+                           //!< value shall be 512 octets.
+   } gattAttribute_t;
+
+When utilizing gattAttribute_t, the various fields have specific meanings.
+
+* gattAttrType_t type
+      type is the UUID associated with the attribute being placed into the table. gattAttrType_t itself is defined as:
+
+      .. code-block:: c
+
+         typedef struct
+         {
+            uint8 len;         //!< Length of UUID (2 or 16)
+            const uint8 *uuid; //!<Pointer to UUID
+         } gattAttrType_t;
+
+      Where length can be either ``ATT_BT_UUID_SIZE`` (2 bytes), or
+      ``ATT_UUID_SIZE`` (16 bytes). The \*uuid is a pointer to a number either
+      reserved by Bluetooth SIG (defined in gatt\_uuid.c) or a custom UUID
+      defined in the profile.
+
+* uint8 permissions
+      enforces how and if a GATT client device can access the
+      value of the attribute. Possible permissions are defined in
+      gatt.h as follows:
+
+      +----------------------------------------+------------+------------------------------------------+
+      | #define GATT\_PERMIT\_READ             |    0x01    |     //!< Attribute is Readable           |
+      +----------------------------------------+------------+------------------------------------------+
+      | #define GATT\_PERMIT\_WRITE            |    0x02    |     //!< Attribute is Writable           |
+      +----------------------------------------+------------+------------------------------------------+
+      | #define GATT\_PERMIT\_AUTHEN\_READ     |    0x04    |     //!< Read requires Authentication    |
+      +----------------------------------------+------------+------------------------------------------+
+      | #define GATT\_PERMIT\_AUTHEN\_WRITE    |    0x08    |     //!< Write requires Authentication   |
+      +----------------------------------------+------------+------------------------------------------+
+      | #define GATT\_PERMIT\_AUTHOR\_READ     |    0x10    |     //!< Read requires Authorization     |
+      +----------------------------------------+------------+------------------------------------------+
+      | #define GATT\_PERMIT\_AUTHOR\_WRITE    |    0x20    |     //!< Write requires Authorization    |
+      +----------------------------------------+------------+------------------------------------------+
+      | #define GATT\_PERMIT\_ENCRYPT\_READ    |    0x40    |     //!< Read requires Encryption        |
+      +----------------------------------------+------------+------------------------------------------+
+      | #define GATT\_PERMIT\_ENCRYPT\_WRITE   |    0x80    |     //!< Write requires Encryption       |
+      +----------------------------------------+------------+------------------------------------------+
+
+      :ref:`allocating_memory_for_gatt_procedures` further describes authentication, authorization, and encryption.
+
+* uint16 handle
+      handle is a placeholder in the table where GATTServApp assigns a
+      handle. This placeholder is not customizable. Handles are
+      assigned sequentially.
+
+* uint8* const pValue
+      pValue is a pointer to the attribute value. The size is unable to
+      change after initialization. The maximum size is 512 octets.
+
+Service Declaration
+"""""""""""""""""""
+
+Consider the following simple\_gatt\_profile service declaration
+attribute:
+
+.. code-block:: c
+
+   // Simple Profile Service
+   {
+      { ATT_BT_UUID_SIZE, primaryServiceUUID },    // type
+      GATT_PERMIT_READ,                            // permissions
+      0,                                           // handle
+      (uint8 *)&simpleProfileService               // pValue
+   }
+
+The type is set to the Bluetooth SIG-defined primary service UUID
+(0x2800). A GATT client is permitted to read this service with the permission
+is set to ``GATT_PERMIT_READ``. The pValue is a pointer to the UUID of
+the service, custom-defined as 0xFFF0. SimpleProfileService itself is defined to
+reference the profile's UUID.
+
+.. code-block:: c
+
+   // Simple Profile Service attribute
+   static CONST gattAttrType_t simpleProfileService =
+      {
+         ATT_BT_UUID_SIZE,
+         simpleProfileServUUID
+      };
+
+Characteristic Declaration
+""""""""""""""""""""""""""
+
+Consider the following simple\_gatt\_profile
+simpleProfileCharacteristic1 declaration.
+
+.. code-block:: c
+
+   // Characteristic 1 Declaration
+   {
+      { ATT_BT_UUID_SIZE, characterUUID },
+      GATT_PERMIT_READ,
+      0,
+      &simpleProfileChar1Props
+   },
+
+The type is set to the Bluetooth SIG-defined characteristic UUID
+(0x2803). This makes simpleProfileCharacteristic1 read only to the GATT client
+with the permissions set to ``GATT_PERMIT_READ``.
+
+For functional purposes, the only information required to be passed
+to the GATTServApp in pValue is a pointer to the properties of the
+characteristic value. The GATTServApp adds the UUID and the handle
+of the value. These properties are defined to allow this particular
+characteristic in this service to be read and written to.
+
+.. code-block:: c
+
+   // Simple Profile Characteristic 1 Properties
+   static uint8 simpleProfileChar1Props = GATT_PROP_READ | GATT_PROP_WRITE;
+
+.. note::
+   An important distinction exists between these properties
+   and the GATT permissions of the characteristic value. These
+   properties are visible to the GATT client stating the properties of
+   the characteristic value. The GATT permissions of the characteristic
+   value affect its functionality in the protocol stack. These
+   properties must match that of the GATT permissions of the
+   characteristic value.
+
+Characteristic Value
+""""""""""""""""""""
+
+Consider the simple\_gatt\_profile simpleProfileCharacteristic1
+value.
+
+.. code-block:: c
+
+   // Characteristic Value 1
+   {
+   { ATT_BT_UUID_SIZE, simpleProfilechar1UUID },
+     GATT_PERMIT_READ | GATT_PERMIT_WRITE,
+     0,
+     &simpleProfileChar1
+   },
+
+The type is set to the custom-defined simpleProfilechar1 UUID
+(0xFFF1). The properties of the characteristic value in the attribute
+table must match the properties from the characteristic value
+declaration. The pValue is a pointer to the location of the actual
+value, statically defined in the profile as follows.
+
+.. code-block:: c
+
+  // Characteristic 1 Value
+  static uint8 simpleProfileChar1 = 0;
+
+.. _client_characteristic_configuration:
+
+Client Characteristic Configuration
+"""""""""""""""""""""""""""""""""""
+
+Consider the simple\_gatt\_profile simpleProfileCharacteristic4
+configuration.
+
+.. code-block:: c
+
+  // Characteristic 4 configuration
+  {
+  { ATT_BT_UUID_SIZE, clientCharCfgUuID },
+    GATT_PERMIT_READ | GATT_PERMIT_WRITE,
+    0,
+    (uint8 *)&simpleProfileChar4Config
+   },
+
+The type is set to the Bluetooth SIG-defined client characteristic
+configuration UUID (0x2902) GATT clients must read and write to this
+attribute so the GATT permissions are set to readable and writable.
+The pValue is a pointer to the location of the client characteristic
+configuration array, defined in the profile as follows.
+
+.. _sgp_characteristic_4_pvalue:
+.. code-block:: c
+  :caption: simple\_gatt\_profile characteristic 4 pValue pointer define.
+  :linenos:
+
+  static gattCharCfg_t *simpleProfileChar4Config;
+
+.. note::
+   Client characteristic configuration is represented as an
+   array because this value must be cached for each connection. The
+   catching of the client characteristic configuration is described in
+   more detail in :ref:`gatt_add_service_function`.
+
+.. _gatt_add_service_function:
+
+Add Service Function
+^^^^^^^^^^^^^^^^^^^^
+
+As described in :ref:`gattservapp_module`, when an application starts up it
+requires adding the GATT services it supports. Each profile needs a
+global AddService function that can be called from the application.
+Some of these services are defined in the protocol stack, such as
+GAP GATT Service and GATT Service. User-defined services must expose
+their own AddService function that the application can call for
+profile initialization. Using SimpleProfile\_AddService() as an
+example, these functions should do as follows.
+
+-  Allocate space for the client characteristic configuration (CCC)
+   arrays. As an example, a pointer to one of these arrays was
+   initialized in the profile as described in
+   ref:`client_characteristic_configuration`.
+
+   In the AddService function, the supported connections is declared and memory
+   is allocated for each array. Only one CCC is defined in the
+   imple\_gatt\_profile but there can be multiple CCCs.
+
+.. code-block:: c
+
+    // Allocate Client Characteristic Configuration table
+    simpleProfileChar4Config = (gattCharCfg_t *)ICall_malloc(sizeof(gattCharCfg_t) * linkDBNumConns );
+
+    if ( simpleProfileChar4Config == NULL )
+    {
+    return ( bleMemAllocError );
+    }
+
+-  Initialize the CCC arrays. CCC values are persistent between power
+   downs and between bonded device connections. For each CCC in the
+   profile, the :ble_api:`GATTServApp_InitCharCfg` function must be called.
+   This function tries to initialize the CCCs with information from
+   a previously bonded connection and set the initial values to
+   default values if not found.
+
+.. code-block:: c
+   :linenos:
+
+   GATTServApp_InitCharCfg( INVALID_CONHANDLE, simpleProfileChar4Config );
+
+-  Register the profile with the GATTServApp. This function passes the
+   attribute table of the profile to the GATTServApp so that the
+   attributes of the profile are added to the application-wide
+   attribute table managed by the protocol stack and handles are
+   assigned for each attribute. This also passes pointers to the
+   callbacks of the profile to the stack to initiate communication
+   between the GATTServApp and the profile.
+
+.. code-block:: c
+
+  // Register GATT attribute list and CBs with GATT Server App
+  status = GATTServApp_RegisterService( simpleProfileAttrTbl,
+                                        GATT_NUM_ATTRS( simpleProfileAttrTbl ),
+                                        GATT_MAX_ENCRYPT_KEY_SIZE,
+                                        &simpleProfileCBs );
+
+Register Application Callback Function
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Profiles can relay messages to the application using callbacks. In
+the simple\_peripheral project, the simple\_gatt\_profile calls an
+application callback whenever the GATT client writes a
+characteristic value. For these application callbacks to be used,
+the profile must define a Register Application Callback function
+that the application uses to set up callbacks during its
+initialization. The register application callback function for the
+simple\_gatt\_profile is the following:
+
+.. _sgp_client_configuration_register_app_cb:
+.. code-block:: c
+   :caption: Register application callbacks.
+   :linenos:
+
+   bStatus_t SimpleProfile_RegisterAppCBs( simpleProfileCBs_t *appCallbacks )
+   {
+      if ( appCallbacks )
+      {
+         simpleProfile_AppCBs = appCallbacks;
+         return ( SUCCESS );
+      }
+
+      else
+      {
+         return ( bleAlreadyInRequestedMode );
+      }
+   }
+
+Where the callback typedef is defined as the following.
+
+.. code-block:: c
+
+   typedef struct
+   {
+      simpleProfileChange_t pfnSimpleProfileChange; // Called when characteristic value changes
+   } simpleProfileCBs_t;
+
+The application must then define a callback of this type and pass it
+to the simple\_gatt\_profile with the
+SimpleProfile\_RegisterAppCBs() function. This occurs in
+simple\_peripheral.c as follows.
+
+.. code-block:: c
+
+   //Simple GATT Profile Callbacks
+   #ifndef FEATURE_OAD_ONCHIP
+   static simpleProfileCBs_t SimpleBLEPeripheral_simpleProfileCBs =
+   {
+      SimpleBLEPeripheral_charValueChangeCB // Characteristic value change callback
+   };
+   #endif //!FEATURE_OAD_ONCHIP
+
+   //...
+
+   //Register callback with SimpleGATTprofile
+   SimpleProfile_RegisterAppCBs(&SimpleBLEPeripheral_simpleProfileCBs);
+
+See :ref:`read_and_write_callback_functions` for further information on how this
+callback is used.
+
+.. _read_and_write_callback_functions:
+
+Read and Write Callback Functions
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The profile must define Read and Write callback functions which the
+protocol stack calls when one of the attributes of the profile are
+written to or read from. The callbacks must be registered with
+GATTServApp as mentioned in :ref:`gatt_add_service_function`. These callbacks
+perform the characteristic read or write and other processing (possibly calling
+an application callback) as defined by the specific profile.
+
+Read Request from Client
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+When a read request from a GATT Client is received for a given
+attribute, the protocol stack checks the permissions of the
+attribute and, if the attribute is readable, calls the read call-back
+profile. The profile copies in the value, performs any
+profile-specific processing, and notifies the application if
+desired. This procedure is illustrated in :numref:`gatt_read_cb_flow_fig` for a read
+of simpleprofileChar1 in the simple\_gatt\_profile.
+
+
+.. _gatt_read_cb_flow_fig:
+.. uml::
+  :caption: Read Request illustration
+  :align: center
+
+   @startuml
+    participant "Service CB \n(simple_gatt_profile.c)" as App
+    participant GATTServApp
+    participant "BLE Stack"  as BLE
+
+    BLE <--]: Receive Attribute Read Request
+
+    BLE -> GATTServApp : GATT_MSG_EVENT
+
+    Activate "GATTServApp"
+     GATTServApp -> GATTServApp : Process Event
+     GATTServApp -> GATTServApp : Process Msg "ATT Read Req"
+
+    group status != SUCCESS
+      GATTServApp -> BLE : ATT_ErrorRsp
+      Deactivate "GATTServApp"
+      BLE -->] : Send ATT_ERROR_RSP
+    end
+
+
+    group status == SUCCESS
+      GATTServApp -> App : Find Attribute CB
+      App -> App : simpleProfile_ReadAttrCB
+      rnote over "App"
+        Copy the values
+      end note
+      App -> GATTServApp
+      GATTServApp -> BLE : ATT_ReadRsp
+      BLE -->] : ATT_READ_RSP
+    end
+
+   @enduml
+
+
+
+The processing is in the context of the protocol stack. If any
+intensive profile-related processing that must be done in the case
+of an attribute read, this should be split up and done in the
+context of the Application task. See the :ref:`write_request_from_client` for
+more information.
+
+.. _write_request_from_client:
+
+Write Request from Client
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+When a write request from a GATT client is received for a given
+attribute, the protocol stack checks the permissions of the
+attribute and, if the attribute is write-permitted, calls the write callback of
+the profile. The profile stores the value to be written, performs
+any profile-specific processing, and notifies the application if
+desired. :numref:`gatt_write_cb_flow_fig` shows this procedure for a write
+of simpleprofileChar3 in the simple\_gatt\_profile.
+
+.. _gatt_write_cb_flow_fig:
+.. uml::
+  :caption: Write Request illustration
+  :align: center
+
+   @startuml
+    participant "User Define Post Processing" as User
+    participant "Service CB \n(simple_gatt_profile.c)" as App
+    participant GATTServApp
+    participant "BLE Stack"  as BLE
+
+    BLE <--]: Receive Attribute Write Request
+
+    BLE -> GATTServApp : GATT_MSG_EVENT
+
+    Activate "GATTServApp"
+     GATTServApp -> GATTServApp : Process Event
+     GATTServApp -> GATTServApp : Process Msg "ATT Write Req"
+
+    group status != SUCCESS
+      GATTServApp -> BLE : ATT_ErrorRsp
+      Deactivate "GATTServApp"
+      BLE -->] : Send ATT_ERROR_RSP
+    end
+
+
+    group status == SUCCESS
+      GATTServApp -> App : Find Attribute CB
+      App -> App : simpleProfile_WriteAttrCB
+      rnote over "App"
+                         update the value
+                                     &
+        find user defined application callback
+      end note
+
+      GATTServApp -> BLE : ATT_WriteRsp
+      BLE -->] : ATT_Write_RSP
+
+      App -> User : SimpleBLEPeripheral_\ncharValueChangeCB()
+
+      User-> User : SimpleBLEPeripheral_\nenqueueMsg()
+      rnote over "User"
+        SBP_CHAR_CHANGE_EVT
+      end note
+
+      User-> User : SimpleBLEPeripheral_\nprocessCharValueChangeEvt()
+
+      rnote over "User"
+        Get the new value and
+        do whatever you want with it
+      end note
+
+    end
+
+
+
+   @enduml
+
+
+.. important::
+    Minimizing the processing in protocol stack context is
+    important. In this example, additional processing beyond storing the
+    attribute write value in the profile occurs in the application context by enqueuing a message in the
+    queue of the application.
+
+.. _gatt_get_and_set_functions:
+
+Get and Set Functions
+^^^^^^^^^^^^^^^^^^^^^
+
+The profile containing the characteristics shall provide set and get
+abstraction functions for the application to read and write a
+characteristic of the profile. The set parameter function also
+includes logic to check for and implement notifications and
+indications if the relevant characteristic has notify or indicate
+properties. :numref:`gatt_get_set_pp` and the following code show this example
+for setting simpleProfileChacteristic4 in the simple\_gatt\_profile.
+
+.. _gatt_get_set_pp:
+.. uml::
+  :caption: Set Profile Parameter
+  :align: center
+
+   @startuml
+    participant App
+    participant "Profile \n(simple_gatt_profile.c)" as profile
+    participant GATTServApp
+    participant "BLE Stack"  as BLE
+
+    App -> profile : SetParameter(param, len, value)
+
+    group Invalid operation
+      profile -> App : return(bleInvalidRange|\nINVALIDPARAMETER)
+    end note
+
+
+    group Valid operation (correct len etc)
+
+    rnote over "profile"
+      Copy and update the values
+    end note
+    profile -> GATTServApp : GATTServApp_ProcessCharCfg()
+
+    rnote over "GATTServApp"
+      Check if the notification has
+      already been enabled
+    end note
+
+    group Notification is not enabled
+      GATTServApp -> profile : return(SUCCESS)
+      profile -> App : return(SUCCESS)
+    end
+
+
+    group Notification is enabled
+      GATTServApp -> BLE : GATT_Notification()
+      BLE -->]: Send notification to client
+      BLE->GATTServApp : return(status)
+      GATTServApp -> profile : return(status)
+      profile -> App : return(SUCCESS)
+    end
+
+    end note
+
+
+   @enduml
+
+
+For example, the application initializes
+simpleProfileCharacteristic4 to 0 in simple\_peripheral.c through
+the following.
+
+.. code-block:: c
+
+    uint8_t charValue4 = 0;
+    SimpleProfile_SetParameter(SIMPLEPROFILE_CHAR4, sizeof(uint8_t), &charValue4);
+
+The code for this function is displayed in the following code
+snippet (from simple\_gatt\_profile.c). Besides setting the value of
+the static simpleProfileChar4, this function also calls
+:ble_api:`GATTServApp_ProcessCharCfg` because it has notify properties. This
+action forces GATTServApp to check if notifications have been
+enabled by the GATT Client. If so, the GATTServApp sends a
+notification of this attribute to the GATT Client.
+
+.. _simpleprofilecharacteristic4_setparameter:
+.. code-block:: c
+  :caption: Set characteristic 4 in SimpleProfile\_SetParameter().
+  :linenos:
+
+  bStatus_t SimpleProfile_SetParameter( uint8 param, uint8 len, void *value )
+  {
+  bStatus_t ret = SUCCESS switch ( param )
+  {
+  case SIMPLEPROFILE_CHAR4:
+    if ( len == sizeof ( uint8 ) )
+    {
+      simpleProfileChar4 = *((uint8*)value);
+
+      // See if Notification has been enabled
+      GATTServApp_ProcessCharCfg( simpleProfileChar4Config, &simpleProfileChar4, FALSE,
+                                  simpleProfileAttrTbl, GATT_NUM_ATTRS( simpleProfileAttrTbl ),
+                                  INVALID_TASK_ID, simpleProfile_ReadAttrCB );
+    }
+
+Queued Writes
+^^^^^^^^^^^^^
+
+Prepare Write commands allows a GATT server to send more payload
+data by queuing up multiple write requests. The default queue size
+is 5. With a default MTU of 23 and payload of 18 bytes, up to 90
+bytes of payload can be sent. For more information on queued writes, refer to
+the Queued Writes section ([Vol 3], Part F, Section 3.4.6) of the |CORESPEC|.
+
+Adjust the Prepare Write queue with :ble_api:`GATTServApp_SetParameter` with
+parameter ``GATT_PARAM_NUM_PREPARE_WRITES``. There is no specified
+limit, but it is bounded by the available HEAPMGR space.
+
+.. _allocating_memory_for_gatt_procedures:
+
+Allocating Memory for GATT Procedures
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+To support fragmentation, GATT and ATT payload structures must be
+dynamically allocated for commands sent wirelessly. For example, a
+buffer must be allocated when sending a GATT\_Notification. The
+stack does this allocation if the preferred method to send a GATT
+notification or indication is used: calling a SetParameter function
+of the profile (that is, SimpleProfile\_SetParameter()) and calling
+:ble_api:`GATTServApp_ProcessCharCfg` as described in
+:ref:`gatt_get_and_set_functions`.
+
+If using :ble_api:`GATT_Notification` or :ble_api:`GATT_Indication` directly,
+memory management must be added as follows.
+
+1. Try to allocate memory for the notification or indication payload
+   using :ble_api:`GATT_bm_alloc`.
+
+2. Send notification or indication using :ble_api:`GATT_Notification` or
+   :ble_api:`GATT_Indication` if the allocation succeeds.
+
+.. note::
+   If the return value of the notification or indication is
+   ``SUCCESS (0x00)``, the stack freed the memory.
+
+3. Use :ble_api:`GATT_bm_free` to free the memory if the return value is
+   something other than ``SUCCESS`` (for example, ``blePending``).
+
+   The following is an example of this in the ``GATTServApp_SendNotiInd``
+   function in the gattservapp\_util.c file.
+
+.. _gattservapp_mem_alloc:
+.. code-block:: c
+   :caption: gattServApp\_SendNotiInd().
+   :linenos:
+
+   noti.pValue = (uint8 *)GATT_bm_alloc( connHandle, ATT_HANDLE_VALUE_NOTI, GATT_MAX_MTU, &len );
+
+   if ( noti.pValue != NULL )
+   {
+      status = (*pfnReadAttrCB)( connHandle, pAttr, noti.pValue, &noti.len, 0, len, GATT_LOCAL_READ );
+
+      if ( status == SUCCESS )
+      {
+         noti.handle = pAttr->handle;
+
+         if ( cccValue & GATT_CLIENT_CFG_NOTIFY )
+         {
+            status = GATT_Notification( connHandle, &noti, authenticated );
+         }
+
+         else // GATT_CLIENT_CFG_INDICATE
+         {
+            status = GATT_Indication( connHandle, (attHandleValueInd_t *)&noti, authenticated, taskId );
+         }
+      }
+
+      if ( status != SUCCESS )
+      {
+         GATT_bm_free( (gattMsg_t *)&noti, ATT_HANDLE_VALUE_NOTI );
+      }
+   }
+
+   else
+   {
+      status = bleNoResources;
+   }
+
+For other GATT procedures, take similar steps as noted in
+:ref:`ble_api_reference` (specifically ATT/GATT section).
+
+.. _registering_to_receive_additional_gatt_events_in_the_application:
+
+Registering to Receive Additional GATT Events in the Application
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Using :ble_api:`GATT_RegisterForMsgs`, receiving additional
+GATT messages to handle certain corner cases is possible. This
+possibility can be seen in simple\_peripheral\_processGATTMsg(). The
+following three cases are currently handled.
+
+-  GATT server in the stack was unable to send an ATT response (due to
+   lack of available HCI buffers): Attempt to transmit on the next
+   connection interval. Additionally, a status of ``bleTimeout`` is sent
+   if the ATT transaction is not completed within 30 seconds, as
+   specified in the |CORESPEC|.
+
+.. _gattservapp_unble_to_send:
+.. code-block:: c
+  :caption: See if GATT server was unable to transmit an ATT response.
+  :linenos:
+
+  // See if GATT server was unable to transmit an ATT response
+  if (pMsg->hdr.status == blePending)
+  {
+  //No HCI buffer was available. Let's try to retransmit the response
+  //on the next connection event.
+
+  if (HCI_EXT_ConnEventNoticeCmd(pMsg->connHandle, selfEntity, SBP_CONN_EVT_END_EVT) == SUCCESS)
+  {
+  //First free any pending response
+   SimpleBLEPeripheral_freeAttRsp(FAILURE);
+
+   //Hold on to the response message for retransmission
+   pAttRsp = pMsg;
+
+   //Don't free the response message yet
+   return (FALSE);
+   }
+   }
+
+-  An ATT flow control violation: The application is notified that the
+   connected device has violated the ATT flow control specification,
+   such as sending a Read Request before an Indication Confirm is
+   sent.
+
+   No more ATT requests or indications can be sent wirelessly during the
+   connection. The application may want to terminate the connection due to this
+   violation. As an example in simple\_peripheral, the LCD is updated.
+
+.. _gattservapp_flow_ctrl_violated:
+.. code-block:: c
+    :caption: ATT flow control violation.
+    :linenos:
+
+    else if (pMsg->method == ATT_FLOW_CTRL_VIOLATED_EVENT)
+    {
+      //ATT request-response or indication-confirmation flow control is
+      //violated. All subsequent ATT requests or indications will be dropped.
+      //The app is informed in case it wants to drop the connection.
+
+      //Display the opcode of the message that caused the violation.
+      DISPLAY_WRITE_STRING_VALUE("FC Violated: %d", pMsg->msg.flowCtrlEvt.opcode, LCD_PAGE5);
+    }
+
+-  An ATT MTU size is updated: The application is notified in case this
+   affects its processing in any way. See :ref:`maximum-transmission-unit-mtu`
+   for more information on the MTU. As an example in simple\_peripheral, the LCD
+   is updated.
+
+.. _gattservapp_mtu_updated:
+.. code-block:: c
+    :caption: MTU updated.
+    :linenos:
+
+    else if (pMsg->method == ATT_MTU_UPDATED_EVENT)
+    {
+        // MTU size updated
+        DISPLAY_WRITE_STRING_VALUE("MTU Size: $d", pMsg->msg.mtuEvt.MTU, LCD_PAGE5);
+    }

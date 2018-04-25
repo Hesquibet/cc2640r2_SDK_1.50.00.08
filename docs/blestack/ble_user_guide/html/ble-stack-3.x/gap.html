@@ -1,0 +1,558 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Generic Access Profile (GAP) &mdash; BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation" href="../index.html"/>
+        <link rel="up" title="Developing a Bluetooth Low Energy Application" href="index.html"/>
+        <link rel="next" title="GAPRole Task" href="gaprole.html"/>
+        <link rel="prev" title="The Application" href="the-application.html"/> 
+    <script language="JavaScript">
+        var tiPageName;
+        tiPageName = "sug ble-stack-3.x gap";
+
+        if (location.protocol == "file:"){
+            var ci_analytics_poc_load = true;
+        }
+    </script> 
+
+    <script src="http://www.ti.com/assets/js/headerfooter/analytics.js" type="text/javascript" charset="utf-8">     
+
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../ble-stack-3.x-guide/index.html" class="icon icon-home"> BLE-Stack User's Guide for Bluetooth 4.2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.01.01.00
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../cc2640/disclaimer.html">Disclaimer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/get-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cc2640/platform.html">The CC2640R2F SDK Platform</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Developing a Bluetooth Low Energy Application</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="the-application.html">The Application</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#the-stack">The Stack</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Generic Access Profile (GAP)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#connection-parameters">Connection Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#effective-connection-interval">Effective Connection Interval</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#connection-parameter-considerations">Connection Parameter Considerations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#connection-parameter-limitations-with-multiple-connections">Connection Parameter Limitations with Multiple Connections</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#connection-parameter-update">Connection Parameter Update</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#connection-termination">Connection Termination</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gap-abstraction">GAP Abstraction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#configuring-the-gap-layer">Configuring the GAP Layer</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="gaprole.html">GAPRole Task</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gatt.html">Generic Attribute Profile (GATT)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gatt.html#gap-gatt-service-ggs">GAP GATT Service (GGS)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gatt.html#generic-attribute-profile-service-gatt-service">Generic Attribute Profile Service (GATT Service)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gatt.html#gattservapp-module">GATTServApp Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gapbondmngr.html">GAP Bond Manager and LE Secure Connections</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gapbondmngr.html#le-privacy-1-2">LE Privacy 1.2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="l2cap.html">Logical Link Control and Adaptation Layer Protocol (L2CAP)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data-length-extensions.html">LE Data Length Extension (DLE)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hci.html">Host Controller Interface (HCI)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#creating-a-custom-bluetooth-low-energy-application">Creating a Custom Bluetooth low energy Application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#running-the-sdk-on-custom-boards">Running the SDK on Custom Boards</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../u-stack/index.html">Micro BLE Stack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../oad-ble-stack-3.x/oad.html">Over the Air Download (OAD)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../voice/voice.html">Creating a Voice Enabled Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../secure-fw-3.x/index.html">Secure Firmware (SFW)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensor-controller/sensor-controller.html">Sensor Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../debugging/ble-index.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/migration.html">Migration Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/api-reference.html">API References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/reference.html">Terms and Definitions</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../ble-stack-3.x-guide/index.html">BLE-Stack User's Guide for Bluetooth 4.2</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../ble-stack-3.x-guide/index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">Developing a Bluetooth Low Energy Application</a> &raquo;</li>
+        
+      <li>Generic Access Profile (GAP)</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="generic-access-profile-gap">
+<span id="gap"></span><h1>Generic Access Profile (GAP)<a class="headerlink" href="#generic-access-profile-gap" title="Permalink to this headline">¶</a></h1>
+<p>The GAP layer of the Bluetooth low energy protocol stack is
+responsible for connection functionality. This layer handles the
+access modes and procedures of the device including device
+discovery, link establishment, link termination, initiation of
+security features, and device configuration. See <a class="reference internal" href="#gap-state-diagram"><span class="std std-ref">GAP State Diagram.</span></a> for
+more details.</p>
+<div class="figure align-center" id="id6">
+<span id="gap-state-diagram"></span><img alt="../_images/image72.jpeg" src="../_images/image72.jpeg" />
+<p class="caption"><span class="caption-number">Figure 39. </span><span class="caption-text">GAP State Diagram.</span></p>
+</div>
+<p>Based on the role for which the device is configured, <a class="reference internal" href="#gap-state-diagram"><span class="std std-ref">GAP State Diagram.</span></a>
+shows the states of the device. The following describes these states.</p>
+<ul class="simple">
+<li><strong>Standby</strong>: The device is in the initial idle state upon reset.</li>
+<li><strong>Advertiser</strong>: The device is advertising with specific data letting
+any initiating devices know that it is a connectible device (this
+advertisement contains the device address and can contain some
+additional data such as the device name).</li>
+<li><strong>Scanner</strong>: When receiving the advertisement, the scanning device
+sends a scan request to the advertiser. The advertiser responds
+with a scan response. This process is called device discovery.
+The scanning device is aware of the advertising device and can
+initiate a connection with it.</li>
+<li><strong>Initiator</strong>: When initiating, the initiator must specify a peer
+device address to which to connect. If an advertisement is
+received matching that address of the peer device, the initiating
+device then sends out a request to establish a connection (link) with the
+advertising device with the connection parameters described in
+<a class="reference internal" href="#connection-parameters"><span class="std std-ref">Connection Parameters</span></a>.</li>
+<li><strong>Slave/Master</strong>: When a connection is formed, the device functions
+as a slave if the advertiser and a master if the initiator.</li>
+</ul>
+<div class="section" id="connection-parameters">
+<span id="id2"></span><h2>Connection Parameters<a class="headerlink" href="#connection-parameters" title="Permalink to this headline">¶</a></h2>
+<p>This section describes the connection parameters which are sent by
+the initiating device with the connection request and can be
+modified by either device when the connection is established. These
+parameters are as follows:</p>
+<ul class="simple">
+<li><strong>Connection Interval</strong> - In Bluetooth low energy connections, a
+frequency-hopping scheme is used. The two devices each send and
+receive data from one another only on a specific channel at a
+specific time. These devices meet a specific amount of time later
+at a new channel (the link layer of the Bluetooth low energy
+protocol stack handles the channel switching). This meeting is
+where the two devices send and receive data is known as a
+<code class="docutils literal"><span class="pre">connection</span> <span class="pre">event</span></code>. If there is no application data to be sent or
+received, the two devices exchange link layer data to maintain
+the connection. The connection interval is the amount of time
+between two connection events in units of 1.25 ms. The connection
+interval can range from a minimum value of 6 (7.5 ms) to a
+maximum of 3200 (4.0 s). See <a class="reference internal" href="#gap-connection-event"><span class="std std-ref">Connection Event and Interval</span></a> for more details.</li>
+</ul>
+<div class="figure align-center" id="id7">
+<span id="gap-connection-event"></span><img alt="../_images/image73.jpeg" src="../_images/image73.jpeg" />
+<p class="caption"><span class="caption-number">Figure 40. </span><span class="caption-text">Connection Event and Interval</span></p>
+</div>
+<p>Different applications may require different connection intervals.
+As described in <a class="reference internal" href="#connection-parameter-considerations"><span class="std std-ref">Connection Parameter Considerations</span></a>, these requirements
+affect the power consumption of the device. For more detailed information on
+power consumption, see <a class="reference external" href="http://www.ti.com/lit/an/swra478a/swra478a.pdf">Measuring Bluetooth Smart Power Consumption Application Report (SWRA478)</a>.</p>
+<ul class="simple">
+<li><strong>Slave Latency</strong> - This parameter gives the slave (peripheral)
+device the option of skipping a number of connection events. This
+ability gives the peripheral device some flexibility. If the
+peripheral does not have any data to send, it can skip connection
+events, stay asleep, and save power. The peripheral device
+selects whether to wake or not on a per connection event basis.
+The peripheral can skip connection events but must not skip more
+than allowed by the slave latency parameter or the connection
+fails. See <a class="reference internal" href="#slave-latency"><span class="std std-ref">Slave Latency</span></a> for more details.</li>
+</ul>
+<div class="figure align-center" id="id8">
+<span id="slave-latency"></span><img alt="../_images/image74.jpeg" src="../_images/image74.jpeg" />
+<p class="caption"><span class="caption-number">Figure 41. </span><span class="caption-text">Slave Latency</span></p>
+</div>
+<ul class="simple">
+<li><strong>Supervision Time-out</strong> - This time-out is the maximum amount of
+time between two successful connection events. If this time
+passes without a successful connection event, the device
+terminates the connection and returns to an unconnected state.
+This parameter value is represented in units of 10 ms. The
+supervision time-out value can range from a minimum of 10 (100
+ms) to 3200 (32.0 s). The time-out must be larger than the
+effective connection interval (see <a class="reference internal" href="#effective-connection-interval"><span class="std std-ref">Effective Connection Interval</span></a> for
+more details).</li>
+</ul>
+</div>
+<div class="section" id="effective-connection-interval">
+<span id="id3"></span><h2>Effective Connection Interval<a class="headerlink" href="#effective-connection-interval" title="Permalink to this headline">¶</a></h2>
+<p>The effective connection interval is equal to the amount of time
+between two connection events, assuming that the slave skips the
+maximum number of possible events if slave latency is allowed (the
+effective connection interval is equal to the actual connection
+interval if slave latency is set to 0).</p>
+<p>The slave latency value represents the maximum number of events that
+can be skipped. This number can range from a minimum value of 0
+(meaning that no connection events can be skipped) to a maximum of
+499. The maximum value must not make the effective connection
+interval (see the following formula) greater than 16 s. The interval
+can be calculated using the following formula:</p>
+<p><code class="docutils literal"><span class="pre">Effective</span> <span class="pre">Connection</span> <span class="pre">Interval</span> <span class="pre">=</span> <span class="pre">(Connection</span> <span class="pre">Interval)</span> <span class="pre">*</span> <span class="pre">(1</span> <span class="pre">+</span> <span class="pre">[Slave</span>
+<span class="pre">Latency])</span></code></p>
+<p>Consider the following example:</p>
+<ul class="simple">
+<li>Connection Interval: 80 (100 ms)</li>
+<li>Slave Latency: 4</li>
+<li>Effective Connection Interval: (100 ms) * (1 + 4) = 500 ms</li>
+</ul>
+<p>When no data is being sent from the slave to the master, the slave
+transmits during a connection event once every 500 ms.</p>
+</div>
+<div class="section" id="connection-parameter-considerations">
+<span id="id4"></span><h2>Connection Parameter Considerations<a class="headerlink" href="#connection-parameter-considerations" title="Permalink to this headline">¶</a></h2>
+<p>In many applications, the slave skips the maximum number of
+connection events. Consider the effective connection interval when
+selecting or requesting connection parameters. Selecting the correct
+group of connection parameters plays an important role in power
+optimization of the Bluetooth low energy device. The following list
+gives a general summary of the trade-offs in connection parameter
+settings.</p>
+<p>Reducing the connection interval does as follows:</p>
+<ul class="simple">
+<li>Increases the power consumption for both devices</li>
+<li>Increases the throughput in both directions</li>
+<li>Reduces the time for sending data in either direction</li>
+</ul>
+<p>Increasing the connection interval does as follows:</p>
+<ul class="simple">
+<li>Reduces the power consumption for both devices</li>
+<li>Reduces the throughput in both directions</li>
+<li>Increases the time for sending data in either direction</li>
+</ul>
+<p>Reducing the slave latency (or setting it to zero) does as follows:</p>
+<ul class="simple">
+<li>Increases the power consumption for the peripheral device</li>
+<li>Reduces the time for the peripheral device to receive the data sent
+from a central device</li>
+</ul>
+<p>Increasing the slave latency does as follows:</p>
+<ul class="simple">
+<li>Reduces power consumption for the peripheral during periods when the
+peripheral has no data to send to the central device</li>
+<li>Increases the time for the peripheral device to receive the data sent
+from the central device</li>
+</ul>
+</div>
+<div class="section" id="connection-parameter-limitations-with-multiple-connections">
+<h2>Connection Parameter Limitations with Multiple Connections<a class="headerlink" href="#connection-parameter-limitations-with-multiple-connections" title="Permalink to this headline">¶</a></h2>
+<p>There are additional constraints that exist when connected to
+multiple devices or performing multiple GAP roles simultaneously.
+See the multi_role example in BLE-Stack 3.01.01.00.</p>
+</div>
+<div class="section" id="connection-parameter-update">
+<h2>Connection Parameter Update<a class="headerlink" href="#connection-parameter-update" title="Permalink to this headline">¶</a></h2>
+<p>In some cases, the central device requests a connection with a
+peripheral device containing connection parameters that are
+unfavorable to the peripheral device. In other cases, a peripheral
+device might have the desire to change parameters in the middle of a
+connection, based on the peripheral application. The peripheral
+device can request the central device to change the connection
+settings by sending a <code class="docutils literal"><span class="pre">Connection</span> <span class="pre">Parameter</span> <span class="pre">Update</span> <span class="pre">Request</span></code>. For
+Bluetooth 4.1 and 4.2-capable devices, this request is handled directly by
+the <code class="docutils literal"><span class="pre">Link</span> <span class="pre">Layer</span></code>. For Bluetooth 4.0 devices, the L2CAP layer of the
+protocol stack handles the request. The Bluetooth low energy stack
+automatically selects the update method.</p>
+<p>This request contains four parameters: minimum connection interval,
+maximum connection interval, slave latency, and time-out. These
+values represent the parameters that the peripheral device needs for
+the connection (the connection interval is given as a range). When
+the central device receives this request, it can accept or reject
+the new parameters.</p>
+<p>Sending a <code class="docutils literal"><span class="pre">Connection</span> <span class="pre">Parameter</span> <span class="pre">Update</span> <span class="pre">Request</span></code> is optional and is not
+required for the central device to accept or apply the requested
+parameters. Some applications try to establish a connection at a
+faster connection interval to allow for a faster service discovery
+and initial setup. These applications later request a longer
+(slower) connection interval to allow for optimal power usage.</p>
+<p>Depending on the <code class="docutils literal"><span class="pre">GAPRole</span></code>, connection parameter updates can be sent
+asynchronously with the <a class="reference external" href="../../doxygen/ble/html/group___peripheral.html#gacfeeaa2854f216e75fb92130ae6a6a7e">GAPRole_SendUpdateParam()</a> or
+<a class="reference external" href="../../doxygen/ble/html/group___central.html#gaef48a22ba1676d3909e16f3b59835fe2">GAPCentralRole_UpdateLink()</a> command. The peripheral GAPRole can be
+configured to automatically send a parameter update a certain amount of time
+after establishing a connection. For example, the simple_peripheral
+application uses the following preprocessor-defined symbols:</p>
+<blockquote>
+<div><div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cp">#define DEFAULT_ENABLE_UPDATE_REQUEST         GAPROLE_LINK_PARAM_UPDATE_INITIATE_BOTH_PARAMS</span>
+<span class="cp">#define DEFAULT_DESIRED_MIN_CONN_INTERVAL     80</span>
+<span class="cp">#define DEFAULT_DESIRED_MAX_CONN_INTERVAL     800</span>
+<span class="cp">#define DEFAULT_DESIRED_SLAVE_LATENCY         0</span>
+<span class="cp">#define DEFAULT_DESIRED_CONN_TIMEOUT          1000</span>
+<span class="cp">#define DEFAULT_CONN_PAUSE_PERIPHERAL         6</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Six seconds after a connection is established, the GAP layer
+automatically sends a connection parameter update. This action
+can be disabled by changing <code class="docutils literal"><span class="pre">DEFAULT_ENABLE_UPDATE_REQUEST</span></code> to e.g.
+<code class="docutils literal"><span class="pre">GAPROLE_LINK_PARAM_UPDATE_WAIT_REMOTE_PARAMS</span></code>. See <a class="reference internal" href="gaprole.html#gaprole-peripheral-role"><span class="std std-ref">Peripheral Role</span></a>
+for an explanation of how the parameters are configured.</p>
+</div>
+<div class="section" id="connection-termination">
+<h2>Connection Termination<a class="headerlink" href="#connection-termination" title="Permalink to this headline">¶</a></h2>
+<p>Either the master or the slave can terminate a connection for any
+reason. One side initiates termination and the other side must
+respond before both devices exit the connected state.</p>
+</div>
+<div class="section" id="gap-abstraction">
+<h2>GAP Abstraction<a class="headerlink" href="#gap-abstraction" title="Permalink to this headline">¶</a></h2>
+<p>The application and profiles can directly call GAP API functions to perform
+Bluetooth low energy-related functions such as advertising or connecting. Most
+of the GAP functionality is handled by the GAPRole Task.
+<a class="reference internal" href="#fig-gap-abstraction"><span class="std std-ref">GAP Abstraction</span></a> shows this abstraction hierarchy.</p>
+<div class="figure align-center" id="id9">
+<span id="fig-gap-abstraction"></span><img alt="../_images/image75.jpeg" src="../_images/image75.jpeg" />
+<p class="caption"><span class="caption-number">Figure 42. </span><span class="caption-text">GAP Abstraction</span></p>
+</div>
+<p>Access the GAP layer through direct calls or through the GAPRole
+task as described in <a class="reference internal" href="gaprole.html#sec-gaprole-gaproletask"><span class="std std-ref">GAPRole Task</span></a>. Use the GAPRole task rather
+than direct calls when possible. <a class="reference internal" href="#configuring-the-gap-layer"><span class="std std-ref">Configuring the GAP Layer</span></a> describes the
+functions and parameters that are not handled or configured through the GAPRole
+task and must be modified directly through the GAP layer.</p>
+</div>
+<div class="section" id="configuring-the-gap-layer">
+<span id="id5"></span><h2>Configuring the GAP Layer<a class="headerlink" href="#configuring-the-gap-layer" title="Permalink to this headline">¶</a></h2>
+<p>The GAP layer functionality is mostly defined in library code. The
+function headers can be found in <code class="docutils literal"><span class="pre">gap.h</span></code> in the protocol stack
+project. Most of these functions are used by the GAPRole and do not
+need to be called directly. For reference, see <a class="reference internal" href="../ble-stack-3.x-guide/api-reference.html#ble-api-reference"><span class="std std-ref">BLE Stack API Reference</span></a>
+(GATTServApp section).
+Several parameters exist which may be desirable to modify before starting the
+GAPRole. These parameters can be set or get through the
+<a class="reference external" href="../../doxygen/ble/html/group___g_a_p.html#ga45fab6682fc253681d7abe697a4fc0b5">GAP_SetParamValue()</a> and <a class="reference external" href="../../doxygen/ble/html/group___g_a_p.html#ga357fe8676645fcc9b09b1d1317a6f193">GAP_GetParamValue()</a> functions and
+include advertising and scanning intervals, windows, and so forth (see the API
+for more information). The following is the configuration of the GAP layer in
+simple_peripheral_init():</p>
+<div class="literal-block-wrapper docutils container" id="id10">
+<span id="sbp-gap-configuration-example"></span><div class="code-block-caption"><span class="caption-number">Listing 57. </span><span class="caption-text">GAP configuration in simple_peripheral_init().</span><a class="headerlink" href="#id10" title="Permalink to this code">¶</a></div>
+<div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9</pre></div></td><td class="code"><div class="highlight"><pre><span></span>  <span class="c1">// Set advertising interval</span>
+<span class="p">{</span>
+  <span class="kt">uint16_t</span> <span class="n">advInt</span> <span class="o">=</span> <span class="n">DEFAULT_ADVERTISING_INTERVAL</span><span class="p">;</span>
+
+  <span class="n">GAP_SetParamValue</span><span class="p">(</span><span class="n">TGAP_LIM_DISC_ADV_INT_MIN</span><span class="p">,</span> <span class="n">advInt</span><span class="p">);</span>
+  <span class="n">GAP_SetParamValue</span><span class="p">(</span><span class="n">TGAP_LIM_DISC_ADV_INT_MAX</span><span class="p">,</span> <span class="n">advInt</span><span class="p">);</span>
+  <span class="n">GAP_SetParamValue</span><span class="p">(</span><span class="n">TGAP_GEN_DISC_ADV_INT_MIN</span><span class="p">,</span> <span class="n">advInt</span><span class="p">);</span>
+  <span class="n">GAP_SetParamValue</span><span class="p">(</span><span class="n">TGAP_GEN_DISC_ADV_INT_MAX</span><span class="p">,</span> <span class="n">advInt</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<p>The above code sets the advertising interval for limited and general
+advertising modes. By default, the peripheral advertises in general
+discoverable mode. To use limited discoverable mode, the
+corresponding fields inside the advertising data packet should be
+changed by defining <code class="docutils literal"><span class="pre">DEFAULT_DISCOVERABLE_MODE</span></code> to
+<code class="docutils literal"><span class="pre">GAP_ADTYPE_FLAGS_LIMITED</span></code>.</p>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="gaprole.html" class="btn btn-neutral float-right" title="GAPRole Task" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="the-application.html" class="btn btn-neutral" title="The Application" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Texas Instruments.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.01.01.00',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

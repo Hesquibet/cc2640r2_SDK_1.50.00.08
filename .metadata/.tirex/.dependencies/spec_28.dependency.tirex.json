@@ -1,0 +1,41 @@
+[
+   {
+      "default" : "na",
+      "compiler" : {
+         "effective" : "na",
+         "location" : "na",
+         "specified" : "na"
+      },
+      "files" : [
+         "+../../../../../../../source/ti/blestack/common/cc26xx/board_key.c -> Application/board_key.c",
+         "+../../../../../../../source/ti/blestack/common/cc26xx/board_key.h -> Application/board_key.h",
+         "+../../src/app/micro_eddystone_beacon.c -> Application/micro_eddystone_beacon.c",
+         "+../../src/app/micro_eddystone_beacon.h -> Application/micro_eddystone_beacon.h",
+         "+../../../../../../../source/ti/blestack/common/cc26xx/util.c -> Application/util.c",
+         "+../../../../../../../source/ti/blestack/common/cc26xx/util.h -> Application/util.h",
+         "+../../src/ccfg_app_ble.c -> Startup/ccfg_app_ble.c",
+         "+../../src/app/main.c -> Startup/main.c",
+         "+../app_ble.cfg -> TOOLS/app_ble.cfg",
+         "+../../../../../../../source/ti/blestack/hal/src/common/hal_assert.c -> HAL/Common/hal_assert.c",
+         "+../../../../../../../source/ti/blestack/hal/src/inc/hal_assert.h -> HAL/Include/hal_assert.h",
+         "+../../../../../../../source/ti/blestack/icall/src/icall.c -> ICall/icall.c",
+         "+../../../../../../../source/ti/blestack/icall/src/inc/icall.h -> ICall/icall.h",
+         "+../../../../../../../source/ti/blestack/icall/src/icall_cc2650.c -> ICall/icall_cc2650.c",
+         "+../../../../../../../source/ti/blestack/microstack/port.c -> Stack/port.c",
+         "+../../../../../../../source/ti/blestack/inc/port.h -> Stack/port.h",
+         "+../../../../../../../source/ti/blestack/microstack/uble.c -> Stack/uble.c",
+         "+../../../../../../../source/ti/blestack/inc/uble.h -> Stack/uble.h",
+         "+../../../../../../../source/ti/blestack/microstack/ugap.c -> Stack/ugap.c",
+         "+../../../../../../../source/ti/blestack/inc/ugap.h -> Stack/ugap.h",
+         "+../../../../../../../source/ti/blestack/microstack/ull.c -> Stack/ull.c",
+         "+../../../../../../../source/ti/blestack/inc/ull.h -> Stack/ull.h",
+         "+../../../../../../../source/ti/blestack/microstack/urfi.c -> Stack/urfi.c",
+         "+../../../../../../../source/ti/blestack/inc/urfi.h -> Stack/urfi.h",
+         "+../../../../../../../source/ti/blestack/target/board.c -> Startup/board.c",
+         "+../../../../../../../source/ti/blestack/boards/urfc.c -> Startup/urfc.c",
+         "+../../../../../../../source/ti/blestack/boards/urfc.h -> Startup/urfc.h"
+      ],
+      "name" : "na",
+      "packages" : []
+   }
+]

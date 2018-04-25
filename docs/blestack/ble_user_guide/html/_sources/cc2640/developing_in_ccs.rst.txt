@@ -1,0 +1,354 @@
+.. _sec-developing-with-ccs:
+
+Developing with CCS
+===================
+
+Installing Code Composer Studio (CCS)
+-------------------------------------
+
+The CCS toolchain contains many features beyond the scope of this document.
+More information and documentation can be found on the
+`CCS Webpage <http://www.ti.com/tool/CCSTUDIO>`_.
+
+Check the |BLESTACKVER| release notes to see which CCS version to use and any
+required workarounds. Object code produced by CCS may differ in size and
+performance as compared to IAR produced object code.
+
+The following procedure describes installing and configuring the correct version
+of CCS and the necessary tools.
+
+#. Install Code Composer Studio for ARM
+
+    - `Download Code Composer Studio <http://processors.wiki.ti.com/index.php/Download\_CCS>`_
+
+    - Start the installation process and accept the license agreement. It is
+      recommended to install CCS in its default location.
+
+    - In the **Processor Support** section, select **SimpleLink CC13xx and
+      CC26xx Wireless MCUs**.
+
+    - Under the **Debug Probes** section, CCS will install support for **TI XDS
+      Debug Probe Support**. This option supports the XDS110 debugger.
+
+    - Start the installation by selecting **Finish**.
+
+    .. attention::
+        The version required is stated in the release notes.
+
+#. Verify ARM Compiler Tools version
+
+    - If needed, the CCS and ARM compiler versions can be verified by going to
+      into **Help** -> **About Code Composer Studio**. Under the **Installation
+      Details** button, you can determine the **ARM Compiler Tools** version.
+      Please ensure this version satisfies the version requirements as stated in
+      the release notes.
+
+    - If an update is required, refer to :ref:`sec-install-ti-arm-compiler`
+      for the procedure to install the required TI ARM Compiler version.
+
+
+.. _sec-install-ti-arm-compiler:
+
+Installing a Specific TI ARM Compiler
+-------------------------------------
+
+To install a specific TI ARM Compiler, refer to the following steps and
+:numref:`fig-verify-ccs-compiler`
+
+#. **Help** -> **Install New Software**
+#. Under the **Work with:** drop-down list, select **Code Generation Tools
+   Update**
+#. Uncheck **Show only the latest versions of available software**
+#. Expand **TI Compiler Update**.
+#. Select the desired ARM Compiler Tools version as stated in the release notes.
+#. Press **Next** to complete the installation. You may have to restart CCS
+   afterwards.
+
+.. _fig-verify-ccs-compiler:
+.. figure:: resources/ti-arm-compiler-version.jpg
+    :align: center
+    :width: 400px
+
+    TI ARM Compiler Version in Code Composer Studio
+
+Discovering CCS products
+------------------------
+
+Code Composer Studio automatically discovers the |SDK| if it installed in its
+default installation directory (``c:/ti``). Once discovered by CCS, it defines a
+build environment variable named ``COM_TI_SIMPLELINK_CC2640R2_SDK_INSTALL_DIR``
+which is used by |BLESTACK| projects.
+
+If a |BLESTACK| project is imported from a path other than what was specified
+during the |SDK| installation, the ``COM_TI_SIMPLELINK_CC2640R2_SDK_INSTALL_DIR``
+variable must be redefined after the import proceeding at a project-by-project
+basis.
+
+To redefine this variable:
+
+#. Open the CCS project's properties (**Project** -> **Properties**)
+#. Navigate to **Resource** -> **Linked Resources** and *edit*
+   ``COM_TI_SIMPLELINK_CC2640R2_SDK_INSTALL_DIR`` and have it point to your
+   imported root directory location.
+
+   .. _fig-inc-developing-in-ccs-redefine-ccs-linked-resources:
+   .. figure:: resources/redefine-ccs-linked-resources.jpg
+        :align: center
+        :width: 75%
+
+        Redefining ``COM_TI_SIMPLELINK_CC2640R2_SDK_INSTALL_DIR``
+
+Importing CCS projects
+----------------------
+
+This section describes how to import and build an existing project and
+references the multi\_role project. All of |BLESTACK| projects included
+in the development kit have a similar structure.
+
+#. Open the CCS IDE from the Start Menu.
+#. Create a workspace.
+
+    .. attention::
+
+        Ensure that the CCS workspace path does not contain a whitespace.
+
+#. Import a CCS Project using Resource Explorer
+
+    - Open Resource Explorer (if not open already) **View** -> **Resource Explorer**
+    - Navigate to the CCS folder for your chosen example: **Software ->** |SDK| **-> Examples ->** |LP| **-> ble5stack -> multi_role -> TI-RTOS -> CCS Compiler -> multi_role_app**
+
+    .. _fig-ccs-import-projects:
+    .. figure:: resources/import_multi_role.png
+        :align: center
+
+        Import CCS Projects
+
+#.  Select the CCS Logo button to import project into Project Explorer
+
+    .. attention::
+
+        The import process will also install the |SDK| if a local version does
+        not exist. You must accept the End User License Agreement to proceeed.
+
+        .. _fig-resource-explorer-eula:
+        .. figure:: resources/eula.png
+            :align: center
+
+            Install |SDK|
+
+    - If you get a pop-up window with an error message, under "Details >>"
+    saying "Error: A project with the name 'xx_stack_library' already exists in
+    the workplace!", that is fine. You accidentally imported the stack twice.
+    Just click OK.
+
+    - If everything is successful, two projects should appear in Resource
+    Explorer: one for the application code and one for the stack code
+    (either stack or stack_library project).
+
+    .. note::
+        Only projects part of the BLE stack will have an app and a stack
+        project.
+
+    .. _fig-ccs-project-explorer-after-import:
+    .. figure:: resources/project_explorer_after_import.png
+        :align: center
+
+        Projects Imported into CCS
+
+.. attention::
+
+    Do not use the ``Rename`` option found inside CCS to rename your project.
+    This may change certain build parameters and not others, which can lead to
+    build errors and is irreversible.
+
+    To rename a project, you should use the ``Copy`` and ``paste`` options found
+    inside CCS. As you ``Paste`` the project, you have the option of choosing a
+    new project name. This process is to be repeated for both application and
+    stack projects.
+
+    After pasting both project, you need to modify the application project's
+    properties and update its "Project Reference" (need to show advanced
+    settings) to only select newly pasted stack project.
+
+.. _sec-inc-developing-in-ccs-discover-ccs-products:
+
+|BLESTACK| CCS project build configurations
+-------------------------------------------
+
+.. sidebar:: CCS Project Explorer
+
+    .. _fig-ccs-project-explorer:
+    .. figure:: resources/image33.jpeg
+        :align: center
+
+        CCS Project Explorer
+
+
+This and all |BLESTACK| project workspaces contain various projects and build
+configurations as shown in :numref:`tbl-inc-developing-in-ccs-build-configs`
+\*_StackLibrary build configurations build the stack as a library as
+described in :ref:`sec-inc-architecture-stack-image-as-a-library`.
+
+Click the project name in the file explorer to select the project as the active
+project. In :numref:`fig-ccs-project-explorer`, the application is selected as
+the active project. Each of these projects produces a separate, downloadable
+image.
+
+The simple\_peripheral sample project is the primary sample application for the
+description of a generic application in this guide. The simple\_peripheral
+project implements a basic Bluetooth low energy peripheral device including a
+GATT server with GATT services. This project can be used as a framework for
+developing peripheral-role applications.
+
+.. _tbl-inc-developing-in-ccs-build-configs:
+.. table:: Available CCS project build configurations
+
+    +--------------+-----------------------------------+--------------------------------+----------------------------------------------------------------+
+    | Project type | Project naming convention         | Project's build configuration  | Compatible project complement                                  |
+    +==============+===================================+================================+================================================================+
+    | Application  | ``*_cc2640r2lp_app``              | FlashROM                       | ``*_cc2640r2lp_stack``                                         |
+    |              |                                   +--------------------------------+----------------------------------------------------------------+
+    |              |                                   | FlashROM\_StackLibrary         | ``*_cc2640r2lp_stack_library``                                 |
+    |              |                                   +--------------------------------+----------------------------------------------------------------+
+    |              |                                   | FlashROM\_StackLibrary_RCOSC   | ``*_cc2640r2lp_stack_library``                                 |
+    |              +-----------------------------------+--------------------------------+----------------------------------------------------------------+
+    |              | ``*_cc2640r2lp_app_oad_onchip``   | FlashROM\_OAD\_ImgB            | ``*_cc2640r2lp_stack`` with FlashROM configuration             |
+    |              +-----------------------------------+--------------------------------+----------------------------------------------------------------+
+    |              | ``*_cc2640r2lp_app_oad_offchip``  | FlashROM\_OAD\_Offchip         | ``*_cc2640r2lp_stack`` with FlashROM configuration             |
+    +--------------+-----------------------------------+--------------------------------+----------------------------------------------------------------+
+    | Stack        | ``*_cc2640r2lp_stack_library``    | FlashROM\_Library              | ``*_cc2640r2lp_app`` with FlashROM\_StackLibrary configuration |
+    |              +-----------------------------------+--------------------------------+----------------------------------------------------------------+
+    |              | ``*_cc2640r2lp_stack``            | FlashROM                       | ``*_cc2640r2lp_app`` with FlashROM configuration               |
+    +--------------+-----------------------------------+--------------------------------+----------------------------------------------------------------+
+
+
+Compile and Download
+----------------------
+
+For all build configurations, the stack project should always be built before
+the application project. The default configuration is to build the stack as a library.
+Split image steps are only applicable if you use the OAD split-image project or if you
+are :ref:`section-converting-lib-build-to-split-image`.
+
+For projects where the stack is built as a **library**:
+
+    #. Build the stack library project.
+
+        - Set the stack project as the active project.
+        - Select **Project** -> **Build All** to build the stack project.
+
+    #. Build the application project.
+
+        - Set the application project as the active project.
+        - Select **Project -> Build All** to build the application project.
+
+    #. Load the whole application
+
+        - Select **Run** -> **Debug** to download the application
+
+    .. note::
+        Application project that consume the stack in a library form will not
+        have hard defined image boundaries.
+
+        After the initial build, if the stack project is not modified, only the
+        application project needs to be rebuilt.
+
+For projects where the stack and application are **split images** (not a library):
+
+    #. Build the stack project.
+
+        - Set the stack project as the active project.
+        - Select **Project** -> **Build All** to build the stack project.
+
+    #. Build the application project.
+
+        - Set the application project as the active project.
+        - Select **Project -> Build All** to build the application project.
+
+    #. Load the stack project
+
+        - Set the stack project as the active project.
+        - Select **Run** -> **Debug** to download the stack
+
+    #. Load the application project
+
+        - Set the application project as the active project.
+        - Select **Run** -> **Debug** to download the application
+
+    .. note::
+        The stack project defines the flash and RAM boundary parameters used by
+        the application project. Any modifications to the stack project require
+        a rebuild of the stack project, followed by a rebuild of the application
+        project to use the new boundary settings. See :ref:`sec-fontier-tool`.
+
+        After the initial build, if the stack project is not modified, only the
+        application project needs to be rebuilt.
+
+.. caution::
+    Do not modify the CPU Variant in the project settings. All sample projects
+    are configured with a CPU type, and changing this setting (that is, from
+    |DEVICE|) may result in build errors.
+
+Sample applications that implement the Over the Air Download (OAD) firmware
+update capability require the Boot Image Manager (BIM) project to be built.
+Refer to the :ref:`sec-oad` section for more details.
+
+.. _sec-developing-with-ccs-accessing-preprocessor-symbols:
+
+Accessing Preprocessor Symbols
+------------------------------
+
+Various C preprocessor symbols may need to be set or adjusted at the project
+level. The following procedure describes how to access and modify preprocessor
+symbols.
+
+#.  Open **Project Properties**
+#.  Navigate to **Build** -> **ARM Compiler** -> **Predefined Symbols**
+#.  Use the buttons highlighted in :numref:`fig-ccs-defines-box` to add, delete,
+    or edit a preprocessor.
+
+.. _fig-ccs-defines-box:
+.. figure:: resources/image42.jpeg
+    :align: center
+    :width: 75%
+
+    CCS Predefined Symbols
+
+.. _sec-developing-with-ccs-accessing-linker-symbols:
+
+Accessing Linker Symbols
+------------------------
+
+Linker symbols may need to be set or adjusted at the project level in order to
+control the memory layout of the generated image.
+The following procedure describes how to access and modify linker
+symbols.
+
+#.  Open **Project Properties**
+#.  Navigate to **Build** -> **ARM Linker** -> **Command File Preprocessing**
+#.  Use the buttons highlighted in :numref:`fig-ccs-linker-defines-box` to add,
+    delete, or edit a linker symbol.
+
+.. _fig-ccs-linker-defines-box:
+.. figure:: resources/ccs_linker_opts.png
+    :align: center
+    :width: 75%
+
+    CCS Linker Symbols
+
+Resetting the |DEVICE| in CCS
+-----------------------------
+
+Select Board Reset from the reset menu.
+
+.. figure:: resources/image183.jpeg
+    :align: center
+
+    CCS Board Reset
+
+Additional training and support for CCS
+---------------------------------------
+
+For additional training and support with Code Composer Studio, refer to:
+`Code Composer Studio Wiki <http://processors.wiki.ti.com/index.php/Category:Code_Composer_Studio_v6>`_
+`Code Composer Studio Training <http://processors.wiki.ti.com/index.php/Category:CCSv6_Training>`_

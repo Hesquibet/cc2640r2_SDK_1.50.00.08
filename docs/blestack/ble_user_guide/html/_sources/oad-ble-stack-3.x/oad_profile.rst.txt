@@ -1,0 +1,717 @@
+.. _sect-oad-profile:
+
+OAD Profile
+-----------
+
+The TI OAD Profile has been designed to provide a simple and customizable OAD
+profile. In its most basic form, for both On-chip
+and Off-chip OAD, this profile is responsible for accepting an OAD
+interaction based on image header criteria, storing the image onto the
+flash and causing a device reset if the download is successful so that
+the downloaded application image is run by the :term:`BIM`.
+The :term:`OAD Downloader` and OAD Target perform Client role and Server role
+respectively. The TI OAD Profile consists of two services: OAD Service and OAD
+Reset Service.
+
+.. note::
+    All services and characteristics in the TI OAD Profile use the 128-bit TI
+    base UUID of the format F000XXXX-0451-4000-B000-000000000000 where XXXX is
+    their shortened 16bit UUID. For brevity, this document will refer to the
+    characteristics by their 16-bit short UUID.
+
+
+.. _sec-oad-image-metadata:
+
+OAD Image Header
+^^^^^^^^^^^^^^^^
+
+All firmware images delivered via OAD are in binary format and contain an image
+header. The information in the image header is used by the OAD service
+to determine whether or not an image is acceptable for download or by
+the BIM to determine which image should be loaded/executed in the main system
+flash. In order to prevent this information from being calculated multiple times
+all TI OAD images use a standard image header.
+
+This section explains the various fields within the image header and what they
+mean. The following sections will describe how each
+field is used specifically for On-chip and Off-chip OAD.
+
+Most image header checking is done in :code:`OADTarget_validateNewImage()`.
+
+TI provides a tool to generate an OAD ready image, which contains an image
+header called the OAD Image Tool. See :ref:`sec-generating-metadata-vector`.
+
+:numref:`tbl-metadata-description-table` below shows a description of the
+image header.
+
+.. _tbl-metadata-description-table:
+.. table:: Description of the image header.
+
+    +--------------------------------+-------------------+-----------------------------------------------------+
+    | Field                          | Size (in bytes)   | Description                                         |
+    +================================+===================+=====================================================+
+    | OAD Image Identification Value | 8                 | Unique number to identify the start of an OAD image |
+    +--------------------------------+-------------------+-----------------------------------------------------+
+    | CRC                            | 4                 | Cyclic Redundancy Check                             |
+    +--------------------------------+-------------------+-----------------------------------------------------+
+    | BIM Version                    | 1                 | Version required to support image format            |
+    +--------------------------------+-------------------+-----------------------------------------------------+
+    | Image Header Version           | 1                 | Version of Image Header contained in image          |
+    +--------------------------------+-------------------+-----------------------------------------------------+
+    | Wireless Technology            | 2                 | Type of connectivity used in image                  |
+    +--------------------------------+-------------------+-----------------------------------------------------+
+    | Image Information              | 4                 | Image information bytes                             |
+    +--------------------------------+-------------------+-----------------------------------------------------+
+    | Image Validation               | 4                 | Check if image is valid to run                      |
+    +--------------------------------+-------------------+-----------------------------------------------------+
+    | Image Length                   | 4                 | The total length of the image including header      |
+    +--------------------------------+-------------------+-----------------------------------------------------+
+    | Program Entry Address          | 4                 | Application startup entry address                   |
+    +--------------------------------+-------------------+-----------------------------------------------------+
+    | Image Software Version         | 4                 | Software version of the image                       |
+    +--------------------------------+-------------------+-----------------------------------------------------+
+    | Image End Address              | 2                 | End address of the image                            |
+    +--------------------------------+-------------------+-----------------------------------------------------+
+    | Image Header Length            | 2                 | Total length of the image header                    |
+    +--------------------------------+-------------------+-----------------------------------------------------+
+    | Boundary Information           | 24                | Contains information about RAM and Flash boundaries |
+    +--------------------------------+-------------------+-----------------------------------------------------+
+    | Contiguous Image Information   | 12                | Contains information about image to be downloaded   |
+    +--------------------------------+-------------------+-----------------------------------------------------+
+
+OAD Image Identification Value
+""""""""""""""""""""""""""""""
+The OAD Image Identification Value for the |DEVICE| is 0x20474D492044414f (ASCII
+for 'OAD IMG ').
+
+The OAD Image Identification Value serves two purposes:
+
+- Provides the application a quick way to identify if it receiving the correct image.
+- Provides a means for the BIM to find the flash page containing the start of OAD image for on-chip OAD
+
+CRC
+"""
+The cyclic redundancy check (CRC) is a means to check the integrity of an image.
+This must be done in two steps. First the CRC must be calculated when the image
+is generated from the toolchain, this will be stored in the CRC field within the
+image header.
+
+This initial CRC will be sent over the air via the OAD service (see
+:ref:`sect-oad-service-desc` section).
+
+Later, once the target has received the OAD image, CRC will be
+recalculated to determine if the image has been corrupted during transfer.
+
+If the CRC is equivalent before and after the OAD, the target can assume that the
+image was not corrupted while sending over the air.
+
+The algorithm selected for CRC calculations is the CRC-32 algorithm, it is a
+32-bit CRC calculation that has a 99.9999% error detection rate in
+the worst case. In addition to this CRC, all data transfers in BLE are protected
+by a CRC on the link layer so the risk of an undetected data corruption is even
+further reduced.
+
+BIM Version
+"""""""""""
+The BIM Version byte is used to determine whether or not the image is
+compatible with the version of BIM that is running on the device.
+
+Image Header Version
+""""""""""""""""""""
+The Image Header Version byte is used to determine whether or not the image is
+compatible with the version of BIM that is running on the device.
+
+Wireless Technology
+"""""""""""""""""""
+The Wireless Technology field in the Image Header describes what technology is
+used in the image to be downloaded. Multiple technologies can be selected here
+if the device used supports multiple technologies. The |DEVICE| supports
+Bluetooth low energy only. These fields are added for
+future expansion. Bits are set to 1 by default. To select the Wireless Technology
+field, set the appropriate bit(s) to 0.
+
++------------+--------------------------+
+| Bit Number | Type                     |
++============+==========================+
+| 0          | Bluetooth low energy     |
++------------+--------------------------+
+| 1          | IEEE 802.15.4 (Sub 1GHz) |
++------------+--------------------------+
+| 2          | IEEE 802.15.4 (2.4GHz)   |
++------------+--------------------------+
+| 3          | Zigbee                   |
++------------+--------------------------+
+| 4          | RF4CE                    |
++------------+--------------------------+
+| 5          | Thread                   |
++------------+--------------------------+
+| 6          | Easy Link                |
++------------+--------------------------+
+| 7-15       | Reserved                 |
++------------+--------------------------+
+
+Image Information
+"""""""""""""""""
+The Image Information provides details about the OAD image status and type. The
+format is as follows:
+
++-------------+-------------------+---------------------------------------------------------------------------------------+
+| Byte Number | Item              | Description                                                                           |
++=============+===================+=======================================================================================+
+| 0           | Image Copy Status | | 0xFF: Default status, no action needed                                              |
+|             |                   | | 0xFE: Image to be copied to on-chip flash at location indicated in the image header |
+|             |                   | | 0xFC: Image copied                                                                  |
++-------------+-------------------+---------------------------------------------------------------------------------------+
+| 1           | CRC Status        | | 0b00: CRC Invalid                                                                   |
+|             |                   | | 0b10: CRC Valid                                                                     |
+|             |                   | | 0b11: CRC Not Calculated Yet                                                        |
++-------------+-------------------+---------------------------------------------------------------------------------------+
+| 2           | Image Type        | | Device Images (0x00-0x15)                                                           |
+|             |                   | | 0x00: Persistent application (for On-chip OAD)                                      |
+|             |                   | | 0x01: Application                                                                   |
+|             |                   | | 0x02: Stack                                                                         |
+|             |                   | | 0x03: Application & Stack Merged                                                    |
+|             |                   | | 0x04: Network Processor                                                             |
+|             |                   | | 0x05: Bluetooth low energy factory image                                            |
+|             |                   | | 0x06: BIM                                                                           |
+|             |                   | |                                                                                     |
+|             |                   | | 0x0F-0x1F: User data                                                                |
+|             |                   | | -Note: BIM will not try to interpret user data/application                          |
+|             |                   | | 0x20-0x3F: Host Processor Images                                                    |
+|             |                   | | 0x40-0xFF: Reserved                                                                 |
++-------------+-------------------+---------------------------------------------------------------------------------------+
+| 3           | Image Number      | | Image number if more than one type is stored                                        |
+|             |                   | | 0xFF: Default                                                                       |
+|             |                   | | 0x00-0xFE: Image number                                                             |
++-------------+-------------------+---------------------------------------------------------------------------------------+
+
+Image Validation
+""""""""""""""""
+The Image Validation bytes are used to switch back and forth between the user
+application and the OAD target application. BIM checks the number of bits
+in the Image Validation field that have a value of '0'. If the number is odd,
+the OAD target application will run. If the number is even, the user application
+will run.
+
+Image Length
+""""""""""""
+The Image Length field is the total length of the image including the length of
+the header data. image in words, where the word size is defined by
+:code:`EFL_OAD_ADDR_RESOLUTION` and :code:`HAL_FLASH_WORD_SIZE`
+for On-chip and Off-chip OAD respectively. Off-chip OAD customers who
+are using different external flash parts may need to modify
+:code:`HAL_FLASH_WORD_SIZE` to match the word size of their part. For
+On-chip OAD, the word size of the |DEVICE| is fixed.
+
+Program Entry Address
+"""""""""""""""""""""
+The Program Entry Address is a pointer to the application interrupt vector table
+or application program entry address. This provides flexibility so that if the
+program entry address changes between images, BIM will still be able to use this
+field to run the application.
+
+Software version
+""""""""""""""""
+The Software Version field is used to keep track of the application and stack
+revision contained in the image. This field follows a version format, UL.ul, where:
+
+- U represents the upper digit of the major version,
+- L represents the lower digit of the major version,
+- u represents the upper digit of the minor version,
+- l represents the lower digit of the minor version
+
+These values are assigned as shown in the table below.
+
++-------------+----------+------------------------+
+| Byte Number |          | Description            |
++=============+==========+========================+
+| 3           | bits 0-3 | Application release: L |
++-------------+----------+------------------------+
+|             | bits 4-7 | Application release: U |
++-------------+----------+------------------------+
+| 2           | bits 0-3 | Application release: l |
++-------------+----------+------------------------+
+|             | bits 4-7 | Application release: u |
++-------------+----------+------------------------+
+| 1           | bits 0-3 | Stack release: L       |
++-------------+----------+------------------------+
+|             | bits 4-7 | Stack release: U       |
++-------------+----------+------------------------+
+| 0           | bits 0-3 | Stack release: l       |
++-------------+----------+------------------------+
+|             | bits 4-7 | Stack release: u       |
++-------------+----------+------------------------+
+
+
+Image End Address
+"""""""""""""""""
+The Image End Address is used to ensure the boundary between the application and
+stack images are preserved during an application only or stack only OAD.
+
+Header Length
+"""""""""""""
+The Header Length field gives the size of the complete header struct including
+optional features.
+
+Boundary Information
+""""""""""""""""""""
+The Boundary Information field provides information to BIM on the flash and RAM
+boundaries of the image. This information is formatted in the following way:
+
++---------------------+-----------------+--------------------------------------------------------------------------------------------+
+| Item                | Size (in bytes) | Description                                                                                |
++=====================+=================+============================================================================================+
+| Segment type = 0    | 1               | Tells the BIM that the following fields provide RAM and stack boundary information         |
++---------------------+-----------------+--------------------------------------------------------------------------------------------+
+| Wireless technology | 2               | Same options as in the main wireless technology table above. Only one bit may be set here. |
++---------------------+-----------------+--------------------------------------------------------------------------------------------+
+| Reserved            | 1               | Default is set to 0xFF                                                                     |
++---------------------+-----------------+--------------------------------------------------------------------------------------------+
+| Payload length      | 4               | The length of the boundary information field in bytes                                      |
++---------------------+-----------------+--------------------------------------------------------------------------------------------+
+| Stack Entry Address | 4               | Stack entry address                                                                        |
++---------------------+-----------------+--------------------------------------------------------------------------------------------+
+| ICALL_STACK0_ADDR   | 4               | Stack boundary address                                                                     |
++---------------------+-----------------+--------------------------------------------------------------------------------------------+
+| RAM_START_ADDR      | 4               | Start address of RAM                                                                       |
++---------------------+-----------------+--------------------------------------------------------------------------------------------+
+| RAM_END_ADDR        | 4               | End address of RAM                                                                         |
++---------------------+-----------------+--------------------------------------------------------------------------------------------+
+
+Contiguous Image Information
+""""""""""""""""""""""""""""
+The Continous Image Information field provides information about the image to be
+downloaded during the OAD process. The information is formatted in the following
+way:
+
++---------------------+-----------------+--------------------------------------------------------------------------------------------+
+| Item                | Size (in bytes) | Description                                                                                |
++=====================+=================+============================================================================================+
+| Segment type = 1    | 1               | Tells the BIM that the following fields provide information about the image payload        |
++---------------------+-----------------+--------------------------------------------------------------------------------------------+
+| Wireless technology | 2               | Same options as in the main wireless technology table above. Only one bit may be set here. |
++---------------------+-----------------+--------------------------------------------------------------------------------------------+
+| Reserved            | 1               | Default is set to 0xFF                                                                     |
++---------------------+-----------------+--------------------------------------------------------------------------------------------+
+| Payload length      | 4               | The length of the boundary information field in bytes                                      |
++---------------------+-----------------+--------------------------------------------------------------------------------------------+
+| Stack Entry Address | 4               | Stack entry address                                                                        |
++---------------------+-----------------+--------------------------------------------------------------------------------------------+
+| ICALL_STACK0_ADDR   | 4               | Stack boundary address                                                                     |
++---------------------+-----------------+--------------------------------------------------------------------------------------------+
+| RAM_START_ADDR      | 4               | Start address of RAM                                                                       |
++---------------------+-----------------+--------------------------------------------------------------------------------------------+
+| RAM_END_ADDR        | 4               | End address of RAM                                                                         |
++---------------------+-----------------+--------------------------------------------------------------------------------------------+
+
+
+
+
+.. _sect-oad-service-desc:
+
+OAD Service (0xFFC0)
+^^^^^^^^^^^^^^^^^^^^
+
+The OAD service is responsible for accepting/rejecting an OAD interaction based
+on image header criteria, storing the image in its appropriate location, and
+causing a device jump to the newly downloaded user application if the download
+is successful so that the downloaded application image can be run by the
+:term:`BIM`.
+
+A screenshot of BTool displaying the OAD service is shown below:
+
+.. _fig-oad-service-overview:
+.. figure:: ./media/image3.png
+    :align: center
+
+    OAD Service Overview
+
+The OAD service is a primary service with three characteristics. The
+characteristics of the OAD service, their UUIDs, and descriptions are
+listed in :numref:`fig-oad-service-overview`
+
+.. _tbl-oad-service-description:
+.. table:: OAD Service Description.
+
+    +----------+------------------+-------------------------------------------+
+    | UUID     | Name             | Description                               |
+    +==========+==================+===========================================+
+    | 0xFFC0   | OAD Service      | OAD service declaration                   |
+    +----------+------------------+-------------------------------------------+
+    | 0xFFC1   | Image Identify   | Used to send image metadata over the air  |
+    |          |                  | so that the :term:`OAD Target` device can |
+    |          |                  | determine                                 |
+    |          |                  | if it should accept or reject the proposed|
+    |          |                  | image                                     |
+    +----------+------------------+-------------------------------------------+
+    | 0xFFC2   | Image Block      | Actual block of image data along with     |
+    |          |                  | offset into the image.                    |
+    +----------+------------------+-------------------------------------------+
+    | 0xFFC5   | OAD Control      | Controls various aspects of OAD process   |
+    +----------+------------------+-------------------------------------------+
+
+The primary method for sending data from the :term:`OAD Downloader` to the OAD
+target is the GATT writes with no response message. This reduces code size and
+increases data throughput as much as possible. Using GATT Notifications would
+require adding the GATT_ClientInit() call. However, in a noisy or otherwise poor
+RF-environment, the “write with no response” GATT message may not be sufficient
+to successfully transmit an entire image and software driven timeouts and
+retries may need to be added.
+
+The primary method for sending data from the OAD target to the
+:term:`OAD Downloader` is GATT notifications since the GATT_Client will have
+already been initialized.
+
+.. note::
+    Both GATT notifications and GATT write without response are
+    non-acknowledged message types. To ensure reliability, it is recommended to
+    limit OAD payload transfers to one procedure per connection event.
+
+You can refer to the :ref:`fig-oad-state-machine` for an overview of the OAD
+verification and image download process.
+
+..
+    For a message sequence chart describing the OAD process in terms OAD
+    service messages exchanged between the target and :term:`OAD Downloader` please
+    see :numref:`fig-oad-sequence-diagram`.
+
+OAD Image Identify (0xFFC1)
+"""""""""""""""""""""""""""
+
+The Image Identify characteristic is used to exchange image header information
+between :term:`OAD Downloader` and target. The OAD process begins when the
+:term:`OAD Downloader` sends the image header information of the proposed OAD
+image to the target. The target will determine whether or not the proposed image
+should be downloaded based on the following fields from the image header for the
+candidate image.
+
+Image Identify Payload (fields must be in the following order):
+    - OAD Image Identification Value
+    - BIM Version
+    - Image Header Version
+    - Image Information
+    - Image Length
+    - Software Version
+
+See :ref:`sec-oad-image-metadata` for more information about each field.
+
+“01:00” shall be written to the :term:`CCCD` of this characteristic
+so that notification for image header rejection is enabled.
+
+If the target accepts the image it will continue the OAD process as seen in :ref:`oad-process`.
+The successful image identify will be notified with response code  'SUCCESS'.
+Otherwise the target returns the error code.  The “01:00” shall be written to
+the CCCD of this characteristic to enable the notification. The error codes are
+listed in :ref:`sec-oad-error-codes`.
+
+..
+    .. _fig-reject-notification-sniffer-capture:
+    .. figure:: ./media/image4.png
+        :align: center
+
+        Reject Notification in Sniffer Capture
+
+A successful OAD initiation is shown in below:
+
+.. _fig-oad-initiation-sniffer-capture:
+.. figure:: ./media/image5.png
+    :align: center
+
+    Successful OAD Initiation Sniffer Capture
+
+OAD Image Block Characteristic (0xFFC2)
+"""""""""""""""""""""""""""""""""""""""
+
+The OAD Image Block characteristic is used to request and transfer a block of
+data of an OAD Image. “01:00” shall be written to the :term:`CCCD` of this
+characteristic to enable the notification for block write. The target requests
+the next block of the image by sending a GATT notification to the :term:`OAD Downloader`
+with the requested block number to the OAD Control Point characteristic.  The
+:term:`OAD Downloader` will respond (GATT write, no response)  with the block
+number and the OAD image block. The image block contains the actual binary data
+from the OAD image offset by the block number multiplied by the size of a block.
+The :term:`OAD Downloader` shall get the block size from target device by
+issuing the ‘Get OAD Block Size command’ to the OAD Control Point characteristic
+described in :ref:`sec-oad-control-point-characteristic`.
+
+:numref:`fig-block-request-response-sniffer-capture` shows a
+block request/response sniffer capture.
+
+.. _fig-block-request-response-sniffer-capture:
+.. figure:: ./media/image6.png
+    :align: center
+
+    Block Request/Response Sniffer Capture
+
+In :numref:`fig-block-request-response-sniffer-capture` above, the Image Block
+Write Char Response is shown in gray (0x12), status of last block is shown in
+teal (0x00 = "SUCCESS"), block number field is 4 bytes (little endian) and
+highlighted in red. The OAD image block highlighted in purple.
+
+.. _sec-oad-control-point-characteristic:
+
+OAD Control Point Characteristic (0xFFC5)
+"""""""""""""""""""""""""""""""""""""""""
+
+The OAD control characteristic is written with the intent of extending the TI
+OAD Profile by adding a characteristic that can handle multiple commands.
+Commands are sent unidirectionally from the OAD downloader application to the
+target using GATT Write No Response. The target will send command status and return
+values back to the :term:`OAD Downloader` using GATT Notifications. If the
+target doesn't support a command it shall respond with OAD_EXT_NOT_SUPPORTED,
+sent as a single byte notification on the OAD Control Char with value 0xFF.
+0xFF is defined as a reserved command ID. If target receives any of the control
+commands without receiving 'Image Identify' it will return 'OAD_AUTH_FAIL'.
+
+Below is the list of commands that are supported by the OAD Control Point
+Characteristic:
+
+.. _tbl-oad-control-supported-commands:
+.. table:: OAD Control Characteristic Supported Commands.
+
+    +----------------------------------------+--------+-----+----------------------------------------------------------------+
+    | Description                            | CMD_ID | LEN | Payload                                                        |
+    +========================================+========+=====+================================================================+
+    | Get OAD Block Size Command             | 0x01   | 0   | None                                                           |
+    +----------------------------------------+--------+-----+----------------------------------------------------------------+
+    | Get OAD Block Size Response            | 0x01   | 3   | OAD_BLOCK_SIZE                                                 |
+    +----------------------------------------+--------+-----+----------------------------------------------------------------+
+    | Set Image Count Command                | 0x02   | 1   | Number of images to be downloaded                              |
+    +----------------------------------------+--------+-----+----------------------------------------------------------------+
+    | Set Image Count Response               | 0x02   | 2   | Byte 0: Command ID (0x02)                                      |
+    +                                        +        +     +                                                                +
+    |                                        |        |     | Byte 1: Return Status                                          |
+    +----------------------------------------+--------+-----+----------------------------------------------------------------+
+    | Start OAD Process Command              | 0x03   | 0   | None                                                           |
+    +----------------------------------------+--------+-----+----------------------------------------------------------------+
+    | Start OAD Process Response             | 0x03   | 5   | Byte 0: Command ID (0x03)                                      |
+    +                                        +        +     +                                                                +
+    |                                        |        |     | Byte 1-3: Block Number                                         |
+    +----------------------------------------+--------+-----+----------------------------------------------------------------+
+    | Enable OAD Image Command               | 0x04   | 0/4 | LEN = 0: none                                                  |
+    +                                        +        +     +                                                                +
+    |                                        |        |     | LEN = 4: Image type and image number of image to be downloaded |
+    +----------------------------------------+--------+-----+----------------------------------------------------------------+
+    | Enable OAD Image Response              | 0x04   | 2   | Byte 0: Command ID (0x04)                                      |
+    +                                        +        +     +                                                                +
+    |                                        |        |     | Byte 1: Return Status                                          |
+    +----------------------------------------+--------+-----+----------------------------------------------------------------+
+    | Cancel OAD Command                     | 0x05   | 0   | None                                                           |
+    +----------------------------------------+--------+-----+----------------------------------------------------------------+
+    | Cancel OAD Response                    | 0x05   | 2   | Byte 0: Command ID (0x05)                                      |
+    +                                        +        +     +                                                                +
+    |                                        |        |     | Byte 1: Return Status                                          |
+    +----------------------------------------+--------+-----+----------------------------------------------------------------+
+    | Disable OAD Image Block Write Command  | 0x06   | 0   | None                                                           |
+    +----------------------------------------+--------+-----+----------------------------------------------------------------+
+    | Disable OAD Image Block Write Response | 0x06   | 2   | Byte 0: Command ID (0x06)                                      |
+    +                                        +        +     +                                                                +
+    |                                        |        |     | Byte 1: Return Status                                          |
+    +----------------------------------------+--------+-----+----------------------------------------------------------------+
+    | Get Software Version Command           | 0x07   | 0   | None                                                           |
+    +----------------------------------------+--------+-----+----------------------------------------------------------------+
+    | Get Software Version Response          | 0x07   | 5   | Byte 0: Command ID (0x07)                                      |
+    +                                        +        +     +                                                                +
+    |                                        |        |     | Byte 1-4: Software Version of currently running image          |
+    +----------------------------------------+--------+-----+----------------------------------------------------------------+
+    | Get OAD Image Status Command           | 0x08   | 0   | None                                                           |
+    +----------------------------------------+--------+-----+----------------------------------------------------------------+
+    | Get OAD Image Status Response          | 0x08   | 2   | Byte 0: Command ID (0x08)                                      |
+    +                                        +        +     +                                                                +
+    |                                        |        |     | Byte 1: Return Status                                          |
+    +----------------------------------------+--------+-----+----------------------------------------------------------------+
+    | Get Profile Version Command            | 0x09   | 0   | None                                                           |
+    +----------------------------------------+--------+-----+----------------------------------------------------------------+
+    | Get Profile Version Response           | 0x09   | 2   | Byte 0: Command ID (0x09)                                      |
+    +                                        +        +     +                                                                +
+    |                                        |        |     | Byte 1: Version of OAD profile supported by target             |
+    +----------------------------------------+--------+-----+----------------------------------------------------------------+
+    | Get Device Type Command                | 0x10   | 0   | None                                                           |
+    +----------------------------------------+--------+-----+----------------------------------------------------------------+
+    | Get Device Type Response               | 0x10   | 5   | Byte 0: Command ID (0x10)                                      |
+    +                                        +        +     +                                                                +
+    |                                        |        |     | Byte 1-4: Value of Device ID register                          |
+    +----------------------------------------+--------+-----+----------------------------------------------------------------+
+    | Image Block Write Char Response        | 0x12   | 6   | Byte 0: Command ID (0x12)                                      |
+    +                                        +        +     +                                                                +
+    |                                        |        |     | Byte 1: Status of the previous block received                  |
+    +                                        +        +     +                                                                +
+    |                                        |        |     | Byte 2-5: Block number                                         |
+    +----------------------------------------+--------+-----+----------------------------------------------------------------+
+    | Erase All Bonds Request                | 0x13   | 0   | None                                                           |
+    +----------------------------------------+--------+-----+----------------------------------------------------------------+
+    | Erase All Bonds Response               | 0x13   | 2   | Byte 0: Command ID (0x13)                                      |
+    +                                        +        +     +                                                                +
+    |                                        |        |     | Byte 1: Return status                                          |
+    +----------------------------------------+--------+-----+----------------------------------------------------------------+
+
+Get OAD Block Size CMD/RSP
+""""""""""""""""""""""""""
+The Get OAD block size command is used to return the active OAD block size. The
+OAD block size is always set by the target (CC26xx) device based on the
+negotiated MTU size. For optimal throughput, the downloader shall perform an MTU
+exchange and wait for the exchange to complete before issuing this command.
+
+The block size is returned in the Get OAD Block Size RSP as a 16-bit value.
+
+See :ref:`sec-blk-size-rules` for restrictions on block size.
+
+
+Set Image Count CMD/RSP
+"""""""""""""""""""""""
+The off-chip OAD solution can be used to download more than one image in one OAD
+session. The ‘OAD Image Count’ control command will be used to set the number of
+OAD images to be downloaded. In the earlier version of the OAD profile, ‘OAD
+Image Count’ characteristic; was used to serve this purpose. This command is not
+valid for on-chip OAD and will be ignored if received. Because of flash size
+limitation, on-chip OAD only supports one image download per session.
+The default value of the image count is '1'.
+
+Start OAD CMD/RSP
+"""""""""""""""""
+After receiving the successful  'Image Identify' response from the target
+device, the OAD downloader can start the OAD by issuing the ‘Start OAD’ command.
+
+Enable OAD Image CMD/RSP
+""""""""""""""""""""""""
+As mentioned earlier, off-chip upgrade can download multiple images. The
+downloader can select the image to that needs to be enabled using this control
+command. After successfully downloading the new image, the OAD downloader can
+select one of the downloaded images to be enabled by issuing the ‘Enable OAD
+Image’ command at OAD control point. The command either have payload bytes,
+indicating the image ID,( and optionally image number and wireless tech type,
+if supported) it wants to enable or no payload at all. The format of the payload
+is shown in table 11. By default, the command will have no payload, and the
+target device will enable the last downloaded image. The control point will send
+the two-byte(command ID + return status) response notification indicating
+success or fail reason.
+
+Cancel OAD CMD/RSP
+""""""""""""""""""
+The OAD downloader can cancel the image download any point during the download
+process by issuing the ‘Cancel OAD’ command. The control point will send the
+two-byte(command ID + return status) response notification indicating success or
+reason of the failure.
+
+Disable OAD Image Block Write CMD/RSP
+"""""""""""""""""""""""""""""""""""""
+By the default, OAD target application sends notifications for each ‘Block
+write’ message by sending notification via ‘OAD control point’ characteristic.
+This can be overhead for the OAD process overall and can impact the battery
+life. The downloader application can disable the notifications via this command.
+
+Get Software Version CMD/RSP
+""""""""""""""""""""""""""""
+Used to return the command ID +  4-byte long software version of the active
+image.
+
+Get OAD Image Status CMD/RSP
+""""""""""""""""""""""""""""
+Reports various failures that may occur during the OAD process in one byte long
+response. Error codes can be see in :ref:`sec-oad-error-codes`
+
+Get Profile Version CMD/RSP
+"""""""""""""""""""""""""""
+The command will return two-byte(command ID + profile) long OAD profile version
+supported by the application.
+
+Get Device Type CMD/RSP
+"""""""""""""""""""""""
+The command will return the command ID + 4-byte device ID register.
+
+Image Block Write Char RSP
+""""""""""""""""""""""""""
+The OAD target will respond with notification with status and block number of
+the next requested payload block from the Control Point characteristic.
+The return status codes are listed in :ref:`sec-oad-error-codes`. If the
+download of the entire image is complete, the OAD target device will respond
+with status code OAD_DL_COMPLETE and Block number set to 0xFFFFFFFF to indicate
+the download completion.
+
+Erase All Bonds REQ/RSP
+"""""""""""""""""""""""
+Target device will erase all bond records from non-volatile memory.
+
+.. _oad-reset-service:
+
+OAD Reset Service (0xFFD0)
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The OAD reset service is only used by on-chip OAD solutions. It
+implements a method for switching/invalidating the currently running image and
+resetting the device. This must occur because in on-chip solutions the currently
+running image cannot update itself. More information about the
+on-chip OAD process will be covered in the on-chip OAD chapter.
+:numref:`fig-oad-reset-service` shows an overview of the OAD reset service and
+its characteristics. Like the OAD service, the reset service uses the 128 bit TI
+base UUID with a 16 bit short UUID of 0xFFD0.
+
+.. _fig-oad-reset-service:
+.. figure:: ./media/btool_oad_reset_service.png
+    :align: center
+
+    OAD Reset Service
+
+OAD Start/Reset Characteristic (0xFFD1)
+"""""""""""""""""""""""""""""""""""""""
+The OAD Start/Reset Characteristic is responsible for starting the OAD process
+or resetting the target device. The size of the characteristic payload is
+1 byte. The OAD Process can be initiated by writing '1' to this characteristic.
+The target device can be reset by writing '0' to this characteristic.
+
+.. _sec-oad-error-codes:
+
+OAD Return Values
+^^^^^^^^^^^^^^^^^
+
++------------------------+-------+----------------------------------------------------------------------------------------------------+
+| OAD Status Code        | Value | Description                                                                                        |
++========================+=======+====================================================================================================+
+| OAD_SUCCESS            | 0     | OAD succeeded                                                                                      |
++------------------------+-------+----------------------------------------------------------------------------------------------------+
+| OAD_CRC_ERR            | 1     | The downloaded image’s CRC doesn’t match the one expected from the metadata                        |
++------------------------+-------+----------------------------------------------------------------------------------------------------+
+| OAD_FLASH_ERR          | 2     | Flash function failure such as flashOpen/flashRead/flash write/flash erase                         |
++------------------------+-------+----------------------------------------------------------------------------------------------------+
+| OAD_BUFFER_OFL         | 3     | The block number of the received packet doesn’t match the one requested, an overflow has occurred. |
++------------------------+-------+----------------------------------------------------------------------------------------------------+
+| OAD_ALREADY_STARTED    | 4     | OAD start command received, while OAD is already is progress                                       |
++------------------------+-------+----------------------------------------------------------------------------------------------------+
+| OAD_NOT_STARTED        | 5     | OAD data block received with OAD start process                                                     |
++------------------------+-------+----------------------------------------------------------------------------------------------------+
+| OAD_DL_NOT_COMPLETE    | 6     | OAD enable command received without complete OAD image download                                    |
++------------------------+-------+----------------------------------------------------------------------------------------------------+
+| OAD_NO_RESOURCES       | 7     | Memory allocation fails/ used only for backward compatibility                                      |
++------------------------+-------+----------------------------------------------------------------------------------------------------+
+| OAD_IMAGE_TOO_BIG      | 8     | Image is too big                                                                                   |
++------------------------+-------+----------------------------------------------------------------------------------------------------+
+| OAD_INCOMPATIBLE_IMAGE | 9     | Stack and flash boundary mismatch, program entry mismatch                                          |
++------------------------+-------+----------------------------------------------------------------------------------------------------+
+| OAD_INVALID_FILE       | 10    | Invalid image ID received                                                                          |
++------------------------+-------+----------------------------------------------------------------------------------------------------+
+| OAD_INCOMPATIBLE_FILE  | 11    | BIM/image header/firmware version mismatch                                                         |
++------------------------+-------+----------------------------------------------------------------------------------------------------+
+| OAD_AUTH_FAIL          | 12    | Start OAD process / Image Identify message/image payload authentication/validation fail            |
++------------------------+-------+----------------------------------------------------------------------------------------------------+
+| OAD_EXT_NOT_SUPPORTED  | 13    | Data length extension or OAD control point characteristic not supported                            |
++------------------------+-------+----------------------------------------------------------------------------------------------------+
+| OAD_DL_COMPLETE        | 14    | OAD image payload download complete                                                                |
++------------------------+-------+----------------------------------------------------------------------------------------------------+
+| OAD_CCCD_NOT_ENABLED   | 15    | Internal (target side) error code used to halt the process if a CCCD has not been enabled          |
++------------------------+-------+----------------------------------------------------------------------------------------------------+
+| OAD_IMG_ID_TIMEOUT     | 16    | OAD Image ID has been tried too many times and has timed out. Device will disconnect.              |
++------------------------+-------+----------------------------------------------------------------------------------------------------+
+
+.. _sec-blk-size-rules:
+
+OAD Block Size Rules
+^^^^^^^^^^^^^^^^^^^^
+The downloader device must use the block size returned by 'Get OAD Block Size
+RSP' throughout the OAD process. Once the OAD process starts, the block size
+must not change. The OAD target device will select the block size as the largest
+multiple of 4B that fits into the negotiated MTU size. If an MTU exchange fails,
+the OAD process will be cancelled. If the OAD control characteristic is not
+present or returns the EXT_OAD_NOT_SUPPORTED, then 20-byte block will be used
+for image download. If the image size is not an even multiple of the block size,
+the downloader shall send only the relevant image data. In this case of the last
+block this may be less than oadBlkSize.

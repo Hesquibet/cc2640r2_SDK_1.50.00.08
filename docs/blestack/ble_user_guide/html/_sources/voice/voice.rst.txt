@@ -1,0 +1,40 @@
+.. _simple_central_audio_receiver: https://github.com/ti-simplelink/ble_examples/blob/ble_examples-2.2/docs/simple_central_audio_receiver.md
+.. _voice.py: https://github.com/ti-simplelink/ble_examples/tree/simplelink_sdk-1.35/tools/scripts/voice/voice.py
+
+.. _sec-voice:
+
+Creating a Voice Enabled Application
+====================================
+
+"Voice" in this section means "voice quality audio" or any sound with a similar
+bandwidth. Voice can be compressed into a data stream that can easily be
+transmitted over a low-bandwidth radio protocol. TI offers a voice solution based
+on sampling a `Pulse Density Modulation (PDM) <https://en.wikipedia.org/wiki/Pulse-density_modulation>`__
+microphone.
+
+This section aims to describe the firmware that implements the TI voice
+solution. See the :ref:`tbl-sdk-ble-examples` in the SDK and the optional
+Example Pack User's Guide on examples that demonstrate TI's voice solutions.
+
+In addition to voice solution provided by the SDK, experimental development
+is also being done on `TI's SimpleLink Github Page <https://github.com/ti-simplelink>`__
+in the following areas:
+
+- LaunchPad based voice receiver (`simple_central_audio_receiver`_ on the *ble_examples-2.2* branch)
+    - Includes additional compression methods such as mSBC
+    - External Codec support for line in/analog mic
+- Voice over HID-over-GATT-Profile receiver Python script (`voice.py`_ on the *simplelink_sdk-1.40* branch)
+    - Captures voice frames via HID reports
+
+.. note::
+    Currently the ``ble_examples`` repo contains sample applications in various
+    development branches. Check back often for examples using other wireless
+    technologies, or improvements to the BLE examples.
+
+.. rubric:: Table of contents
+
+.. toctree::
+   :maxdepth: 2
+
+   voice_platform
+   ble_voice

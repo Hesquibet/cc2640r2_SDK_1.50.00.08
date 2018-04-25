@@ -1,0 +1,23 @@
+[
+   {
+      "name" : "na",
+      "files" : [
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/drivers/pwmled/tirtos/main_tirtos.c -> main_tirtos.c",
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/drivers/pwmled/pwmled.c -> pwmled.c",
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/drivers/pwmled/CC2640R2_LAUNCHXL.c -> CC2640R2_LAUNCHXL.c",
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/drivers/pwmled/ccfg.c -> ccfg.c",
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/drivers/pwmled/tirtos/iar/CC2640R2_LAUNCHXL_TIRTOS.icf -> pwmled_CC2640R2_LAUNCHXL_TIRTOS.icf",
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/drivers/pwmled/Board.h -> Board.h",
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/drivers/pwmled/CC2640R2_LAUNCHXL.h -> CC2640R2_LAUNCHXL.h",
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/drivers/pwmled/README.md -> README.md",
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/drivers/pwmled/README.html -> README.html"
+      ],
+      "default" : "na",
+      "compiler" : {
+         "specified" : "na",
+         "effective" : "na",
+         "location" : "na"
+      },
+      "packages" : []
+   }
+]

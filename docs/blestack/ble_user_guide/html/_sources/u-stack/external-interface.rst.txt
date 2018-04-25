@@ -1,0 +1,30 @@
+.. _BroadcasterCBs: ..\/..\/..\/doxygen\/ble\/html\/structug_bcast_c_bs__t.html
+.. _MonitorCBs:     ..\/..\/..\/doxygen\/ble\/html\/structugm_monitor_c_bs__t.html
+
+External Interface
+==================
+
+The external interfaces include APIs and callbacks. Only the uGAP APIs are
+exposed to the application. The application is responsible for registering
+callbacks and handling them appropriately.
+
+APIs
+----
+
+For complete listing of Micro BLE Stack APIs, see :ref:`micro_ble_api_reference`
+
+Callbacks
+---------
+
+Callbacks are how the TI Micro BLE Stack communicates with the Application.
+These callbacks are triggered at various events and will contain status
+or payload depending on the role.
+
+These callbacks should be defined by the Application and registered
+by passing the structure of callbacks to the role's initialization
+function.
+
+Broadcaster Callbacks (`BroadcasterCBs`_)
+
+Connection Monitor Callbacks (`MonitorCBs`_)
+

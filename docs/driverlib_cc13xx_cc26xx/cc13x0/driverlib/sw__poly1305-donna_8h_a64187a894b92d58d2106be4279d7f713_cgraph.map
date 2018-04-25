@@ -1,0 +1,8 @@
+<map id="poly1305_auth" name="poly1305_auth">
+<area shape="rect" id="node2" href="$sw__poly1305-donna-32_8h.html#a14de9fa5d71e42421c4e9882fded2fef" title="poly1305_init" alt="" coords="338,5,437,32"/>
+<area shape="rect" id="node4" href="$sw__poly1305-donna_8c.html#a36e87ea4beed396706dfc65461200f9e" title="poly1305_update" alt="" coords="160,56,280,83"/>
+<area shape="rect" id="node6" href="$sw__poly1305-donna-32_8h.html#a67d4f4cf339d7c472ba97dbb866d673d" title="poly1305_finish" alt="" coords="165,107,275,133"/>
+<area shape="rect" id="node3" href="$sw__poly1305-donna-32_8h.html#a89e4bb3dfbddaf6ff1ca16e36168c4f6" title="U8TO32" alt="" coords="495,31,564,57"/>
+<area shape="rect" id="node5" href="$sw__poly1305-donna-32_8h.html#ac7361bb48c3b88fe1fe4c8758aa3ed26" title="poly1305_blocks" alt="" coords="328,56,447,83"/>
+<area shape="rect" id="node7" href="$sw__poly1305-donna-32_8h.html#abb488326a7651204669fd11e027196f4" title="U32TO8" alt="" coords="353,107,422,133"/>
+</map>

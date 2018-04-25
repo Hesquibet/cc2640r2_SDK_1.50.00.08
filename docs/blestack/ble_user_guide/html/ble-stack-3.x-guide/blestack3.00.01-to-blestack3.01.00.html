@@ -1,0 +1,448 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>BLE-Stack 3.00.01 to BLE-Stack 3.01.00 &mdash; BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation" href="../index.html"/>
+        <link rel="up" title="Migration Guides" href="migration.html"/>
+        <link rel="next" title="BLE-Stack 3.00.00 to BLE-Stack 3.00.01" href="blestack3.00.00-to-blestack3.00.01.html"/>
+        <link rel="prev" title="BLE-Stack 3.01.00 to BLE-Stack 3.01.01" href="blestack3.01.00-to-blestack3.01.01.html"/> 
+    <script language="JavaScript">
+        var tiPageName;
+        tiPageName = "sug ble-stack-3.x-guide blestack3.00.01-to-blestack3.01.00";
+
+        if (location.protocol == "file:"){
+            var ci_analytics_poc_load = true;
+        }
+    </script> 
+
+    <script src="http://www.ti.com/assets/js/headerfooter/analytics.js" type="text/javascript" charset="utf-8">     
+
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> BLE-Stack User's Guide for Bluetooth 4.2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.01.01.00
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../cc2640/disclaimer.html">Disclaimer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="get-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cc2640/platform.html">The CC2640R2F SDK Platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x/index.html">Developing a Bluetooth Low Energy Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../u-stack/index.html">Micro BLE Stack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../oad-ble-stack-3.x/oad.html">Over the Air Download (OAD)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../voice/voice.html">Creating a Voice Enabled Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../secure-fw-3.x/index.html">Secure Firmware (SFW)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensor-controller/sensor-controller.html">Sensor Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../debugging/ble-index.html">Debugging</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="migration.html">Migration Guides</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="blestack3.01.00-to-blestack3.01.01.html">BLE-Stack 3.01.00 to BLE-Stack 3.01.01</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="migration.html#previous-migration-guides">Previous Migration Guides</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">BLE-Stack 3.00.01 to BLE-Stack 3.01.00</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#micro-ble-stack">Micro BLE Stack</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="blestack3.00.00-to-blestack3.00.01.html">BLE-Stack 3.00.00 to BLE-Stack 3.00.01</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cc2640-to-cc2640r2.html">CC2640 to CC2640R2F</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cc254x-to-cc2640.html">CC254x to CC2640</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api-reference.html">API References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference.html">Terms and Definitions</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">BLE-Stack User's Guide for Bluetooth 4.2</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="migration.html">Migration Guides</a> &raquo;</li>
+        
+      <li>BLE-Stack 3.00.01 to BLE-Stack 3.01.00</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="ble-stack-3-00-01-to-ble-stack-3-01-00">
+<h1>BLE-Stack 3.00.01 to BLE-Stack 3.01.00<a class="headerlink" href="#ble-stack-3-00-01-to-ble-stack-3-01-00" title="Permalink to this headline">¶</a></h1>
+<p>This section will describe a way to migrate a project from BLE-Stack 3.00.01 to
+a BLE-Stack 3.01.00 project.</p>
+<p>For this migration guide, simple_peripheral from BLE-Stack 3.00.01 will be ported
+over to BLE-Stack 3.01.00. Because the directory structure is nearly identical between the
+two releases, the recommended approach is to start with a BLE-Stack 3.01.00 project that contains
+the same base functionality as the porting target project and merge in any custom
+functionality.</p>
+<ol class="arabic">
+<li><p class="first">Choose a BLE-Stack 3.01.00 example project that contains your target project&#8217;s base functionality.</p>
+<blockquote>
+<div><p>For reference, see available sample projects that start with simple_peripheral</p>
+<p>In this example, we&#8217;re going to use simple_peripheral as the starting
+BLE-Stack 3.01.00 sample project.</p>
+</div></blockquote>
+</li>
+<li><p class="first">Transfer all modified application files from BLE-Stack 3.00.01 into the BLE-Stack 3.01.00 example project.</p>
+<blockquote>
+<div><p>In this example, the following files from BLE-Stack 3.00.01 were moved into
+simple_peripheral BLE-Stack 3.01.00 example:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">simple_peripheral.c</span></code></li>
+<li><code class="docutils literal"><span class="pre">simple_peripheral.h</span></code></li>
+<li><code class="docutils literal"><span class="pre">simple_gatt_profile.c</span></code></li>
+<li><code class="docutils literal"><span class="pre">simple_gatt_profile.h</span></code></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">Replace includes of <code class="docutils literal"><span class="pre">icall_apimsg.h</span></code> and <code class="docutils literal"><span class="pre">icall_api.h</span></code> with <code class="docutils literal"><span class="pre">icall_ble_api.h</span></code>.</p>
+<blockquote>
+<div><div class="highlight-c"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;icall_ble_api.h&quot;</span><span class="cp"></span>
+</pre></div>
+</div>
+<p>Make sure <strong>not</strong> to include any of the following files in your project:
+(They are already included in <code class="docutils literal"><span class="pre">icall_ble_api.h</span></code>.)</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">gap.h</span></code></li>
+<li><code class="docutils literal"><span class="pre">hci.h</span></code></li>
+<li><code class="docutils literal"><span class="pre">l2cap.h</span></code></li>
+<li><code class="docutils literal"><span class="pre">gatt.h</span></code></li>
+<li><code class="docutils literal"><span class="pre">gattserverapp.h</span></code></li>
+<li><code class="docutils literal"><span class="pre">linkdb.h</span></code></li>
+<li><code class="docutils literal"><span class="pre">att.h</span></code></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">If your code contains any <code class="docutils literal"><span class="pre">#ifdef</span> <span class="pre">USE_CORE_SDK</span></code>, remove these.</p>
+</li>
+<li><p class="first">Modify <code class="docutils literal"><span class="pre">main.c</span></code> in the BLE-Stack 3.01.00 example if additional tasks were added in the BLE-Stack 3.00.01 project.</p>
+</li>
+<li><p class="first">Please do not add any <code class="docutils literal"><span class="pre">DV42_FEATURES</span></code> defines to <code class="docutils literal"><span class="pre">build_config.opt</span></code> in BLE-Stack 3.01.00. If you want to enable or disable <a class="reference internal" href="../ble-stack-3.x/gapbondmngr.html#sec-secure-connections"><span class="std std-ref">Secure Connections</span></a>, please use the <code class="docutils literal"><span class="pre">GAPBOND_SECURE_CONNECTION</span></code> parameter. (Secure Connections is enabled by default in BLE-Stack 3.01.00.)</p>
+<blockquote>
+<div><div class="highlight-c"><div class="highlight"><pre><span></span><span class="kt">uint8_t</span> <span class="n">gapbondSecure</span> <span class="o">=</span> <span class="n">GAPBOND_SECURE_CONNECTION_NONE</span><span class="p">;</span>
+<span class="n">GAPBondMgr_SetParameter</span><span class="p">(</span><span class="n">GAPBOND_SECURE_CONNECTION</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">uint8_t</span><span class="p">),</span> <span class="o">&amp;</span><span class="n">gapbondSecure</span><span class="p">);</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">In BLE-Stack 3.01.00, heap management has been updated. Please see <a class="reference internal" href="../cc2640/memory_management.html#dynamic-memory-allocation"><span class="std std-ref">Dynamic Memory Allocation</span></a> for details on how to optimize your heap.</p>
+</li>
+<li><p class="first">In BLE-Stack 3.01.00, OAD has been updated. Please see <a class="reference internal" href="../oad-ble-stack-3.x/oad.html#sec-oad"><span class="std std-ref">Over the Air Download (OAD)</span></a>.</p>
+</li>
+<li><p class="first">If you are using the GAPBondMgr, make sure a passcode callback function is defined and sent to the GAPBondMgr. This is mandatory in BLE-Stack 3.01.00.</p>
+<blockquote>
+<div><div class="highlight-c"><div class="highlight"><pre><span></span><span class="c1">// GAP Bond Manager Callbacks</span>
+<span class="c1">// These are set to NULL since they are not needed. The application</span>
+<span class="c1">// is set up to only perform justworks pairing.</span>
+<span class="k">static</span> <span class="n">gapBondCBs_t</span> <span class="n">simpleBLEPeripheral_BondMgrCBs</span> <span class="o">=</span>
+<span class="p">{</span>
+    <span class="p">(</span><span class="n">pfnPasscodeCB_t</span><span class="p">)</span> <span class="n">SimpleBLEPeripheral_passcodeCB</span><span class="p">,</span> <span class="c1">// Passcode callback</span>
+    <span class="n">SimpleBLEPeripheral_pairStateCB</span>                   <span class="c1">// Pairing / Bonding state Callback</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>The passcode callback and handling can be done the following way:</p>
+<p>Define an event <code class="docutils literal"><span class="pre">SBP_PASSCODE_NEEDED_EVT</span></code> such that the <code class="docutils literal"><span class="pre">SimpleBLEPeripheral_passcodeCB</span></code>
+function can enqueue a message for the application task to handle.</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="cp">#define SBP_STATE_CHANGE_EVT                  0x0001</span>
+<span class="cp">#define SBP_CHAR_CHANGE_EVT                   0x0002</span>
+<span class="cp">#define SBP_PASSCODE_NEEDED_EVT               0x0003</span>
+</pre></div>
+</div>
+<p>The callback function will push this event to application task
+so that the BLE-Stack API call can happen in the application
+context.</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="c1">// Forward Declaration</span>
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">SimpleBLEPeripheral_passcodeCB</span><span class="p">(</span><span class="kt">uint8_t</span> <span class="o">*</span><span class="n">deviceAddr</span><span class="p">,</span> <span class="kt">uint16_t</span> <span class="n">connHandle</span><span class="p">,</span> <span class="kt">uint8_t</span> <span class="n">uiInputs</span><span class="p">,</span> <span class="kt">uint8_t</span> <span class="n">uiOutputs</span><span class="p">);</span>
+
+<span class="c1">// Definition</span>
+<span class="cm">/*********************************************************************</span>
+<span class="cm">* @fn      SimpleBLEPeripheral_passcodeCB</span>
+<span class="cm">*</span>
+<span class="cm">* @brief   Passcode callback.</span>
+<span class="cm">*</span>
+<span class="cm">* @return  none</span>
+<span class="cm">*/</span>
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">SimpleBLEPeripheral_passcodeCB</span><span class="p">(</span><span class="kt">uint8_t</span> <span class="o">*</span><span class="n">deviceAddr</span><span class="p">,</span> <span class="kt">uint16_t</span> <span class="n">connHandle</span><span class="p">,</span> <span class="kt">uint8_t</span> <span class="n">uiInputs</span><span class="p">,</span> <span class="kt">uint8_t</span> <span class="n">uiOutputs</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">uint8_t</span> <span class="o">*</span><span class="n">pData</span><span class="p">;</span>
+
+    <span class="c1">// Allocate space for the passcode event.</span>
+    <span class="k">if</span> <span class="p">((</span><span class="n">pData</span> <span class="o">=</span> <span class="n">ICall_malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">uint8_t</span><span class="p">))))</span>
+    <span class="p">{</span>
+        <span class="o">*</span><span class="n">pData</span> <span class="o">=</span> <span class="n">uiOutputs</span><span class="p">;</span>
+
+        <span class="c1">// Enqueue the event.</span>
+        <span class="n">SimpleBLEPeripheral_enqueueMsg</span><span class="p">(</span><span class="n">SBP_PASSCODE_NEEDED_EVT</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Lastly, take the dequeued message in <code class="docutils literal"><span class="pre">SimpleBLEPeripheral_processAppMsg</span></code> and
+call the appropriate BLE-Stack API.</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="cm">/*********************************************************************</span>
+<span class="cm"> * @fn      SimpleBLEPeripheral_processAppMsg</span>
+<span class="cm"> *</span>
+<span class="cm"> * @brief   Process an incoming callback from a profile.</span>
+<span class="cm"> *</span>
+<span class="cm"> * @param   pMsg - message to process</span>
+<span class="cm"> *</span>
+<span class="cm"> * @return  None.</span>
+<span class="cm"> */</span>
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">SimpleBLEPeripheral_processAppMsg</span><span class="p">(</span><span class="n">sbpEvt_t</span> <span class="o">*</span><span class="n">pMsg</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">switch</span> <span class="p">(</span><span class="n">pMsg</span><span class="o">-&gt;</span><span class="n">hdr</span><span class="p">.</span><span class="n">event</span><span class="p">)</span>
+    <span class="p">{</span>
+    <span class="c1">// . . .</span>
+        <span class="k">case</span> <span class="nl">SBP_PASSCODE_NEEDED_EVT</span><span class="p">:</span>
+        <span class="p">{</span>
+          <span class="c1">// Use static passcode</span>
+          <span class="kt">uint32_t</span> <span class="n">passcode</span> <span class="o">=</span> <span class="mi">123456</span><span class="p">;</span>
+          <span class="c1">// Send passcode to GAPBondMgr (assuming single connection)</span>
+          <span class="n">GAPBondMgr_PasscodeRsp</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">SUCCESS</span><span class="p">,</span> <span class="n">passcode</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">break</span><span class="p">;</span>
+
+    <span class="k">default</span><span class="o">:</span>
+        <span class="c1">// Do nothing.</span>
+        <span class="k">break</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">If necessary, update the project to use the newer TI-RTOS drivers that are supplied with the SimpleLink CC2640R2 SDK.</p>
+<blockquote>
+<div><p>The following drivers have changed from BLE-Stack 3.00.01. Please see the
+changes to these drivers by comparing the supplied headers between those in
+simplelink_cc2640r2_sdk_1_30_00_25 and those in the SimpleLink CC2640R2 SDK.</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">ADC</span></code></li>
+<li><code class="docutils literal"><span class="pre">NVS</span></code></li>
+<li><code class="docutils literal"><span class="pre">Display</span></code></li>
+</ul>
+<div class="admonition attention">
+<p class="first admonition-title">Attention</p>
+<p>The display folder should in BLE-Stack 3.01.00 be included with the path <code class="docutils literal"><span class="pre">&lt;ti/display/Display.h&gt;</span></code>, not <code class="docutils literal"><span class="pre">&lt;ti/mw/display/Display.h&gt;</span></code>.</p>
+<div class="last highlight-c"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;ti/display/Display.h&gt;</span><span class="cp"></span>
+</pre></div>
+</div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">Refer to the <a class="reference external" href="../../../../../simplelink_mcu_sdk/release_notes_coresdk_cc13xx_cc26xx_3_10_00_10.html#upgrade-and-compatibility-information">Upgrade and Compatibility Information</a> for additional information and the TI-RTOS examples included with SimpleLink CC2640R2 SDK.</p>
+<blockquote>
+<div><p>For additional information on how BLE-Stack 3.01.00 uses TI-RTOS see
+<a class="reference internal" href="../cc2640/rtos-overview.html#sec-tirtos-overview"><span class="std std-ref">TI-RTOS Overview</span></a></p>
+<p>For any utilized TI Drivers, review <a class="reference external" href="../../../../../tirtos/sysbios/docs/Bios_User_Guide.pdf">TI-RTOS Kernel Users Guide</a> and
+<a class="reference external" href="../../../../../tidrivers/tidriversAPIs.html">Driver APIs</a>.</p>
+</div></blockquote>
+</li>
+</ol>
+<div class="section" id="micro-ble-stack">
+<h2>Micro BLE Stack<a class="headerlink" href="#micro-ble-stack" title="Permalink to this headline">¶</a></h2>
+<p>The micro BLE Stack API has changed from <code class="docutils literal"><span class="pre">ub_</span></code> to <code class="docutils literal"><span class="pre">uble_</span></code>. For details, see <code class="docutils literal"><span class="pre">uble.h</span></code>.</p>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="blestack3.00.00-to-blestack3.00.01.html" class="btn btn-neutral float-right" title="BLE-Stack 3.00.00 to BLE-Stack 3.00.01" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="blestack3.01.00-to-blestack3.01.01.html" class="btn btn-neutral" title="BLE-Stack 3.01.00 to BLE-Stack 3.01.01" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Texas Instruments.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.01.01.00',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

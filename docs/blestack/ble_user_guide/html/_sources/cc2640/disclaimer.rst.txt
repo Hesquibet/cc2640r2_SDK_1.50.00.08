@@ -1,0 +1,12 @@
+**********
+Disclaimer
+**********
+
+The purpose of this document is to give an overview of the TI
+SimpleLink™ Bluetooth\ :sup:`®` low energy |DEVICE| wireless MCU
+software development kit to begin creating a Bluetooth low energy
+custom application. This document also introduces the Bluetooth low
+energy specification. Do not use this document as a substitute for
+the complete specification. For more details, see the Specification
+of the Bluetooth System or some introductory material at the TI
+Bluetooth low energy Wiki.

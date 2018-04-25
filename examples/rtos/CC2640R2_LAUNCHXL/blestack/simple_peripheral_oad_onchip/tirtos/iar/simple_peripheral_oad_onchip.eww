@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<workspace>
+  <project>
+    <path>$WS_DIR$\bim_onchip\cc2640r2lp_bim_onchip.ewp</path>
+  </project>
+  <project>
+    <path>$WS_DIR$\app\cc2640r2lp_app.ewp</path>
+  </project>
+  <project>
+    <path>$WS_DIR$\persistent_app\cc2640r2lp_persistent_app.ewp</path>
+  </project>
+  <project>
+    <path>$WS_DIR$\stack\cc2640r2lp_stack.ewp</path>
+  </project>
+  <batchBuild/>
+</workspace>
+
+

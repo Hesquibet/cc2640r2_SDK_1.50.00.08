@@ -1,0 +1,266 @@
+<HTML>
+<HEAD><META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
+<link href="..//elements/mmap.css" rel="stylesheet" type="text/css">
+<TITLE>PKA_INT</TITLE>
+</HEAD>
+<BODY class=mmapBody>
+<h2 class="mmapCellTitle">
+  <a name="Top_Tag">PKA_INT</a>
+</h2>
+<P>Instance: PKA_INT<BR>
+Component: PKA_INT<BR>
+Base address: 0x40027000</P>
+<BR>
+<P>Integrated module which includes the PKA K</P>
+ <H3 class="mmapRegisterSummaryTitle"><A name="PKA_INT"></A><A href="CPU_MMAP.html"> TOP</A>:<B>PKA_INT</B> Register Summary</H3>
+<TABLE cellspacing="0" class="mmapRegisterSummaryTable">
+<TR class="rowTop">
+<TD class="cellTopCol1">
+  <P>Register Name</P>
+</TD>
+<TD class="cellTopCol2">
+  <P>Type</P>
+</TD>
+<TD class="cellTopCol3">
+  <P>Register Width (Bits)</P>
+</TD>
+<TD class="cellTopCol4">
+  <P>Register Reset</P>
+</TD>
+<TD class="cellTopCol5">
+  <P>Address Offset</P>
+</TD>
+<TD class="cellTopCol5">
+  <P>Physical Address</P>
+</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">
+  <P>
+    <A href="#OPTIONS" title="PKA Options register">OPTIONS</A>
+  </P>
+</TD>
+<TD class="cellCol2">
+  <P>RO</P>
+</TD>
+<TD class="cellCol3">
+  <P>32</P>
+</TD>
+<TD class="cellCol4">
+  <P>0x0000 0102</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x0000 0FF8</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x4002 7FF8</P>
+</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">
+  <P>
+    <A href="#REVISION" title="PKA hardware revision register">REVISION</A>
+  </P>
+</TD>
+<TD class="cellCol2">
+  <P>RO</P>
+</TD>
+<TD class="cellCol3">
+  <P>32</P>
+</TD>
+<TD class="cellCol4">
+  <P>0x0200 6996</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x0000 0FFC</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x4002 7FFC</P>
+</TD>
+</TR>
+</TABLE>
+<H3 class="mmapRegisterSummaryTitle"><A href="CPU_MMAP.html"> TOP</A>:PKA_INT Register Descriptions</H3>
+<H3 class="mmapRegisterTitle"><A name="OPTIONS"></A><A class="mmapRegisterTitle" href="CPU_MMAP.html">TOP</A>:<A class="mmapRegisterTitle" href="#Top_Tag">PKA_INT</A>:OPTIONS</H3><TABLE cellspacing="0" class="mmapRegisterTable">
+<TR class="row">
+<TD class="cellCol1"><B>Address Offset</B></TD>
+<TD class="cellCol2" colspan="3">0x0000 0FF8</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Physical Address</TD>
+<TD class="cellCol2">0x4002 7FF8</TD>
+<TD class="cellCol3">Instance</TD>
+<TD class="cellCol4">0x4002 7FF8</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Description</TD>
+<TD class="cellCol2" colspan="3">PKA Options register</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Type</TD>
+<TD class="cellCol2" colspan="3">RO</TD>
+</TR>
+</TABLE>
+<TABLE cellspacing="0" class="mmapBitfieldTable">
+<TR class="rowTop">
+<TD class="cellTopCol1">Bits</TD>
+<TD class="cellTopCol2">Field Name</TD>
+<TD class="cellTopCol3" colspan="3">Description</TD>
+<TD class="cellTopCol4">Type</TD>
+<TD class="cellTopCol5">Reset</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="OPTIONS_RESERVED11">31:11</a>
+</TD>
+<TD class="cellBitfieldCol2">RESERVED11</TD>
+<TD class="cellBitfieldCol3" colspan="3">Ignore on read</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0b0 0000 0000 0000 0000 0000</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="OPTIONS_AIC_PRESENT">10</a>
+</TD>
+<TD class="cellBitfieldCol2">AIC_PRESENT</TD>
+<TD class="cellBitfieldCol3" colspan="3">When set to &#39;1&#39;, indicates that an EIP201 AIC  is included in the EIP150</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="OPTIONS_EIP76_PRESENT">9</a>
+</TD>
+<TD class="cellBitfieldCol2">EIP76_PRESENT</TD>
+<TD class="cellBitfieldCol3" colspan="3">When set to &#39;1&#39;, indicates that the EIP76 TRNG  is included in the EIP150</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="OPTIONS_EIP28_PRESENT">8</a>
+</TD>
+<TD class="cellBitfieldCol2">EIP28_PRESENT</TD>
+<TD class="cellBitfieldCol3" colspan="3">When set to &#39;1&#39;, indicates that the EIP28 PKA is included in the EIP150</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">1</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="OPTIONS_RESERVED4">7:4</a>
+</TD>
+<TD class="cellBitfieldCol2">RESERVED4</TD>
+<TD class="cellBitfieldCol3" colspan="3">Ignore on read</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0x0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="OPTIONS_AXI_INTERFACE">3</a>
+</TD>
+<TD class="cellBitfieldCol2">AXI_INTERFACE</TD>
+<TD class="cellBitfieldCol3" colspan="3">When set to &#39;1&#39;, indicates that the EIP150 is equipped with a AXI interface</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="OPTIONS_AHB_IS_ASYNC">2</a>
+</TD>
+<TD class="cellBitfieldCol2">AHB_IS_ASYNC</TD>
+<TD class="cellBitfieldCol3" colspan="3">When set to &#39;1&#39;, indicates that AHB interface is asynchronous  Only applicable when AHB_INTERFACE is 1</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="OPTIONS_AHB_INTERFACE">1</a>
+</TD>
+<TD class="cellBitfieldCol2">AHB_INTERFACE</TD>
+<TD class="cellBitfieldCol3" colspan="3">When set to &#39;1&#39;, indicates that the EIP150 is equipped with a AHB interface</TD>
+<TD class="cellBitfieldCol4"></TD>
+<TD class="cellBitfieldCol5">1</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="OPTIONS_PLB_INTERFACE">0</a>
+</TD>
+<TD class="cellBitfieldCol2">PLB_INTERFACE</TD>
+<TD class="cellBitfieldCol3" colspan="3">When set to &#39;1&#39;, indicates that the EIP150 is equipped with a PLB interface</TD>
+<TD class="cellBitfieldCol4"></TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+</TABLE>
+<H3 class="mmapRegisterTitle"><A name="REVISION"></A><A class="mmapRegisterTitle" href="CPU_MMAP.html">TOP</A>:<A class="mmapRegisterTitle" href="#Top_Tag">PKA_INT</A>:REVISION</H3><TABLE cellspacing="0" class="mmapRegisterTable">
+<TR class="row">
+<TD class="cellCol1"><B>Address Offset</B></TD>
+<TD class="cellCol2" colspan="3">0x0000 0FFC</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Physical Address</TD>
+<TD class="cellCol2">0x4002 7FFC</TD>
+<TD class="cellCol3">Instance</TD>
+<TD class="cellCol4">0x4002 7FFC</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Description</TD>
+<TD class="cellCol2" colspan="3">PKA hardware revision register<BR>
+This register allows the host access to the hardware revision number of the PKA engine for software driver matching and diagnostic purposes. It is always located at the highest address in the access space of the module and contains an encoding of the EIP number (with its complement as signature) for recognition of the hardware module.</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Type</TD>
+<TD class="cellCol2" colspan="3">RO</TD>
+</TR>
+</TABLE>
+<TABLE cellspacing="0" class="mmapBitfieldTable">
+<TR class="rowTop">
+<TD class="cellTopCol1">Bits</TD>
+<TD class="cellTopCol2">Field Name</TD>
+<TD class="cellTopCol3" colspan="3">Description</TD>
+<TD class="cellTopCol4">Type</TD>
+<TD class="cellTopCol5">Reset</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="REVISION_RESERVED28">31:28</a>
+</TD>
+<TD class="cellBitfieldCol2">RESERVED28</TD>
+<TD class="cellBitfieldCol3" colspan="3">These bits should be ignored on read</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0x0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="REVISION_MAJOR_REVISION">27:24</a>
+</TD>
+<TD class="cellBitfieldCol2">MAJOR_REVISION</TD>
+<TD class="cellBitfieldCol3" colspan="3">These bits encode the major version number for this module</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0x2</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="REVISION_MINOR_REVISION">23:20</a>
+</TD>
+<TD class="cellBitfieldCol2">MINOR_REVISION</TD>
+<TD class="cellBitfieldCol3" colspan="3">These bits encode the minor version number for this module</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0x0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="REVISION_PATCH_LEVEL">19:16</a>
+</TD>
+<TD class="cellBitfieldCol2">PATCH_LEVEL</TD>
+<TD class="cellBitfieldCol3" colspan="3">These bits encode the hardware patch level for this module they start at value 0 on the first release</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0x0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="REVISION_COMP_EIP_NUM">15:8</a>
+</TD>
+<TD class="cellBitfieldCol2">COMP_EIP_NUM</TD>
+<TD class="cellBitfieldCol3" colspan="3">These bits simply contain the complement of bits [7:0], used by a driver to ascertain that the EIP150 revision register is indeed read</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0x69</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="REVISION_EIP_NUM">7:0</a>
+</TD>
+<TD class="cellBitfieldCol2">EIP_NUM</TD>
+<TD class="cellBitfieldCol3" colspan="3">These bits encode the AuthenTec EIP number for the EIP150</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0x96</TD>
+</TR>
+</TABLE>
+<BR>
+<BR>
+<hr><table class="footer"><tr><td>&copy; 2015 - 2016. Texas Instruments | All Rights Reserved</td></tr></table>
+</BODY>
+</HTML>

@@ -1,0 +1,4 @@
+<map id="ChipInfo_ChipFamilyIs_CC13x0" name="ChipInfo_ChipFamilyIs_CC13x0">
+<area shape="rect" id="node2" href="$group___chip_info.html#gaca76b9c316d9123a5b337fa715811ccc" title="Returns chip family member. " alt="" coords="204,13,365,39"/>
+<area shape="rect" id="node3" href="$group___chip_info.html#ga5becf5c53f75421ba924094c8e7e8411" title="Returns the internal chip HW revision code. " alt="" coords="413,13,627,39"/>
+</map>

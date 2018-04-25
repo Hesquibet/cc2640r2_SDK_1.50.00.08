@@ -1,0 +1,6 @@
+<map id="OSCXHfPowerModeSet" name="OSCXHfPowerModeSet">
+<area shape="rect" id="node2" href="$group__ddi__api.html#gabdbaae7ecb063e23cb2f12198f419a5e" title="Write a single bit using a 16&#45;bit maskable write. " alt="" coords="211,31,315,57"/>
+<area shape="rect" id="node3" href="$group__ddi__api.html#ga06d6b1eee2c8757b8431eb6e1ab98f68" title="Safely write to AUX ADI/DDI interfaces using a semaphore. " alt="" coords="363,31,503,57"/>
+<area shape="rect" id="node4" href="$group__cpu__api.html#ga491d851c4f7fff1f9f66aa778b0671b0" title="Disable all external interrupts. " alt="" coords="551,5,631,32"/>
+<area shape="rect" id="node5" href="$group__cpu__api.html#ga6922d401cbc951632f495ffcf2e71dfc" title="Enable all external interrupts. " alt="" coords="551,56,631,83"/>
+</map>

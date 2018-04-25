@@ -1,0 +1,68 @@
+.. _TI-RTOS Kernel Users Guide: ..\/..\/..\/..\/..\/tirtos\/sysbios\/docs\/Bios_User_Guide.pdf
+
+BLE-Stack 3.00.00 to BLE-Stack 3.00.01
+====================================================
+
+This section will describe a way to migrate a project from BLE-Stack 3.00.00 to
+a BLE-Stack 3.00.01 project.
+
+For this migration guide, simple\_peripheral from BLE-Stack 3.00.00 will be ported
+over to BLE-Stack 3.00.01. Because the directory structure is nearly identical between the
+two releases, the recommended approach is to start with a BLE-Stack 3.00.01 project that contains
+the same base functionality as the porting target project and merge in any custom
+functionality.
+
+#. Choose a BLE-Stack 3.00.01 example project that contains your target project's base functionality.
+
+    For reference, see available sample projects that start with simple\_
+
+    In this example, we're going to use simple\_peripheral as the starting
+    BLE-Stack 3.00.01 sample project.
+
+#. Transfer all modified application files from BLE-Stack 3.00.00 into the BLE-Stack 3.00.01 example project.
+
+    In this example, the following files from BLE-Stack 3.00.00 were moved into
+    simple\_peripheral BLE-Stack 3.00.01 example:
+
+    - ``simple_peripheral.c``
+    - ``simple_peripheral.h``
+    - ``simple_gatt_profile.c``
+    - ``simple_gatt_profile.h``
+
+    Modify ``main.c`` in the BLE-Stack 3.00.01 example if additional tasks
+    were added in the BLE-Stack 3.00.00 project.
+
+    .. attention::
+        For applications using **Directed Advertisements** comment
+        out ``#define GBM_GATT_NO_CLIENT`` in  ``gapbondmgr.c`` of BLE-Stack
+        3.00.00 project to remain compliant with the |CORESPEC|.
+
+        .. code-block:: c
+            :linenos:
+            :emphasize-lines: 3
+
+            #ifdef GATT_NO_CLIENT
+            #ifndef GBM_GATT_NO_CLIENT
+            //#define GBM_GATT_NO_CLIENT // <-- Comment this out
+            #endif // !GBM_GATT_NO_CLIENT
+            #endif // GATT_NO_CLIENT
+
+        See :ref:`creating-a-custom-ble-app_directed_advertisements` for more
+        information.
+
+#. If necessary, update the project to use the newer TI-RTOS drivers that are supplied with the |SDK|.
+
+    The following drivers have changed from BLE-Stack 3.00.00.
+    Please see the changes to these drivers by comparing the supplied headers between those in
+    simplelink_cc2640r2_sdk_1_00_00_2 and those in the |SDK|.
+
+    - ``ADCCC26XX.h``
+    - ``RF.h``
+
+    Also, refer to the |TIRTOSUPGRADE| for additional information and the TI-RTOS examples included with |SDK|.
+
+    For additional information on how BLE-Stack 3.00.01 uses TI-RTOS see
+    :ref:`sec-tirtos-overview`
+
+    For any utilized TI Drivers, review `TI-RTOS Kernel Users Guide`_ and
+    `Driver APIs <..\/..\/..\/..\/..\/tidrivers\/tidriversAPIs.html>`__.

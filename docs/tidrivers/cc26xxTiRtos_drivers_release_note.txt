@@ -1,0 +1,3716 @@
+===============================================================================
+TI-RTOS CC26XX DRIVERS RELEASE NOTE
+===============================================================================
+
+TI-RTOS version: 3.10.00
+Release date: Q1 2017
+
+-------------------------------------------------------------------------------
+1. Overview
+-------------------------------------------------------------------------------
+
+New Features and Enhancements:
+
+    [RF]        226: RF driver - 2.4GHz IEEE 15.4 API support
+    [RF]        463: RF driver should fail sooner on invalid mode
+    [RF]        615: Method to allow users to disable (or enable) RF driver power management
+    [RF]        779: Power down sequence optimization
+    [RF]        818: Added front end setting and switching support in RF driver
+    [RF]        826: Added new error for RF_scheduleCmd to indicate error as command timing cannot be met
+    [RF]        830: Dispatch RF command sooner
+    [RF]        831: Switch XOSC_HF in RF driver
+    [RF]        866: RF driver not BLE5 compliant
+    [RF]        878: Enable flash in IDLE mode during startup to optimize power consumption
+    [RF]        896: Added power optimization changes to RF driver single mode
+
+Breaking Changes:
+
+    None
+
+Issues fixed:
+
+    [Power]     886: Fixed TDC synchronization between CM3 and sensor controller
+    [Power]     769: Added power constraint to enable alternate XOSC_HF startup
+    [Power]     880: Removed unnecessary conditional branch in XOSC_HF switching fxn
+    [Power]     770: Removed unnecessary second parent entry in power resource DB
+    [Power]     883: Exposed PowerCC26XX_isStableXOSC_HF in header file
+    [Power]     846: Added SysCtrlAonSync before early wakeup notification
+    [I2C]       847: IOs are muxed before module is enabled
+    [Crypto]    844: Added optional compile switch to reduce flash size
+    [Crypto]    839: Improved crypto documentation on AES CCM nonce length
+    [UART]      774: Make UART_close() more robust
+    [ADCBuf]    772: Added enums for ADCBuf channel selection to default board files
+    [PIN]       754: PIN examples on LaunchPads did not turn off external flash
+    [ADC]       835: Added flag to HwAttrs that specifies if trimmed or raw values are returned
+    [RF]        732: Cancel callback is delayed to next RF Swi
+    [RF]        765: Callback when RF_Callback pCb is NULL
+    [RF]        798: Delayed command execution in case of single future cmd is cancelled
+    [RF]        824: RF driver should cancel power down when RAT timer starts after stop in the RAT callback SWI
+    [RF]        834: Back to back RF_yield can cause power down issue in RFCC26XX_singleMode.c
+    [RF]        883: Handling yield in dual mode RF driver
+    [RF]        899: RF_ratDisableChannel can cause illegal memory read
+
+Known issues:
+
+    None
+
+Code size:
+
+    Driver sizes compiled with IAR 7.80.3 -Ohz
+
+    Module                        ro code  ro data  rw data  rw data (abs)
+    ------                        -------  -------  -------  -------
+    ADC.o                              72                 1
+    ADCBuf.o                           96                 1
+    ADCBufCC26XX.o                  1 496       37        1       64
+    ADCCC26XX.o                       468       24       32
+    Board.o                                  1 118    2 796
+    Codec1.o                          440                 4
+    CryptoCC26XX.o                  1 176                29
+    GPTimerCC26XX.o                   736
+    HwiP_tirtos.o                       8
+    I2C.o                              84                 1
+    I2CCC26XX.o                     1 296       24
+    LCDDogm1286.o                   4 676                16
+    LCDDogm1286_util.o                218
+    List.o                             86
+    PDMCC26XX.o                     1 704               908
+    PDMCC26XX_util.o                1 660                64
+    PINCC26XX.o                     1 674               272
+    PWM.o                              88                 1
+    PWMTimerCC26XX.o                  604       32       16
+    PowerCC26XX.o                   2 308       89      276
+    PowerCC26XX_calibrateRCOSC.o    1 126
+    PowerCC26XX_tirtos.o              216
+    RFCC26XX_multiMode.o            8 544               717
+    RingBuf.o                         138
+    SPI.o                             176                 1
+    SPICC26XXDMA.o                  2 068       24                64
+    UART.o                            112                 1
+    UARTCC26XX.o                    2 496       40        2
+    UDMACC26XX.o                      196
+    Watchdog.o                         72                 1
+    WatchdogCC26XX.o                  266       28
+    ccfg.o                                      88
+    pdm2pcm_iar.o                   2 320               256
+
+    * Includes config for ADC, ADCbuf, Crypto, I2C, LCD, PDM, PWM, PIN, Power, RF, SPIDMA0/1, UART, UDMA, Watchdog
+
+-------------------------------------------------------------------------------
+2. New Features and Bug Item Details
+-------------------------------------------------------------------------------
+
+Item 769
+
+    Summary       : Added power constraint to enable alternate XOSC_HF startup
+    Severity      : Major
+    Affected Comp : Power
+    Release Notes : During regular XOSC_HF startup and switching, the XOSC_HF and
+                    a timeout TIRTOS clock is started with an estimate of when it should be stable.
+                    When the clock times out, the driver checks if the XOSC_HF is stable and
+                    switches to it. Else, it will start a new clock with a shorter timeout.
+                    The new power constraint only turns on the XOSC_HF but does not
+                    start the timeout clock. The application is then responsible
+                    for checking that the XOSC_HF is ready and switching to it.
+                    The RF driver will make use of this when the wakeup event
+                    is caused by an RF driver scheduled wakeup.
+    Workaround    : N/A
+
+ Item 880
+
+    Summary       : Removed unnecessary conditional branch in XOSC_HF switching fxn
+    Severity      : Major
+    Affected Comp : Power
+    Release Notes : Due to the required preconditions for calling PowerCC26XX_switchXOSC_HF,
+                    a flag check was removed. If the flag was not set correctly,
+                    the function did nothing and did not return a status code.
+                    The required preconditions are now also listed in the
+                    documentation.
+    Workaround    : N/A
+
+Item 770
+
+    Summary       : Removed unnecessary second parent entry in power resource DB
+    Severity      : Major
+    Affected Comp : Power
+    Release Notes : The second parent entry in the power resource DB was required as
+                    a work-around on an early hardware revision. It is no longer required.
+    Workaround    : N/A
+
+Item 883
+
+    Summary       : Exposed PowerCC26XX_isStableXOSC_HF in header file
+    Severity      : Major
+    Affected Comp : Power
+    Release Notes : A precondition to running PowerCC26XX_switchXOSC_HF is making sure the
+                    XOSC_HF is stable. PowerCC26XX_isStableXOSC_HF was exposed to facilitate
+                    this.
+    Workaround    : N/A
+
+Item 846
+
+    Summary       : Added SysCtrlAonSync before early wakeup notification
+    Severity      : Major
+    Affected Comp : Power
+    Release Notes : It is not possible to read RTC registers until the first LF clock edge
+                    after coming out of standby. Without a SysCtrlAonSync before the early
+                    wakeup notifications, there is no guarantee that this clock edge has occurred.
+                    A SysCtrlAonSync was added before the early wakeup notifications to make
+                    reads of the RTC register in these notification deterministic.
+    Workaround    : Add a call to SysCtrlAonSync() right before the early post-sleep notification.
+
+Item 886
+
+    Summary       : Fixed TDC synchronization between CM3 and sensor controller
+    Severity      : Major
+    Affected Comp : Power
+    Release Notes : The RCOSC calibration routine that runs on the CM3 uses the TDC
+                    to measure the frequencies of the RCOSC_HF and RCOSC_LF. The
+                    sensor controller may also use the TDC, therefore the TDC
+                    is protected by a HW semaphore that the CM3 and sensor controller
+                    needs to acquire before using the TDC. In the case where the
+                    sensor controller already has the TDC when the CM3 tries to aquire
+                    it, the CM3 will enable the semaphore autotake event which trigger an
+                    interrupt when the TDC to become available. However it does not clear this event
+                    before initiating the autotake event. So if the CM3 enables
+                    the autotake event a second time, the interrupt will fire immediately and the
+                    CM3 will think the TDC is available when it's still being used by the sensor controller.
+    Workaround    : Add this line in the getTdcSemaphore() function before enabling the semaphore autotake event.
+
+                    /* clear the interrupt source, can only be cleared when we don't have semaphore */
+                    HWREG(AUX_EVCTL_BASE + AUX_EVCTL_O_EVTOMCUFLAGSCLR) = AUX_EVCTL_EVTOMCUFLAGSCLR_SMPH_AUTOTAKE_DONE;
+
+Item 847
+
+    Summary       : The IOs were muxed before the I2C module was enabled.
+    Severity      : Major
+    Affected Comp : I2C
+    Release Notes : The I2C driver muxed the IOs to connect them to the I2C module before the
+                    I2C module was enabled. This resulted in glitches on the SDA and SCL clocks which
+                    could be interpreted as start bit by a I2C slave.
+    Workaround    : I2CCC26XX_initHW(...) must be called before I2CCC26XX_initIO(...)
+
+Item 844
+
+    Summary       : Added optional compile switch to reduce the size of the crypto driver.
+    Severity      : Minor
+    Affected Comp : Crypto
+    Release Notes : The crypto driver is written in a way which will link in code for all the AES
+                    modes although perhaps only one AES mode is required in the application.
+                    Each AES mode is now enclosed by a #ifndef section which allows the user to
+                    exclude certain AES modes. If no #defines are included, all AES modes are included
+                    in order to keep backwards compatibility.
+                    Valid #defines are:
+                    - CRYPTOCC26XX_EXCLUDE_AES_CCM_ENCRYPT
+                    - CRYPTOCC26XX_EXCLUDE_AES_CCM_ENCRYPT
+                    - CRYPTOCC26XX_EXCLUDE_AES_ECB
+                    - CRYPTOCC26XX_EXCLUDE_AES_CBC
+
+Item 839
+
+    Summary       : Improved crypto documentation on AES CCM nonce length
+    Severity      : Minor
+    Affected Comp : Crypto
+    Release Notes : The documentation in the AES CCM section previously mentioned
+                    that only 12 and 13-byte nonce lengths were accepted.
+                    The documentation was updated to reflect how shorter nonce lengths can be
+                    used.
+    Workaround    : N/A
+
+Item 772
+
+    Summary       : Added enums for ADCBuf channel selection to default board files
+    Severity      : Minor
+    Affected Comp : ADCBuf
+    Release Notes : ADCBuf channels were previously simply addressed using integers. There are now
+                    enums in the default board files consistent with the channel mapping tables of
+                    each board file.
+    Workaround    : N/A
+
+
+Item 754
+
+    Summary       : PIN examples on LaunchPads did not turn off external flash
+    Severity      : Major
+    Affected Comp : PIN
+    Release Notes : The PIN examples on LaunchPads did not turn off the external flash contained on
+                    the board. When going into low power states, this gave the illusion of higher
+                    than expected current draw of the chip. The external flash is now turned off
+                    automatically to show realistic power consumption in low power modes.
+    Workaround    : N/A
+
+Item 835
+
+    Summary       : Added flag to HwAttrs that specifies if trimmed or raw values are returned
+    Severity      : Major
+    Affected Comp : ADC
+    Release Notes : Previously, the ADC only returned raw values. A flag was added to the HwAttrs
+                    to return trimmed values instead. By default, raw values are still returned.
+    Workaround    : N/A
+
+Item 774
+
+    Summary       : Make UART_close() more robust
+    Severity      : Major
+    Affected Comp : UART
+    Release Notes : It's now safe to call UART_close() if there's an ongoing UART reception
+                    or transmission in progress. UART_close() will cancle the ongoing RX/TX,
+                    call the RX/TX callbacks and shut down the driver gracefully.
+    Workaround    : N/A
+
+Item 732
+
+    Summary       : Cancel callback is delayed to next RF Swi
+    Severity      : Critical
+    Affected Comp : RF
+    Release Notes : Cancel callback is delayed to next RF Swi if RF_cancelCmd or RF_flushCmd is
+                    called in Swi with same or higher priority as RF Swi
+    Workaround    : N/A
+
+Item 765
+
+    Summary       : Callback when RF_Callback pCb is NULL
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : Unnecessary callback when RF_Callback pCb is NULL. Fixed by reseting the
+                    internal state.
+    Workaround    : N/A
+
+Item 798
+
+    Summary       : Delayed command execution in case of single future cmd is cancelled
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : Delayed command execution in case of single future cmd is cancelled
+                    from a high priority Swi and there are other pending cmd.
+    Workaround    : N/A
+
+Item 824
+
+    Summary       : Delayed command execution in case of single future cmd is cancelled
+    Severity      : Critical
+    Affected Comp : RF
+    Release Notes : RF driver starts power down triggering when it stops. But when it starts
+                    after that it does not cancel it. This results in all RAT timer setting
+                    gone and blocking TI-15.4-MAC long range mode integration.
+    Workaround    : N/A
+
+Item 834
+
+    Summary       : Back to back RF_yield can cause power down issue in RFCC26XX_singleMode.c
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : Back to back RF_yield can cause power down issue in RFCC26XX_singleMode.c
+                    under certain sequences.
+    Workaround    : N/A
+
+Item 883
+
+    Summary       : Handling yield in dual mode RF driver
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : In dual client environment, when RF_yield is called by one client while
+                    there are pending commands from the other client, the bYielded bit is not
+                    reset when all commands complete, until a new command is scheduled by
+                    this client.
+
+Item 899
+
+    Summary       : RF_ratDisableChannel can cause illegal memory read
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : If RF_ratDisableChannel is called from Task context then the ratChanFree
+                    will post Swi to start and then complete the power down which means now
+                    RDBELL is accessed with the RF core shutdown.
+
+Item 224
+
+    Summary       : RF driver - 2.4GHz IEEE 15.4 API support
+    Severity      : Minor
+    Affected Comp : RF
+    Release Notes : RF Driver to support 2.4GHz IEEE 15.4 operations.
+
+Item 463
+
+    Summary       : RF driver should fail sooner on invalid mode
+    Severity      : Minor
+    Affected Comp : RF
+    Release Notes : Currently the RF driver tries to set rfmodesel in fsmPowerUpState. Updated
+                    the driver to check RF mode in RF_open, so that the driver will fail sooner
+                    if the user tries to start the radio in an invalid mode.
+
+Item 615
+
+    Summary       : RF driver should fail sooner on invalid mode
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : Added method to run time disable (or enable) RF Core power down by RF driver
+                    power management.
+
+Item 779
+
+    Summary       : Power down sequence optimization
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : Updated power down sequence to optimize power consumption.
+
+Item 818
+
+    Summary       : Added front end setting and switching support in RF driver
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : Added front end setting and switching support in RF driver by adding
+                    callbacks and allowing user setting in the callback.
+
+Item 826
+
+    Summary       : Added new error for RF_scheduleCmd to indicate error as command timing cannot be met
+    Severity      : Minor
+    Affected Comp : RF
+    Release Notes : Currently RF_scheduleCmd always returns RF_ALLOC_ERROR for queue full, parameter
+                    check and also if command cannot be scheduled. Added a separate error code to
+                    differentiate command timing error from other errors.
+
+Item 830
+
+    Summary       : Dispatch RF command sooner
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : Dispatch RF command sooner (in setup Hwi).
+
+Item 831
+
+    Summary       : Switch XOSC_HF in RF driver
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : Switch XOSC_HF in RF driver for power savings.
+
+Item 866
+
+    Summary       : RF driver not BLE5 compliant
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : Added support for BLE5 commands.
+
+Item 878
+
+    Summary       : Enable flash in IDLE mode during startup to optimize power consumption
+    Severity      : Minor
+    Affected Comp : RF
+    Release Notes : By default, the flash is disabled when the CM3 core is oging to idle.
+                    This increases Hwi latency. Updated RF driver to enable flash in IDLE
+                    mode during startup to optimize power consumption.
+
+Item 896
+
+    Summary       : Added power optimization changes to RF driver single mode
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : Added power optimization changes to RF driver single mode.
+
+-------------------------------------------------------------------------------
+3. Known Issue Details
+-------------------------------------------------------------------------------
+
+    None
+
+
+
+TI-RTOS version: 3.01.01
+Release date: 2016.12.XX
+
+-------------------------------------------------------------------------------
+1. Overview
+-------------------------------------------------------------------------------
+
+New Features and Enhancements:
+
+    [PIN]       757: Added RF defines back into PIN driver
+    [RF]        768: Need to adjust powerup duration lower bound for R2
+
+Breaking Changes:
+
+    None
+
+Issues fixed:
+
+    [RF]        791: Cancelling an RF command may cause skipping a power down cycle
+    [RF]        804: RF Driver RF_Stat enum was changed since ROM freeze
+
+Known issues:
+
+    None
+
+Code size:
+
+    Driver sizes compiled with IAR_7.60.2 -Ohz
+
+    Module                        ro code  ro data  rw data  rw data (abs)
+    ------                        -------  -------  -------  -------
+    ADC.o                              72                 1
+    ADCBuf.o                           96                 1
+    ADCBufCC26XX.o                  1 496       37        1       64
+    ADCCC26XX.o                       432       24       32
+    Board.o*                                 1 107    2 780
+    Codec1.o                          440                 4
+    CryptoCC26XX.o                  1 176                29
+    GPTimerCC26XX.o                   744
+    HwiP_tirtos.o                       8
+    I2C.o                              84                 1
+    I2CCC26XX.o                     1 268       24
+    LCDDogm1286.o                   4 684                16
+    LCDDogm1286_util.o                218
+    List.o                             86
+    PDMCC26XX.o                     1 704               908
+    PDMCC26XX_util.o                1 660                64
+    PINCC26XX.o                     1 674               272
+    PWM.o                              88                 1
+    PWMTimerCC26XX.o                  604       32       16
+    PowerCC26XX.o                   2 268       89      272
+    PowerCC26XX_calibrateRCOSC.o    1 122
+    PowerCC26XX_tirtos.o              216
+    RFCC26XX_multiMode.o            7 766               691
+    RingBuf.o                         138
+    SPI.o                             176                 1
+    SPICC26XXDMA.o                  2 072       24                64
+    UART.o                            112                 1
+    UARTCC26XX.o                    2 496       40        2
+    UDMACC26XX.o                      196
+    Watchdog.o                         72                 1
+    WatchdogCC26XX.o                  264       28
+    pdm2pcm_iar.o                   2 320               256
+
+    * Includes config for ADC, ADCbuf, Crypto, I2C, LCD, PDM, PIN, Power, RF, SPIDMA0/1, UART, UDMA, Watchdog
+
+-------------------------------------------------------------------------------
+2. New Features and Bug Item Details
+-------------------------------------------------------------------------------
+
+Item 757
+
+    Summary       : Added RF defines back into PIN driver
+    Severity      : Minor
+    Affected Comp : PIN
+    Release Notes : The RF link and test link defines are now back in the PIN
+                    driver.
+    Workaround    : N/A
+
+Item 768
+
+    Summary       : Need to adjust powerup duration lower bound for R2
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : Powerup duration for R2 is shorter without patching, so the powerup duration lower bound
+                    needs to be adjusted accordingly
+    Workaround    : N/A
+
+Item 791
+
+    Summary       : Cancelling an RF command may cause skipping a power down cycle
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : When RF_cancelCmd is called when an RF power up sequence has started but before the Setup
+                    command complete, there is a race condition that may cause the RF state machine to stay in
+                    active state and skip a power down cycle.
+    Workaround    : N/A
+
+Item 804
+
+    Summary       : RF Driver RF_Stat enum was changed since ROM freeze
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : RF Driver RF_Stat enum was changed and needs to revert back to 2.20
+    Workaround    : N/A
+
+-------------------------------------------------------------------------------
+3. Known Issue Details
+-------------------------------------------------------------------------------
+
+
+
+TI-RTOS version: 3.01.00
+Release date: 2016.11.XX
+
+-------------------------------------------------------------------------------
+1. Overview
+-------------------------------------------------------------------------------
+
+New Features and Enhancements:
+
+    First Core SDK release, see product release notes for new features and breaking changes.
+    [PDM]       471: PDM buffer in I2S sub-module now allocated dynamically in the open call
+    [PDM]       472: I2S sub-module now drops oldest PDM buffer when running out of empty buffers
+    [RF]        265: Rat sync should be made configurable
+    [RF]        641: Issue radio available callback if scheduler reject command
+    [RF]        642: Add new getInfo to support the dual mode scheduler
+
+Breaking Changes:
+
+    First Core SDK release, see product release notes for new features and breaking changes.
+    [PDM]       471: PDM buffer in I2S sub-module now allocated dynamically in the open call
+    [PDM]       472: I2S sub-module now drops oldest PDM buffer when running out of empty buffers
+    [ALL]       692: Driverlib include constructs updated. They are now dependent on a global define
+
+Issues fixed:
+
+    [Power]     649: Improved accuracy SUBSECINC compensation when using HPOSC
+    [SPI]       628: The CSN_WAKEUP callback function is called on every wakeup
+    [SPI]       720: SPI slave overrun transfer results in bus fault
+    [SPI]       719: SPI return partial mode needs to be re-activated before each transfer
+    [PWM]       545: PWMTimerCC26XX_HwAtttrs typedef should not include const modifier
+    [Watchdog]  548: LPRF WDT driver currently causes an unhandled NMI
+    [RF]        656: Enable RF_runCmd() with dual mode scheduler
+    [RF]        670: Change allowed future command startTime limit to 3/4 of a RAT cycle
+    [RF]        672: Missing callback from RF_cancelCmd in dual mode environment
+    [RF]        686: Dual mode schedule future commands from both clients
+    [RF]        687: Missing cancelling a command when using FLUSH_ALL in dual mode use-case
+    [RF]        709: Skip powerup duration measurement for Fs command
+    [RF]        722: Powerup duration margin for single mode driver in parameter set
+    [RF]        744: Skip dual mode PHY switching time calculation for Fs command
+
+Known issues:
+
+    None
+
+Code size:
+
+    Driver sizes compiled with IAR_7.60.2 -Ohz
+
+    Module                        ro code  ro data  rw data  rw data (abs)
+    ------                        -------  -------  -------  -------
+    ADC.o                              68                 1
+    ADCBuf.o                           92                 1
+    ADCBufCC26XX.o                  1 496       37        1       64
+    ADCCC26XX.o                       432       24       32
+    Board.o                                  1 107    2 780
+    Codec1.o                          440                 4
+    CryptoCC26XX.o                  1 176                29
+    GPTimerCC26XX.o                   744
+    HwiP_tirtos.o                       8
+    I2C.o                              88                 1
+    I2CCC26XX.o                     1 268       24
+    LCDDogm1286.o                   4 680                16
+    LCDDogm1286_util.o                218
+    List.o                             86
+    PDMCC26XX.o                     1 704               908
+    PDMCC26XX_util.o                1 660                64
+    PINCC26XX.o                     1 674               272
+    PWM.o                              84                 1
+    PWMTimerCC26XX.o                  604       32       16
+    PowerCC26XX.o                   2 268       89      272
+    PowerCC26XX_calibrateRCOSC.o    1 122
+    PowerCC26XX_tirtos.o              216
+    RFCC26XX_multiMode.o            7 752               691
+    SPI.o                             116                 1
+    SPICC26XXDMA.o                  2 072       24                64
+    UART.o                            108                 1
+    UARTCC26XX.o                    2 496       40        2
+    UDMACC26XX.o                      196
+    Watchdog.o                         76                 1
+    WatchdogCC26XX.o                  264       28
+    pdm2pcm_iar.o                   2 320               256
+
+
+    * Includes config for ADC, ADCbuf, Crypto, I2C, LCD, PDM, PIN, Power, RF, SPIDMA0/1, UART, UDMA, Watchdog
+
+-------------------------------------------------------------------------------
+2. New Features and Bug Item Details
+-------------------------------------------------------------------------------
+
+Item 649
+
+    Summary       : Improved accuracy SUBSECINC compensation when using HPOSC
+    Severity      : Major
+    Affected Comp : Power
+    Release Notes : The HPOSC can be used as source for the SCLK_LF.
+                    To ensure the SCLK_LF frequency is correct across conditions
+                    the compensation formula has been updated and improved.
+    Workaround    : N/A
+
+Item 628
+
+    Summary       : The CSN_WAKEUP callback function is called on every wakeup
+    Severity      : Major
+    Affected Comp : SPI
+    Release Notes : Added check of GPIO_O_EVFLAGS31_0 register to verify wakeup event before
+                    calling CSN wakeup callback function.
+    Workaround    : N/A
+
+Item 720
+
+    Summary       : SPI slave overrun transfer results in bus fault
+    Severity      : Major
+    Affected Comp : SPI
+    Release Notes : Fixed a race condition in SPICC26XXDMA where using the SPI
+                    as a slave could cause a NULL pointer dereference. It is possible to get
+                    two triggers of the SPI hwi when receiving an overrun in slave mode. This
+                    causes the swi to be posted twice. The first one sets
+                    object->currentTransaction to NULL and the second one tries to dereference
+                    it.
+                    It can also occur when the CSN pin is deasserted immediately after a
+                    completed transmission and there is a race condition between the PIN swi
+                    call to transferCancel and the SPI swi.
+
+    Workaround    : N/A
+
+Item 719
+
+    Summary       : SPI return partial mode needs to be re-activated before each transfer
+    Severity      : Major
+    Affected Comp : SPI
+    Release Notes : A previous change in the SPI driver resulted in return partial mode needing to be
+                    re-activated each time SPI_transfer was called. The configuration now remains until
+                    SPI_close is called.
+
+    Workaround    : N/A
+
+Item 471
+
+    Summary       : PDM buffer in I2S sub-module now allocated dynamically in the open call
+    Severity      : Major
+    Affected Comp : PDM
+    Release Notes : I2S sub-module now allocates its >3 buffers through an application provided
+                    function call. As with the PDM driver, this abstraction allows an application to
+                    plug in a function that either dynamically or statically allocates the memory required by the I2S PDM
+                    buffers and its queue elements. The monolithic buffer that the I2S sub-module
+                    previously used is now subdivided into three mallocFxn calls by the I2S
+                    sub-module. This hedges against heap fragmentation should the application use
+                    dynamic allocation. The memory is allocated in _open and deallocated
+                    in _close.
+                    The I2S sub-module uses the same mallocFxn and freeFxn as the PDM driver to do its allocations.
+                    There is a new parameter in the PDMCC26XX_Params that specifies the number of PDM buffers the
+                    I2S sub-module should allocate.
+
+    Workaround    : N/A
+
+Item 472
+
+    Summary       : I2S sub-module now drops oldest PDM buffer when running out of empty buffers
+    Severity      : Major
+    Affected Comp : PDM
+    Release Notes : The I2S module of the PDM driver will now overwrite the oldest full data buffer
+                    when it runs out of empty buffers. When the PDM task is not serviced fast enough,
+                    the I2S module can run out of empty buffers to put new data in. Previously, it would
+                    throw a hardware error and propagate it all the way back to the application, which
+                    had to restart the stream again. Now, the oldest PDM data buffer is dropped.
+                    The PDM driver is notified of how many buffers were dropped and it itself then drops the
+                    current PCM buffer and the right amount of new PCM samples to keep the
+                    sequence numbers of its buffer synchronised with the actual audio data.
+
+    Workaround    : N/A
+
+Item 692
+
+    Summary       : Driverlib include constructs updated. They are now dependent on a global define
+    Severity      : Major
+    Affected Comp : ALL
+    Release Notes : The driverlib include path is now removed when building from source. Instead, a define
+                    DEVICE_FAMILY must be defined at project level. The value of this define is the name
+                    of the device family inside the driverlib folder in /source/ti/devices. You MUST configure
+                    this define when building drivers from source! An error will be thrown instructing you to do
+                    so if you have not.
+
+    Workaround    : N/A
+
+Item 545
+
+    Summary       : CC26xx PWMTimerCC26XX_HwAtttrs typedef should NOT include const modifier
+    Severity      : Major
+    Affected Comp : PWM
+    Release Notes : Removed const from typedef of PWMTimerCC26XX_HwAttrs.
+    Workaround    : N/A
+
+Item 548
+
+    Summary       : LPRF WDT driver currently causes an unhandled NMI
+    Severity      : Major
+    Affected Comp : Watchdog
+    Release Notes : Removed intNum from WatchdogCC26XX_HWAttrs. Replaced Hwi_construct()
+                    with Hwi_plug().
+    Workaround    : N/A
+
+Item 265
+
+    Summary       : Rat sync should be made configurable
+    Severity      : Minor
+    Affected Comp : RF
+    Release Notes : Updated RAT sync mechanism and made configurable by user.
+    Workaround    : N/A
+
+Item 641
+
+    Summary       : Issue radio available callback if scheduler rejects command
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : Added radio available callback if scheduler rejects command.
+    Workaround    : N/A
+
+Item 642
+
+    Summary       : Add new getInfo to support the dual mode scheduler
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : Added new getInfo in RF_getInfo() to return information about
+                    command queue and access requests for the dual mode scheduler.
+    Workaround    : N/A
+
+Item 656
+
+    Summary       : Enable RF_runCmd() with dual mode scheduler
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : Added RF_runScheduleCmd() API for dual mode.
+    Workaround    : N/A
+
+Item 670
+
+    Summary       : Change allowed future command startTime limit to 3/4 of a RAT cycle
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : Changed allowed future command startTime limit to 3/4 from 1/4 of
+                    a RAT cycle.
+    Workaround    : N/A
+
+Item 672
+
+    Summary       : Missing callback from RF_cancelCmd in dual mode environment
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : Added callback from RF_cancelCmd in dual mode environment.
+    Workaround    : N/A
+
+Item 686
+
+    Summary       : Dual mode schedule future commands from both clients
+    Severity      : Critical
+    Affected Comp : RF
+    Release Notes : Fixed past trigger error when both clients schedule future commands.
+    Workaround    : N/A
+
+Item 687
+
+    Summary       : Missing cancelling a command when using FLUSH_ALL in dual mode use-case
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : Fixed cancelling a command when using FLUSH_ALL in certain dual mode
+                    use-case scenarios.
+    Workaround    : N/A
+
+Item 709
+
+    Summary       : Skip powerup duration measurement for Fs command
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : Fixed past trigger error in the command following an Fs command by skipping
+                    powerup duration measurement for Fs command.
+    Workaround    : N/A
+
+Item 722
+
+    Summary       : Powerup duration margin for single mode driver in parameter set
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : Fixed powerup duration margin congiguration in RF parameter set for single
+                    mode driver.
+    Workaround    : N/A
+
+Item 744
+
+    Summary       : Skip dual mode PHY switching time calculation for Fs command
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : Updated dual mode PHY switching time calculation to skip calculation
+                    for Fs command.
+    Workaround    : N/A
+
+Item 752
+
+    Summary       : Radio free callback should be delayed if existing request access is currently running
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : Delayed radio free callback if an existing request access is currently running.
+    Workaround    : N/A
+
+-------------------------------------------------------------------------------
+3. Known Issue Details
+-------------------------------------------------------------------------------
+
+
+TI-RTOS version: 2.21.00
+Release date: 2016.09.XX
+Dependencies:
+    - Tested with:
+        xdctools_3_32_00_06_core
+        bios_6_46_01_35
+        cc13xxware_2_04_03_17272
+        cc26xxware_2_24_03_17272
+
+-------------------------------------------------------------------------------
+1. Overview
+-------------------------------------------------------------------------------
+
+New Features and Enhancements
+
+    [RF]        240: Dual-mode scheduler implementation
+    [RF]        301: Enable inactivity timeout feature when RAT channels are also used
+    [RF]        493: No need to call RFCRTrim every time wake up
+    [RF]        518: Start using analogCfgMode in powerup to reduce powerup time
+    [RF]        544: Configuring powerup duration margin
+    [RF]        552: Set the bNoFsPowerUp in the RF_Setup command to 0
+    [RF]        574: Default error callback for recoverable errors
+
+    [CRYPTO]    551: Improved CCM documentation in crypto driver
+    [CRYPTO]    589: Reduced code footprint of crypto driver by consolidating CryptoCC26XX_transact and CryptoCC26XX_transactPolling
+
+
+Breaking Changes
+
+    None
+
+Issues fixed
+
+    [RF]        492: Faulty RF_Stat enum
+    [RF]        494: RF driver calling callback with e = null
+    [RF]        495: RF_RadioSetup missing rfc_CMD_PROP_RADIO_DIV_SETUP_t
+    [RF]        505: RF_postCmd() cannot cancel RF_yield if there is a pending command
+    [RF]        513: bRestart should be set in critical section
+    [RF]        516: Accessing RAT when RF Core is powered down
+    [RF]        519: RF driver is getting stuck when Clock.tickPeriod is too high
+    [RF]        528: bPowerChangePhy check in RF_scheduleCmd is not done properly
+    [RF]        532: Clear flag and cleanup flag check after a cancelled command callback
+    [RF]        554: Need to reset bYieldPwrDnCancel when switching PHY
+    [RF]        573: nRtc1 is reset every time powerup sequence is complete
+
+    [UART]      380: UART_readCancel() should always turn off receiver even if there's no active read ongoing
+    [UART]      390: CC13xx UART HW RX Buffer overrun
+
+    [PIN]       384: Bug in PINCC26XX PIN Driver causes glitches on IO output in given scenarios
+
+    [CRYPTO]    537: CryptoCC26XX_loadKey pends transSem with BIOS_NO_WAIT
+
+    [SPI]       542: SPI driver tries to dereference NULL pointer in SPICC26XXDMA_csnCallback()
+
+    [DMA]       524: UDMACC26XX.h generates assignement errors when compiled with C++
+
+    [PWM]       520: PWMled example does not run correctly on several 26xx/13xx boards
+
+    [POWER]     510: Move SysCtrl_DCDC_VoltageConditionalControl() to before entering standby
+
+
+Known issues
+
+
+Misc
+
+    Driver sizes compiled with IAR_7.60.2 -Ohz
+
+    Module                        ro code  ro data  rw data  rw data (abs)
+    ------                        -------  -------  -------  -------
+    ADC.o                              36        1        4
+    ADCBuf.o                           56
+    ADCBufCC26XX.o                  1 496       37        1       64
+    ADCCC26XX.o                       404       24       32
+    Board.o                                    936    2 472
+    Codec1.o                          440                 4
+    CryptoCC26XX.o                  1 184                29
+    GPTimerCC26XX.o                   736
+    HwiP_tirtos.o                       8
+    I2C.o                              64        2        4
+    I2CCC26XX.o                     1 268       24
+    LCDDogm1286.o                   4 680                16
+    LCDDogm1286_util.o                218
+    List.o                             86
+    PDMCC26XX.o                     1 532             1 628
+    PDMCC26XX_util.o                1 544                64
+    PINCC26XX.o                     1 642               272
+    PowerCC26XX.o                   2 236       85      272
+    PowerCC26XX_calibrateRCOSC.o    1 114
+    PowerCC26XX_tirtos.o              196
+    RFCC26XX_multiMode.o            6 648               683
+    RingBuf.o                         138
+    SPI.o                              96        1        4
+    SPICC26XXDMA.o                  2 068       28                64
+    UART.o                             92        1        4
+    UARTCC26XX.o                    2 480       40        2
+    UDMACC26XX.o                      196
+    pdm2pcm_iar.o                   2 320               256
+
+    * Includes config for ADC, ADCbuf, Crypto, I2C, LCD, PDM, PIN, Power, RF, SPIDMA0/1, UART, UDMA
+
+-------------------------------------------------------------------------------
+2. New Features and Bug Item Details
+-------------------------------------------------------------------------------
+
+Item 240
+
+    Summary       : Dual-mode scheduler implementation
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : Implemented dual-mode scheduler to schedule commands and manage access based on priority and timing.
+    Workaround    : N/A
+
+Item 301
+
+    Summary       : Enable inactivity timeout feature when RAT channels are also used
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : Previously inactivity timeout and subsequent power down happens only when the no RAT is active.
+                    Added logic to start inactivity timeout after the all the RAT channel are disabled.
+    Workaround    : N/A
+
+Item 493
+
+    Summary       : No need to call RFCRTrim every time wake up
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : Previously RFCRTrim is called every time during wakeup. Changed to only call RFCRtrim in the first
+                    powerup and whenever requested by the user for setup update through RF_control.
+    Workaround    : N/A
+
+Item 518
+
+    Summary       : Start using analogCfgMode in powerup to reduce powerup time
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : Set analogCfgMode in setup command to 0x0 in the first powerup and whenever requested by the user
+                    for setup update through RF_control; otherwise set analogCfgMode to 0x2D to reduce powerup time.
+    Workaround    : N/A
+
+Item 544
+
+    Summary       : Configuring powerup duration margin
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : Powerup duration margin can be configured through RF_params during RF_open or through RF_control
+                    afterwards. If not configured by the user default value will be used.
+    Workaround    : N/A
+
+Item 552
+
+    Summary       : Set the bNoFsPowerUp in the RF_SetupCmd to 0
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : During powerup, set the bNoFsPowerUp in the RF_Setup command to 0 before sending it to the radio
+                    doorbell.
+    Workaround    : N/A
+
+Item 574
+
+    Summary       : Default error callback for recoverable errors
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : When user doesn't register error callback function during RF_open, for recoverable errors such as
+                    ERROR_SYNTH_PROG from CMD_FS, the defaultErrCb is not used to avoid stuck in while(1) in the
+                    defaultErrCb function.
+    Workaround    : N/A
+
+Item 492
+
+    Summary       : Faulty RF_Stat enum
+    Severity      : Minor
+    Affected Comp : RF
+    Release Notes : Rearranged order of RF_Stat enumerations such that success stats are below 0x80, and error stats are
+                    0x80 and above.
+    Workaround    : N/A
+
+Item 494
+
+    Summary       : RF driver calling callback with e = null
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : When two CPE interrupts are very close, as soon as first interrupt processing Swi begins, the second
+                    Hwi happens, and the event flag set by the second Hwi is cleared by the first processing Swi, resulted
+                    in the second Swi to call callback with zero event flag. Changed to do the flag clear as early as possible
+                    in critical section to mitigate this issue.
+    Workaround    : N/A
+
+Item 495
+
+    Summary       : RF_RadioSetup missing rfc_CMD_PROP_RADIO_DIV_SETUP_t
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : Added rfc_CMD_PROP_RADIO_DIV_SETUP_t into the RF_RadioSetup union.
+    Workaround    : N/A
+
+Item 505
+
+    Summary       : RF_postCmd() cannot cancel RF_yield if there is a pending command
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : Added cancellation of RF_yield when commands are pending.
+    Workaround    : N/A
+
+Item 513
+
+    Summary       : bRestart should be set in critical section
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : Moved setting bRestart into critical section.
+    Workaround    : N/A
+
+Item 516
+
+    Summary       : Accessing RAT when RF Core is powered down
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : If RF is powered down without using RF_yield, such as inactivity timeout or future command, accessing
+                    RAT may cause crash, since ratChanAlloc is trying to access RFDBELL register (IEN). Added check if
+                    radio is active when accessing RAT.
+    Workaround    : N/A
+
+Item 519
+
+    Summary       : RF driver is getting stuck when Clock.tickPeriod is too high
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : Timeout computation for Clock may round down to 0, and this happens more likely when Clock.tickPeriod
+                    is high. Added round down bound to 1 so that Clock timeout is always greater than or equal to 1.
+    Workaround    : N/A
+
+Item 528
+
+    Summary       : bPowerChangePhy check in RF_scheduleCmd is not done properly
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : bPowerChangePhy check in RF_scheduleCmd is not done properly. Added additional check in RF_scheduleCmd
+                    when posting events when command is requested.
+    Workaround    : N/A
+
+Item 532
+
+    Summary       : Clear flag and cleanup flag check after a cancelled command callback
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : Changed to clear the flag after the callback is returned in fsmActiveState function.
+    Workaround    : N/A
+
+Item 554
+
+    Summary       : Need to reset bYieldPwrDnCancel when switching PHY
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : The flag bYieldPwrDnCancel is set after RF_yield is called to power down, but another RF_postCmd is called
+                    before the actual power down state is executed. The flag is reset when the state machine executes the power
+                    down event. In dual mode, this flag must also be reset when switching PHY.
+    Workaround    : N/A
+
+Item 573
+
+    Summary       : nRtc1 is reset every time powerup sequence is complete
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : nRtc1 was reset every time powerup sequence is complete in order to compute nPowerupDuration for every cycle.
+                    This causes problem in active time accumulation for sending CMD_SYNC_STOP_RAT during power down. Moved reset
+                    nRtc1 to the beginning of powerdown.
+    Workaround    : N/A
+
+Item 380
+
+    Summary       : UART_readCancel() should always turn off receiver even if there's no active read ongoing
+    Severity      : Major
+    Affected Comp : UART
+    Release Notes : Updated to disable UART receiver and release power constraints whenever UART_readCancel is called.
+    Workaround    : N/A
+
+Item 390
+
+    Summary       : CC13xx UART HW RX Buffer overrun
+    Severity      : Major
+    Affected Comp : UART
+    Release Notes : Added RingBuffer for UART RX.
+    Workaround    : N/A
+
+Item 384
+
+    Summary       : Bug in PINCC26XX PIN Driver causes glitches on IO output in given scenarios
+    Severity      : Major
+    Affected Comp : PIN
+    Release Notes : In PINCC26XX_setIoCfg(), if pin's GPIO_O_DOE is enabled, skip setting the output value.
+    Workaround    : N/A
+
+Item 537
+
+    Summary       : CryptoCC26XX_loadKey pends transSem with BIOS_NO_WAIT
+    Severity      : Major
+    Affected Comp : CRYPTO
+    Release Notes : CryptoCC26XX_loadKey used to immediately return with a failure code if there was another transaction going on.
+                    It now blocks until the crypto module is available.
+    Workaround    : N/A
+
+Item 542
+
+    Summary       : SPI driver tries to dereference NULL pointer in SPICC26XXDMA_csnCallback()
+    Severity      : Major
+    Affected Comp : SPI
+    Release Notes : The SPICC26XXDMA_csnCallback() function writes to the status field of currentTransaction.
+                    However, prior to SPICC26XXDMA_csnCallback() being called (when the chip select is deasserted by the host)
+                    the SPICC26XXDMA_swiFxn() sets the currentTransaction field to NULL.
+                    The driver tries to write to address 0 and triggers a bus fault.
+    Workaround    : N/A
+
+Item 524
+
+    Summary       : UDMACC26XX.h generates assignement errors when compiled with C++
+    Severity      : Major
+    Affected Comp : DMA
+    Release Notes : The UDMACC26XX.h header file contains several inline functions. They contain code that implicitly typecasts from
+                    void * (handle->hwAttrs or handle->object) to either UDMACC26XX_HWAttrs * or UDMACC26XX_Object *. This implicit
+                    typecasting is not allowed in C++, but is allowed in C.
+    Workaround    : N/A
+
+Item 520
+
+    Summary       : PWMled example does not run correctly on several 26xx/13xx boards
+    Severity      : Major
+    Affected Comp : PWM
+    Release Notes : The default PWMled example blinks two LEDs. The CC1310STK only has one LED. The PIN_open call consequently fails at runtime.
+    Workaround    : N/A
+
+Item 551
+
+    Summary       : Improved CCM documentation in crypto driver
+    Severity      : Major
+    Affected Comp : CRYPTO
+    Release Notes : There was previously no documentation on how to use the CCM mode in the crypto driver.
+    Workaround    : N/A
+
+Item 589
+
+    Summary       : Reduced code footprint of crypto driver by consolidating CryptoCC26XX_transact and CryptoCC26XX_transactPolling
+    Severity      : Major
+    Affected Comp : CRYPTO
+    Release Notes : CryptoCC26XX_transact and CryptoCC26XX_transactPolling contained a large amount of duplicate code. Their functionality was
+                    combined in a static function that takes one more parameter.
+                    CryptoCC26XX_transact and CryptoCC26XX_transactPolling remain as passthrough functions to the combined implementation.
+                    The API for CryptoCC26XX_transact and CryptoCC26XX_transactPolling thus remains unchanged.
+    Workaround    : N/A
+
+Item 510
+
+    Summary       : Move SysCtrl_DCDC_VoltageConditionalControl() to before entering standby
+    Severity      : Major
+    Affected Comp : POWER
+    Release Notes : SysCtrl_DCDC_VoltageConditionalControl() is called after coming out of standby to turn off the DCDC if the battery voltage
+                    has dropped below 2.25 V (limit set in ccfg). However it may take a long time after coming out of standby until batmon
+                    reports correct battery voltage, as a result SysCtrl_DCDC_VoltageConditionalControl() should be called before entering standby.
+    Workaround    : N/A
+
+-------------------------------------------------------------------------------
+3. Known Issue Details
+-------------------------------------------------------------------------------
+
+===============================================================================
+
+TI-RTOS version: 2.20.00
+Release date: 2016.06.XX
+Dependencies:
+    - Tested with:
+        xdctools_3_32_00_06_core
+        bios_6_46_00_23
+        cc13xxware_2_04_02_17202
+        cc26xxware_2_24_02_17202
+
+-------------------------------------------------------------------------------
+1. Overview
+-------------------------------------------------------------------------------
+
+New Features and Enhancements
+
+    [ADC]       321: Simple ADC driver implementation now available
+    [ADCBuf]    285: Buffered ADC driver implementation now available
+    [PWM]       220: Updated PWM driver now available
+    [Crypto]    398: Add API to crypto driver in order to load a new key to an already allocated key index
+    [Crypto]    293: Added support for AES_CBC (Cipher Block Chaining) mode in crypto driver
+    [ALL]       284: The drivers now have support for GCC toolchain compilation
+    [RF]        185: Replaced while(1) with user error callback
+    [RF]        270: Added power up callback
+    [RF]        305: Added RF_control API
+    [RF]        327: Added RF_scheduleCmd API
+    [RF]        328: Added placeholder RF_requestAccess API
+    [RF]        353: Added RF dual mode PHY switching mechanism
+    [Watchdog]  268: Watchdog driver now available
+
+Breaking Changes
+
+    None
+
+Issues fixed
+
+    [Crypto]    399: keySrc parameter to CryptoCC26XX_allocateKey() function should be allowed to be NULL
+    [Crypto]    349: g_hwiInt in crypto API should be declared as volatile
+    [Power]     187: Switch-statements have no default case in PowerCC2650_calibrateRCOSC.c
+    [Power]     215: Declaration of calibrateRcoscHf2() is different from its definition
+    [PDM]       291: PDM driver debug log updated
+    [UART]      454: Removed commented out code inside UARTCC26XX_hwiIntFxn
+    [UART]      371: UARTCC26XX driver incorrectly computes number of bits for clock timeout
+    [RF]        421: Fixed power down issue when RF_yield is called
+    [RF]        435: Fixed possible overwrtiting command pool entries
+    [RF]        438: Fixed inadvertently enabling RF_EventMdmSoft when enabling RF_EventInternalError
+    [RF]        468: CC13xx PG2.1 calibration issue handling
+    [RF]        469: Powerup duration measurement in dual mode
+    [PIN]       212: PIN_init uses undocumented register
+    [PIN]       350: PIN_init should ignore PIN_UNASSIGNED
+
+Known issues
+
+
+Misc
+
+    Driver sizes compiled with IAR_7.60.2 -Ohz
+
+    Module                        ro code  ro data  rw data  rw data (abs)
+    ------                        -------  -------  -------  -------
+    ADC.o                              36        1        4
+    ADCBuf.o                           56
+    ADCBufCC26XX.o                  1 496       37        1       64
+    ADCCC26XX.o                       404       24       32
+    Board.o*                                   928    2 416
+    Codec1.o                          440                 4
+    CryptoCC26XX.o                  1 412                29
+    GPTimerCC26XX.o                   736
+    HwiP_tirtos.o                       8
+    I2C.o                              64        1        4
+    I2CCC26XX.o                     1 268       24
+    LCDDogm1286.o                   4 680                16
+    LCDDogm1286_util.o                218
+    List.o                             86
+    PDMCC26XX.o                     1 584             1 736
+    PDMCC26XX_util.o                1 544                64
+    PINCC26XX.o                     1 642               272
+    PowerCC26XX.o                   2 236       85      272
+    PowerCC26XX_calibrateRCOSC.o    1 114
+    PowerCC26XX_tirtos.o              196
+    RFCC26XX_singleMode.o           4 900               567
+    RFCC26XX_multiMode.o            5 432               568
+    SPI.o                              96        1        4
+    SPICC26XXDMA.o                  2 016       28                64
+    UART.o                             92        2        4
+    UARTCC26XX.o                    2 260       40        2
+    UDMACC26XX.o                      196
+    Watchdog.o                        142                 4
+    WatchdogCC26XX.o                  274       28
+
+    * Includes config for ADC, ADCbuf, Crypto, I2C, LCD, PDM, PIN, Power, RF, SPIDMA0/1, UART, UDMA
+
+-------------------------------------------------------------------------------
+2. New Features and Bug Item Details
+-------------------------------------------------------------------------------
+
+Item 399
+
+    Summary       : keySrc parameter to CryptoCC26XX_allocateKey() function should be allowed to be NULL
+    Severity      : Major
+    Affected Comp : Crypto
+    Release Notes : CryptoCC26XX_allocateKey() may now explicitely called with keySrc == NULL to reserve a
+                    key store index without having a key at that time. The key may later be set using
+                    CryptoCC26XX_loadKey().
+    Workaround    : N/A
+
+
+Item 187
+
+    Summary       : Switch-statements have no default case in PowerCC2650_calibrateRCOSC.c
+    Severity      : Major
+    Affected Comp : Power
+    Release Notes : All switch statements need default cases. Those in PowerCC2650_calibrateRCOSC.c now call
+                    a lightweight abort function. The default case should never trigger in practice.
+    Workaround    : N/A
+
+Item 215
+
+    Summary       : Declaration of calibrateRcoscHf2() is different from its definition
+    Severity      : Major
+    Affected Comp : Power
+    Release Notes : The declaration of calibrateRcoscHf2() was aligned with its definition.
+                    Prior to fix:
+                    static void calibrateRcoscHf2(int32_t tdcResult);
+                    static void calibrateRcoscHf2(Int32 tdcResult){...
+    Workaround    : N/A
+
+
+Item 291
+
+    Summary       : PDM driver debug log updated
+    Severity      : Major
+    Affected Comp : PDM
+    Release Notes : The debug log did not capture enough events occurring in the driver.
+                    The driver now logs more events.
+    Workaround    : N/A
+
+Item 454
+
+    Summary       : Removed commented out code inside UARTCC26XX_hwiIntFxn
+    Severity      : Major
+    Affected Comp : UART
+    Release Notes : UARTCC26XX_hwiIntFxn contained commented out code. It was removed.
+    Workaround    : N/A
+
+Item 371
+
+    Summary       : UARTCC26XX driver incorrectly computes number of bits for clock timeout
+    Severity      : Minor
+    Affected Comp : UART
+    Release Notes : PCorrected TX timeout computation..
+    Workaround    : N/A
+
+Item 185
+
+    Summary       : Replaced while(1) with user error callback
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : Added error callback when RF core error occurs. The error callback function is passed from
+                    user through RF_Params in RF_open. This replaces earlier implementation of while(1) loop.
+    Workaround    : N/A
+
+Item 270
+
+    Summary       : Added power up callback
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : Added RF power callback when RF completed power up sequence. The power callback function is
+                    passed from user through RF_Params in RF_open.
+    Workaround    : N/A
+
+Item 305
+
+    Summary       : Added RF_control API
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : Added RF_control API. The inactivity timeout (nInactivityTimeout) value can be updated through this API.
+    Workaround    : N/A
+
+Item 327
+
+    Summary       : Added RF_scheduleCmd API
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : Added RF_scheduleCmd API to schedule a radio operations command. This API is backward compatible with
+                    RF_postCmd API which is a special case of scheduling a command.
+    Workaround    : N/A
+
+Item 328
+
+    Summary       : Added placeholder RF_requestAccess API
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : Added placeholder RF_requestAccess API request radio access.
+    Workaround    : N/A
+
+Item 353
+
+    Summary       : Added RF dual mode PHY switching mechanism
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : Added RF PHY switching mechanism for dual mode, so that RF operation is changed from one mode to the
+                    other without having to power down the RF.
+    Workaround    : N/A
+
+Item 421
+
+    Summary       : Fixed power down issue when RF_yield is called
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : When RF_yield is called to power down the radio, if another radio command is posted before the actual
+                    power down process started, RF may get stuck. Fixed by canceling the power down process if this occurs.
+    Workaround    : N/A
+
+Item 435
+
+    Summary       : Fixed possible overwrtiting command pool entries
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : RF command pool buffer was allocated sequentially regardless of command is pending or not. This resulted
+                    in possible overwrting of command pool entries when existing commands are cancelled. Implemented linked
+                    list for the command pool to fix the issue.
+    Workaround    : N/A
+
+Item 438
+
+    Summary       : Fixed inadvertently enabling RF_EventMdmSoft when enabling RF_EventInternalError
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : RF_EventInternalError was defined as (1<<31) but the event is 64-bit. When extending to 64-bit, the compiler
+                    treat it as a signed integer and sign extension to all 1's. This inadvertently enabled unwanted bits. Fixed
+                    by defining as (uint32)(1<<31).
+    Workaround    : N/A
+
+Item 468
+
+    Summary       : CC13xx PG2.1 calibration issue handling
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : Added error callback for ERROR_SYNTH_PROG for implicit CMD_FS. Refer to errata SWRA521.
+    Workaround    : N/A
+
+Item 469
+
+    Summary       : Powerup duration measurement in dual mode
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : Powerup duration is measured separately for each client, and is updated every power cycle when future
+                    commands are executed.
+    Workaround    : N/A
+
+Item 212
+
+    Summary       : PIN_init uses undocumented register
+    Severity      : Minor
+    Affected Comp : PIN
+    Release Notes : Updated to use documented register.
+    Workaround    : N/A
+
+Item 350
+
+    Summary       : PIN_init should ignore PIN_UNASSIGNED
+    Severity      : Minor
+    Affected Comp : PIN
+    Release Notes : Added if statement to skip UNASSIGNED pins in PIN_init.
+    Workaround    : N/A
+
+Item 268
+
+    Summary       : Implement, document and test watchdog driver
+    Severity      : Major
+    Affected Comp : Watchdog
+    Release Notes : Implemented, documented and tested watchdog driver.
+    Workaround    : N/A
+
+-------------------------------------------------------------------------------
+3. Known Issue Details
+-------------------------------------------------------------------------------
+
+
+
+===============================================================================
+
+TI-RTOS version: 2.18.00
+Release date: 2016.06.XX
+Dependencies:
+    - Tested with:
+        xdctools_3_32_00_06_core
+        bios_6_46_00_22
+        cc13xxware_2_04_02_17202
+        cc26xxware_2_24_02_17202
+
+-------------------------------------------------------------------------------
+1. Overview
+-------------------------------------------------------------------------------
+
+New Features and Enhancements
+
+    [SPI]       382: The application can now switch between hardware and software triggered CSN on the fly
+    [Power]     191: RCOSC_HF calibration check should have hysteresis to avoid likelihood of 2 TDC measurements
+
+Breaking Changes
+
+    None
+
+Issues fixed
+
+    [Crypto] 349: g_hwiInt in crypto API should be declared as volatile
+    [PDM]    404: PDM driver decimationFilterInRAM larger than necessary
+    [SPI]    383: Fixed a bug that prevented switching CSN in SPI master mode
+
+
+Known issues
+
+    None
+
+Misc
+
+    Driver sizes compiled with IAR_7.50.1 -Ohz
+
+    Module                        ro code  ro data  rw data  rw data (abs)
+    ------                        -------  -------  -------  -------
+    Board.o*                                   456    1 744
+    Codec1.o                          436                 4
+    CryptoCC26XX.o                  1 180                29
+    HwiP_tirtos.o                       8
+    I2C.o                              68        1        4
+    I2CCC26XX.o                     1 168       20
+    LCDDogm1286.o                   4 616                16
+    LCDDogm1286_util.o                214
+    List.o                             86
+    PDMCC26XX.o                     1 556             1 736
+    PDMCC26XX_util.o                1 540                64
+    PINCC26XX.o                     1 618               272
+    PowerCC26XX.o                   2 252       86      268
+    PowerCC26XX_calibrateRCOSC.o    1 090
+    PowerCC26XX_tirtos.o              196
+    RF.o                            4 898               636
+    SPI.o                              96        1        4
+    SPICC26XXDMA.o                  1 996       28                64
+    UART.o                             92        1        4
+    UARTCC26XX.o                    2 242       40        2
+    UDMACC26XX.o                      172
+    pdm2pcm_iar.o                   2 320               256
+
+    * Includes config for Crypto, I2C, LCD, PDM, PIN, Power, RF, SPIDMA0/1, UART, UDMA
+
+-------------------------------------------------------------------------------
+2. New features and bug item details
+-------------------------------------------------------------------------------
+
+
+Item 349
+
+    Summary       : g_hwiInt in crypto API should be declared as volatile
+    Severity      : Critical
+    Affected Comp : Crypto
+    Release Notes : g_hwiInt is a flag set to false in CryptoCC26XX_transactPolling(…) before the encryption is started, and then we wait for this flag to be set to true in the ISR.
+                    his must obviously be volatile, to ensure the polling loop always reads this variable from memory (ensuring the compiler does not optimize these lines of code by caching the variable in a register).
+    Workaround    : N/A
+
+Item  404
+
+    Summary       : PDM driver decimationFilterInRAM larger than necessary
+    Severity      : Major
+    Affected Comp : PDM
+    Release Notes : decimationFilterInRAM was declared as:
+                    static int32_t decimationFilterInRAM[sizeof(PDMCC26XX_aBqCoeffs)];
+                    when it should have been:
+                    static int32_t decimationFilterInRAM[sizeof(PDMCC26XX_aBqCoeffs) / sizeof(PDMCC26XX_aBqCoeffs[0])];
+
+                    The problem was that it specified decimationFilterInRAM to contain as many int32_t's as there are bytes in the PDMCC26XX_aBqCoeffs array.
+                    Later in the code, PDMCC26XX_aBqCoeffs is copied into decimationFilterInRAM. It is obvious they should have been be the same size.
+    Workaround    : N/A
+
+Item 383
+
+    Summary       : Fixed a bug that prevented switching CSN in SPI master mode
+    Severity      : Major
+    Affected Comp : SPI
+    Release Notes : The control function to switch CSN pins in SPI master mode did not function correctly.
+                    It only worked in SPI slave mode.
+    Workaround    : N/A
+
+-------------------------------------------------------------------------------
+3. Known Issue Details
+-------------------------------------------------------------------------------
+
+None
+
+
+===============================================================================
+TI-RTOS CC26XX DRIVERS RELEASE NOTE
+===============================================================================
+
+Release date: 2016.04.20
+Dependencies:
+    - Tested with:
+        xdctools_3_32_00_06_core
+        bios_6_45_02_30
+        cc13xxware_2_03_02_16941
+        cc26xxware_2_23_02_16941
+
+-------------------------------------------------------------------------------
+1. Overview
+-------------------------------------------------------------------------------
+
+New Features and Enhancements
+
+    [PWR]    191: RCOSC_HF calibration check within a range to avoid likelyhood of 2 TDC measurements
+    [SPI]    382: Support for changing between HW and SW controlled CSn in SPI driver
+    [RF]     354: RTRIM from FCFG or override list
+
+Breaking Changes
+
+    None
+
+Issues fixed
+
+    [CRYPTO] 349: g_hwiInt in crypto API should be declared as volatile
+    [CRYPTO] 181: Workaround for crypto reentrancy issue
+    [DISP]   355: DisplayDogm1286 returns handle even if SPI_open() fails
+    [PDM]    404: PDM driver decimation filter optimization
+    [PDM]    365: Increased PDM task stack size to support all error scenarios
+    [SPI]    383: Changing CSn only worked in SPI slave mode
+    [RF]     184: Incorrect RAT timer count after waking up from RF_yield
+    [RF]     193: Posting Commands Rapidly When Using nInactivityTimeout of Zero
+    [RF]     308: RF_postCmd may cause Q_push to get stuck during overflow case
+    [RF]     314: Radio failed to wake up after long time when using RF_yield
+    [RF]     324: Call to RF_getCurrentTime can cause illegal register access
+    [RF]     337: Radio failed to wake up when RF_postCmd API is called in certain RF power-down state
+    [RF]     340: Callback function sanity check
+    [RF]     359: RAT timer callback is missing sometimes
+    [RF]     362: Critical section protection during a pending queue push
+    [RF]     364: Incorrect powerup duration measurement when using SYSRESET
+    [RF]     373: Incorrect RAT timer count after waking up from RF_yield API
+
+
+Known issues
+
+    [UART]   400: The UART TI-RTOS example hangs when rapidly transferring large amounts of data.
+
+Misc
+
+    Driver sizes compiled with IAR_7.50.1 -Ohz
+
+    Module                        ro code  ro data  rw data  rw data (abs)
+    ------                        -------  -------  -------  -------
+    Board.o*                                   456    1 744
+    Codec1.o                          436                 4
+    CryptoCC26XX.o                  1 180                29
+    HwiP_tirtos.o                       8
+    I2C.o                              68        1        4
+    I2CCC26XX.o                     1 168       20
+    LCDDogm1286.o                   4 616                16
+    LCDDogm1286_util.o                214
+    List.o                             86
+    PDMCC26XX.o                     1 556             1 736
+    PDMCC26XX_util.o                1 540                64
+    PINCC26XX.o                     1 610               272
+    PowerCC26XX.o                   2 252       86      268
+    PowerCC26XX_calibrateRCOSC.o    1 090
+    PowerCC26XX_tirtos.o              196
+    RF.o                            4 898               636
+    SPI.o                              96        1        4
+    SPICC26XXDMA.o                  1 996       28                64
+    UART.o                             92        1        4
+    UARTCC26XX.o                    2 248       40        2
+    UDMACC26XX.o                      172
+    pdm2pcm_iar.o                   2 320               256
+
+    * Includes config for Crypto, I2C, LCD, PDM, PIN, Power, RF, SPIDMA0/1, UART, UDMA
+
+-------------------------------------------------------------------------------
+2. New features and bug item details
+-------------------------------------------------------------------------------
+
+Item 181
+
+    Summary       : Workaround for crypto reentrancy issue
+    Severity      : Major
+    Affected Comp : Crypto
+    Release Notes : Stress testing the crypto driver has identified an issue where
+                    if the crypto driver is preempted by another higher priority HWI or SWI,
+                    the crypto driver might not complete the encryption/decryption operation.
+                    The workaround is to disable HWI interrupts while the crypto hardware is
+                    configured. Depending on the mode of operation, interrupts are disabled
+                    typically for approximately 10 us.
+                    Work is ongoing to find a better solution for this issue.
+    Workaround    : Add Hwi_disable()/Hwi_restore() around these functions:
+                    - CRYPTOCcmAuthEncrypt(...)
+                    - CRYPTOCcmInvAuthDecrypt(...)
+                    - CRYPTOAesEcb(...)
+Item 191
+
+    Summary       : RCOSC_HF calibration check within a range to avoid likelyhood of 2 TDC measurements
+    Severity      : Major
+    Affected Comp : Power
+    Release Notes : The RCOSC_HF oscillator calibration algorithm does the following steps:
+                    1. Measure RCOSC_HF frequency using the XOSC_HF as reference clock.
+                    2. If the RCOSC_HF frequency is a perfect 48 MHz, algorithm is done.
+                    3. If the RCOSC_HF frequency is NOT a perfect 48 MHz, it modifies the RCOSC_HF frequency and
+                      performes another frequency measurement.
+                      If the new frequency is closer to 48 MHz these new settings are kept.
+                      If the new frequency is further away from 48 MHz, the settings are reverted
+                      to the settings used during the first measurement.
+
+                    The check for exactly 48 MHz in step 2 is too strict, and as a result the
+                    algorithm will perform two measurements most of the time.
+                    The new check for exactly 48 MHz includes a small range, which will reduce the
+                    likelyhood of doing another frequency measurement, while still ensuring
+                    exact 48 MHz frequency and thus fast XOSC_HF startup.
+                    Doing only 1 RCOSC_HF frequency instead of 2 measurements saves power.
+    Workaround    : See PowerCC26XX_calibrateRCOSC.c for implementation details.
+
+
+Item 349
+
+    Summary       : g_hwiInt in crypto API should be declared as volatile
+    Severity      : Major
+    Affected Comp : Crypto
+    Release Notes : When the CryptoCC26XX_transactPolling(...) API is called, this function
+                    polls the g_hwiInt flag which is set to true in the HWI handler.
+                    This flag must be declared as volatile to ensure the compiler does
+                    not optimize this piece of code.
+                    Declaring this flag as volatile ensures the variable is read from RAM
+                    every time and not from an internal CPU scratch register.
+    Workaround    : Declare g_hwiInt as volatile
+
+
+Item 355
+
+    Summary       : DisplayDogm1286 returns handle even if SPI_open() fails
+    Severity      : Major
+    Affected Comp : Display
+    Release Notes : DisplayDogm1286 returns handle even if SPI_open() fails because
+                    the PINs were already allocated.
+                    In the new implementation DisplayDogm1286_open(...) now returns NULL
+                    if opening the underlying SPI driver failed.
+    Workaround    : Add this code to the end of DisplayDogm1286_open(...):
+                    if (object->hLcd)
+                    {
+                        LCD_bufferClear(object->hLcd, 0);
+                        LCD_update(object->hLcd, 0);
+                        return hDisplay;
+                    }
+                    else
+                    {
+                        PIN_close(object->hPins);
+                        return NULL;
+                    }
+
+Item 365
+
+    Summary       : Increased PDM task stack size to support all error scenarios
+    Severity      : Major
+    Affected Comp : PDM
+    Release Notes : If the PDM driver exhausts the heap, the PDM driver task will enter the
+                    execution path where it uses the most stack. It will begin throwing away audio
+                    samples until there is memory available on the heap again.
+                    When compiled with CCS, the old task stack size of 400 was insufficient
+                    and the stack would overflow in this scenario.
+                    Therefore the stack size has been increased to 500 bytes to avoid stack overflow.
+    Workaround    : Increase stack size to 500 bytes.
+
+Item 382
+
+    Summary       : Support for changing between HW and SW controlled CSn in SPI driver
+    Severity      : Major
+    Affected Comp : PDM
+    Release Notes : It's now possible to switch between HW and SW controlled CSn in the SPI driver.
+                    Some designes have multiple SPI slaves connected to the same SPI master,
+                    with different CSn signals. Some of these SPI slaves are compatible with the
+                    SPI hardware chip select modes, while some slaves require manual software operation
+                    of chip select.
+                    By calling SPICC26XXDMA_control(...) with cmd = SPICC26XXDMA_CMD_SET_CSN_PIN and
+                    arg = PIN_UNASSIGNED, this will deallocate the CSn pin and allow the application
+                    to control it through software.
+    Workaround    : N/A
+
+Item 383
+
+    Summary       : Changing CSn only worked in SPI slave mode
+    Severity      : Major
+    Affected Comp : SPI
+    Release Notes : By calling SPICC26XXDMA_control(...) with cmd = SPICC26XXDMA_CMD_SET_CSN_PIN the
+                    old implementation would only work in SPI slave mode.
+                    The new implementation also works when the CC26xx/CC13xx is SPI master.
+    Workaround    : Add the following code in the SPICC26XXDMA_CMD_SET_CSN_PIN case:
+                    /* Get the new CSN pin */
+                    pinId = (PIN_Id)((*(PIN_Id *) arg));
+                    /* Configure CSN pin and remap PIN_ID to new CSN pin specified by arg */
+                    if (object->mode == SPI_SLAVE) {
+                        pinConfig = PIN_INPUT_EN | PIN_PULLUP | pinId;
+                    }
+                    else {
+                        pinConfig = PIN_GPIO_OUTPUT_EN | PIN_GPIO_HIGH | PIN_PUSHPULL | PIN_INPUT_DIS | PIN_DRVSTR_MED | pinId;
+                    }
+
+Item 404
+
+    Summary       : PDM driver decimation filter optimization
+    Severity      : Major
+    Affected Comp : PDM
+    Release Notes : The old implementation incorrectly declared:
+                    static int32_t decimationFilterInRAM[sizeof(PDMCC26XX_aBqCoeffs)];
+                    This declaration was functionally correct, however
+                    it wasted houndreds of bytes of RAM.
+                    The new implementation correctly declares the decimation array as:
+                    static int32_t decimationFilterInRAM[sizeof(PDMCC26XX_aBqCoeffs) / sizeof(PDMCC26XX_aBqCoeffs[0])];
+    Workaround    : Declare decimationFilterInRAM as:
+                    static int32_t decimationFilterInRAM[sizeof(PDMCC26XX_aBqCoeffs) / sizeof(PDMCC26XX_aBqCoeffs[0])];
+
+Item 354
+
+    Summary       : RTRIM from FCFG or override list
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : Use FCFG RTRIM if this is higher than what is provided. Fixed by updating the override list
+                    by calling RFCRTrim function in driverlib before sending RF_RadioSetup command.
+    Workaround    : N/A
+
+Item 184
+
+    Summary       : Incorrect RAT timer count after waking up from RF_yield()
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : RAT timer count is incorrect if CMD_SYNC_STOP_RAT is not executed. Fixed by forcing a CMD_SYNC_STOP_RAT
+                    command during the first power cycle.
+    Workaround    : N/A
+
+Item 193
+
+    Summary       : Posting Commands Rapidly When Using nInactivityTimeout of Zero
+    Severity      : Critical
+    Affected Comp : RF
+    Release Notes : In certain timing conditions the radio restart is incorrectly set causing problems in RF power up/down sequence. Fixed
+                    by removing the restart scenario and clean-up of the power up/down sequence.
+    Workaround    : N/A
+
+Item 308
+
+    Summary       : RF_postCmd may cause Q_push to get stuck during overflow case
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : The RF_postCmd API wrap-around check is insufficient when the RF command queue is overflowed.
+                    Fixed by correcting the wraparound check and also added additional checks in the Q_push.
+    Workaround    : N/A
+
+Item 314
+
+    Summary       : Radio failed to wake up after long time when using RF_yield
+    Severity      : Critical
+    Affected Comp : RF
+    Release Notes : A problem in the RF_yield API which incorrectly started a power-down sequence while active command
+                    is running. Resolved by correcting the power-down initiate checks in RF_yield API.
+    Workaround    : N/A
+
+Item 324
+
+    Summary       : Call to RF_getCurrentTime can cause illegal register access
+    Severity      : Critical
+    Affected Comp : RF
+    Release Notes : There was a race condition when RAT register is read when using RF_getCurrentTime API while RF Core is powering down.
+                    Fixed by adding critical section protection.
+    Workaround    : N/A
+
+Item 337
+
+    Summary       : Radio failed to wake up when RF_postCmd API is called in certain RF power-down state
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : After RF_yield API is called then another command is posted in SWI context before actual power-down sequence started.
+                    This causes the next powerup cycle to fail. Fixed by cancelling the yield event if a new command is posted.
+    Workaround    : N/A
+
+Item 340
+
+    Summary       : Callback function sanity check
+    Severity      : Critical
+    Affected Comp : RF
+    Release Notes : Callback function NULL check was only done to the callback function itself, but if the callback function is in
+                    a NULL structure it may result in invalid function address. Fixed by doing both NULL structure and NULL callback
+                    function check.
+    Workaround    : N/A
+
+Item 359
+
+    Summary       : RAT timer callback is missing sometimes
+    Severity      : Critical
+    Affected Comp : RF
+    Release Notes : Since RAT timer SWI clears hwIntEvent after RAT timer callback function, in case new RAT timer HWI happens within
+                    the RAT timer callback, the new RAT timer callback will be lost because after callback, the SWI will clear the
+                    hwIntEvent. Fixed by changing the order of RAT callback and hwIntEvent clear sequence.
+    Workaround    : N/A
+
+Item 362
+
+    Summary       : Critical section protection during a pending queue push
+    Severity      : Critical
+    Affected Comp : RF
+    Release Notes : During a pending queue push in RF_postCmd API, if an interrupt occurs and updates the queue it may cause problem to
+                    the queue. Fixed by adding critical section protection in RF_postCmd API when using Q_push.
+    Workaround    : N/A
+
+Item 364
+
+    Summary       : Incorrect powerup duration measurement when using SYSRESET
+    Severity      : Critical
+    Affected Comp : RF
+    Release Notes : Different timing from SYSRESET as compared to cold reset caused incorrect powerup duration measurement. Fixed by
+                    not doing measurement in the first powerup cycle
+    Workaround    : N/A
+
+Item 373
+
+    Summary       : Incorrect RAT timer count after waking up from RF_yield API
+    Severity      : Critical
+    Affected Comp : RF
+    Release Notes : When RF_yield API is used to power-down the RF Core, the CMD_SYNC_STOP_RAT may not be sent. Fixed by forcing to send the
+                    CMD_SYNC_STOP_RAT command if RF_yield API is used to initiate RF Core power-down.
+    Workaround    : N/A
+
+
+
+
+-------------------------------------------------------------------------------
+3. Known Issue Details
+-------------------------------------------------------------------------------
+
+Item 400
+
+    Summary       : The UART TI-RTOS example hangs when rapidly transferring large amounts of data.
+    Severity      : Major
+    Affected Comp : UART
+    Release Notes : The UART echo example provided with TI-RTOS hangs when lots of data
+                    is transferred rapidly.
+    Workaround    : N/A
+
+
+===============================================================================
+
+
+
+Release date: 2016.02.24
+Dependencies:
+    - Tested with:
+        xdctools_3_32_00_06_core
+        bios_6_45_01_29
+        cc13xxware_2_03_01_16780
+        cc26xxware_2_23_01_16780
+
+-------------------------------------------------------------------------------
+1. Overview
+-------------------------------------------------------------------------------
+
+New Features and Enhancements
+
+    None
+
+Breaking Changes
+
+    None
+
+Issues fixed
+
+    [RF]    300: RF_postCmd() should check for ABS_TRIG before powering up
+    [RF]    423: Workaround for flash access lockup during XOSC_HF switch
+
+Known issues
+
+    [LCD]   235: LCDDogm128 writes outside buffer
+    [RF]    434: RCOSC_HF calibration time variation
+
+Misc
+
+    Driver sizes compiled with IAR_7.50.1 -Ohz
+
+    Module                        ro code  ro data  rw data  rw data (abs)
+    ------                        -------  -------  -------  -------
+    Board.o*                                   456    1 744
+    Codec1.o                          436                 4
+    CryptoCC26XX.o                  1 084                29
+    HwiP_tirtos.o                       8
+    I2C.o                              68        2        4
+    I2CCC26XX.o                     1 168       20
+    LCDDogm1286.o                   4 616                16
+    LCDDogm1286_util.o                214
+    List.o                             86
+    PDMCC26XX.o                     1 580             1 960
+    PDMCC26XX_util.o                1 536                64
+    PINCC26XX.o                     1 610               272
+    PowerCC26XX.o                   2 276       84      268
+    PowerCC26XX_calibrateRCOSC.o    1 144
+    PowerCC26XX_tirtos.o              196
+    RF.o                            4 914               629
+    SPI.o                              96        2        4
+    SPICC26XXDMA.o                  1 968       28                64
+    UART.o                             92        1        4
+    UARTCC26XX.o                    2 248       40        2
+    UDMACC26XX.o                      172
+    pdm2pcm_iar.o                   2 320               256
+
+    * Includes config for Crypto, I2C, LCD, PDM, PIN, Power, RF, SPIDMA0/1, UART, UDMA
+
+-------------------------------------------------------------------------------
+2. Bug Item Details
+-------------------------------------------------------------------------------
+
+Item 300
+
+    Summary       : RF_postCmd() should check for ABS_TRIG before powering up
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : If a radio command with ABS_TRIG is posted while the radio is off, the radio will be powered on
+                    and then put to sleep again when the trigger is checked. This should be checked before wake up
+                    to minimize power consumption.
+    Workaround    : N/A
+
+Item 423
+
+    Summary       : Workaround for flash access lockup during XOSC_HF switch
+    Severity      : Critical
+    Affected Comp : RF
+    Release Notes : When switching XOSC_HF flash access is disabled, and if during this time a Radio Setup command is issued
+                    the CM0 will try to access the trim values in flash and causes system lockup. The software fix is to
+                    copy the RF trim values to RAM prior to issuing a Radio Setup command.
+    Workaround    : N/A
+
+-------------------------------------------------------------------------------
+3. Known Issue Details
+-------------------------------------------------------------------------------
+
+Item 235
+
+    Summary       : LCDDogm128 writes outside buffer
+    Severity      : Major
+    Affected Comp : LCD
+    Release Notes : When using LCD_bufferPrintString --> LCD_doBufferPrintString, there is no checking for
+                    whether the string will exceed the buffer size
+    Workaround    : N/A
+
+Item 434
+
+    Summary       : RCOSC_HF calibration time variation
+    Severity      : Critical
+    Affected Comp : RF
+    Release Notes : When RCOSC_HF calibration is enabled and total radio active time is small, HF calibration may take longer.
+    Workaround    : Setting nInactivityTimeout to longer (200us or more)
+
+===============================================================================
+
+Release date: 2016.01.28
+Dependencies:
+    - Tested with:
+        xdctools_3_32_00_06_core
+        bios_6_45_01_23
+        cc13xxware_2_03_01_16606
+        cc26xxware_2_23_01_16606
+
+-------------------------------------------------------------------------------
+1. Overview
+-------------------------------------------------------------------------------
+
+New Features and Enhancements
+
+    [PDM]   347: PDMCC26XX_pcmBuffer structure exposed to application in header file
+    [PDM]   306: Created doxygen with example for PDM driver
+    [PWR]   357: Added board files for the CC2650 remote control
+    [PWR]   244: Added support for calibration of high precision internal oscillator
+    [RF]    265: Powerup/down sequence optimization
+    [RF]    310: Use new driverlib function RFCDoorbellSendTo
+    [RF]    305: Enable RF_HW interrupts other than RAT channel
+    [RF]    387: Add method to get radio state
+
+Breaking Changes
+
+    None
+
+Issues fixed
+
+    [PDM]   367, 368, 363:  Any part of PDMCC26XX_open failing causes the function to continue isntead of returning NULL
+    [PDM]   379: PDM driver throwAwayCount underflows with full heap
+    [PDM]   346: There is a memory leak when opening and then closing the PDM driver
+    [PDM]   339: There is distortion in the signal after calling PDMCC26XX_startStream
+    [PDM]   340: PDMCC26XX_Params.startupDelayWithClockInSamples only applied the first time PDMCC26XX_startStream is called
+    [PDM]   358: PDM driver tries to free a NULL pointer in PDMCC26XX_close if the heap was filled previously and a memory allocation failed
+    [PDM]   363: Trying to call PDMCC26XX_open with a full heap causes the driver to run with an inconsistent internal state
+    [PDM]   366: PDMCC26XX_close can cause an inconsistent internal state due to asynchonous deallocation of memory in PDMCC26XX_close
+    [I2C]   350: I2C driver should release SB_DISALLOW constraint if bus is busy in blocking mode
+    [RF]    354: RF_INTERNAL_IFG_MASK should be 0xFFFFFFFF6000100E
+    [RF]    360: RF Driver does not handle simultaneous interrupts from RAT channels 6 and 7
+    [RF]    365: RF driver can get stuck for chained commands with loops
+    [RF]    372: RF_close(): nSeqPost check is incorrect
+    [RF]    380: Unable to handle ISR's correctly and deterministically
+    [RF]    410: Reset bYielded variable in restart case
+
+
+Known issues
+
+    [LDC]   235: LCDDogm128 writes outside buffer
+
+Misc
+
+    Driver sizes compiled with IAR_7.50.1 -Ohz
+
+    Module                        ro code  ro data  rw data  rw data (abs)
+    ------                        -------  -------  -------  -------
+    Board.o*                                   456    1 744
+    Codec1.o                          436                 4
+    CryptoCC26XX.o                  1 084                29
+    HwiP_tirtos.o                       8
+    I2C.o                              68        2        4
+    I2CCC26XX.o                     1 168       20
+    LCDDogm1286.o                   4 616                16
+    LCDDogm1286_util.o                214
+    List.o                             86
+    PDMCC26XX.o                     1 580             1 960
+    PDMCC26XX_util.o                1 536                64
+    PINCC26XX.o                     1 610               272
+    PowerCC26XX.o                   2 276       84      268
+    PowerCC26XX_calibrateRCOSC.o    1 144
+    PowerCC26XX_tirtos.o              196
+    RF.o                            4 732               625
+    SPI.o                              96        2        4
+    SPICC26XXDMA.o                  1 968       28                64
+    UART.o                             92        1        4
+    UARTCC26XX.o                    2 248       40        2
+    UDMACC26XX.o                      172
+    pdm2pcm_iar.o                   2 320               256
+
+    * Includes config for Crypto, I2C, LCD, PDM, PIN, Power, RF, SPIDMA0/1, UART, UDMA
+
+-------------------------------------------------------------------------------
+2. Bug Item Details
+-------------------------------------------------------------------------------
+
+Item 367, 368, 363
+
+    Summary       : Any part of PDMCC26XX_open failing causes the function to continue instead of returning NULL
+    Severity      : Major
+    Affected Comp : PDM
+    Release Notes : PDMCC26XX_open runs several operations that could fail and should cause a rollback of the
+                    initialisation and the function to return NULL. It just "silently" fails and the driver
+                    proceeds to operate in an undefined state.
+    Workaround    : N/A
+
+Item 379
+
+    Summary       : PDM driver throwAwayCount underflows with full heap
+    Severity      : Major
+    Affected Comp : PDM
+    Release Notes : If the PDMCC26XX_Params.retBufSizeInBytes < 64 and the heap is full,
+                    throwAwayCount underflows and is set to a huge number. This results in
+                    the driver seemingly stalling, while in fact it is working off the huge
+                    throwAwayCount.
+    Workaround    : N/A
+
+Item 346
+
+    Summary       : There is a memory leak when opening and then closing the PDM driver
+    Severity      : Major
+    Affected Comp : PDM
+    Release Notes : activePcmBuffer is not freed upon calling PDMCC26XX_close but is allocated
+                    in PDMCC26XX_open. This leads to a memory leak when repeatedly calling them
+                    in order.
+    Workaround    : N/A
+
+Item 339
+
+    Summary       : There is distortion in the signal after calling PDMCC26XX_startStream
+    Severity      : Major
+    Affected Comp : PDM
+    Release Notes : The first few samples of the signal after calling PCMCC26XX_startStream
+                    have a significant amount of distortion in them.
+    Workaround    : N/A
+
+Item 340
+
+    Summary       : PDMCC26XX_Params.startupDelayWithClockInSamples only applied the first time PDMCC26XX_startStream is called
+    Severity      : Major
+    Affected Comp : PDM
+    Release Notes : PDMCC26XX_Params.startupDelayWithClockInSamples only applied the first time PDMCC26XX_startStream is called.
+                    It is now applied each time PDMCC26XX_startStream is called.
+    Workaround    : N/A
+
+Item 358
+
+    Summary       : PDM driver tries to free a NULL pointer in PDMCC26XX_close if the heap was filled previously and a memory allocation failed
+    Severity      : Major
+    Affected Comp : PDM
+    Release Notes : If the heap is full while the PDM driver is streaming, a temporary buffer can fail to be allocated and the returned pointer is consequently NULL.
+                    PDMCC26XX_close tries to free this buffer. Freeing a NULL pointer is not a great idea.
+    Workaround    : N/A
+
+Item 363
+
+    Summary       : Trying to call PDMCC26XX_open with a full heap causes the driver to run with an inconsistent internal state
+    Severity      : Major
+    Affected Comp : PDM
+    Release Notes : PDMCC26XX_open doesn't fail and return NULL if the memory allocations in it fail. This causes the PDM task to be run with an
+                    uninitialised buffer that will eventually be written to, causing a bus fault.
+    Workaround    : N/A
+
+Item 366
+
+    Summary       : PDMCC26XX_close can cause an inconsistent internal state due to asynchonous deallocation of memory in PDMCC26XX_close
+    Severity      : Major
+    Affected Comp : PDMCC26XX_close can be called asynchronously by the application task w.r.t. the PDM task. PDMCC26XX_close deallocates a buffer used
+                    in the PDM task. Doing this asynchronously can lead to an undefined state in the PDM task. PDMCC26XX_close now only posts an event
+                    that causes the PDM task to shut down gracefully and synchronously.
+    Release Notes : PDMCC26XX_close
+    Workaround    : N/A
+
+Item 350
+
+    Summary       : I2C driver should release SB_DISALLOW constraint if bus is busy in blocking mode
+    Severity      : Major
+    Affected Comp : I2C
+    Release Notes : Added SB_DISALLOW constraint release when I2C write failed in blocking mode
+    Workaround    : N/A
+
+Item 354
+
+    Summary       : RF_INTERNAL_IFG_MASK should be 0xFFFFFFFF6000100E
+    Severity      : Minor
+    Affected Comp : RF
+    Release Notes : Changed RF_INTERNAL_IFG_MASK to 0xFFFFFFFF6000100E
+    Workaround    : N/A
+
+Item 360
+
+    Summary       : RF Driver does not handle simultaneous interrupts from RAT channels 6 and 7
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : Added processing of simultaneous RAT interrupts
+    Workaround    : N/A
+
+Item 365
+
+    Summary       : RF driver can get stuck for chained commands with loops
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : Added count limit to avoid code get stuck in chained commands with loops
+    Workaround    : N/A
+
+Item 372
+
+    Summary       : RF_close(): nSeqPost check is incorrect
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : Corrected nSeqPost check in RF_close()
+    Workaround    : N/A
+
+Item 380
+
+    Summary       : Unable to handle ISR's correctly and deterministically
+    Severity      : Critical
+    Affected Comp : RF
+    Release Notes : Added interrupt flag preservation and critical section protection
+    Workaround    : N/A
+
+Item 410
+
+    Summary       : Reset bYielded variable in restart case
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : Reset bYielded variable when RF command is posted
+    Workaround    : N/A
+
+-------------------------------------------------------------------------------
+3. Known Issue Details
+-------------------------------------------------------------------------------
+
+Item 235
+
+    Summary       : LCDDogm128 writes outside buffer
+    Severity      : Major
+    Affected Comp : LCD
+    Release Notes : When using LCD_bufferPrintString --> LCD_doBufferPrintString, there is no checking for
+                    whether the string will exceed the buffer size
+    Workaround    : N/A
+
+=============================================================================================
+
+Release date: 2015.12.04
+Dependencies:
+    - Tested with:
+        xdctools_3_32_00_04_core
+        bios_6_45_00_17
+        cc13xxware_2_03_00_16456
+        cc26xxware_2_23_00_16374
+
+-------------------------------------------------------------------------------
+1. Overview
+-------------------------------------------------------------------------------
+
+New Features and Enhancements
+
+    [PDM]   257: Beta version of PDM driver. All features have not yet been fully verified
+    [STK]   318: New PDM driver structures added to CC2650 sensor tag board file
+    [I2C]    36: I2C driver will check for bus busy before transfer
+    [UART]  146: Added API support for UART RX FIFO flush
+    [RF]    211: New API to get RF info
+    [RF]    170: New APIs to support direct and immediate commands
+    [RF]    187: Updated APIs for RAT commands
+    [RF]    241: New API to get RF operations command
+    [RF]    282: RF event to include HW, CPE interrupts and RF driver events
+    [RF]    212: Allow for HWI and SWI priority configuration
+    [RF]    277: Renamed RF_waitCmd to RF_pendCmd; RF_abortCmd to RF_flushCmd
+    [RF]    263: Internal calculation for power up duration
+
+Breaking Changes
+
+    [RF]    277: API names changed
+    [RF]    211: API input/output parameters changed
+    [RF]    170: API input/output parameters changed
+    [RF]    187: API input/output parameters changed
+    [RF]    282: New/renamed RF events
+
+Issues fixed
+
+    [SPI]   161: SPI driver fails when 2x SPI modules are in use
+    [PWR]   195: RCOSC_HF calibration routine improved
+    [RF]    242: Past trigger not handled correctly in newest version
+    [RF]    256: Infinite loop case in Q_Push
+    [RF]    281: Add Power_init() in RF driver initialization
+    [RF]    297: RF driver should not change any field in the input command structure
+    [PIN]   298: PIN hardware attributes name does not match coding conventions
+    [PWR]   323: RCOSC calibration routine leaves TDC_DONE interrupt enabled after finishing
+    [PWR]   326: RCOSC calibration routine releases TDC semaphore before the TDC
+                 reference clock request is released
+    [I2C]   343: I2C driver should not set SB_DISALLOW constraints in a binary fashion
+
+Known issues
+
+    [RF]    198: BLE API support for CC13xx
+    [LCD]   235: LCDDogm128 writes outside buffer
+    [SC]         Sensor Controller cannot call tdcSetCntSource() if XOSC HF is used.
+                 This call is only required if the RCOSC LF or RCOSC HF calibration is used
+
+Misc
+
+    Driver sizes compiled with IAR_7.50.1 -Ohz
+
+    Module                        ro code  ro data  rw data  rw data (abs)
+    ------                        -------  -------  -------  -------
+    Board.o*                                   504    1 744
+    CryptoCC26XX.o                  1 084                29
+    HwiP_tirtos.o                       8
+    I2C.o                              68        1        4
+    I2CCC26XX.o                     1 168       20
+    LCDDogm1286.o                   4 616                16
+    LCDDogm1286_util.o                214
+    List.o                             86
+    PDMCC26XX.o                     1 408             1 960
+    PDMCC26XX_util.o                1 528                64
+    PINCC26XX.o                     1 618               272
+    PowerCC26XX.o                   2 276       76      268
+    PowerCC26XX_calibrateRCOSC.o    1 084
+    PowerCC26XX_tirtos.o              196
+    RF.o                            4 344               639
+    SPI.o                              96        1        4
+    SPICC26XXDMA.o                  1 980       28                64
+    TI_codec1.o                       436                 4
+    UART.o                             92        1        4
+    UARTCC26XX.o                    2 252       40        2
+    UDMACC26XX.o                      172
+    pdm2pcm_iar.o                   2 320               256
+
+    * Includes config for Crypto, I2C, LCD, PDM, PIN, Power, RF, SPIDMA0/1, UART, UDMA
+
+-------------------------------------------------------------------------------
+2. Bug Item Details
+-------------------------------------------------------------------------------
+
+Item 161
+
+    Summary       : SPI driver fails when 2 x SPI modules are in use
+    Severity      : Major
+    Affected Comp : SPI
+    Release Notes : If both SPI modules are in use, and one finishes while
+                    the other is still ongoing, it will release the
+                    SB_DISALLOW constraint, thus causing the ongoing
+                    SPI module transfer to erronously abort.
+    Workaround    : N/A
+
+Item 195
+
+    Summary       : RCOSC_HF calibration routine improved
+    Severity      : Major
+    Affected Comp : Power
+    Release Notes : The calibration routine for the RCOSC_HF has been improved.
+    Workaround    : N/A
+
+Item 242
+
+    Summary       : Past trigger not handled correctly in newest version
+    Severity      : Minor
+    Affected Comp : RF
+    Release Notes : Allow for sending commands with an absolute trigger time in the past
+    Workaround    : N/A
+
+Item 256
+
+    Summary       : Infinite loop case in Q_Push
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : Moved Q_push searching for Q_end to work in critical section only
+    Workaround    : N/A
+
+Item 281
+
+    Summary       : Add Power_init() in RF driver initialization
+    Severity      : Critical
+    Affected Comp : RF
+    Release Notes : Add Power_init() in every driver initialization
+    Workaround    : N/A
+
+Item 297
+
+    Summary       : RF driver should not change any field in the command structure
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : Remove code in the RF_postCmd which is changing the pOp->status to CMDSTA_Pending
+    Workaround    : N/A
+
+Item 298
+
+    Summary       : PIN hardware attributes name does not match coding conventions
+    Severity      : Minor
+    Affected Comp : PIN
+    Release Notes : The PIN hardware attributes now follows the naming convention
+                    used for all the other driver hardware attributes
+    Workaround    : N/A
+
+Item 323
+
+    Summary       : RCOSC calibration routine leaves TDC_DONE interrupt enabled after finishing
+    Severity      : Critical
+    Affected Comp : Power
+    Release Notes : The RCOSC calibration routine running on the CM3 did not disable
+                    the TDC_DONE interrupt after the RCOSC calibration routine was finished.
+                    As a result, if the sensor controller would use the TDC afterwards
+                    spurious interrupts to the CM3 would be generated thus confusing the
+                    RCOSC calibration routine.
+    Workaround    : Add this code snippet in Power_doCalibrate() function case STEP_CLEANUP_2
+                    HWREG(AUX_EVCTL_BASE + AUX_EVCTL_O_COMBEVTOMCUMASK) = 0;
+
+Item 326
+
+    Summary       : RCOSC calibration routine releases TDC semaphore before the TDC
+                    reference clock request is released
+    Severity      : Major
+    Affected Comp : Power
+    Release Notes : The RCOSC calibration routine should release the TDC reference clock
+                    before releasing the TDC semaphore.
+    Workaround    : Add this code snippet in Power_doCalibrate() function case STEP_CLEANUP_1
+                    HWREG(AUX_WUC_BASE + AUX_WUC_O_REFCLKCTL) = 0;
+                    Add this code snippet in PowerCC26XX_RCOSC_clockFunc() function case STEP_CLEANUP_2
+                    /* finish wait for AUX_WUC:REFCLKCTL.ACK to be cleared ... */
+                    while(HWREG(AUX_WUC_BASE + AUX_WUC_O_REFCLKCTL) & AUX_WUC_REFCLKCTL_ACK);
+
+Item 343
+
+    Summary       : I2C driver should not set SB_DISALLOW constraint in a binary fashion
+    Severity      : Major
+    Affected Comp : I2C
+    Release Notes : If the I2C driver handle is shared between multiple tasks,
+                    the SB_DISALLOW constraint will be released when the first transfer completes.
+                    This leads to subsequent transfers failing since device will enter STANDBY
+                    instead of IDLE
+    Workaround    : See new driver for details.
+
+-------------------------------------------------------------------------------
+3. Known Issue Details
+-------------------------------------------------------------------------------
+
+Item 198
+
+    Summary       : BLE API support for CC13xx
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : CC13XXWARE doesn't have BLE command header and mailbox files yet
+    Workaround    : N/A
+
+Item 235
+
+    Summary       : LCDDogm128 writes outside buffer
+    Severity      : Major
+    Affected Comp : LCD
+    Release Notes : When using LCD_bufferPrintString --> LCD_doBufferPrintString, there is no checking for
+                    whether the string will exceed the buffer size
+    Workaround    : N/A
+
+=============================================================================================
+
+
+Release date: 2015.11.04
+Dependencies:
+    - Tested with:
+        xdctools_3_31_01_33
+        bios_6_45_00_11_eng
+        cc26xxware_2_22_01_16290
+        cc13xxware_2_01_01_16290
+
+-------------------------------------------------------------------------------
+1. Overview
+-------------------------------------------------------------------------------
+
+New Features and Enhancements
+
+    [PDM]   34:  Alpha version of PDM driver.
+    [ALL]   76:  Callback for SPI, PIN, I2C, and UART drivers moved from HWI to SWI context.
+    [PIN]   108: Added support for setting HWI and SWI interrupt priority
+    [PWR]   237: Power management moved from kernel to separate driver.
+    [RF]    205: Support CC26xx (proprietary)
+    [RF]    215: Support CC26xx (BLE)
+    [RF]    246: New API to remove single command
+    [RF]    211: New API to get RF command queue parameters
+    [RF]    170: Support for direct and immediate commands
+    [RF]    187: Support for RAT commands
+    [RF]    292: New API to get RSSI
+    [RF]    293: New API to get FW info
+
+Breaking Changes
+
+    [ALL]   76: The hardware attributes for all drivers are updated to include SWI
+                interrupt priority. These attributes are renamed to deliberately
+                generate a compilation error, if application is using the new drivers and an old board file.
+    [ALL]   The generic Board.c file is removed, the application must include the board specific file.
+                All board files are now found in new directories inside the /boards directory.
+    [BOARD] 124: Renamed the CC1310EM_7ID board file to CC1310DK_7XD.
+    [PWR]   237: Power management has been moved from the kernel to a separate power driver.
+                    If drivers are included as source code, the application must now also
+                    include the new power driver files PowerC2650.c, PowerCC2650_calibrateRCOSC.c,
+                    and PowerCC2650_tirtos_power_policy.c and the utility files List.c and HwiP_tirtos.c.
+                    If the PIN driver is not used and PIN_init() is not called, Power_init() must be called
+                    for power management to function.
+
+Issues fixed
+
+    [PIN]  236: PIN driver allowed allocation/configuration of non-exisiting IOs on
+                CC13xx 4x4 and 5x5 packages.
+    [RF]   189: Added assert checks for out of range parameters and null pointers
+    [RF]   243: Fixed driver hangs when receiving packets in sniff mode
+    [RF]   223: CCS optimizations on "RF.c" module showed different behavior
+
+
+Known Issues
+
+    [PDM]  34: PDM driver does not support power management and only IAR toolchain.
+    [I2C]  36: There's no check to see if the I2C bus is busy before issuing a tranfer.
+    [UART] 146: There's no way to flush the UART RX FIFO.
+                Possible bytes received will therefore remain in the RX FIFO through
+                a UART_close()/UART_open() call sequence.
+    [SPI]  161: If both SPI modules are used at once, and one transfer finishes
+                before the other one, the SB_DISALLOW constraint is released
+                causing the device to enter standby and thus aborting
+                the other ongoing SPI module's transfer.
+    [LCD]  235: When using LCD_bufferPrintString --> LCD_doBufferPrintString,
+                there is no checking for whether the string will exceed the buffer size.
+    [RF]   283: RF_waitCmd doesn't handle RF_cmdHandle wrap-around cases properly
+
+
+Misc
+
+    Driver sizes compiled with IAR_7.40.3 -Ohz
+    Module                        ro code  ro data  rw data  rw data
+                                                              (abs)
+    ------                        -------  -------  -------  -------
+    Board.o                                    332      924
+    CryptoCC26XX.o                  1 084                29
+    HwiP_tirtos.o                       8
+    I2C.o                              68        1        4
+    I2CCC26XX.o                     1 160       20        1
+    LCDDogm1286.o                   4 640                16
+    LCDDogm1286_util.o                214
+    List.o                             86
+    PDMCC26XX.o                     1 412       12    2 116
+    PDMCC26XX_util.o                1 580                64
+    PINCC26XX.o                     1 630               272
+    PowerCC2650.o                   2 280       74      252
+    PowerCC2650_calibrateRCOSC.o    1 000
+    PowerCC2650_tirtos_policy.o       196
+    RF.o                            3 908               632
+    SPI.o                              96        1        4
+    SPICC26XXDMA.o                  1 988       28        1       64
+    TI_codec1.o                       436                 4
+    UART.o                             92        1        4
+    UARTCC26XX.o                    2 208       40        2
+    UDMACC26XX.o                      172
+    pdm2pcm.o                       2 316               256
+
+        * Includes config for PIN, UART, UDMA, SPIDMA0/1, LCD, Crypto and I2C.
+
+-------------------------------------------------------------------------------
+2. Bug Item Details
+-------------------------------------------------------------------------------
+
+Item 34
+
+    Summary       : Alpha version of PDM (Pulse Density Modulation) driver
+    Severity      : Major
+    Affected Comp : PDM
+    Release Notes : This is the first release of the PDM driver.
+                                    It has the following known issues:
+                                        - Does not support power management.
+                                          SB_DISALLOW and IDLE_PD_DISALLOW constraints are set
+                                          by driver when operating, while only SB_DISALLOW should
+                                          be required.
+                                        - Only IAR is supported as toolchain.
+                                        - Very limited test coverage!
+                                        - Board file content currently hardcoded in PDMCC26XX.c.
+    Workaround    : N/A
+
+Item 76
+
+    Summary       : Callback for I2C, UART, PIN, and SPI drivers moved from HWI to SWI context.
+    Severity      : Major
+    Affected Comp : I2C, UART, PIN, and SPI
+    Release Notes : When the drivers are operating in CALLBACK mode, the callbacks
+                                    are now done in SWI context rather than HWI context.
+                                    As a result, all the hardware attributes have new fields
+                                    in order to be able to also set the SWI priority.
+    Workaround    : N/A
+
+Item 108
+
+    Summary       : The PIN driver now supports setting HWI and SWI interrupt priorities
+    Severity      : Major
+    Affected Comp : PIN
+    Release Notes : The PIN driver now allows setting both HWI and SWI interrupt
+                                    priorities through the board file by specifying a hardware attributes structure.
+                                    The HWI and SWI priorities apply to all pins.
+    Workaround    : N/A
+
+
+
+Item 237
+
+    Summary       : Power management moved from kernel to separate driver.
+    Severity      : Major
+    Affected Comp : All
+    Release Notes : The handling of power management has been moved from the kernel
+                                    to a separate Power driver.
+                                    This should not impact the application, except if the drivers
+                                    are included as source code (instead of prebuilt library),
+                                    include the new power driver files PowerC2650.c, PowerCC2650_calibrateRCOSC.c,
+                                    and PowerCC2650_tirtos_power_policy.c and the utility files List.c and HwiP_tirtos.c.
+                                    If the PIN driver is not used and PIN_init() is not called, Power_init() must be called
+                                    for power management to function.
+    Workaround    : N/A
+
+Item 170
+
+    Summary       : Support for direct and immediate commands
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : Added RF_runImmDirCmd() API for direct and immediate commands
+    Workaround    : N/A
+
+Item 187
+
+    Summary       : Support for RAT commands
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : Added RF_ratCmd() API for all direct and immediate RAT commands. Added HWI and SWI for RF_HW interrupt
+    Workaround    : N/A
+
+Item 205
+
+    Summary       : Support CC26xx (proprietary)
+    Severity      : Critical
+    Affected Comp : RF
+    Release Notes : RF driver to support CC26xx (proprietary)
+    Workaround    : N/A
+
+Item 211
+
+    Summary       : New API to get RF command queue parameters
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : Added RF_getParams() API to get RF command queue parameters
+    Workaround    : N/A
+
+Item 215
+
+    Summary       : Support CC26xx (BLE)
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : RF driver to support CC26xx (BLE)
+    Workaround    : N/A
+
+Item 246
+
+    Summary       : New API to remove single command
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : Added RF_cancelCmd() API to abort/stop a single command in execution or cancel from the command queue
+    Workaround    : N/A
+
+Item 292
+
+    Summary       : New API to get RSSI
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : Added RF_getRssi() API to get RSSI value
+    Workaround    : N/A
+
+Item 293
+
+    Summary       : New API to get FW info
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : Added RF_getFwInfo() API to get FW info
+    Workaround    : N/A
+
+-------------------------------------------------------------------------------
+3. Known Issue Details
+-------------------------------------------------------------------------------
+
+Item 34
+
+    Summary       : Alpha version of PDM (Pulse Density Modulation) driver
+    Severity      : Major
+    Affected Comp : PDM
+    Release Notes : The PDM driver has the following known issues:
+                                        - Does not support power management.
+                                        SB_DISALLOW and IDLE_PD_DISALLOW constraints are set
+                                        by driver when operating, while only SB_DISALLOW should
+                                        be required.
+                                        - Only IAR is supported as toolchain.
+                                        - Very limited test coverage!
+    Workaround    : N/A
+
+Issue [36]
+
+    Summary       : There's no check to see if the I2C bus is busy before issuing a tranfer.
+    Severity      : Medium
+    Affected Comp : I2C
+    Description   : The I2C driver does not check if the I2C bus is busy before issuing
+                                    an I2C transfer.
+    Workaround    : N/A
+
+Issue [146]
+
+    Summary       : UART bytes remain in RX FIFO through UART_close()/UART_open()
+    Severity      : Medium
+    Affected Comp : I2C
+    Description   : There's no way to flush the UART RX FIFO.
+                                    Possible bytes received will therefore remain in the RX FIFO through
+                                    a UART_close()/UART_open() call sequence.
+    Workaround    : Read and discard the RX FIFO bytes as part of UART_open()
+
+Issue [161]
+
+    Summary       : Using both SPI modules at the same time can cause errors.
+    Severity      : Medium
+    Affected Comp : I2C
+    Description   : If both SPI modules are used at once, and one transfer finishes
+                                    before the other one, the SB_DISALLOW constraint is released
+                                    causing the device to enter standby and thus aborting
+                                    the other ongoing SPI module's transfer.
+    Workaround    : The driver should not check the same flag when setting/releasing
+                                    the SB_DISALLOW constraint. Each module should check its own flag.
+
+Issue [235]
+
+    Summary       : LCD driver does not check size of string to print.
+    Severity      : Medium
+    Affected Comp : LCD
+    Description   : When using LCD_bufferPrintString --> LCD_doBufferPrintString,
+                                    there is no checking for whether the string will exceed the buffer size.
+    Workaround    : These functions must check the size of the string and return an
+                                    error if the size exceeds the buffer size
+
+Issue [283]
+
+    Summary       : RF_waitCmd doesn't handle RF_cmdHandle wrap-around cases properly.
+    Severity      : Major
+    Affected Comp : LCD
+    Description   : When RF_cmdHandle increments to 0xFFF and wrap-around, there is inconsistent
+                    behavior when handled internally
+    Workaround    : N/A
+
+=============================================================================================
+
+
+
+Release date: 2015.10.05
+Dependencies:
+    - Tested with:
+        xdctools_3_31_01_33
+        bios_6_42_03_31_eng
+        cc26xxware_2_22_00_16101
+        cc13xxware_2_01_00_16101
+
+-------------------------------------------------------------------------------
+1. Overview
+-------------------------------------------------------------------------------
+
+New Features and Enhancements
+
+    [LPD]  Launch Pad flash driver
+    [RF]   148-Added support for CPE interrupts
+    [RF]   154-RF_getCurrentTime now uses driverlib function
+    [RF]   157-RF driver now uses memset in ROM
+
+Breaking Changes
+
+    [171]  RF_abortCmd only used stop, API now allows for both stop and abort
+
+Issues fixed
+
+    [149] Powerup request while powering down could cause lockup
+    [153] Asymmetric implementation of external flash interface
+    [155] SmartRF06EB board files should be C99 compilant
+    [176] There was no check for advanced commands in rx
+    [178] Possible multiple execution of Hwi_restore() in RF_postCmd
+    [180] CryptoCC26XX_init() is missing in the code part of doxygen description
+    [196] LaunchPad flash driver
+    [197] Update driver doxygen wrt HWI priorities
+    [206] No callback if RF_abortCmd was called and radio was off
+    [207] RF_waitCmd did not cover all possible wait situations
+
+Known Issues
+
+     None
+
+Misc
+
+     Driver sizes compiled with IAR_7.40.3 -Ohz
+        Module                 ro code  ro data  rw data  rw data
+                                                   (abs)
+        ------                 -------  -------  -------  -------
+        Board.o*                            260              940
+        CryptoCC26XX.o           1 092                29
+        I2C.o                       26
+        I2CCC26XX.o              1 124       20                1
+        LCDDogm1286.o            4 640                16
+        LCDDogm1286_util.o         214
+        PINCC26XX.o              1 538               220
+        RF.o                     2 972               520
+        SPI.o                       72
+        SPICC26XXDMA.o           1 912       28        1      64
+        UART.o                      68
+        UARTCC26XX.o             2 184       40                2
+        UDMACC26XX.o               172
+
+        * Includes config for PIN, UART, UDMA, SPIDMA0/1, LCD, Crypto and I2C.
+
+-------------------------------------------------------------------------------
+2. Bug Item Details
+-------------------------------------------------------------------------------
+
+Item 149
+
+    Summary       : Powerup request while powering down could cause lockup
+    Severity      : Minor
+    Affected Comp : RF
+    Release Notes : Powerdown sequence was not ordered in an optimal way.
+    Workaround    : Reorder powerdown sequence.
+
+Item 153
+
+    Summary       : Asymmetric implementation of external flash interface
+    Severity      : Major
+    Affected Comp : SensorTag
+    Release Notes : The external flash interface for SensorTag/LaunchPad has inconsistencies in the
+                    way open and closed are used. In the case the flash verification fails, open
+                    returns false but does not close the PIN and SPI-driver it has opened. This
+                    forces the application to close even if open fails which is inconsistent and
+                    confusing.
+    Workaround    : N/A
+
+Item 155
+
+    Summary       : SmartRF06EB board files should be C99 compilant
+    Severity      : Minor
+    Affected Comp : Board files
+    Release Notes : Board files updated to be C99 compliant, i.e. format is:
+                        .fxnTablePtr = &UARTCC26XX_fxnTable
+    Workaround    : N/A
+
+Item 176
+
+    Summary       : There was no check for advanced commands in rx
+    Severity      : Minor
+    Affected Comp : RF
+    Release Notes : Code has been added to check for both rx and rx advanced commands
+
+Item 178
+
+    Summary       : Possible multiple execution of Hwi_restore() in RF_postCmd
+    Severity      : Minor
+    Affected Comp : RF
+    Release Notes : At the end of RF_postCmd there was a possibillity that multiple
+                    Hwi_restore() calls were made
+    Workaround    : Code restructure and removal of unneccesary Hwi_restore().
+
+Item 180
+
+    Summary       : CryptoCC26XX_init() is missing in the code part of doxygen description
+    Severity      : Minor
+    Affected Comp : CryptoCC26XX
+    Release Notes : CryptoCC26XX_init() function call included in doxygen code.
+    Workaround    : N/A
+
+Item 196
+
+    Summary       : LaunchPad flash driver
+    Severity      : Critical
+    Affected Comp : Launch Pad
+    Release Notes : A flash driver for the Macronics flash is included to support OAD.
+    Workaround    : N/A
+
+Item 197
+
+    Summary       : Update driver doxygen wrt HWI priorities
+    Severity      : Minor
+    Affected Comp : Drivers
+    Release Notes : Updated the driver doxygen to reflect that only HWI interrupt priorities
+                    in the range 1 << 5 to 7 << 5 are to be used.
+    Workaround    : N/A
+
+Item 206
+
+    Summary       : No callback if RF_abortCmd was called and radio was off
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : Function handling callbacks was only accessible when radio was powered on.
+                    This caused callbacks to not trigger if the radio
+                    was powered off.
+    Workaround    : Make callback function available when radio is powered down.
+
+Item 207
+
+    Summary       : RF_waitCmd did not cover all possible wait situations
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : Waiting on aborted/stopped/cancelled commands had tiing issues.
+    Workaround    : Add flag bit in command structure to signal that command had been aborted.
+
+-------------------------------------------------------------------------------
+3. Known Issue Details
+-------------------------------------------------------------------------------
+
+Issue [N/A]
+
+    Summary       : N/A
+    Severity      : N/A
+    Affected Comp : N/A
+    Description   : N/A
+    Workaround    : N/A
+
+
+
+=============================================================================================
+
+Release date: 2015.08.12
+Dependencies:
+    - Tested with:
+        xdctools_3_31_01_33
+        bios_6_42_02_24_eng
+        cc26xxware_2_21_03_15980
+        cc13xxware_2_00_03_15980
+
+-------------------------------------------------------------------------------
+1. Overview
+-------------------------------------------------------------------------------
+
+New Features and Enhancements
+
+    [RF]   Initial release of new TI-RTOS radio driver.
+    [LPD]  Preliminary files added for Launch Pad.
+
+Breaking Changes
+
+    None
+
+Issues fixed
+
+    [110]  SPI driver used unsave reset mechanism.
+    [120]  The standby constraint was set too late in SPI_transfer(...)
+    [122]  Missing Power.h include in CryptoCC26xx.h
+
+
+Known Issues
+
+     None
+
+Misc
+
+     Driver sizes compiled with IAR_7.40.2 -Ohz
+        Module                 ro code  ro data  rw data  rw data
+                                                   (abs)
+        ------                 -------  -------  -------  -------
+        Board.o*                            260              908
+        CryptoCC26XX.o           1 092                29
+        I2C.o                       26
+        I2CCC26XX.o              1 124       20                1
+        LCDDogm1286.o            4 640                16
+        LCDDogm1286_util.o         214
+        PINCC26XX.o              1 538               220
+        RF.o                     2 664               356
+        SPI.o                       72
+        SPICC26XXDMA.o           1 912       28        1      64
+        UART.o                      68
+        UARTCC26XX.o             2 184       40        2
+        UDMACC26XX.o               172
+
+        * Includes config for PIN, UART, UDMA, SPIDMA0/1, LCD, Crypto and I2C.
+
+-------------------------------------------------------------------------------
+2. Bug Item Details
+-------------------------------------------------------------------------------
+
+Item 110
+
+    Summary       : SPI driver used unsave reset mechanism.
+    Severity      : Major
+    Affected Comp : SPICC26XXDMA
+    Release Notes : In SPI_transferCancel(...) there was a call to HapiResetPeripheral(...)
+                    which is not safe.
+                    Instead, we've implemented a safe TX FIFO flush function to avoid
+                    having to call the unsafe HapiResetPerhiperal(...) function.
+
+    Workaround    : Remove the call to HapiResetPeripheral(...) and replace it with the new
+                    function SPICC26XXDMA_flushTxFifo(...).
+
+Item 120
+
+    Summary       : The standby constraint was set too late in SPI_transfer(...)
+    Severity      : Major
+    Affected Comp : SPICC26XXDMA
+    Release Notes : In SPI_transfer(...) the standby constraint was set after the SSI module
+                    was enabled, which in certain instances could cause problems.
+                    Now the standby contraint is set before the SSI module is enabled.
+    Workaround    : In the function SPI_transfer(...) move line:
+                    threadSafeConstraintSet((uint32_t)(transaction->txBuf));
+                    to before:
+                    SSIEnable(hwAttrs->baseAddr);
+
+Item 122
+
+    Summary       : Missing Power.h include in CryptoCC26xx.h
+    Severity      : Minor
+    Affected Comp : CryptoCC26XX
+    Release Notes : The CryptoCC26XX.c file is missing the following include:
+                    #include <ti/sysbios/family/arm/cc26xx/Power.h>
+    Workaround    : Add the following line to CryptoCC26XX.h
+                    #include <ti/sysbios/family/arm/cc26xx/Power.h>
+
+-------------------------------------------------------------------------------
+3. Known Issue Details
+-------------------------------------------------------------------------------
+
+Issue [N/A]
+
+    Summary       : N/A
+    Severity      : N/A
+    Affected Comp : N/A
+    Description   : N/A
+    Workaround    : N/A
+
+
+
+=============================================================================================
+
+Release date: 2015.06.18
+Dependencies:
+    - Tested with:
+        xdctools_3_31_01_33
+        bios_6_42_01_13_eng
+        cc26xxware_2_21_02_15830
+        cc13xxware_2_00_02_15830
+
+-------------------------------------------------------------------------------
+1. Overview
+-------------------------------------------------------------------------------
+
+New Features and Enhancements
+
+    [RF]     Support for basic RF operations via new TI-RTOS radio driver.
+    [XMPL]   Pin Shutdown and Pin Standby examples added.
+    [DRVRS]  Added interrupt priority to all drivers
+
+Breaking Changes
+
+    None
+
+Issues fixed
+
+    [2]    Add intPriority to all drivers HwAttrs
+    [6]    Make RTOS board file for CC13xx 7x7 on SmartRF06EB
+    [23]   New radio driver
+    [39]   Peripheral drivers can terminate pin setup too early
+    [47]   Add information about which SPI data rates are supported in SPI driver
+    [48]   Add information about which UART bauddata rates are supported in UART driver
+    [67]   5x5 Board file - UART not working on CCS due to DATA_SECTION bug
+    [68]   Pin handle and state should be part of driver objects in I2C and UART drivers
+    [71]   SPIDMA - late uDMA interrupt clearing might cause error
+    [104]  UARTCC26XX - 'errStatus' might be used uninitialized
+    [106]  Need widely compatible Board files for ST
+    [109]  Many comments references SmartRF06EB, should be sensortag.
+    [111]  UART driver releases SB_DISALLOW if RX/TX completes while another TX/RX is ongoing
+
+Known Issues
+
+     None
+
+Misc
+
+     Driver sizes compiled with IAR_7.40.2 -Ohz
+        Module                 ro code  ro data  rw data  rw data
+                                                   (abs)
+        ------                 -------  -------  -------  -------
+        Board.o*                            260              940
+        CryptoCC26XX.o           1 092                29
+        I2C.o                       26
+        I2CCC26XX.o              1 124       20                1
+        LCDDogm1286.o            4 640                16
+        LCDDogm1286_util.o         214
+        PINCC26XX.o              1 538               220
+        RF.o                     2 124               392
+        SPI.o                       72
+        SPICC26XXDMA.o           1 880       28        1      64
+        UART.o                      68
+        UARTCC26XX.o             2 184       40                2
+        UDMACC26XX.o               176
+
+        * Includes config for PIN, UART, UDMA, SPIDMA0/1, LCD, Crypto and I2C.
+
+-------------------------------------------------------------------------------
+2. Bug Item Details
+-------------------------------------------------------------------------------
+
+Item 2
+
+    Summary       : Add intPriority to all drivers HwAttrs
+    Severity      : Critical
+    Affected Comp : CryptoCC26XX, UDMACC26XX, I2CCC26XX, SPICC26XXDMA, UARTCC26XX
+    Release Notes : All the drivers used default (low) priority. It is now possible
+                    to set a non-default priority.
+                    Note: the PIN driver is still using the default priority.
+    Workaround    : N/A
+
+Item 6
+
+    Summary       : Make RTOS board file for CC13xx 7x7 on SmartRF06EB
+    Severity      : Minor
+    Affected Comp : Board files
+    Release Notes : A CC1310EM_7ID_7793 folder with Board files for SmartRF06EB is added.
+    Workaround    : N/A
+
+Item 23
+
+    Summary       : New radio driver
+    Severity      : Major
+    Affected Comp : RF
+    Release Notes : A new RF driver is added to allow control of the CC26xx/CC13xx radio.
+                    This driver should be considered an Alpha release.
+    Workaround    : N/A
+
+Item 39
+
+    Summary       : Peripheral drivers can terminate pin setup too early
+    Severity      : Major
+    Affected Comp : PINCC26XX
+    Release Notes : PIN_UNASSIGNED was equal to PIN_TERMINATE.
+                    If an application removed pin usage by setting it to PIN_UNASSIGNED via board
+                    file (e.g. Board_UART_TX), the PIN_open failed if the removed PIN was not the
+                    last one to be parsed.
+                    The update is using different values for PIN_UNASSIGNED and PIN_TERMINATE.
+    Workaround    : Avoid PIN_UNASSIGNED in the middle of PIN_Configs and make sure this is true
+                    for PIN_Configs in drivers too.
+
+Item 47
+
+    Summary       : Add information about which SPI data rates are supported in SPI driver
+    Severity      : Minor
+    Affected Comp : SPICC26XXDMA
+    Release Notes : Doxygen information is updated with SPI data rates.
+    Workaround    : N/A
+
+Item 48
+
+    Summary       : Add information about which UART bauddata rates are supported in UART driver
+    Severity      : Minor
+    Affected Comp : UARTCC26XX
+    Release Notes : Doxygen information is updated with UART data rates.
+    Workaround    : N/A
+
+Item 57
+
+    Summary       : UART driver doxygen update
+    Severity      : Minor
+    Affected Comp : UARTCC26XX
+    Release Notes : Description updated to: "Application thread should typically either issue
+                    another read after UART_read() times out to continue reception, or call
+                    UART_close() to end reception"
+    Workaround    : N/A
+
+Item 67
+
+    Summary       : 5x5 Board file - UART not working on CCS due to DATA_SECTION bug
+    Severity      : Major
+    Affected Comp : UARTCC26XX, Board files
+    Release Notes : uartCC26XXObjects replaced with uartCC26XXHWAttrs in DATA_SECTION.
+    Workaround    : In ti\boards\SRF06EB\CC2650EM_5XD\Board.c replace
+                    #pragma DATA_SECTION(uartCC26XXObjects, ".const:uartCC26XXObjects")
+                    with
+                    #pragma DATA_SECTION(uartCC26XXHWAttrs, ".const:uartCC26XXHWAttrs")
+
+Item 68
+
+    Summary       : Pin handle and state should be part of driver objects in I2C and UART drivers
+    Severity      : Minor
+    Affected Comp : UARTCC26XX, I2CCC26XX
+    Release Notes : PIN_State and PIN_Handle moved into UARTCC26XX_Object and I2CCC26XX_Object
+                    so that application can access pin handle and modify these
+                    PIN values when the driver is inactive.
+    Workaround    : None
+
+Item 71
+
+    Summary       : SPIDMA - late uDMA interrupt clearing might cause error
+    Severity      : Major
+    Affected Comp : SPICC26XXDMA
+    Release Notes : At high optimization, the interrupt was not cleared before interrupt handler
+                    exited, causing interrupt handler to be called twice. Now interrupts are not
+                    handled until both the TX and RX DMA channels have completed.
+                    This also ensures that the interrupt is properly cleared before exiting handler.
+    Workaround    : In SPICC26XXDMA_hwiFxn replace the check:
+                    if (UDMACC26XX_channelDone(object->udmaHandle, hwAttrs->txChannelBitMask) {
+                    with:
+                    if (UDMACC26XX_channelDone(object->udmaHandle, hwAttrs->txChannelBitMask) &&
+                    UDMACC26XX_channelDone(object->udmaHandle, hwAttrs->rxChannelBitMask)) {
+
+Item 104
+
+    Summary       : UARTCC26XX - 'errStatus' might be used uninitialized
+    Severity      : Major
+    Affected Comp : UARTCC26XX
+    Release Notes : Static analysis uncovered a potential problem in UART hwi.
+    Workaround    : Make sure to initialize the errStatus in UARTCC26XX_hwiIntFxn:
+                    unsigned long errStatus = UART_OK;
+
+Item 106
+
+    Summary       : Need widely compatible Board files for ST
+    Severity      : Major
+    Affected Comp : Board files
+    Release Notes : New SensorTag board files is added. See ti\boards\SensorTag.
+    Workaround    : N/A
+
+Item 109
+
+    Summary       : Many comments references SmartRF06EB, should be sensortag.
+    Severity      : Minor
+    Affected Comp : Board files
+    Release Notes : SRF06EB_* comments updated to SENSORTAG_*.
+    Workaround    : N/A
+
+Item 111
+
+    Summary       : UART driver releases SB_DISALLOW if RX/TX completes while another TX/RX is ongoing
+    Severity      : Blocker
+    Affected Comp : UARTCC26XX
+    Release Notes : The UART driver is now using to separate constraint flags, one for RX and one
+                    for TX.
+    Workaround    : The application might use an extra _setContraint(Power_SB_Disallow) during UART
+                    operation to make sure that the device is not going to standby.
+
+-------------------------------------------------------------------------------
+3. Known Issue Details
+-------------------------------------------------------------------------------
+
+Issue [N/A]
+
+    Summary       : N/A
+    Severity      : N/A
+    Affected Comp : N/A
+    Description   : N/A
+    Workaround    : N/A
+
+
+
+
+===============================================================================
+Release date: 2015.04.23
+Dependencies:
+    - Tested with:
+        xdctools_3_30_06_67
+        bios_6_42_00_04
+        cc26xxware_2_21_01_15600
+        cc13xxware_2_00_01_15600
+
+-------------------------------------------------------------------------------
+1. Overview
+-------------------------------------------------------------------------------
+
+New Features and Enhancements
+
+    [PIN]    Support for CC13xx in the PIN driver (7x7 has one less IO).
+    [PIN]    Support for external LF clock (PIN driver will allocate this IO)
+
+Breaking Changes
+
+    None
+
+Issues fixed
+
+    [3]    LCD_close(...) does not close the SPI channel.
+    [9]    Add doxygen documentation on how customers can minimize leakage in SPI driver
+    [11]   PIN driver must support CC13xx which has one less IO
+    [46]   DUT cannot enter standby after a blocking UART_read(...) times out
+    [49]   PIN driver should allocate pin used for external 32kHz LF clock
+
+Known Issues
+
+     None
+
+Misc
+
+     Driver sizes compiled with IAR_7.40.2 -Ohz
+        Module                 ro code  ro data  rw data  rw data
+                                                           (abs)
+        ------                 -------  -------  -------  -------
+        Board.o*                            244      908
+        CryptoCC26XX.o           1 088                29
+        I2C.o                       26
+        I2CCC26XX.o              1 148       20       17
+        LCDDogm1286.o            4 640                16
+        LCDDogm1286_util.o         214
+        PINCC26XX.o              1 530               220
+        SPI.o                       72
+        SPICC26XXDMA.o           1 900       28        1       64
+        UART.o                      68
+        UARTCC26XX.o             2 148       40       17
+        UDMACC26XX.o               168
+
+        * Includes config for PIN, UART, UDMA, SPIDMA0/1, LCD, Crypto and I2C.
+
+-------------------------------------------------------------------------------
+2. Bug Item Details
+-------------------------------------------------------------------------------
+
+Item 3
+
+    Summary       : LCD_close(...) does not close the SPI channel.
+    Severity      : Blocker
+    Affected Comp : LCDDogm1286
+    Release Notes : The LCD_close(...) function did not close the SPI channel,
+                    resulting in the user being unable to open the SPI driver
+                    for the same channel used by the LCD, after the LCD driver
+                    had been used once.
+                    This has now been fixed by also closing the SPI driver
+                    in LCD_close(...)
+    Workaround    : Add to LCD_close(...) this line:
+                    /* Close SPI */
+                    SPI_close(object->spiHandle);
+
+Item 9
+
+    Summary       : Add doxygen documentation on how customers can minimize leakage in SPI driver
+    Severity      : Minor
+    Affected Comp : SPICC26XXDMA
+    Release Notes : External hardware connected on the SPI, i.e. SPI host/slave, might have configured
+                    a pull on one or more of the SPI lines. Dependent on the hardware, it might conflict
+                    with the pull used for the CC26XX SPI.
+                    To avoid increased leakage and ensure the lowest possible power consumption
+                    when the SPI is inactive, the application must configure a matching pull
+                    on the SPI IOs. An example of how this can be done is now included in the doxygen
+                    documentation for the SPI driver
+    Workaround    : After having opened the SPI driver, configure the desired pull (below shows example
+                    for MISO):
+                    // Get pinHandle
+                    pinHandle = ((SPICC26XX_Object *)spiHandle->object)->pinHandle;
+                    // Get miso pin id
+                    misoPinId = ((SPICC26XX_HWAttrs *)spiHandle->hwAttrs)->misoPin;
+                    // Apply low power sleep pull config for MISO
+                    PIN_setConfig(pinHandle, PIN_BM_PULLING, PIN_PULLUP | misoPinId);
+
+Item 11
+
+    Summary       : PIN driver must support CC13xx which has one less IO
+    Severity      : Major
+    Affected Comp : PINCC26XX
+    Release Notes : CC13xx does not have DIO_0, so the PIN driver now does not allow
+                    application to allocate this PIN if the device is a CC13xx.
+                    However the application should be able to allocate all the other pins
+                    which for a CC13xx 7x7 is DIO_1 to DIO_30.
+    Workaround    : None
+
+Item 46
+
+    Summary       : DUT cannot enter standby after a blocking UART_read(...) times out
+    Severity      : Critical
+    Affected Comp : UARTCC26XX
+    Release Notes : If the application calls UART_read(...) in blocking mode, and the
+                    read times out, the SB_DISALLOW is never released. As a result
+                    the application is not able to enter standby.
+    Workaround    : Add the following lines to UART_read(...) when the timeout occurs:
+
+                    /* Disable RX interrupts */
+                    UARTIntDisable(hwAttrs->baseAddr, UART_INT_OE | UART_INT_BE | UART_INT_PE |
+                                   UART_INT_FE | UART_INT_RT | UART_INT_RX);
+                    /* Release constraint since transaction timed out, allowed to enter standby */
+                    threadSafeStdbyDisRelease();
+                    /* Reset the read buffer so we can pass it back */
+                    object->readBuf = (unsigned char *)object->readBuf - object->readCount;
+
+Item 49
+
+    Summary       : PIN driver should allocate pin used for external 32kHz LF clock
+    Severity      : Major
+    Affected Comp : PINCC26XX
+    Release Notes : There's now support in CCFG to use an external IO as source for the 32 kHz
+                    LF clock source. The pin driver now also reserves this pin, thus assuring that
+                    the application cannot allocate this IO for other purposes.
+    Workaround    : None
+
+-------------------------------------------------------------------------------
+3. Known Issue Details
+-------------------------------------------------------------------------------
+
+Issue [N/A]
+
+    Summary       : N/A
+    Severity      : N/A
+    Affected Comp : N/A
+    Description   : N/A
+    Workaround    : N/A
+
+
+
+===============================================================================
+Version: 1_06_00
+Release date: 2015.03.27
+Dependencies:
+    - Tested with:
+        xdctools_3_30_06_67
+        bios_6_42_00_00
+        cc26xxware_2_21_00_15402
+
+-------------------------------------------------------------------------------
+1. Overview
+-------------------------------------------------------------------------------
+
+New Features and Enhancements
+
+    [UART]   Flow Control (enabled through hwAttrs).
+
+Breaking Changes
+
+    [UART]   Aligning define format: renamed UARTCC26XX_RETURN_PARTIAL_ENABLE
+             to UARTCC26XX_CMD_RETURN_PARTIAL_ENABLE.
+    [SPIDMA] Using defines from SPI.h: replaced
+             SPICC26XXDMA_CMD_SUCCESS with SPI_STATUS_SUCCESS,
+             SPICC26XXDMA_CMD_NO_SUCCESS with SPI_STATUS_ERROR and
+             SPICC26XXDMA_CMD_UNDEFINED with SPI_STATUS_UNDEFINEDCMD.
+    [I2C]    Using defines from I2C.h: replaced
+             I2CCC26XX_SUCCESS with I2C_STATUS_SUCCESS,
+             I2CCC26XX_ERROR with I2C_STATUS_ERROR and
+             I2CCC26XX_CMD_UNDEFINED with I2C_STATUS_UNDEFINEDCMD.
+    [CRPT]   Aligning defines with other drivers: replaced
+             CRYPTOCC26XX_SUCCESS with CRYPTOCC26XX_STATUS_SUCCESS,
+             CRYPTOCC26XX_ERROR with CRYPTOCC26XX_STATUS_ERROR and
+             CRYPTOCC26XX_CMD_UNDEFINED with CRYPTOCC26XX_STATUS_UNDEFINEDCMD.
+
+Bug fixes
+
+    [5960]   UARTCC26XX missing flow-control.
+    [6074]   Board files should include RFp.n comment for pins.
+    [6540]   All drivers must set/release SB disallow constraint thread-safely.
+    [6603]   [UART] timeout description needs update.
+    [6604]   [UART] align timeout behavior with other error behavior.
+    [6655]   [UART] - hwi must check UART_INT_TX not object->writeSize.
+    [6661]   [UART] - wrong estimation of TX FIFO Empty Clock time.
+    [6729]   SPI_control set CSn doesn't work if originally PIN_UNASSIGNED.
+    [6730]   Board.c should not hard-code IOIDs but always use eg
+             Board_SPI0_CSN.
+
+Known Issues
+
+     None
+
+Misc
+
+    Driver sizes 1_06_00, Compiled with IAR_7.40.1 -Ohz
+        Module                 ro code  ro data  rw data  rw data
+                                                           (abs)
+        ------                 -------  -------  -------  -------
+        Board.o*                            244      908
+        CryptoCC26XX.o           1 092                29
+        I2C.o                       26
+        I2CCC26XX.o              1 160       20       17
+        LCDDogm1286.o            4 652                16
+        LCDDogm1286_util.o         214
+        PINCC26XX.o              1 440               220
+        SPI.o                       68
+        SPICC26XXDMA.o           1 904       28        1       64
+        UART.o                      68
+        UARTCC26XX.o             2 160       40       17
+        UDMACC26XX.o               168
+
+        * Includes config for PIN, UART, UDMA, SPIDMA0/1, LCD, Crypto and I2C.
+
+
+-------------------------------------------------------------------------------
+2. Bug Item Details
+-------------------------------------------------------------------------------
+
+Item 5960
+
+    Summary       : UARTCC26XX missing flow-control
+    Fixed in      : 1_06_00
+    Severity      : P1 - Enhancement
+    Affected Comp : UARTCC26XX
+    Release Notes : The UART for CC26XX has flow control support. Flow control
+                    is enabled by assigning valid IOID for the CTS and RTS pins
+                    in the UARTCC26XX_HWAttrs.
+    Workaround    : None
+
+Item 6074
+
+    Summary       : Board files should include RFp.n comment for pins
+    Fixed in      : 1_06_00
+    Severity      : P2 - Normal
+    Affected Comp : Board files
+    Release Notes : The board files for SRF06EB are updated to include RF
+                    connector information, e.g. LED3 for CC2650EM_4XS:
+                        #define Board_LED3    IOID_5    // RF1.2
+    Workaround    : N/A
+
+Item 6540
+
+    Summary       : All drivers must set/release SB disallow constraint
+                    thread-safely.
+    Fixed in      : 1_06_00
+    Severity      : P1 - Critical
+    Affected Comp : UARTCC26XX, SPIXX26XX and I2CCC26XX.
+    Release Notes : Some of the drivers was releasing power constraints in both
+                    task context and hwi context. Since the one in task context
+                    did not release in a thread safe manner, the risk of
+                    releasing the power constraint twice was present. This
+                    update ensures that each driver disable it's hwi before
+                    setting and releasing the constraint and also holds a flag
+                    to keep track of it's current constraint setting.
+    Workaround    : None
+
+Item 6603
+
+    Summary       : [UART] timeout description needs update
+    Fixed in      : 1_06_00
+    Severity      : P2 - Normal
+    Affected Comp : UARTCC26XX
+    Release Notes : The doxygen documentation is updated with information
+                    regarding timeout.
+                    Summary - The timeout can only be specified for
+                    blocking mode. If a timeout occurs during a read, the
+                    number of bytes received will be returned and the
+                    UART_Object.status will be set to UART_TIMED_OUT.
+                    If a timeout occurs during a write, an UART_ERROR will be
+                    returned and the UART_Object.status will be set to
+                    UART_TIMED_OUT. All bytes that are not transmitted, will
+                    be flushed.
+    Workaround    : N/A
+
+Item 6604
+
+    Summary       : [UART] align timeout behavior with other error behavior
+    Fixed in      : 1_06_00
+    Severity      : P1 - Normal
+    Affected Comp : UARTCC26XX
+    Release Notes : The standby disallow constraint is released after timeout
+                    as well to allow the device to enter standby.
+    Workaround    : None
+
+Item 6655
+
+    Summary       : [UART] - hwi must check UART_INT_TX not object->writeSize
+    Fixed in      : 1_06_00
+    Severity      : P1 - Normal
+    Affected Comp : UARTCC26XX
+    Release Notes : The TX FIFO empty clock event computation assumed that the
+                    UART_INT_TX event triggered the write, but the hwi was
+                    checking object->writeSize. So if another UART interrupt
+                    triggered the hwi and the last write bytes are fitted into
+                    the TX FIFO, the computation would be wrong and the TX FIFO
+                    empty function would hang, waiting for the UART busy flag
+                    to be deasserted.
+                    By checking both UART_INT_TX flag and object->writeSize in
+                    the hwi, the computation is done correctly.
+    Workaround    : None
+
+Item 6661
+
+    Summary       : [UART] - wrong estimation of TX FIFO Empty Clock time
+    Fixed in      : 1_06_00
+    Severity      : P1 - Normal
+    Affected Comp : UARTCC26XX
+    Release Notes : In some situations the timeout happened too early. The
+                    mapping of the object->stopBits was not done correctly.
+                    An extra byte was included in the TX FIFO Empty clock
+                    event computation to get the correct mapping.
+    Workaround    : None
+
+Item 6729
+
+    Summary       : SPI_control set CSn doesn't work if originally
+                    PIN_UNASSIGNED.
+    Fixed in      : 1_06_00
+    Severity      : P2 - Normal
+    Affected Comp : SPICC26XX
+    Release Notes : The new assigned chip select pins is always configured with
+                    input enabled and pull-up.
+    Workaround    : None
+
+Item 6730
+
+    Summary       : Board.c should not hard-code IOIDs but always use eg
+                    Board_SPI0_CSN.
+    Fixed in      : 1_06_00
+    Severity      : P1 - Normal
+    Affected Comp : Board files
+    Release Notes : By assigning Board_SPI0_CSN and Board_SPI1_CSN pins to
+                    the chip select pins in the board source file, the customer
+                    should only have to modify the header files when moving
+                    the chip select pins to work with their design.
+    Workaround    : None
+
+
+-------------------------------------------------------------------------------
+3. Known Issue Details
+-------------------------------------------------------------------------------
+
+Issue [N/A]
+
+    Summary       : N/A
+    Severity      : N/A
+    Affected Comp : N/A
+    Description   : N/A
+    Workaround    : N/A
+
+
+===============================================================================
+Version 1_05_03
+Release date: 2015.01.30
+Dependencies:
+    - Tested with:
+        xdctools_3_30_06_66
+        bios_6_41_02_39
+        cc26xxware_2_20_06_14829
+
+-------------------------------------------------------------------------------
+1. Overview
+-------------------------------------------------------------------------------
+
+New Features and Enhancements
+
+    [GEN]    No longer exposing the CC26XX specific API for I2C, UART, SPIDMA.
+    [SPIDMA] Correcting return value from _transfer if time out (ref. bug 6370).
+    [DOC]    Doxygen updated for all drivers.
+    [XMPL]   Pin interrupt example - updated debounce logic.
+    [STAG]   Added separate board files for sensor tag PCB version 1.0, 1.1, and
+             1.2.
+    [STAG]   Magnetometer support added.
+    [STAG]   Support for TI HDC1000 Humidity Sensor.
+
+Bug fixes
+
+    [6068]   Pin interrupt example need update.
+    [6159]   PIN driver needs updated doxygen with 'Use Case' code examples.
+    [6178]   I2C driver does not report error if I2C pins are already allocated.
+    [6226]   SPIDMA - close() function does not include unregisterNotify().
+    [6297]   Driver documentation (Doxygen) clean up.
+    [6312]   SPICC26XXDMA driver has a NULL pointer dereference.
+    [6331]   sensor.c conformance with TI Compiler syntax (sensortag).
+    [6337]   TI compiler warning (in sensor_mpu9250.c).
+    [6338]   Missing board definition in SensorTag Board.h (SensorTag/CC26XXST).
+    [6355]   Pin driver should set IO_PAD_SLEEP_DIS bit at end of PIN_init().
+    [6370]   SPI_transfer with a timeout results in failed subsequent
+             SPI_transfers.
+    [6389]   Compile errors in tirtos_simplelink_2_11_00_07 board files
+             (CryptoCC26XX_fxnTable).
+
+Known Issues
+
+    [STAG]   Power consumption too high (+40 uA)
+    [STAG]   Board files for PCB version 1.1 and 1.2 untested.
+
+Misc
+
+    Driver sizes 1_05_03, Compiled with IAR_7.30.3 -Ohz
+        Module                      ro code  ro data  rw data  rw data
+                                                                (abs)
+        ------                      -------  -------  -------  -------
+        Board.o*                                 308    1 244
+        CryptoCC26XX.o                1 108                29
+        I2C.o                            26
+        I2CCC26XX.o                   1 128       20       20
+        LCDDogm1286.o                 4 624                16
+        LCDDogm1286_util.o              214
+        PINCC26XX.o                   1 440               220
+        SPI.o                            68
+        SPICC26XXDMA.o                1 832       28                64
+        UART.o                           68
+        UARTCC26XX.o                  1 812       40       16
+        UDMACC26XX.o                    168
+
+        *Including master and slave configurations for both SPIs.

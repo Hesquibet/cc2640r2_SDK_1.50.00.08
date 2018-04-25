@@ -1,0 +1,9 @@
+<map id="OSCHF_SwitchToRcOscTurnOffXosc" name="OSCHF_SwitchToRcOscTurnOffXosc">
+<area shape="rect" id="node2" href="$group__osc__api.html#ga37a02687fbd8680396550f682a7f046f" title="Configure the oscillator input to the a source clock. " alt="" coords="327,5,471,32"/>
+<area shape="rect" id="node4" href="$group__osc__api.html#ga279bd3a34548bd4c5e2fc6939f7be228" title="Get the source clock settings. " alt="" coords="327,56,472,83"/>
+<area shape="rect" id="node6" href="$group__osc__api.html#gac21e7c4532672c8fa7b90e493359ddc2" title="Switch the high frequency clock. " alt="" coords="328,107,471,133"/>
+<area shape="rect" id="node7" href="$group__aonrtc__api.html#ga1902a51367c543edbb07257e8ce9631a" title="Get the current value of the RTC counter in a format that matches RTC compare values. " alt="" coords="288,157,511,184"/>
+<area shape="rect" id="node8" href="$group__aonbatmon__api.html#gadc33e3e057f96ec6fc9fff57bd64de57" title="Get the current temperature measurement as a signed value in Deg Celsius. " alt="" coords="290,208,509,235"/>
+<area shape="rect" id="node3" href="$group__ddi__api.html#ga492326c095c70621a247fe02a2cb09e4" title="Write a bit field via the DDI using 16&#45;bit maskable write. " alt="" coords="559,5,685,32"/>
+<area shape="rect" id="node5" href="$group__ddi__api.html#gac86ccf0590b9dbdc88eb1a6c856c78a4" title="Read a bitfield via the DDI using 16&#45;bit read. " alt="" coords="559,56,685,83"/>
+</map>

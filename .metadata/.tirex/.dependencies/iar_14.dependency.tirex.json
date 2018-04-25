@@ -1,0 +1,23 @@
+[
+   {
+      "packages" : [],
+      "compiler" : {
+         "effective" : "na",
+         "location" : "na",
+         "specified" : "na"
+      },
+      "default" : "na",
+      "name" : "na",
+      "files" : [
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/drivers/nvsspi/tirtos/main_tirtos.c -> main_tirtos.c",
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/drivers/nvsspi/nvsspi.c -> nvsspi.c",
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/drivers/nvsspi/CC2640R2_LAUNCHXL.c -> CC2640R2_LAUNCHXL.c",
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/drivers/nvsspi/ccfg.c -> ccfg.c",
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/drivers/nvsspi/tirtos/iar/CC2640R2_LAUNCHXL_TIRTOS.icf -> nvsspi_CC2640R2_LAUNCHXL_TIRTOS.icf",
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/drivers/nvsspi/Board.h -> Board.h",
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/drivers/nvsspi/CC2640R2_LAUNCHXL.h -> CC2640R2_LAUNCHXL.h",
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/drivers/nvsspi/README.md -> README.md",
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/drivers/nvsspi/README.html -> README.html"
+      ]
+   }
+]

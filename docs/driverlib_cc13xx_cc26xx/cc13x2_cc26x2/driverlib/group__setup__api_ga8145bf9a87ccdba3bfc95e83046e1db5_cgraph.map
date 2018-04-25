@@ -1,0 +1,10 @@
+<map id="SetupAfterColdResetWakeupFromShutDownCfg3" name="SetupAfterColdResetWakeupFromShutDownCfg3">
+<area shape="rect" id="node2" href="$group__setup__api.html#gad0930e41df4aeae3f101853d38d28eaa" title="Returns the trim value to be used as OSC_DIG:CTL1.XOSC_HF_FAST_START. " alt="" coords="244,5,431,47"/>
+<area shape="rect" id="node3" href="$group__osc__api.html#ga37a02687fbd8680396550f682a7f046f" title="Configure the oscillator input to the a source clock. " alt="" coords="265,71,409,98"/>
+<area shape="rect" id="node5" href="$group__setup__api.html#gaaee7ab99f1f8e288786f0f98b0030ac8" title="Doing the tricky stuff needed to enter new RTCSUBSECINC value. " alt="" coords="246,122,429,149"/>
+<area shape="rect" id="node6" href="$group__osc__api.html#ga279bd3a34548bd4c5e2fc6939f7be228" title="Get the source clock settings. " alt="" coords="265,173,410,199"/>
+<area shape="rect" id="node8" href="$group__ioc__api.html#gaa37e353181d0457f3b56ddd541c6eb0a" title="Set the configuration of an IO port. " alt="" coords="266,223,409,250"/>
+<area shape="rect" id="node9" href="$group__sysctrl__api.html#ga1d9c005051b674f9f254747c1705e3dc" title="Sync all accesses to the AON register interface. " alt="" coords="278,274,397,301"/>
+<area shape="rect" id="node4" href="$group__ddi__api.html#ga492326c095c70621a247fe02a2cb09e4" title="Write a bit field via the DDI using 16&#45;bit maskable write. " alt="" coords="479,71,605,98"/>
+<area shape="rect" id="node7" href="$group__ddi__api.html#gac86ccf0590b9dbdc88eb1a6c856c78a4" title="Read a bitfield via the DDI using 16&#45;bit read. " alt="" coords="479,173,605,199"/>
+</map>

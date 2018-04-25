@@ -1,0 +1,170 @@
+
+BLE-Stack 3.01.00 to BLE-Stack 3.01.01
+======================================
+
+This section will describe a way to migrate a project from BLE-Stack 3.01.00 to
+a BLE-Stack 3.01.01. This approach will be modifying an existing project's
+configuration to utilize BLE-Stack 3.01.01 libraries, tools, and code.
+
+There are no changes in stack API between BLE-Stack 3.01.00 and BLE-Stack 3.01.01.
+
+For this migration guide, simple\_peripheral from BLE-Stack 3.01.00 will be ported
+to BLE-Stack 3.01.01. Utilize the IDE and Tools recommended by |BLESTACK| release notes.
+
+Once project configurations are updated, follow same building procedure
+used prior to the port. It is assumed the latest SDK has already been
+installed, see `SimpleLink SDKs <http://www.ti.com/tool/SIMPLELINK-CC2640R2-SDK>`_.
+
+For API Descriptions see :ref:`ble_api_reference`
+
+See section appropriate to IDE:
+
+    * :ref:`sec-porting-3-1-0-to-3-1-1-ccs`
+
+        * :ref:`sec-porting-3-1-0-to-3-1-1-ccs-stack`
+
+        * :ref:`sec-porting-3-1-0-to-3-1-1-ccs-app`
+
+    * :ref:`sec-porting-3-1-0-to-3-1-1-iar`
+
+.. _sec-porting-3-1-0-to-3-1-1-ccs:
+
+CCS Instructions
+----------------
+
+in order to update the stack and application project to work
+with the latest SDK release using CCS IDE
+
+.. _sec-porting-3-1-0-to-3-1-1-ccs-stack:
+
+Stack Project Porting
+^^^^^^^^^^^^^^^^^^^^^
+
+#. Updating XDC Tools to Version 3.50.3.33
+
+    Open Project Properties of the stack project for the application being ported
+
+    #. Select General from the Navigation Tree
+
+    #. Select Products Tab
+
+    #. Select XDCtools version 3.50.3.33\_core (Latest)
+
+    #. Save Changes
+
+    .. _fig_updating_xdctools:
+    .. figure:: resources/3.1.0-to-3.1.1-porting-guide-updating-xdctools.png
+        :align: center
+
+        CCS Updating XDC Tools Visual Instructions
+
+    This will update the ``XDC_CG_ROOT`` path variable to utilize the latest
+    version of XDCtools.
+
+#. Select BLE-Stack 3.01.01
+
+    Open Project Properties of the stack project for the application being ported
+
+    #. Select General from the Navigation Tree
+
+    #. Select Products Tab
+
+    #. Select SimpleLink CC2640R2 SDK version containing BLE-Stack 3.01.01
+
+    #. Save Changes
+
+    .. _fig_updating_ble_stack:
+    .. figure:: resources/3.1.0-to-3.1.1-porting-guide-updating-ble-stack.png
+        :align: center
+
+        CCS Updating BLE-Stack Visual Instructions
+
+    This will update the ``COM_TI_SIMPLELINK_CC2640R2_SDK_INSTALL_DIR`` path
+    variable to utilize the SDK containing BLE-Stack 3.01.01.
+
+    The path variables ``SRC_BLE_DIR`` and ``TOOLS_BLE_DIR`` will automatically
+    be updated to point to the BLE-Stack 3.01.01 version of tools and code.
+
+At this point all the Path Variables shown in the Linked Resources of the
+Project Properties window will reflect the updated information.
+
+.. _fig_checking_path_variables:
+.. figure:: resources/3.1.0-to-3.1.1-porting-guide-checking-path-variables.png
+    :align: center
+
+    CCS Checking Path Variables Modified
+
+.. note ::
+
+    In this particular example, the path variable ``EXAMPLE_BLE_ROOT``
+    will still point to the previous SDK. The variable represents the path
+    of the code being ported.
+
+.. _sec-porting-3-1-0-to-3-1-1-ccs-app:
+
+Application Project Porting
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+#. Updating XDC Tools to Version 3.50.3.33 and BLE-Stack to 3.01.01
+
+    Open Project Properties of the application project for the application being ported
+
+    #. Select General from the Navigation Tree
+
+    #. Select Products Tab
+
+    #. Select XDCtools version 3.50.3.33\_core (Latest)
+
+    #. Select SimpleLink CC2640R2 SDK version containing BLE-Stack 3.01.01
+
+    #. Save Changes
+
+    .. _fig_checking_updating_app_stack_xdc:
+    .. figure:: resources/3.1.0-to-3.1.1-porting-guide-application-updating-stack-xdc.png
+        :align: center
+
+    This will update the ``XDC_CG_ROOT`` path variable to utilize the latest
+    version of XDCtools.
+
+    This will update the ``COM_TI_SIMPLELINK_CC2640R2_SDK_INSTALL_DIR`` path
+    variable to utilize the SDK containing BLE-Stack 3.01.01.
+
+At this point all the Path Variables shown in the Linked Resources of the
+Project Properties window will reflect the updated information. See
+:ref:`fig_checking_path_variables`.
+
+.. _sec-porting-3-1-0-to-3-1-1-iar:
+
+IAR Instructions
+----------------
+
+Since both the application and stack project utilize a common custom
+argument variable file, only this file needs to be configured to
+point to the correct stack and tools.
+
+#. Modifying Custom Argument Variables for BLE-Stack 3.01.01 and XDCtools 3.50.3.33\_core
+
+    #. Click Tools from the Toolbar
+
+    #. Select Configure Custom Argument Variable item
+
+        .. _fig_iar_selecting_custom_arg_vars:
+        .. figure:: resources/3.1.0-to-3.1.1-porting-guide-selecting-custom-args-menu.png
+            :align: center
+
+    #. Expand the ``SIMPLELINK_CC2640R2_SRC_SDK`` Heading
+
+    #. Modify ``SIMPLELINK_CORE_SDK_INSTALL_DIR`` to path of SDK containing BLE-Stack 3.01.01
+
+    #. Modify ``XDCROOT`` to path of XDCtools 3.50.3.33\_core
+
+    #. Save Changes
+
+        .. _fig_iar_custom_arg_vars:
+        .. figure:: resources/3.1.0-to-3.1.1-porting-guide-iar-custom-arg-vars.png
+            :align: center
+
+    #. Re-launch IAR Embedded Workbench
+
+        This will refresh all file references to use BLE-Stack 3.01.01 and
+        XDCtools 3.50.3.33\_core.

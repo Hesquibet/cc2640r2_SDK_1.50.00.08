@@ -1,0 +1,412 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Watching Variables and Registers &mdash; BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation" href="../index.html"/>
+        <link rel="up" title="Debugging" href="ble-index.html"/>
+        <link rel="next" title="TI-RTOS Object Viewer" href="rtos_object_view.html"/>
+        <link rel="prev" title="Breakpoints" href="breakpoints.html"/> 
+    <script language="JavaScript">
+        var tiPageName;
+        tiPageName = "sug debugging watches";
+
+        if (location.protocol == "file:"){
+            var ci_analytics_poc_load = true;
+        }
+    </script> 
+
+    <script src="http://www.ti.com/assets/js/headerfooter/analytics.js" type="text/javascript" charset="utf-8">     
+
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../ble-stack-3.x-guide/index.html" class="icon icon-home"> BLE-Stack User's Guide for Bluetooth 4.2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.01.01.00
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../cc2640/disclaimer.html">Disclaimer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/get-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cc2640/platform.html">The CC2640R2F SDK Platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x/index.html">Developing a Bluetooth Low Energy Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../u-stack/index.html">Micro BLE Stack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../oad-ble-stack-3.x/oad.html">Over the Air Download (OAD)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../voice/voice.html">Creating a Voice Enabled Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../secure-fw-3.x/index.html">Secure Firmware (SFW)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensor-controller/sensor-controller.html">Sensor Controller</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="ble-index.html">Debugging</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="external_resources.html">External Resources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="debug_interfaces.html">Debug Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="debug_interfaces.html#configuring-debugger-in-ccs">Configuring Debugger in CCS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="debug_interfaces.html#configuring-debugger-in-iar">Configuring Debugger in IAR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="breakpoints.html">Breakpoints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="breakpoints.html#considerations-on-breakpoints">Considerations on Breakpoints</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Watching Variables and Registers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#variables-in-ccs">Variables in CCS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#variables-in-iar">Variables in IAR</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#considerations-when-viewing-variables">Considerations When Viewing Variables</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#memory-watchpoints">Memory Watchpoints</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#watchpoints-in-ccs">Watchpoints in CCS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#watchpoints-in-iar">Watchpoints in IAR</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="rtos_object_view.html">TI-RTOS Object Viewer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="memory_browser.html">Using the Memory Browser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ble-common_heap.html">Debugging Common Heap Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="optimizations.html">Optimizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cpu_exceptions.html">Deciphering CPU Exceptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ble-memory_problems.html">Debugging Memory Problems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ble-memory_problems.html#check-system-flash-and-ram-usage-with-map-file">Check System Flash and RAM Usage With Map File</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ble-debugging.html">Debugging a Program Exit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ble-debugging.html#hal-assert-handling">HAL Assert Handling</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/migration.html">Migration Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/api-reference.html">API References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/reference.html">Terms and Definitions</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../ble-stack-3.x-guide/index.html">BLE-Stack User's Guide for Bluetooth 4.2</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../ble-stack-3.x-guide/index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="ble-index.html">Debugging</a> &raquo;</li>
+        
+      <li>Watching Variables and Registers</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="watching-variables-and-registers">
+<h1>Watching Variables and Registers<a class="headerlink" href="#watching-variables-and-registers" title="Permalink to this headline">¶</a></h1>
+<p>IAR and CCS provide several ways of viewing the state of a halted
+program. Global variables are statically placed during link-time and
+can end up anywhere in the RAM available to the project or
+potentially in flash if they are declared as a constant value. These
+variables can be accessed at any time through the Watch and
+Expression windows.</p>
+<p>Unless removed due to optimizations, global variables are always
+available in these views. Local variables or variables that are only
+valid inside a limited scope are placed on the stack of the active
+task. Such variables can also be viewed with the Watch or Expression
+views, but can also be automatically displayed when breaking or
+stepping through code. To view the variables through IAR and CCS, do
+as follows.</p>
+<div class="section" id="variables-in-ccs">
+<h2>Variables in CCS<a class="headerlink" href="#variables-in-ccs" title="Permalink to this headline">¶</a></h2>
+<p>You can view Global Variables by doing either of the following.</p>
+<ul class="simple">
+<li>Select View &#8211;&gt; Expressions</li>
+<li>Select a variable name in code.<ul>
+<li>Right-click and select Add Watch Expression.</li>
+</ul>
+</li>
+</ul>
+<div class="figure align-center" id="id2">
+<img alt="../_images/ccs_watch.png" src="../_images/ccs_watch.png" />
+<p class="caption"><span class="caption-number">Figure 108. </span><span class="caption-text">Variable watch window. Note that you can cast values, get address and sizeof, etc.</span></p>
+</div>
+<ul class="simple">
+<li>Select View &#8211;&gt; Variables to <code class="docutils literal"><span class="pre">auto-variables</span></code> that are present at the current
+location when stepping through code.</li>
+</ul>
+<div class="figure align-center" id="id3">
+<img alt="../_images/ccs_locals.png" src="../_images/ccs_locals.png" />
+<p class="caption"><span class="caption-number">Figure 109. </span><span class="caption-text">Local variables. This screenshot is taken during execution of
+the Simple Peripheral init function.</span></p>
+</div>
+</div>
+<div class="section" id="variables-in-iar">
+<h2>Variables in IAR<a class="headerlink" href="#variables-in-iar" title="Permalink to this headline">¶</a></h2>
+<p>To view Global Variables, do either of the following.</p>
+<ul class="simple">
+<li>Right-click on the variable.<ul>
+<li>Select Add to Watch: varName.</li>
+</ul>
+</li>
+<li>Select View &#8211;&gt; Watch n<ul>
+<li>Enter the name of the variable.</li>
+</ul>
+</li>
+</ul>
+<div class="figure align-center" id="id4">
+<img alt="../_images/iar_watch.png" src="../_images/iar_watch.png" />
+<p class="caption"><span class="caption-number">Figure 110. </span><span class="caption-text">Variable watch window. Note that you can cast values, get address and sizeof, etc.</span></p>
+</div>
+<p>View &#8211;&gt; Locals show the local variables in IAR.</p>
+<div class="figure align-center" id="id5">
+<img alt="../_images/iar_locals.png" src="../_images/iar_locals.png" />
+<p class="caption"><span class="caption-number">Figure 111. </span><span class="caption-text">Local variables. This screenshot is taken during execution of
+the Simple Peripheral init function.</span></p>
+</div>
+</div>
+<div class="section" id="considerations-when-viewing-variables">
+<h2>Considerations When Viewing Variables<a class="headerlink" href="#considerations-when-viewing-variables" title="Permalink to this headline">¶</a></h2>
+<p>Local variables are often placed in CPU registers and not on the
+stack. These variables also have a limited lifetime even within the
+scope in which they are valid, depending on the optimization
+performed. Both CCS and IAR may struggle to show a particular
+variable due to its limited lifetime. The solution when debugging is
+as follows.</p>
+<ul class="simple">
+<li>Move the variable to global scope, so it remains accessible in RAM.</li>
+<li>Make the variable volatile, so the compiler doesn&#8217;t place the value in a
+register.</li>
+<li>Make a shadow copy of the variable that is global and volatile.</li>
+</ul>
+<p>IAR may remove the variable during optimization and inline the usage of the
+value. If so, add the <code class="docutils literal"><span class="pre">__root</span></code> directive in front.</p>
+</div>
+</div>
+<div class="section" id="memory-watchpoints">
+<h1>Memory Watchpoints<a class="headerlink" href="#memory-watchpoints" title="Permalink to this headline">¶</a></h1>
+<p>As mentioned in <a class="reference internal" href="debug_interfaces.html#sec-debug-interface"><span class="std std-ref">Debug Interfaces</span></a>, the DWT module contains four memory
+watchpoints that allow breakpoints on memory access. The hardware
+match functionality looks only at the address. If intended for use
+on a variable, the variable must be global. Using watchpoints is
+described for IAR and CCS as follows.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If a data watchpoint with value match is used, two of the four watchpoints
+are used.</p>
+</div>
+<div class="section" id="watchpoints-in-ccs">
+<h2>Watchpoints in CCS<a class="headerlink" href="#watchpoints-in-ccs" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li>Right-click on a global variable.</li>
+<li>Select Breakpoint &#8211;&gt; Hardware Watchpoint</li>
+<li>Go to the list of breakpoints (View &#8211;&gt; Breakpoints)</li>
+<li>Right-click and edit the Breakpoint Properties to configure the watchpoint.</li>
+</ol>
+<div class="figure align-center" id="id6">
+<img alt="../_images/ccs_watchpoint_add.png" src="../_images/ccs_watchpoint_add.png" />
+<p class="caption"><span class="caption-number">Figure 112. </span><span class="caption-text">Adding a watchpoint on a variable.</span></p>
+</div>
+<p>This example configuration ensures that if 0x42 is written to the
+memory location for Characteristic 1 in the Bluetooth low energy
+simple_peripheral example project the device halts execution.</p>
+<div class="figure align-center" id="id7">
+<img alt="../_images/ccs_watchpoint_configure.png" src="../_images/ccs_watchpoint_configure.png" />
+<p class="caption"><span class="caption-number">Figure 113. </span><span class="caption-text">Configuring a hardware watchpoint to break on 8-bit write with value 0x42.</span></p>
+</div>
+</div>
+<div class="section" id="watchpoints-in-iar">
+<h2>Watchpoints in IAR<a class="headerlink" href="#watchpoints-in-iar" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li>Right-click a variable (global).</li>
+<li>Select <code class="docutils literal"><span class="pre">Set</span> <span class="pre">Data</span> <span class="pre">Breakpoint</span> <span class="pre">for</span> <span class="pre">'myVar'</span></code> to add it to the active breakpoints.</li>
+<li>Go to the list of breakpoints (View &#8211;&gt; Breakpoints)</li>
+<li>Choose Edit... to set up whether the watchpoint should match on read,
+write, or any access.</li>
+</ol>
+<div class="figure align-center" id="id8">
+<img alt="../_images/iar_watchpoint_configure.png" src="../_images/iar_watchpoint_configure.png" />
+<p class="caption"><span class="caption-number">Figure 114. </span><span class="caption-text">Configuring a hardware watchpoint to break on 8-bit write with value 0x42.</span></p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="rtos_object_view.html" class="btn btn-neutral float-right" title="TI-RTOS Object Viewer" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="breakpoints.html" class="btn btn-neutral" title="Breakpoints" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Texas Instruments.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.01.01.00',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

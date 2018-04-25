@@ -1,0 +1,592 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Voice over BLE &mdash; BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation" href="../index.html"/>
+        <link rel="up" title="Creating a Voice Enabled Application" href="voice.html"/>
+        <link rel="next" title="Secure Firmware (SFW)" href="../secure-fw-3.x/index.html"/>
+        <link rel="prev" title="PDM Voice" href="voice_platform.html"/> 
+    <script language="JavaScript">
+        var tiPageName;
+        tiPageName = "sug voice ble_voice";
+
+        if (location.protocol == "file:"){
+            var ci_analytics_poc_load = true;
+        }
+    </script> 
+
+    <script src="http://www.ti.com/assets/js/headerfooter/analytics.js" type="text/javascript" charset="utf-8">     
+
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../ble-stack-3.x-guide/index.html" class="icon icon-home"> BLE-Stack User's Guide for Bluetooth 4.2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.01.01.00
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../cc2640/disclaimer.html">Disclaimer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/get-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cc2640/platform.html">The CC2640R2F SDK Platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x/index.html">Developing a Bluetooth Low Energy Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../u-stack/index.html">Micro BLE Stack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../oad-ble-stack-3.x/oad.html">Over the Air Download (OAD)</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="voice.html">Creating a Voice Enabled Application</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="voice_platform.html">PDM Voice</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Voice over BLE</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#ti-voice-profile-vogp">TI Voice Profile (VoGP)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#voice-over-hid-over-gatt-profile-vohogp">Voice over HID over GATT Profile (VoHoGP)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ble-voice-frame-data">BLE Voice Frame Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#modifiying-the-latency">Modifiying the Latency</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#throughput-requirement-for-ble">Throughput Requirement for BLE</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../secure-fw-3.x/index.html">Secure Firmware (SFW)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensor-controller/sensor-controller.html">Sensor Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../debugging/ble-index.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/migration.html">Migration Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/api-reference.html">API References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/reference.html">Terms and Definitions</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../ble-stack-3.x-guide/index.html">BLE-Stack User's Guide for Bluetooth 4.2</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../ble-stack-3.x-guide/index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="voice.html">Creating a Voice Enabled Application</a> &raquo;</li>
+        
+      <li>Voice over BLE</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="voice-over-ble">
+<h1>Voice over BLE<a class="headerlink" href="#voice-over-ble" title="Permalink to this headline">¶</a></h1>
+<p>There is no standard way of transmitting voice over BLE so a custom profile must
+be used. TI offers two BLE mechanisms in transferring voice frames.</p>
+<ul class="simple">
+<li>TI Voice Profile (VoGP)
+A custom TI&#8217;s GATT profile implementation in the BLE-Stack to transmit
+voice frames.</li>
+<li>Voice over HID (Human Interface Device) over GATT Profile (VoHoGP)
+A HID over GATT Profile (HoGP) implementation in the BLE-Stack to transmit
+voice frame via HID reports.</li>
+</ul>
+<div class="section" id="ti-voice-profile-vogp">
+<h2>TI Voice Profile (VoGP)<a class="headerlink" href="#ti-voice-profile-vogp" title="Permalink to this headline">¶</a></h2>
+<p>The TI Voice Profile (<cite>audio_profile.[ch]</cite>) is found in the BLE-Stack
+component&#8217;s <cite>audio_profile</cite> folder.</p>
+<p>The audio data is transmitted using a proprietary service with UUID
+<code class="docutils literal"><span class="pre">F000B000-0451-4000-B000-000000000000</span></code>. This service is composed of the
+following 2 characteristics:</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The characteristics below use the 128-bit TI base UUID of the
+format <code class="docutils literal"><span class="pre">F000XXXX-0451-4000-B000-000000000000</span></code> where XXXX is their
+shortened 16bit UUID. For brevity, this document will refer to the
+characteristics by their 16-bit short UUID.</p>
+</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="18%" />
+<col width="7%" />
+<col width="43%" />
+<col width="32%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Name</td>
+<td>UUID</td>
+<td>Description</td>
+<td>GATT Properties</td>
+</tr>
+<tr class="row-even"><td>AUDIOPROFILE_START</td>
+<td>0xB001</td>
+<td>The start characteristic is used to transmit a
+start command before the streaming starts and a
+stop command as the last packet of a stream.</td>
+<td>GATT_PROP_READ, GATT_PROP_NOTIFY</td>
+</tr>
+<tr class="row-odd"><td>AUDIOPROFILE_AUDIO</td>
+<td>0xB002</td>
+<td>AUDIOPROFILE_AUDIO is used as the audio
+stream characteristic, all audio frames will be
+transmitted using this characteristic.</td>
+<td>GATT_PROP_READ, GATT_PROP_NOTIFY</td>
+</tr>
+</tbody>
+</table>
+<p><a class="reference external" href="../../doxygen/ble/html/group___a_t_t___g_a_t_t.html#gac61599736be6b39a5b18d3ef6eb7a45a">GATT_Notification()</a> was selected as the primary vehicle for transmitting
+voice data over BLE in the voice profile implementation.</p>
+<p>Notifications were selected because they have low packet overhead and
+are asynchronous in nature. These qualities make notifications ideal for voice
+streaming applications.
+Before the voice stream begins, the (receiving) peer device must enable
+notifications by writing <code class="docutils literal"><span class="pre">01:00</span></code> to the CCCD of both AUDIOPROFILE_START and
+AUDIOPROFILE_AUDIO.
+If notifications are not enabled, the remote will not stream voice data.</p>
+<p>The basic flow of a voice transmission is:</p>
+<ol class="arabic simple">
+<li>CC2640R2F sends a start command (0x04) notification (if enabled) on
+the AUDIOPROFILE_START characteristic.</li>
+<li>CC2640R2F starts streaming voice data. See <a class="reference internal" href="#fig-voice-sequence-diagram"><span class="std std-ref">Sequence diagram for Voice Transmission</span></a>
+for more details</li>
+<li>CC2640R2F sends a stop command (0x00) notification on the
+AUDIOPROFILE_START characteristic.</li>
+</ol>
+<p>See the figure below for an illustration of voice transmission over BLE. See
+<a class="reference internal" href="#sect-voice-frame-data"><span class="std std-ref">BLE Voice Frame Data</span></a> for more information about the contents of the BLE
+voice frame.</p>
+<div class="figure align-center" id="id2">
+<span id="fig-voice-sequence-diagram"></span><p class="plantuml">
+<img src="../_images/plantuml-72e567935d3a6369b279d034792123c5e98fc078.png" alt="&#64;startuml
+Receiver &lt;- Transmitter: Advertisements
+Receiver -&gt; Transmitter: Connect Req
+Receiver &lt;-&gt; Transmitter: Voice Service Discovery
+
+Receiver -&gt; Transmitter: Enable Notifications on AUDIOPROFILE_START Char
+Receiver -&gt; Transmitter: Enable Notifications on AUDIOPROFILE_AUDIO Char
+
+...Wait until transmitter begins streaming...
+
+
+Receiver &lt;- Transmitter: GATT_Notification - AUDIOPROFILE_START - start command (0x04)
+
+group Repeat For Each frame in voice stream
+
+
+Receiver &lt;- Transmitter: GATT_Notification - AUDIOPROFILE_AUDIO -  Metadata + voice data
+Receiver &lt;- Transmitter: GATT_Notification - AUDIOPROFILE_AUDIO -  voice data
+Receiver &lt;- Transmitter: GATT_Notification - AUDIOPROFILE_AUDIO -  voice data
+Receiver &lt;- Transmitter: GATT_Notification - AUDIOPROFILE_AUDIO -  voice data
+Receiver &lt;- Transmitter: GATT_Notification - AUDIOPROFILE_AUDIO -  voice data
+
+end
+
+Receiver &lt;- Transmitter: GATT_Notification - AUDIOPROFILE_START - stop command (0x00)
+
+&#64;enduml" />
+</p>
+<p class="caption"><span class="caption-number">Figure 96. </span><span class="caption-text">Sequence diagram for Voice Transmission</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
+</div>
+</div>
+<div class="section" id="voice-over-hid-over-gatt-profile-vohogp">
+<h2>Voice over HID over GATT Profile (VoHoGP)<a class="headerlink" href="#voice-over-hid-over-gatt-profile-vohogp" title="Permalink to this headline">¶</a></h2>
+<p>The Voice over HID over GATT Profile HID service implementation
+(<cite>hidservice.[ch]</cite>) can be found under the BLE-Stack component of the optional
+Example Pack for the SimpleLink CC2640R2 SDK.</p>
+<p>In contrast to the VoGP, audio data is transmitted using encrypted
+Consumer Control HID Reports instead of a custom non-encrypted GATT profile. The
+advantage in using the adopted HID over GATT Profile (HoGP) is that operating
+systems and Bluetooth Low Energy software stacks generally already support this
+profile natively; thus eliminating the need for the developer to develop a
+custom GATT profile.</p>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p>The main advantage in transporting data over the HID is that modern
+Operating Systems typically natively support this profile, simplifying the
+application development by not having to develop custom GATT profiles.</p>
+<ul class="last simple">
+<li>BlueZ users on Linux do not need to recompile the kernel to support a
+custom profile.</li>
+<li>Windows 8.1 or later also supports HoGP natively.</li>
+</ul>
+</div>
+<p>Applications using HoGP only need to collect voice frames using HID reports
+generated by the Operating System. A sample script collecting voice data from
+HID reports is hosted on
+<a class="reference external" href="https://github.com/ti-simplelink">TI&#8217;s SimpleLink Github Page</a>.</p>
+<p>The HID reports used to transport voice frames follow the a similar paradigm as
+with TI Voice Profile. The <cite>HID_RPT_ID_VOICE_START_IN</cite> report is used to
+indicate the start and stop of the voice data stream, whereas the voice data
+itself is sent via the <cite>HID_RPT_ID_VOICE_DATA_IN</cite> report.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="30%" />
+<col width="14%" />
+<col width="56%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Name</td>
+<td>Report ID</td>
+<td>Description</td>
+</tr>
+<tr class="row-even"><td>HID_RPT_ID_VOICE_START_IN</td>
+<td>0x0A (10)</td>
+<td>This HID report is used to transmit a start
+command before the streaming starts and stop
+command as the last packet of a stream.</td>
+</tr>
+<tr class="row-odd"><td>HID_RPT_ID_VOICE_DATA_IN</td>
+<td>0x0B (11)</td>
+<td>This HID report is used to transmit all voice
+data.</td>
+</tr>
+</tbody>
+</table>
+<p>The basic flow of a voice transmission is:</p>
+<ol class="arabic simple">
+<li>CC2640R2F sends a start command (0x04) on HID_RPT_ID_VOICE_START_IN.</li>
+<li>CC2640R2F starts streaming voice data on HID_RPT_ID_VOICE_DATA_IN. See
+<a class="reference internal" href="#fig-voice-hid-sequence-diagram"><span class="std std-ref">Sequence diagram for Voice Transmission over HID</span></a> for more details.</li>
+<li>CC2640R2F sends a stop command (0x00) on HID_RPT_ID_VOICE_START_IN.</li>
+</ol>
+<p>The voice HID reports used to transport voice are described
+the HID Service&#8217;s Report Map in the following manner:</p>
+<div class="literal-block-wrapper docutils container" id="id3">
+<span id="lst-voice-hid-report-map"></span><div class="code-block-caption"><span class="caption-number">Listing 86. </span><span class="caption-text">Declaring Voice HID Report in the HID Service&#8217;s Report Map</span><a class="headerlink" href="#id3" title="Permalink to this code">¶</a></div>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="mh">0x05</span><span class="p">,</span> <span class="mh">0x0C</span><span class="p">,</span>        <span class="c1">// Usage Page (Consumer Devices)</span>
+<span class="mh">0x09</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span>        <span class="c1">// Usage (Consumer Control)</span>
+<span class="mh">0xA1</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span>        <span class="c1">// Collection (Application)</span>
+<span class="mh">0x85</span><span class="p">,</span> <span class="mh">0x0A</span><span class="p">,</span>        <span class="c1">//   Report ID (10)</span>
+<span class="mh">0x15</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span>        <span class="c1">//   Logical Minimum (0)</span>
+<span class="mh">0x26</span><span class="p">,</span> <span class="mh">0xFF</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span>  <span class="c1">//   Logical Maximum (255)</span>
+<span class="mh">0x75</span><span class="p">,</span> <span class="mh">0x08</span><span class="p">,</span>        <span class="c1">//   Report Size (8)</span>
+<span class="mh">0x95</span><span class="p">,</span> <span class="mh">0x05</span><span class="p">,</span>        <span class="c1">//   Report Count (5)</span>
+<span class="mh">0x09</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span>        <span class="c1">//   Usage (Consumer Control)</span>
+<span class="mh">0x81</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span>        <span class="c1">//   Input (Data,Array,Abs,No Wrap,Linear,Preferred State,No Null Position)</span>
+<span class="mh">0x85</span><span class="p">,</span> <span class="mh">0x0B</span><span class="p">,</span>        <span class="c1">//   Report ID (11)</span>
+<span class="mh">0x15</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span>        <span class="c1">//   Logical Minimum (0)</span>
+<span class="mh">0x26</span><span class="p">,</span> <span class="mh">0xFF</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span>  <span class="c1">//   Logical Maximum (255)</span>
+<span class="mh">0x75</span><span class="p">,</span> <span class="mh">0x08</span><span class="p">,</span>        <span class="c1">//   Report Size (8)</span>
+<span class="mh">0x95</span><span class="p">,</span> <span class="mh">0x14</span><span class="p">,</span>        <span class="c1">//   Report Count (20)</span>
+<span class="mh">0x09</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span>        <span class="c1">//   Usage (Consumer Control)</span>
+<span class="mh">0x81</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span>        <span class="c1">//   Input (Data,Array,Abs,No Wrap,Linear,Preferred State,No Null Position)</span>
+<span class="mh">0xC0</span>               <span class="c1">// End Collection</span>
+</pre></div>
+</div>
+</div>
+<p>The voice stream data flow is similar to TI&#8217;s Voice Profile, with the exception
+that now the link between the transmitter and receiver is encrypted. The GATT
+client, as before, will enable GATT Notifications for all the HID IN reports.
+See the figure below for an illustration of voice transmission over BLE and see
+<a class="reference internal" href="#sect-voice-frame-data"><span class="std std-ref">BLE Voice Frame Data</span></a> for more information about the contents of the BLE
+voice frame.</p>
+<div class="figure align-center" id="id4">
+<span id="fig-voice-hid-sequence-diagram"></span><p class="plantuml">
+<img src="../_images/plantuml-c4336427b7a34e506f40b81e5859bdaef7b6471f.png" alt="&#64;startuml
+Receiver &lt;- Transmitter: Advertisements
+Receiver -&gt; Transmitter: Connect Req
+Receiver &lt;-&gt; Transmitter: (Re-)Establish SMP Pairing and Encryption
+Receiver &lt;-&gt; Transmitter: Interrogating HID Service's Report Map
+
+...A HoGP host will enable notifications for all HID IN Report Characteristics...
+
+Receiver -&gt; Transmitter: Enable Notifications on HID_RPT_ID_VOICE_START_IN
+Receiver -&gt; Transmitter: Enable Notifications on HID_RPT_ID_VOICE_DATA_IN
+
+...Wait until transmitter begins streaming...
+
+
+Receiver &lt;- Transmitter: GATT_Notification on HID_RPT_ID_VOICE_START_IN - start command (0x04)
+
+group Repeat For Each Voice Frame in voice stream
+
+Receiver &lt;- Transmitter: GATT_Notification - HID_RPT_ID_VOICE_DATA_IN - Metadata + voice data
+Receiver &lt;- Transmitter: GATT_Notification - HID_RPT_ID_VOICE_DATA_IN - voice data
+Receiver &lt;- Transmitter: GATT_Notification - HID_RPT_ID_VOICE_DATA_IN - voice data
+Receiver &lt;- Transmitter: GATT_Notification - HID_RPT_ID_VOICE_DATA_IN - voice data
+Receiver &lt;- Transmitter: GATT_Notification - HID_RPT_ID_VOICE_DATA_IN - voice data
+
+end
+
+Receiver &lt;- Transmitter: GATT_Notification on HID_RPT_ID_VOICE_START_IN - stop command (0x00)
+
+&#64;enduml" />
+</p>
+<p class="caption"><span class="caption-number">Figure 97. </span><span class="caption-text">Sequence diagram for Voice Transmission over HID</span><a class="headerlink" href="#id4" title="Permalink to this image">¶</a></p>
+</div>
+</div>
+<div class="section" id="ble-voice-frame-data">
+<span id="sect-voice-frame-data"></span><h2>BLE Voice Frame Data<a class="headerlink" href="#ble-voice-frame-data" title="Permalink to this headline">¶</a></h2>
+<p>By default the voice profile will send 20 bytes of application data per notification.
+Thus, it is thus ideal to choose a PDM driver frame length that is a multiple of
+20 bytes.</p>
+<p>Recall from <a class="reference internal" href="voice_platform.html#sect-pdm-driver-metadata"><span class="std std-ref">PDM Driver Metadata</span></a> that each frame should contain 4 bytes
+metadata as well. There is a compromise between frame duration and overhead,
+which was found to be optimized at a total frame length of 100 bytes, which
+includes 4 bytes metadata.</p>
+<p>The numbered headers in the voice frame above are the metadata fields provided by
+the PDM driver. See <a class="reference internal" href="voice_platform.html#sect-pdm-driver-metadata"><span class="std std-ref">PDM Driver Metadata</span></a> for an explanation of the
+metadata fields.</p>
+<div class="figure align-center" id="id5">
+<span id="audio-packetformat"></span><img alt="../_images/Audio_packetformat.jpg" src="../_images/Audio_packetformat.jpg" />
+<p class="caption"><span class="caption-number">Figure 98. </span><span class="caption-text">One audio packet.</span></p>
+</div>
+<img alt="../_images/aafig-b8f0328669d9938be8e2ead0794d3deef9ddca85.png" src="../_images/aafig-b8f0328669d9938be8e2ead0794d3deef9ddca85.png" />
+<p>When transmitted over the air, the audio frames are fragmented into 20
+byte notifications, this means that each audio frame is sent as 5
+notifications:</p>
+<div class="figure align-center" id="id6">
+<span id="audio-packedin5notification"></span><img alt="../_images/Audio_packedIn5Notification.jpg" src="../_images/Audio_packedIn5Notification.jpg" />
+<p class="caption"><span class="caption-number">Figure 99. </span><span class="caption-text">One audio frame sent over the air as 5 notification.</span></p>
+</div>
+</div>
+<div class="section" id="modifiying-the-latency">
+<h2>Modifiying the Latency<a class="headerlink" href="#modifiying-the-latency" title="Permalink to this headline">¶</a></h2>
+<p>The built in flow control in the Bluetooth low energy Protocol is used
+to ensure delivery of full audio frames during streaming.</p>
+<p>Since the header of each audio frame contains the information required to decode
+that frame separately, the safest way to discard data in e.g. a
+noisy environment is to discard the full frame.</p>
+<p>The PDM driver will drop full audio frames when there are no available buffers,
+and the application will handle one frame at a time until it has been
+successfully queued up in the TX FIFO within the BLE-Stack.</p>
+<p>As mentioned above, the application must service a PDM buffer every <code class="docutils literal"><span class="pre">2ms</span></code>.
+If the application requires a longer contiguous chunk of processing time or a
+marginal RF environment is causing many re-try events then the number of PDM
+buffers can be tweaked by modifying <code class="docutils literal"><span class="pre">MINIMUM_PDM_BUFFER_QUEUE_DEPTH</span></code>.</p>
+<p>Each increase in <code class="docutils literal"><span class="pre">MINIMUM_PDM_BUFFER_QUEUE_DEPTH</span></code> triggers a corresponding
+increase of 2ms of latency which allows the application more time to process.
+The cost of the increased latency is increased RAM useage.</p>
+<p>The user application should be profiled to find the optimal tradeoff between
+the expected RF conditions, RAM useage, and latency.</p>
+</div>
+<div class="section" id="throughput-requirement-for-ble">
+<h2>Throughput Requirement for BLE<a class="headerlink" href="#throughput-requirement-for-ble" title="Permalink to this headline">¶</a></h2>
+<p>The general required throughput for sending audio frame has been covered in
+<a class="reference internal" href="voice_platform.html#general-throughput-requirement"><span class="std std-ref">Throughput Requirement</span></a>. Here we will cover the calculation for
+required throughput when we take BLE specific headers into consinderation.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="42%" />
+<col width="42%" />
+<col width="16%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Data</th>
+<th class="head">Calculation</th>
+<th class="head">rate</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>L2CAP and ATT header</td>
+<td>(7 * 5) B / 12ms</td>
+<td>23.33kbps</td>
+</tr>
+<tr class="row-odd"><td>Complete packets overhead</td>
+<td>(21 * 5) B / 12ms</td>
+<td>70kpbs</td>
+</tr>
+</tbody>
+</table>
+<p>From <a class="reference internal" href="voice_platform.html#general-throughput-requirement"><span class="std std-ref">Throughput Requirement</span></a>, we learned that the required thoughput
+for audio frame is 66.67kbps. After adding the overhead from BLE headers,
+the required throughput is 70 + 66.67 = <code class="docutils literal"><span class="pre">136.67kbps</span></code></p>
+<p>The hid_adv_remote application will try to transmit as many available
+audio notifications as possible for every connection event. This means
+that the required throughput can be obtained with different settings for
+the connection interval as longs as enough packets can be transmitted in
+each connection event to successfully reach the ~417 notifications per
+second limit.</p>
+<p>1 notification = 20 B audio data = 160 bits audio data.</p>
+<p>Required audio data throughput  = <code class="docutils literal"><span class="pre">66670bps</span></code>.</p>
+<p>66670 / 160 ~= <code class="docutils literal"><span class="pre">417</span> <span class="pre">notifications</span> <span class="pre">per</span> <span class="pre">second</span></code></p>
+<p>Typically a connection interval of 10ms can be used where
+3-5 notifications are transmitted every connection event.</p>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../secure-fw-3.x/index.html" class="btn btn-neutral float-right" title="Secure Firmware (SFW)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="voice_platform.html" class="btn btn-neutral" title="PDM Voice" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Texas Instruments.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.01.01.00',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

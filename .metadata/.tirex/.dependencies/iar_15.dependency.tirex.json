@@ -1,0 +1,23 @@
+[
+   {
+      "compiler" : {
+         "specified" : "na",
+         "effective" : "na",
+         "location" : "na"
+      },
+      "default" : "na",
+      "files" : [
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/drivers/pinInterrupt/tirtos/main_tirtos.c -> main_tirtos.c",
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/drivers/pinInterrupt/pinInterrupt.c -> pinInterrupt.c",
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/drivers/pinInterrupt/CC2640R2_LAUNCHXL.c -> CC2640R2_LAUNCHXL.c",
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/drivers/pinInterrupt/ccfg.c -> ccfg.c",
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/drivers/pinInterrupt/tirtos/iar/CC2640R2_LAUNCHXL_TIRTOS.icf -> pinInterrupt_CC2640R2_LAUNCHXL_TIRTOS.icf",
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/drivers/pinInterrupt/Board.h -> Board.h",
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/drivers/pinInterrupt/CC2640R2_LAUNCHXL.h -> CC2640R2_LAUNCHXL.h",
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/drivers/pinInterrupt/README.md -> README.md",
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/drivers/pinInterrupt/README.html -> README.html"
+      ],
+      "name" : "na",
+      "packages" : []
+   }
+]

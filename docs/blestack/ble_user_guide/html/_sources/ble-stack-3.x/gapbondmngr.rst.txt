@@ -1,0 +1,925 @@
+GAP Bond Manager and LE Secure Connections
+------------------------------------------
+
+The GAP Bond Manager is a configurable module that offloads most of the security
+mechanisms from the application. :numref:`GAP-bond-manager-terminology` lists
+the terminology.
+
+.. _GAP-bond-manager-terminology:
+.. table:: GAP Bond Manager Terminology
+
+    +----------------------+-----------------------------------------------------------------------+
+    |     **Term**         |     **Description**                                                   |
+    +----------------------+-----------------------------------------------------------------------+
+    |     Pairing          |     The process of exchanging keys                                    |
+    +----------------------+-----------------------------------------------------------------------+
+    |     Encryption       |     Data is encrypted after pairing, or re-encryption (a subsequent   |
+    |                      |     connection where keys are looked up from nonvolatile memory).     |
+    +----------------------+-----------------------------------------------------------------------+
+    |     Authentication   |     The pairing process complete with MITM (Man in the Middle)        |
+    |                      |     protection.                                                       |
+    +----------------------+-----------------------------------------------------------------------+
+    |     Bonding          |     Storing the keys in nonvolatile memory to use for the next        |
+    |                      |     encryption sequence.                                              |
+    +----------------------+-----------------------------------------------------------------------+
+    |     Authorization    |     An additional application level key exchange in addition to       |
+    |                      |     authentication                                                    |
+    +----------------------+-----------------------------------------------------------------------+
+    |     OOB              |     Out of Band. Keys are not exchanged over the air, but rather      |
+    |                      |     over some other source such as serial port or NFC. This also      |
+    |                      |     provides MITM protection.                                         |
+    +----------------------+-----------------------------------------------------------------------+
+    |     MITM             |     Man in the Middle protection. This prevents an attacker from      |
+    |                      |     listening to the keys transferred over the air to break the       |
+    |                      |     encryption.                                                       |
+    +----------------------+-----------------------------------------------------------------------+
+    |     Just Works       |     Pairing method where keys are transferred over the air without    |
+    |                      |     MITM                                                              |
+    +----------------------+-----------------------------------------------------------------------+
+
+
+
+The general process that the GAPBondMgr uses is as follows:
+
+1. The pairing process: exchange keys through the methods described in
+:ref:`selection_of_pairing_mode`.
+
+2. The encryptation process: Encrypt the link using keys Step 1.
+
+3. The bonding process: store keys in secure flash (Simple Non Volatile memory,
+:term:`SNV`).
+
+4. Reconnecting: Use the keys stored in SNV to encrypt the link.
+
+.. tip::
+   Performing all of these steps is not necessary. For example,
+   two devices may choose to pair but not bond.
+
+.. _selection_of_pairing_mode:
+
+Selection of Pairing Mode
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+|CORESPEC| has support for the *Secure Connections* feature to enable BLE
+pairing. For a detailed description of the algorithms used for *Secure
+Connections*, see the **Security Architecture** section ([Vol 1], Part A,
+Section 5.1) of the |CORESPEC|. The previous pairing methods used in the
+Bluetooth Core Specification Versions 4.1 and 4.0 are still available, and are
+now defined as LE legacy pairing. The main difference is that *Secure
+Connection* uses Elliptic Curve Diffie-Hellman cryptography, while LE legacy
+pairing does not.
+
+There are four types of pairing models. Each parining mode is described in
+detail in :ref:`GAPBondMgr_examples_for_different_pairing_modes`.
+
+-  just works (Secure Connections or LE Legacy)
+
+-  passkey entry (Secure Connections or LE Legacy)
+
+-  numeric comparison (Secure Connections)
+
+-  out of band (Secure Connections or LE Legacy)
+
+Which pairing model is selected, and whether or not pairing will succeed
+depends on the following parameters:
+
+- Out of band (OOB) set / not set
+
+- Man in the middle (MITM) set / not set
+
+- In/out (IO) Capabilities
+
+- Secure connections supported / not supported
+
+The GAPBondMgr parameters, as they map to the table parameters below are listed
+here. For more information on these parameters, see :ref:`ble_api_reference`
+(GAPBondMgr section).
+
+-  :c:type:`GAPBOND_LOCAL_OOB_SC_ENABLED`: Out of band (OOB) set / not set
+
+-  :c:type:`GAPBOND_MITM_PROTECTION`: Man in the middle (MITM) set / not set
+
+-  :c:type:`GAPBOND_IO_CAPABILITIES`: In/out (IO) Capabilities
+
+-  :c:type:`GAPBOND_SECURE_CONNECTION`: Secure connections supported / not
+   supported
+
+   Beyond what the |CORESPEC| defines, this parameter also affects whether or not
+   pairing succeeds, as described in :ref:`ble_api_reference` (GAPBondMgr
+   section).
+
+The tables below are from the **Selecting Key Generation Method** section
+([Vol 3], Part H, Section 2.3.5.1) of the |CORESPEC|. Use these tables to
+determine which parining mode is selected for any set of parameters.
+
+If both devices support secure connections, use
+:numref:`gappbondmgr_secur_connection_parameters` to decide upon the next step.
+
+.. _gappbondmgr_secur_connection_parameters:
+.. figure:: resources/image136.jpeg
+    :align: center
+
+    GAPBondMgr parameters when Secure Connections is supported by both devices.
+
+If at least one device does **not** support secure connections, use
+:numref:`gappbondmgr_no_secur_connection_parameters` to decide upon the next step.
+
+.. _gappbondmgr_no_secur_connection_parameters:
+.. figure:: resources/image137.jpeg
+    :align: center
+
+    GAPBondMgr parameters when Secure Connections is **not** supported by one or both devices.
+
+If, based on one of the previous tables, IO capabilities are to be used to
+determine the association model, use :numref:`gappbondmgr_io_capabilities_parameters`
+
+.. _gappbondmgr_io_capabilities_parameters:
+.. figure:: resources/image138.jpeg
+    :align: center
+
+    GAPBondMgr parameters with IO capabilities
+
+Using GAPBondMgr
+^^^^^^^^^^^^^^^^
+
+This section describes what the application must do to configure, start, and use
+the GAPBondMgr. The GAPRole handles some of the GAPBondMgr functionality. The
+GAPBondMgr is defined in ``gapbondmgr.c`` and ``gapbondmgr.h``.
+:ref:`ble_api_reference` (GAPBondMgr section) describes the full API including
+commands, configurable parameters, events, and callbacks.
+
+The general steps to use the GAPBondMgr module are as follows:
+
+1. Configure the stack to include GAPBondMgr functionality by defining the
+following in ``build_config.opt`` in the stack project:
+
+   -  ``-DGAP_BOND_MGR``
+
+2. The stack must also be configured to use 1 or 2 SNV pages, by defining
+``OSAL_SNV=1`` or ``OSAL_SNV=2`` as a preprocessor-defined symbol in the stack
+project.
+
+3. If using Secure Connections, the PDU size must be >= 69. This can be set by
+defining the following preprocessor symbol in the application project:
+``MAX_PDU_SIZE=69``. Also, the minimum heap size that can be used with Secure
+Connections is 3690. (See :ref:`dynamic_memory_allocation` for heap size
+management.)
+
+4. Configure the GAPBondMgr by initializing its parameters as desired. See
+:ref:`ble_api_reference` (GAPBondMgr section) for a complete list of parameters
+with functionality described. There are examples of this for the various
+pairing/bonding modes in :ref:`GAPBondMgr_examples_for_different_pairing_modes`.
+
+5. Register application callbacks with the GAPBondMgr, so that the application
+can communicate with the GAPBondMgr and be notified of events.
+
+  .. code-block:: c
+
+      // Register with bond manager after starting device
+      GAPBondMgr_Register(&bondmanager_callbacks);
+
+Here ``bondmanager_callbacks`` is defined as a structure containing the
+GAPBondMgr Callbacks. A passcode callback function is mandatory.
+
+  .. code-block:: c
+
+    // Bond Manager Callbacks
+    static gapBondCBs_t SimpleBLECentral_bondCB =
+    {
+        (pfnPasscodeCB_t)SimpleBLECentral_passcodeCB, // Passcode callback
+        SimpleBLECentral_pairStateCB                  // Pairing / Bonding state Callback
+    };
+
+6. Once the GAPBondMgr is configured, it operates mostly autonomously from the
+perspective of the application. When a connection is established, the GAPBondMgr
+initiates pairing and bonding depending on the configuration parameters set
+during initialization. It also communicates with the application as needed
+through the defined callbacks.
+
+A few parameters can be set and functions called asynchronously at any time from
+the application. See :ref:`ble_api_reference` (GAPBondMgr section) for more
+information.
+
+Most communication between the GAPBondMgr and the application at this point
+occurs through the callbacks which were registered in Step 5.
+:numref:`gapbondmgr_flow_diagram` is a flow diagram example of the GAPBondMgr
+notifying the application that pairing has been completed. The same method
+occurs for various other events and will be expanded upon in the following section.
+
+.. _gapbondmgr_flow_diagram:
+.. uml::
+  :caption: GapBondMgr Callback Example.
+  :align: center
+
+  @startuml
+    participant Application
+    participant Gapbondmgr as "GAPBondMgr"
+    participant BLEStack as "BLE Stack"
+
+    BLEStack -> Gapbondmgr : GAP_AUTHENTICATION_\nCOMPLETE_EVENT
+    Gapbondmgr -> Application : Pairing state callback
+    Application-> Application : SimpleBLECentral_pairStateCB
+    Application-> Application : SimpleBLECentral_enqueueMsg
+    Application-> Application : SimpleBLECentral_processAppMsg
+    rnote over "Application"
+      SBC_PAIRING_STATE_EVT
+    end note
+    Application-> Application : SimpleBLECentral_processPairState
+    rnote over "Application"
+      GAPBOND_PAIRING_STATE_COMPLETE
+    end note
+
+  @enduml
+
+
+.. _GAPBondMgr_examples_for_different_pairing_modes:
+
+GAPBondMgr Examples for Different Pairing Modes
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This section provides message diagrams for the types of security
+that can be implemented. These modes assume acceptable I/O
+capabilities are available for the security mode, and that the
+selection of whether or not to support Secure Connections allows for
+the pairing mode. See the :ref:`selection_of_pairing_mode` on how these
+parameters affect pairing. These examples only consider the pairing aspect.
+Bonding can be added to each type of pairing in the same manner and
+is shown in the next section.
+
+.. caution::
+   The code snippets here are not complete functioning
+   examples, and are only intended for illustration purposes.
+
+Pairing Disabled
+""""""""""""""""
+
+With pairing set to ``FALSE``, the BLE stack automatically rejects any
+attempt at pairing. Configure the GAPBondMgr as follows to disable
+pairing:
+
+.. code-block:: c
+
+  uint8 pairMode = GAPBOND_PAIRING_MODE_NO_PAIRING;
+  GAPBondMgr_SetParameter(GAPBOND_PAIRING_MODE, sizeof(uint8_t), &pairMode);
+
+.. _sec-secure-connections:
+
+Secure Connections
+""""""""""""""""""
+
+Secure Connections is enabled by default in |BLESTACK|. If you don't want to use
+Secure Connections, set the ``GAPBOND_SECURE_CONNECTION`` variable to
+``GAPBOND_SECURE_CONNECTION_NONE`` during the GAPBondMgr initialization.
+
+.. code-block:: c
+
+  uint8_t gapbondSecure = GAPBOND_SECURE_CONNECTION_NONE;
+  GAPBondMgr_SetParameter(GAPBOND_SECURE_CONNECTION, sizeof(uint8_t), &gapbondSecure);
+
+
+Just Works Pairing
+""""""""""""""""""
+
+Just Works pairing allows encryption without man in the middle (MITM)
+authentication and is thus vulnerable to MITM attacks. Just Works pairing can be LE
+Legacy or Secure Connections pairing. The GAPBondMgr does not need any
+additional input from the application for just works pairing.
+Configure the GAPBondMgr for Just Works pairing as follows.
+
+.. code-block:: c
+
+  uint8_t mitm = FALSE;
+  GAPBondMgr_SetParameter( GAPBOND_MITM_PROTECTION, sizeof (uint8_t), &mitm);
+
+:numref:`gap_justworks_fig` describes the interaction between the GAPBondMgr and
+the application for Just Works pairing. As shown, the application receives a
+``GAPBOND_PAIRING_STATE_STARTED`` event once the pairing request has been sent,
+and a ``GAPBOND_PAIRING_STATE_COMPLETE`` event once the pairing process has been
+completed. At this time, the link is encrypted.
+
+.. _gap_justworks_fig:
+.. uml::
+  :caption: Just Works Pairing.
+  :align: center
+
+   @startuml
+
+    participant Application
+    participant GAPRole
+    participant Gapbondmgr as "GAPBondMgr"
+    participant BLEStack as "BLE Stack"
+
+    BLEStack -> GAPRole : GAP_LINK_ESTABLISHED_EVENT
+    GAPRole -> Gapbondmgr : GAPBondMgr_LinkEst()
+    Gapbondmgr -> BLEStack : GAP_Authenticate()
+    BLEStack -->] : Pairing req
+    Gapbondmgr -> Application : Pairing state callback
+    rnote over Application
+    GAPBOND_PAIRING_
+    STATE_STARTED
+    end note
+
+    BLEStack -->] : Encryption req
+    BLEStack <--] : Encryption rsp
+    BLEStack -> Gapbondmgr : GAP_AUTHENTICATION_\nCOMPLETE_EVENT
+    Gapbondmgr -> Application : Pairing state callback
+    rnote over Application
+    GAPBOND_PAIRING_
+    STATE_COMPLETE
+    end note
+  @enduml
+
+Passcode Entry
+""""""""""""""
+
+Passkey entry is a type of authenticated pairing that can prevent man in the
+middle (MITM) attacks. It can be used with either LE Legacy pairing or Secure
+Connections pairing. In this pairing method, one device displays a 6-digit
+passcode, and the other device enters the passcode. As described in
+:ref:`selection_of_pairing_mode`, the IO capabilities decide which device
+performs which role. The passcode callback registered with the GAPBondMgr when
+it was started is used to enter or display the passcode. The following is an
+example of initiating Passcode Entry pairing where the passcode is displayed.
+
+1. Define passcode callback
+
+.. _gapbondmgr_define_passcode_cb:
+.. code-block:: c
+  :caption: Define passcode callback.
+
+  // Bond Manager Callbacks
+    static gapBondCBs_t SimpleBLECentral_bondCB =
+    {
+        (pfnPasscodeCB_t)SimpleBLECentral_passcodeCB, // Passcode callback
+        SimpleBLECentral_pairStateCB                  // Pairing / Bonding state Callback
+    };
+
+    /*********************************************************************
+    * @fn      SimpleBLECentral_passcodeCB
+    *
+    * @brief   Passcode callback.
+    *
+    * @return  none
+    */
+    static void SimpleBLECentral_passcodeCB(uint8_t *deviceAddr, uint16_t connHandle, uint8_t uiInputs, uint8_t uiOutputs)
+    {
+        uint8_t *pData;
+
+        // Allocate space for the passcode event.
+        if ((pData = ICall_malloc(sizeof(uiOutputs))))
+        {
+            *pData = uiOutputs;
+
+            // Enqueue the event.
+            SimpleBLECentral_enqueueMsg(SBC_PASSCODE_NEEDED_EVT, 0, pData);
+        }
+    }
+
+2. Configure GAPBondMgr
+
+.. code-block:: c
+  :caption: Configure GAPBondMgr for MITM.
+
+  uint8_t pairMode = GAPBOND_PAIRING_MODE_INITIATE;
+  uint8_t mitm = TRUE;
+  GAPBondMgr_SetParameter(GAPBOND_PAIRING_MODE, sizeof(uint8_t), &uint8_t pairMode = GAPBOND_PAIRING_MODE_INITIATE;
+  GAPBondMgr_SetParameter(GAPBOND_PAIRING_MODE, sizeof(uint8_t), &mitm);
+
+3. Process passcode callback and send the response to the stack.
+
+.. _gapbondmgr_process_passcode:
+.. code-block:: c
+  :caption: Process passcode and send the response.
+
+  //! BLE Default Passcode
+  #define B_APP_DEFAULT_PASSCODE                    123456
+
+  static void SimpleBLECentral_processPasscode(uint16_t connectionHandle, uint8_t uiOutputs)
+  {
+    // This app uses a default passcode. A real-life scenario would handle all
+    // pairing scenarios and likely generate this randomly.
+    uint32_t passcode = B_APP_DEFAULT_PASSCODE;
+
+    // Display passcode to user
+    if (uiOutputs != 0)
+    {
+        Display_print1(dispHandle, 4, 0, "Passcode: %d", passcode);
+    }
+
+    // Send passcode response
+    GAPBondMgr_PasscodeRsp(connectionHandle, SUCCESS, passcode);
+  }
+
+Depending on the ``uiInputs`` and ``uiOutputs`` returned from the GAPBondMgr,
+the passcode must either be displayed or entered. The passcode is
+then sent to the GAPBondMgr using :ble_api:`GAPBondMgr_PasscodeRsp`, so that
+pairing can continue. ThIn this case, the password is statically set to 123456.
+In a real product, the password will likely be randomly generated, and the
+device must expose a way for the user to enter the passcode, then send it to the
+GAPBondMgr using :ble_api:`GAPBondMgr_PasscodeRsp`. An example interaction
+between the GAPBondMgr and the application is shown in
+:numref:`gapbondmgr_exchange_passcode`.
+
+.. _gapbondmgr_exchange_passcode:
+.. uml::
+  :caption: Interaction Between the GAPBondMgr and the Application when exchanging a passcode.
+  :align: center
+
+   @startuml
+    participant Application
+    participant GAPRole
+    participant Gapbondmgr as "GAPBondMgr"
+    participant BLEStack as "BLE Stack"
+
+    BLEStack -> GAPRole : GAP_LINK_ESTABLISHED_EVENT
+    GAPRole -> Gapbondmgr : GAPBondMgr_LinkEst()
+    Gapbondmgr -> BLEStack : GAP_Authenticate()
+    BLEStack -->] : Pairing req
+    Gapbondmgr -> Application : Pairing state callback
+
+    rnote over Application
+    GAPBOND_PAIRING_
+    STATE_STARTED
+    end note
+
+    BLEStack -> Gapbondmgr : GAP_PASSKEY_NEEDED_\nEVENT
+    Gapbondmgr -> Application : Passcode callback
+    [--> Application : Enter or display\npasscode
+    Application -> Gapbondmgr : GAPBondMgr_PasscodeRsp()
+    Gapbondmgr -> BLEStack : GAP_PasscodeUpdate()
+    BLEStack -->] : Encryption req
+    BLEStack <--] : Encryption rsp
+    BLEStack -> Gapbondmgr : GAP_AUTHENTICATION_\nCOMPLETE_EVENT
+    Gapbondmgr -> Application : Pairing state callback
+
+    rnote over Application
+    GAPBOND_PAIRING_
+    STATE_COMPLETE
+    end note
+  @enduml
+
+
+Numeric Comparison
+""""""""""""""""""
+
+Numeric comparison is a type of authenticated pairing that protects
+from MITM attacks. It is only possible as a Secure Connections
+pairing; not LE legacy. For numeric comparison pairing, both devices
+display a 6-digit code. Each device must then indicate, through a
+button press or some other yes-no input, whether the codes match.
+The passcode callback registered with the GAPBondMgr when it was
+started is used to display the 6-digit code. The following is an
+example of initiating Numeric Comparison pairing where the passcode
+is displayed. The IO capabilities must be set appropriately to
+select numeric comparison (that is, Display/Yes-No on both sides).
+
+1. Define passcode callback to display code.
+
+.. _gapbondmgr_define_passcode:
+.. code-block:: c
+  :caption: Define passcode callback to display code.
+  :linenos:
+
+  // Bond Manager Callbacks
+  static gapBondCBs_t SimpleBLECentral_bondCB =
+  {
+    (pfnPasscodeCB_t)SimpleBLECentral_passcodeCB, //Passcode callback
+    SimpleBLECentral_pairStateCB                  //Pairing state callback
+  };
+
+  static void SimpleBLECentral_passcodeCB (uint8_t *deviceAddr, uint16_t connHandle, uint8_t uiInputs, uint8_t uiOutputs, uint32_t numComparison)
+  {
+    gapPasskeyNeededEvent_t *pData;
+
+    // Allocate space for the passcode event.
+    if ((pData = ICall_malloc(sizeof(gapPasskeyNeededEvent_t))))
+    {
+      memcpy(pData->deviceAddr, deviceAddr, B_ADDR_LEN);
+      pData->connectionHandle = connHandle;
+      pData->numComparison = numComparison;
+
+      // Enqueue the event.
+      SimpleBLECentral_enqueueMsg(SEC_PASSCODE_NEEDED_EVT, 0, (uint8_t *) pData);
+
+2. Configure GAPBondMgr
+
+.. _gapbondmgr_authenticate_configure:
+.. code-block:: c
+  :caption: Configure GAPBondMgr For Secure Connections + Authentication.
+  :linenos:
+
+  uint8_t pairMode = GAPBOND_PAIRING_MODE_INITIATE;
+  uint8_t scMode = GAPBOND_SECURE_CONNECTION_ONLY;
+  uint8_t mitm = TRUE;
+  uint8_t ioCap = GAPBOND_IO_CAP_DISPLAY_YES_NO;
+
+  GAPBondMgr_SetParameter(GAPBOND_IO_CAPABILITIES, sizeof(uint8_t), &ioCap);
+  GAPBondMgr_SetParameter(GAPBOND_PAIRING_MODE, sizeof(uint8_t), &pairMode);
+  GAPBondMgr_SetParameter(GAPBOND_MITM_PROTECTION, sizeof(uint8_t), &mitm);
+  GAPBondMgr_SetParameter(GAPBOND_SECURE_CONNECTION, sizeof(uint8_t), &scMode);
+
+3. Process passcode callback and display code.
+
+.. _gapbondmgr_authenticate_process:
+.. code-block:: c
+  :caption: Process passcode callback and display code.
+  :linenos:
+
+  static void SimpleBLECentral_processPasscode (uint16_t connectionHandle, gapPasskeyNeededEvent_t *pData)
+  {
+
+    if (pData->numComparison) //numeric comparison
+    {
+
+      //Display passcode
+      DISPLAY_WRITE_STRING_VALUE("Num Cmp: %d", pData->numComparison, LCD_PAGE4);
+    }
+  }
+
+4. Accept Yes-No input from user and send response to GAPBondMgr.
+
+.. _gapbondmgr_authenticate_accept:
+.. code-block:: c
+  :caption: Accept Yes-No input from user and send response to GAPBondMgr.
+  :linenos:
+
+  if (keys & KEY_RIGHT)
+  {
+    GAPBondMgr_PasscodeRsp(connHandle, SUCCESS, TRUE);
+    DISPLAY_WRITE_STRING("Codes Match!", LCD_PAGE5);
+    return;
+  }
+
+In this case, the third parameter of GAPBondMgr\_PasscodeRsp, which
+usually accepts a passcode, is overloaded to send TRUE to the stack to
+indicate that the codes match and to continue with pairing. The process of numeric comparison is illustrated in :numref:`numeric_comparison_fig`.
+
+.. _numeric_comparison_fig:
+.. uml::
+  :caption: Numeric Comparison.
+  :align: center
+
+   @startuml
+    participant Application
+    participant GAPRole
+    participant Gapbondmgr as "GAPBondMgr"
+    participant BLEStack as "BLE Stack"
+
+    BLEStack -> GAPRole : GAP_LINK_ESTABLISHED_EVENT
+    GAPRole -> Gapbondmgr : GAPBondMgr_LinkEst()
+    Gapbondmgr -> BLEStack : GAP_Authenticate
+    BLEStack -->] : Pairing req
+    Gapbondmgr -> Application : Pairing state callback
+    rnote over Application
+    GAPBOND_PAIRING_
+    STATE_STARTED
+    end note
+
+    BLEStack -> Gapbondmgr : GAP_PASSKEY_\nNEEDED_EVENT
+    Gapbondmgr -> Application : Passcode callback
+
+    [<-- Application : Display code
+    [--> Application : Codes match
+
+    Application -> Gapbondmgr : GAPBondMgr_PasscodeRsp()
+    Gapbondmgr -> BLEStack : GAP_PasscodeUpdate()
+
+    BLEStack -->] : Encryption req
+    BLEStack <--] : Encryption rsp
+    BLEStack -> Gapbondmgr : GAP_AUTHENTICATION_\nCOMPLETE_EVENT
+    Gapbondmgr -> Application : Pairing state callback
+    rnote over Application
+    GAPBOND_PAIRING_
+    STATE_COMPLETE
+    end note
+  @enduml
+
+
+GAPBondMgr Example With Bonding Enabled
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Bonding can enabled or disabled for any type of pairing through the
+``GAPBOND_BONDING_ENABLED`` parameter, and occurs after the pairing
+process is complete. To enable bonding, configure the GAPBondMgr as
+follows:
+
+.. code-block:: c
+
+  uint8_t bonding = TRUE;
+  GAPBondMgr_SetParameter(GAPBOND_BONDING_ENABLED, sizeof(uint8_t), &bonding);
+
+With bonding enabled, the GAPBondMgr stores the long-term key
+transferred during the pairing process to SNV. See :ref:`gapbondmgr_and_snv` for more information. After this is completed, the application is notified
+through the :c:type:`GAPBOND_PAIRING_STATE_COMPLETE` event. :c:type:`GAPBOND_PAIRING_STATE_BOND_SAVED` is only passed to the application pair
+state callback when initially connecting, pairing, and bonding. For
+future connections to a bonded device, the security keys are loaded from
+flash, thus skipping the pairing process. In this case, only
+:c:type:`GAPBOND_PAIRING_STATE_BONDED` is passed to the application pair state callback. This is illustrated in :numref:`gapbondmgr_example_bonding`
+
+
+.. _gapbondmgr_example_bonding:
+.. uml::
+  :caption: GAPBondMgr Example With Bonding Enabled.
+  :align: center
+
+   @startuml
+
+    participant Application
+    participant GAPRole
+    participant Gapbondmgr as "GAPBondMgr"
+    participant BLEStack as "BLE Stack"
+
+    BLEStack -> GAPRole : GAP_LINK_ESTABLISHED_EVENT
+    GAPRole -> Gapbondmgr : GAPBondMgr_LinkEst()
+    Gapbondmgr -> BLEStack : GAP_Authenticate
+    BLEStack -->] : Pairing req
+    Gapbondmgr -> Application : Pairing state callback
+    rnote over Application
+    GAPBOND_PAIRING_
+    STATE_STARTED
+    end note
+
+    == This section will vary depending on the pairing type.\nSee above examples for more information. ==
+
+    BLEStack -->] : Encryption req
+    BLEStack <--] : Encryption rsp
+    BLEStack -> Gapbondmgr : GAP_AUTHENTICATION_\nCOMPLETE_EVENT
+
+    rnote over Gapbondmgr
+    Save bond info in SNV
+    end note
+
+    Gapbondmgr -> Application : Pairing state callback
+    rnote over Application
+    GAPBOND_PAIRING_
+    STATE_COMPLETE
+    end note
+
+    rnote over Application
+    GAPBOND_PAIRING_
+    STATE_BOND_SAVED
+    end note
+
+    == Eventually the connection may be terminated and re-established. ==
+
+    BLEStack -> GAPRole : GAP_LINK_ESTABLISHED_EVENT
+    GAPRole -> Gapbondmgr : GAPBondMgr_LinkEst()
+
+    rnote over Gapbondmgr
+    Read bond info from SNV.
+    end note
+
+    Gapbondmgr -> BLEStack : GAP_Bond()
+    BLEStack -->] : Encryption req
+    BLEStack <--] : Encryption rsp
+    BLEStack -> Gapbondmgr : GAP_BOND_COMPLETE_\nEVENT
+    Gapbondmgr -> Application : Pairing state callback
+    rnote over Application
+    GAPBOND_PAIRING_
+    STATE_BONDED
+    end note
+
+
+  @enduml
+
+
+.. _gapbondmgr_and_snv:
+
+GAPBondMgr and SNV
+^^^^^^^^^^^^^^^^^^
+
+This section describes how the GAPBondMgr uses the SNV flash area
+for storing bonding information. For more information on SNV itself,
+see :ref:`flash`. The amount of bonds that can be stored
+is set by the ``GAP_BONDINGS_MAX`` definition, which is set to 10 by default in
+gapbondmgr.h. The functionality of the GAPBondMgr when there are no
+more available bonds varies based on whether the "least recently
+used" scheme is enabled. See :ref:`ble_api_reference` (GAPBondMgr section) for
+more information
+on the ``GAPBOND_LRU_BOND_REPLACEMENT`` parameter. If this parameter is set
+to false, it is not possible to add any more bonds without manually
+deleting a bond. If the parameter is set to true, the least recently
+used bond is deleted to make room for the new bond.
+
+The following components comprise one bonding entry:
+
+1. **Bond Record:** this consists of the peer's address, address type,
+   privacy reconnection address, and state flags. This comprises 14
+   bytes and is defined as such:
+
+.. code-block:: c
+
+  typedef struct
+  {
+    uint8   publicAddr[B_ADDR_LEN];     // Peer's address
+    uint8   publicAddrType;             // Peer's address type
+    uint8   reconnectAddr[B_ADDR_LEN];  // Privacy Reconnection Address
+    uint8   stateFlags;                 // State flags: @ref GAP_BONDED_STATE_FLAGS
+  } gapBondRec_t;
+
+2. **Client Characteristic Configurations (CCC):** the amount of CCCs stored
+   in each entry are set by the ``GAP_CHAR_CFG_MAX`` define. This is
+   set to 4 by default. Each CCC is comprised of 4-bytes and is
+   defined as follows:
+
+.. code-block:: c
+
+  typedef struct
+  {
+    uint16 attrHandle;  // attribute handle
+    uint8  value;       // attribute value for this device
+  } gapBondCharCfg_t;
+
+3. **Local Long Term Key (LTK) info:** this stores the local device's
+   encryption information. This comprises 28 bytes and is composed
+   as such:
+
+.. code-block:: c
+
+  typedef struct
+  {
+    uint8   LTK[KEYLEN];              // Long Term Key (LTK)
+    uint16  div;  //lint -e754        // LTK eDiv
+    uint8   rand[B_RANDOM_NUM_SIZE];  // LTK random number
+    uint8   keySize;                  // LTK key size
+  } gapBondLTK_t;
+
+4. **Connected Device Long Term Key Info:** this stores the connected
+   device's encryption information. This is also a gapBondLTK\_t and
+   comprises 28 bytes.
+
+5. **Connected Device Identity Resolving Key (IRK):** this stores the IRK
+   generated during pairing. This is a 16-byte array.
+
+6. **Connected Device Sign Resolving Key (SRK):** this stores the SRK
+   generated during pairing. This is a 16-byte array.
+
+7. **Connected Device Sign counter:** this stores the sign counter generated
+   during pairing. This is a 4-byte word.
+
+LE Privacy 1.2
+--------------
+
+Summary
+^^^^^^^
+
+|BLESTACKVER| and newer support the privacy feature that reduces the ability to
+track an LE device over a period of time, by changing the Bluetooth device
+address on a frequent basis. LE Privacy 1.2 extends privacy to the controller by
+allowing the controller to both resolve peer and generate local resolvable
+private addresses (RPAs). It is used during connection mode and connection
+procedures. In |BLESTACKVER|, Privacy 1.2 is always enabled.
+:numref:`LEprivacy_terms` lists the definition of terms related to the privacy
+feature.
+
+.. _LEprivacy_terms:
+.. table:: Definition of Privacy Feature Terms
+
+   +-----------------------+------------------------------------------------------------------------+
+   |Term                   |Definition                                                              |
+   +=======================+========================================================================+
+   |Resolvable address     |A resolvable address is one that can potentially be resolved.           |
+   |                       |Resolvable address Specifically, it is a device address that is a       |
+   |                       |random resolvable private address (RPA).                                |
+   +-----------------------+------------------------------------------------------------------------+
+   |Resolving list (RL)    |One or more entries of local/peer IRK pairs associated with an          |
+   |                       |identity address (public or random static).                             |
+   +-----------------------+------------------------------------------------------------------------+
+   |Device address         |A 48-bit value used to identify a device. A device address can be public|
+   |                       |or random. A device may use at least one, and can use both.             |
+   +-----------------------+------------------------------------------------------------------------+
+   |Identity (ID) address  |An RPA is resolved with an identity resolving key (IRK) and is          |
+   |                       |associated with a public address or a random static address, known as   |
+   |                       |the identity (ID) address.                                              |
+   +-----------------------+------------------------------------------------------------------------+
+   |Non-resolvable address |A non-resolvable address is one that can never be resolved.             |
+   |                       |Specifically, it is a device address that is a public address, a random |
+   |                       |static address, or a non-resolvable private address.                    |
+   +-----------------------+------------------------------------------------------------------------+
+
+Theory of Operation
+^^^^^^^^^^^^^^^^^^^
+
+For a device using the privacy feature to reconnect to known
+devices, the device address, referred to as the private address,
+must be resolvable by the other device. The private address is
+generated using the device's resolving identity key (IRK) exchanged
+during the bonding procedure.
+
+With LE Privacy 1.2, the host is able to populate a resolving list
+in the controller. The resolving list consists of a set of records,
+where each record contains a pair of IRKs, one for local and one for
+peer, as well as the identity address of the peer device. A identity
+address of the peer device should be the public or static address of
+that device, which is obtained during phase 3 of pairing. The
+controller, which now contains all of the IRKs for previously bonded
+devices, is able to resolve private addresses into identity addresses of peers.
+These addresses are then able to be passed to the controller white list for
+further action, as shown in :numref:`figure_resolving_list`
+
+.. _figure_resolving_list:
+.. figure:: resources/resolvinglist.png
+    :align: center
+
+    Resolving List.
+
+If the controller is unable to resolve the peer RPAs, or the white
+list takes no actions for the incoming address, the address is still
+passed to the host. If the local device or peer device wishes, it
+can initiate a bonding sequence to exchange IRKs as well as device
+identity addresses. If these are exchanged, the host can use those
+parameters to update the controller's resolving list, and even
+update the white list, so that the controller can automatically form
+a connection with the peer during a future connection attempt.
+
+
+
+
+New HCI Commands
+^^^^^^^^^^^^^^^^
+
+The following new HCI commands are now supported in the controller:
+
+-  LE Add Device to Resolving List Command
+
+-  LE Remove Device to Resolving List Command
+
+-  LE Clear Resolving List Command
+
+-  LE Read Resolving List Size Command
+
+-  LE Read Peer Resolvable Address Command
+
+-  LE Read Local Resolvable Address Command
+
+-  LE Set Address Resolution Enable Command
+
+-  LE Set Random Private Address Timeout Command
+
+For additional details, please see `Bluetooth Core\_v4.2 specification <https://www.bluetooth.com/specifications/adopted-specifications>`_ (Vol 2, Part E, Section 7.8 for the commands, and Section 7.7 for the event).
+
+Privacy and White List
+^^^^^^^^^^^^^^^^^^^^^^
+
+Enabling Auto Sync of White List
+""""""""""""""""""""""""""""""""
+
+The stack can automatically add devices to the white list after
+bonding. Use the following code to enable this syncing of the white
+list.
+
+.. _privacy12_add_to_whitelist:
+.. code-block:: c
+  :caption: Enable syncing of white list.
+  :linenos:
+
+  uint8_t autoSyncWhiteList = TRUE;
+  GAPBondMgr_SetParameter(GAPBOND_AUTO_SYNC_WL, sizeof(uint8_t), &autoSyncWhiteList);
+
+
+Using Resolvable Private Addresses
+""""""""""""""""""""""""""""""""""
+
+The device also can be configured to use a random address. Use :ble_api:`GAP_ConfigDeviceAddr`
+to use random address. This API must be called after the GAP layer is started but cannot
+be called during any BLE activity. In the function ``gapRole_processGAPMsg()`` add the
+code below after ``gapRole_state = GAPROLE_STARTED``:
+
+.. code-block:: c
+
+    //set address type to resolvable private address
+    status = GAP_ConfigDeviceAddr(ADDRMODE_PRIVATE_RESOLVE, NULL);
+
+    if (status != SUCCESS)
+    {
+        System_abort("Error!");
+    }
+
+It can be verified with a sniffer that the address changes when
+advertising. The default timeout value between private (resolvable)
+address changes is 15 minutes. This can be modified by :ble_api:`GAP_SetParamValue`
+after calling :ble_api:`GAP_ConfigDeviceAddr`:
+
+.. code-block:: c
+
+    //Set timeout value to 5 minute
+    GAP_SetParamValue( TGAP_PRIVATE_ADDR_INT , 5);
+
+    // Update the advertising data
+    //...
+
+Testing Privacy with White List
+"""""""""""""""""""""""""""""""
+
+The following steps can be made to test the privacy with white list
+feature:
+
+1. Connect a iOS device to the |device| both supporting Privacy 1.2.
+
+2. Pair with the device with the default passcode: 000000.
+
+3. The iOS devices should be automatically added to the white list.
+
+4. Disconnect and wait for the iOS device address to change.
+
+5. Reconnect to the |device|.

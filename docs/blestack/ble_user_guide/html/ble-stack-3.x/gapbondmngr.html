@@ -1,0 +1,1195 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>GAP Bond Manager and LE Secure Connections &mdash; BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation" href="../index.html"/>
+        <link rel="up" title="Developing a Bluetooth Low Energy Application" href="index.html"/>
+        <link rel="next" title="Logical Link Control and Adaptation Layer Protocol (L2CAP)" href="l2cap.html"/>
+        <link rel="prev" title="Generic Attribute Profile (GATT)" href="gatt.html"/> 
+    <script language="JavaScript">
+        var tiPageName;
+        tiPageName = "sug ble-stack-3.x gapbondmngr";
+
+        if (location.protocol == "file:"){
+            var ci_analytics_poc_load = true;
+        }
+    </script> 
+
+    <script src="http://www.ti.com/assets/js/headerfooter/analytics.js" type="text/javascript" charset="utf-8">     
+
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../ble-stack-3.x-guide/index.html" class="icon icon-home"> BLE-Stack User's Guide for Bluetooth 4.2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.01.01.00
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../cc2640/disclaimer.html">Disclaimer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/get-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cc2640/platform.html">The CC2640R2F SDK Platform</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Developing a Bluetooth Low Energy Application</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="the-application.html">The Application</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#the-stack">The Stack</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="gap.html">Generic Access Profile (GAP)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gaprole.html">GAPRole Task</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gatt.html">Generic Attribute Profile (GATT)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gatt.html#gap-gatt-service-ggs">GAP GATT Service (GGS)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gatt.html#generic-attribute-profile-service-gatt-service">Generic Attribute Profile Service (GATT Service)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gatt.html#gattservapp-module">GATTServApp Module</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">GAP Bond Manager and LE Secure Connections</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#selection-of-pairing-mode">Selection of Pairing Mode</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#using-gapbondmgr">Using GAPBondMgr</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gapbondmgr-examples-for-different-pairing-modes">GAPBondMgr Examples for Different Pairing Modes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gapbondmgr-example-with-bonding-enabled">GAPBondMgr Example With Bonding Enabled</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gapbondmgr-and-snv">GAPBondMgr and SNV</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#le-privacy-1-2">LE Privacy 1.2</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#summary">Summary</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#theory-of-operation">Theory of Operation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#new-hci-commands">New HCI Commands</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#privacy-and-white-list">Privacy and White List</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="l2cap.html">Logical Link Control and Adaptation Layer Protocol (L2CAP)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data-length-extensions.html">LE Data Length Extension (DLE)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hci.html">Host Controller Interface (HCI)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#creating-a-custom-bluetooth-low-energy-application">Creating a Custom Bluetooth low energy Application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#running-the-sdk-on-custom-boards">Running the SDK on Custom Boards</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../u-stack/index.html">Micro BLE Stack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../oad-ble-stack-3.x/oad.html">Over the Air Download (OAD)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../voice/voice.html">Creating a Voice Enabled Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../secure-fw-3.x/index.html">Secure Firmware (SFW)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensor-controller/sensor-controller.html">Sensor Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../debugging/ble-index.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/migration.html">Migration Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/api-reference.html">API References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/reference.html">Terms and Definitions</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../ble-stack-3.x-guide/index.html">BLE-Stack User's Guide for Bluetooth 4.2</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../ble-stack-3.x-guide/index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">Developing a Bluetooth Low Energy Application</a> &raquo;</li>
+        
+      <li>GAP Bond Manager and LE Secure Connections</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="gap-bond-manager-and-le-secure-connections">
+<h1>GAP Bond Manager and LE Secure Connections<a class="headerlink" href="#gap-bond-manager-and-le-secure-connections" title="Permalink to this headline">¶</a></h1>
+<p>The GAP Bond Manager is a configurable module that offloads most of the security
+mechanisms from the application. <a class="reference internal" href="#gap-bond-manager-terminology"><span class="std std-numref">Table 10.</span></a> lists
+the terminology.</p>
+<span id="gap-bond-manager-terminology"></span><table border="1" class="docutils" id="id5">
+<caption><span class="caption-number">Table 10. </span><span class="caption-text">GAP Bond Manager Terminology</span><a class="headerlink" href="#id5" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="24%" />
+<col width="76%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><strong>Term</strong></td>
+<td><strong>Description</strong></td>
+</tr>
+<tr class="row-even"><td>Pairing</td>
+<td>The process of exchanging keys</td>
+</tr>
+<tr class="row-odd"><td>Encryption</td>
+<td>Data is encrypted after pairing, or re-encryption (a subsequent
+connection where keys are looked up from nonvolatile memory).</td>
+</tr>
+<tr class="row-even"><td>Authentication</td>
+<td>The pairing process complete with MITM (Man in the Middle)
+protection.</td>
+</tr>
+<tr class="row-odd"><td>Bonding</td>
+<td>Storing the keys in nonvolatile memory to use for the next
+encryption sequence.</td>
+</tr>
+<tr class="row-even"><td>Authorization</td>
+<td>An additional application level key exchange in addition to
+authentication</td>
+</tr>
+<tr class="row-odd"><td>OOB</td>
+<td>Out of Band. Keys are not exchanged over the air, but rather
+over some other source such as serial port or NFC. This also
+provides MITM protection.</td>
+</tr>
+<tr class="row-even"><td>MITM</td>
+<td>Man in the Middle protection. This prevents an attacker from
+listening to the keys transferred over the air to break the
+encryption.</td>
+</tr>
+<tr class="row-odd"><td>Just Works</td>
+<td>Pairing method where keys are transferred over the air without
+MITM</td>
+</tr>
+</tbody>
+</table>
+<p>The general process that the GAPBondMgr uses is as follows:</p>
+<p>1. The pairing process: exchange keys through the methods described in
+<a class="reference internal" href="#selection-of-pairing-mode"><span class="std std-ref">Selection of Pairing Mode</span></a>.</p>
+<ol class="arabic simple" start="2">
+<li>The encryptation process: Encrypt the link using keys Step 1.</li>
+</ol>
+<p>3. The bonding process: store keys in secure flash (Simple Non Volatile memory,
+<a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-51"><span class="xref std std-term">SNV</span></a>).</p>
+<ol class="arabic simple" start="4">
+<li>Reconnecting: Use the keys stored in SNV to encrypt the link.</li>
+</ol>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">Performing all of these steps is not necessary. For example,
+two devices may choose to pair but not bond.</p>
+</div>
+<div class="section" id="selection-of-pairing-mode">
+<span id="id2"></span><h2>Selection of Pairing Mode<a class="headerlink" href="#selection-of-pairing-mode" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://www.bluetooth.com/specifications/adopted-specifications">Bluetooth Core Specification Version 4.2</a> has support for the <em>Secure Connections</em> feature to enable BLE
+pairing. For a detailed description of the algorithms used for <em>Secure
+Connections</em>, see the <strong>Security Architecture</strong> section ([Vol 1], Part A,
+Section 5.1) of the <a class="reference external" href="https://www.bluetooth.com/specifications/adopted-specifications">Bluetooth Core Specification Version 4.2</a>. The previous pairing methods used in the
+Bluetooth Core Specification Versions 4.1 and 4.0 are still available, and are
+now defined as LE legacy pairing. The main difference is that <em>Secure
+Connection</em> uses Elliptic Curve Diffie-Hellman cryptography, while LE legacy
+pairing does not.</p>
+<p>There are four types of pairing models. Each parining mode is described in
+detail in <a class="reference internal" href="#gapbondmgr-examples-for-different-pairing-modes"><span class="std std-ref">GAPBondMgr Examples for Different Pairing Modes</span></a>.</p>
+<ul class="simple">
+<li>just works (Secure Connections or LE Legacy)</li>
+<li>passkey entry (Secure Connections or LE Legacy)</li>
+<li>numeric comparison (Secure Connections)</li>
+<li>out of band (Secure Connections or LE Legacy)</li>
+</ul>
+<p>Which pairing model is selected, and whether or not pairing will succeed
+depends on the following parameters:</p>
+<ul class="simple">
+<li>Out of band (OOB) set / not set</li>
+<li>Man in the middle (MITM) set / not set</li>
+<li>In/out (IO) Capabilities</li>
+<li>Secure connections supported / not supported</li>
+</ul>
+<p>The GAPBondMgr parameters, as they map to the table parameters below are listed
+here. For more information on these parameters, see <a class="reference internal" href="../ble-stack-3.x-guide/api-reference.html#ble-api-reference"><span class="std std-ref">BLE Stack API Reference</span></a>
+(GAPBondMgr section).</p>
+<ul>
+<li><p class="first"><code class="xref c c-type docutils literal"><span class="pre">GAPBOND_LOCAL_OOB_SC_ENABLED</span></code>: Out of band (OOB) set / not set</p>
+</li>
+<li><p class="first"><code class="xref c c-type docutils literal"><span class="pre">GAPBOND_MITM_PROTECTION</span></code>: Man in the middle (MITM) set / not set</p>
+</li>
+<li><p class="first"><code class="xref c c-type docutils literal"><span class="pre">GAPBOND_IO_CAPABILITIES</span></code>: In/out (IO) Capabilities</p>
+</li>
+<li><p class="first"><code class="xref c c-type docutils literal"><span class="pre">GAPBOND_SECURE_CONNECTION</span></code>: Secure connections supported / not
+supported</p>
+<p>Beyond what the <a class="reference external" href="https://www.bluetooth.com/specifications/adopted-specifications">Bluetooth Core Specification Version 4.2</a> defines, this parameter also affects whether or not
+pairing succeeds, as described in <a class="reference internal" href="../ble-stack-3.x-guide/api-reference.html#ble-api-reference"><span class="std std-ref">BLE Stack API Reference</span></a> (GAPBondMgr
+section).</p>
+</li>
+</ul>
+<p>The tables below are from the <strong>Selecting Key Generation Method</strong> section
+([Vol 3], Part H, Section 2.3.5.1) of the <a class="reference external" href="https://www.bluetooth.com/specifications/adopted-specifications">Bluetooth Core Specification Version 4.2</a>. Use these tables to
+determine which parining mode is selected for any set of parameters.</p>
+<p>If both devices support secure connections, use
+<a class="reference internal" href="#gappbondmgr-secur-connection-parameters"><span class="std std-numref">Figure 55.</span></a> to decide upon the next step.</p>
+<div class="figure align-center" id="id6">
+<span id="gappbondmgr-secur-connection-parameters"></span><img alt="../_images/image136.jpeg" src="../_images/image136.jpeg" />
+<p class="caption"><span class="caption-number">Figure 55. </span><span class="caption-text">GAPBondMgr parameters when Secure Connections is supported by both devices.</span></p>
+</div>
+<p>If at least one device does <strong>not</strong> support secure connections, use
+<a class="reference internal" href="#gappbondmgr-no-secur-connection-parameters"><span class="std std-numref">Figure 56.</span></a> to decide upon the next step.</p>
+<div class="figure align-center" id="id7">
+<span id="gappbondmgr-no-secur-connection-parameters"></span><img alt="../_images/image137.jpeg" src="../_images/image137.jpeg" />
+<p class="caption"><span class="caption-number">Figure 56. </span><span class="caption-text">GAPBondMgr parameters when Secure Connections is <strong>not</strong> supported by one or both devices.</span></p>
+</div>
+<p>If, based on one of the previous tables, IO capabilities are to be used to
+determine the association model, use <a class="reference internal" href="#gappbondmgr-io-capabilities-parameters"><span class="std std-numref">Figure 57.</span></a></p>
+<div class="figure align-center" id="id8">
+<span id="gappbondmgr-io-capabilities-parameters"></span><img alt="../_images/image138.jpeg" src="../_images/image138.jpeg" />
+<p class="caption"><span class="caption-number">Figure 57. </span><span class="caption-text">GAPBondMgr parameters with IO capabilities</span></p>
+</div>
+</div>
+<div class="section" id="using-gapbondmgr">
+<h2>Using GAPBondMgr<a class="headerlink" href="#using-gapbondmgr" title="Permalink to this headline">¶</a></h2>
+<p>This section describes what the application must do to configure, start, and use
+the GAPBondMgr. The GAPRole handles some of the GAPBondMgr functionality. The
+GAPBondMgr is defined in <code class="docutils literal"><span class="pre">gapbondmgr.c</span></code> and <code class="docutils literal"><span class="pre">gapbondmgr.h</span></code>.
+<a class="reference internal" href="../ble-stack-3.x-guide/api-reference.html#ble-api-reference"><span class="std std-ref">BLE Stack API Reference</span></a> (GAPBondMgr section) describes the full API including
+commands, configurable parameters, events, and callbacks.</p>
+<p>The general steps to use the GAPBondMgr module are as follows:</p>
+<p>1. Configure the stack to include GAPBondMgr functionality by defining the
+following in <code class="docutils literal"><span class="pre">build_config.opt</span></code> in the stack project:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">-DGAP_BOND_MGR</span></code></li>
+</ul>
+</div></blockquote>
+<p>2. The stack must also be configured to use 1 or 2 SNV pages, by defining
+<code class="docutils literal"><span class="pre">OSAL_SNV=1</span></code> or <code class="docutils literal"><span class="pre">OSAL_SNV=2</span></code> as a preprocessor-defined symbol in the stack
+project.</p>
+<p>3. If using Secure Connections, the PDU size must be &gt;= 69. This can be set by
+defining the following preprocessor symbol in the application project:
+<code class="docutils literal"><span class="pre">MAX_PDU_SIZE=69</span></code>. Also, the minimum heap size that can be used with Secure
+Connections is 3690. (See <a class="reference internal" href="../cc2640/memory_management.html#dynamic-memory-allocation"><span class="std std-ref">Dynamic Memory Allocation</span></a> for heap size
+management.)</p>
+<p>4. Configure the GAPBondMgr by initializing its parameters as desired. See
+<a class="reference internal" href="../ble-stack-3.x-guide/api-reference.html#ble-api-reference"><span class="std std-ref">BLE Stack API Reference</span></a> (GAPBondMgr section) for a complete list of parameters
+with functionality described. There are examples of this for the various
+pairing/bonding modes in <a class="reference internal" href="#gapbondmgr-examples-for-different-pairing-modes"><span class="std std-ref">GAPBondMgr Examples for Different Pairing Modes</span></a>.</p>
+<p>5. Register application callbacks with the GAPBondMgr, so that the application
+can communicate with the GAPBondMgr and be notified of events.</p>
+<blockquote>
+<div><div class="highlight-c"><div class="highlight"><pre><span></span><span class="c1">// Register with bond manager after starting device</span>
+<span class="n">GAPBondMgr_Register</span><span class="p">(</span><span class="o">&amp;</span><span class="n">bondmanager_callbacks</span><span class="p">);</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Here <code class="docutils literal"><span class="pre">bondmanager_callbacks</span></code> is defined as a structure containing the
+GAPBondMgr Callbacks. A passcode callback function is mandatory.</p>
+<blockquote>
+<div><div class="highlight-c"><div class="highlight"><pre><span></span><span class="c1">// Bond Manager Callbacks</span>
+<span class="k">static</span> <span class="n">gapBondCBs_t</span> <span class="n">SimpleBLECentral_bondCB</span> <span class="o">=</span>
+<span class="p">{</span>
+    <span class="p">(</span><span class="n">pfnPasscodeCB_t</span><span class="p">)</span><span class="n">SimpleBLECentral_passcodeCB</span><span class="p">,</span> <span class="c1">// Passcode callback</span>
+    <span class="n">SimpleBLECentral_pairStateCB</span>                  <span class="c1">// Pairing / Bonding state Callback</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>6. Once the GAPBondMgr is configured, it operates mostly autonomously from the
+perspective of the application. When a connection is established, the GAPBondMgr
+initiates pairing and bonding depending on the configuration parameters set
+during initialization. It also communicates with the application as needed
+through the defined callbacks.</p>
+<p>A few parameters can be set and functions called asynchronously at any time from
+the application. See <a class="reference internal" href="../ble-stack-3.x-guide/api-reference.html#ble-api-reference"><span class="std std-ref">BLE Stack API Reference</span></a> (GAPBondMgr section) for more
+information.</p>
+<p>Most communication between the GAPBondMgr and the application at this point
+occurs through the callbacks which were registered in Step 5.
+<a class="reference internal" href="#gapbondmgr-flow-diagram"><span class="std std-numref">Figure 58.</span></a> is a flow diagram example of the GAPBondMgr
+notifying the application that pairing has been completed. The same method
+occurs for various other events and will be expanded upon in the following section.</p>
+<div class="figure align-center" id="id9">
+<span id="gapbondmgr-flow-diagram"></span><p class="plantuml">
+<img src="../_images/plantuml-86785ae27a9b778ae0ea335547a3cd684e4e3ebb.png" alt="&#64;startuml
+  participant Application
+  participant Gapbondmgr as &quot;GAPBondMgr&quot;
+  participant BLEStack as &quot;BLE Stack&quot;
+
+  BLEStack -&gt; Gapbondmgr : GAP_AUTHENTICATION_\nCOMPLETE_EVENT
+  Gapbondmgr -&gt; Application : Pairing state callback
+  Application-&gt; Application : SimpleBLECentral_pairStateCB
+  Application-&gt; Application : SimpleBLECentral_enqueueMsg
+  Application-&gt; Application : SimpleBLECentral_processAppMsg
+  rnote over &quot;Application&quot;
+    SBC_PAIRING_STATE_EVT
+  end note
+  Application-&gt; Application : SimpleBLECentral_processPairState
+  rnote over &quot;Application&quot;
+    GAPBOND_PAIRING_STATE_COMPLETE
+  end note
+
+&#64;enduml" />
+</p>
+<p class="caption"><span class="caption-number">Figure 58. </span><span class="caption-text">GapBondMgr Callback Example.</span><a class="headerlink" href="#id9" title="Permalink to this image">¶</a></p>
+</div>
+</div>
+<div class="section" id="gapbondmgr-examples-for-different-pairing-modes">
+<span id="id3"></span><h2>GAPBondMgr Examples for Different Pairing Modes<a class="headerlink" href="#gapbondmgr-examples-for-different-pairing-modes" title="Permalink to this headline">¶</a></h2>
+<p>This section provides message diagrams for the types of security
+that can be implemented. These modes assume acceptable I/O
+capabilities are available for the security mode, and that the
+selection of whether or not to support Secure Connections allows for
+the pairing mode. See the <a class="reference internal" href="#selection-of-pairing-mode"><span class="std std-ref">Selection of Pairing Mode</span></a> on how these
+parameters affect pairing. These examples only consider the pairing aspect.
+Bonding can be added to each type of pairing in the same manner and
+is shown in the next section.</p>
+<div class="admonition caution">
+<p class="first admonition-title">Caution</p>
+<p class="last">The code snippets here are not complete functioning
+examples, and are only intended for illustration purposes.</p>
+</div>
+<div class="section" id="pairing-disabled">
+<h3>Pairing Disabled<a class="headerlink" href="#pairing-disabled" title="Permalink to this headline">¶</a></h3>
+<p>With pairing set to <code class="docutils literal"><span class="pre">FALSE</span></code>, the BLE stack automatically rejects any
+attempt at pairing. Configure the GAPBondMgr as follows to disable
+pairing:</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="n">uint8</span> <span class="n">pairMode</span> <span class="o">=</span> <span class="n">GAPBOND_PAIRING_MODE_NO_PAIRING</span><span class="p">;</span>
+<span class="n">GAPBondMgr_SetParameter</span><span class="p">(</span><span class="n">GAPBOND_PAIRING_MODE</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">uint8_t</span><span class="p">),</span> <span class="o">&amp;</span><span class="n">pairMode</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="secure-connections">
+<span id="sec-secure-connections"></span><h3>Secure Connections<a class="headerlink" href="#secure-connections" title="Permalink to this headline">¶</a></h3>
+<p>Secure Connections is enabled by default in BLE-Stack. If you don&#8217;t want to use
+Secure Connections, set the <code class="docutils literal"><span class="pre">GAPBOND_SECURE_CONNECTION</span></code> variable to
+<code class="docutils literal"><span class="pre">GAPBOND_SECURE_CONNECTION_NONE</span></code> during the GAPBondMgr initialization.</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="kt">uint8_t</span> <span class="n">gapbondSecure</span> <span class="o">=</span> <span class="n">GAPBOND_SECURE_CONNECTION_NONE</span><span class="p">;</span>
+<span class="n">GAPBondMgr_SetParameter</span><span class="p">(</span><span class="n">GAPBOND_SECURE_CONNECTION</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">uint8_t</span><span class="p">),</span> <span class="o">&amp;</span><span class="n">gapbondSecure</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="just-works-pairing">
+<h3>Just Works Pairing<a class="headerlink" href="#just-works-pairing" title="Permalink to this headline">¶</a></h3>
+<p>Just Works pairing allows encryption without man in the middle (MITM)
+authentication and is thus vulnerable to MITM attacks. Just Works pairing can be LE
+Legacy or Secure Connections pairing. The GAPBondMgr does not need any
+additional input from the application for just works pairing.
+Configure the GAPBondMgr for Just Works pairing as follows.</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="kt">uint8_t</span> <span class="n">mitm</span> <span class="o">=</span> <span class="n">FALSE</span><span class="p">;</span>
+<span class="n">GAPBondMgr_SetParameter</span><span class="p">(</span> <span class="n">GAPBOND_MITM_PROTECTION</span><span class="p">,</span> <span class="k">sizeof</span> <span class="p">(</span><span class="kt">uint8_t</span><span class="p">),</span> <span class="o">&amp;</span><span class="n">mitm</span><span class="p">);</span>
+</pre></div>
+</div>
+<p><a class="reference internal" href="#gap-justworks-fig"><span class="std std-numref">Figure 59.</span></a> describes the interaction between the GAPBondMgr and
+the application for Just Works pairing. As shown, the application receives a
+<code class="docutils literal"><span class="pre">GAPBOND_PAIRING_STATE_STARTED</span></code> event once the pairing request has been sent,
+and a <code class="docutils literal"><span class="pre">GAPBOND_PAIRING_STATE_COMPLETE</span></code> event once the pairing process has been
+completed. At this time, the link is encrypted.</p>
+<div class="figure align-center" id="id10">
+<span id="gap-justworks-fig"></span><p class="plantuml">
+<img src="../_images/plantuml-0b3e88b7e525b03d24326db2d2ef95b53e275aa5.png" alt=" &#64;startuml
+
+  participant Application
+  participant GAPRole
+  participant Gapbondmgr as &quot;GAPBondMgr&quot;
+  participant BLEStack as &quot;BLE Stack&quot;
+
+  BLEStack -&gt; GAPRole : GAP_LINK_ESTABLISHED_EVENT
+  GAPRole -&gt; Gapbondmgr : GAPBondMgr_LinkEst()
+  Gapbondmgr -&gt; BLEStack : GAP_Authenticate()
+  BLEStack --&gt;] : Pairing req
+  Gapbondmgr -&gt; Application : Pairing state callback
+  rnote over Application
+  GAPBOND_PAIRING_
+  STATE_STARTED
+  end note
+
+  BLEStack --&gt;] : Encryption req
+  BLEStack &lt;--] : Encryption rsp
+  BLEStack -&gt; Gapbondmgr : GAP_AUTHENTICATION_\nCOMPLETE_EVENT
+  Gapbondmgr -&gt; Application : Pairing state callback
+  rnote over Application
+  GAPBOND_PAIRING_
+  STATE_COMPLETE
+  end note
+&#64;enduml" />
+</p>
+<p class="caption"><span class="caption-number">Figure 59. </span><span class="caption-text">Just Works Pairing.</span><a class="headerlink" href="#id10" title="Permalink to this image">¶</a></p>
+</div>
+</div>
+<div class="section" id="passcode-entry">
+<h3>Passcode Entry<a class="headerlink" href="#passcode-entry" title="Permalink to this headline">¶</a></h3>
+<p>Passkey entry is a type of authenticated pairing that can prevent man in the
+middle (MITM) attacks. It can be used with either LE Legacy pairing or Secure
+Connections pairing. In this pairing method, one device displays a 6-digit
+passcode, and the other device enters the passcode. As described in
+<a class="reference internal" href="#selection-of-pairing-mode"><span class="std std-ref">Selection of Pairing Mode</span></a>, the IO capabilities decide which device
+performs which role. The passcode callback registered with the GAPBondMgr when
+it was started is used to enter or display the passcode. The following is an
+example of initiating Passcode Entry pairing where the passcode is displayed.</p>
+<ol class="arabic simple">
+<li>Define passcode callback</li>
+</ol>
+<div class="literal-block-wrapper docutils container" id="id11">
+<span id="gapbondmgr-define-passcode-cb"></span><div class="code-block-caption"><span class="caption-number">Listing 69. </span><span class="caption-text">Define passcode callback.</span><a class="headerlink" href="#id11" title="Permalink to this code">¶</a></div>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="c1">// Bond Manager Callbacks</span>
+  <span class="k">static</span> <span class="n">gapBondCBs_t</span> <span class="n">SimpleBLECentral_bondCB</span> <span class="o">=</span>
+  <span class="p">{</span>
+      <span class="p">(</span><span class="n">pfnPasscodeCB_t</span><span class="p">)</span><span class="n">SimpleBLECentral_passcodeCB</span><span class="p">,</span> <span class="c1">// Passcode callback</span>
+      <span class="n">SimpleBLECentral_pairStateCB</span>                  <span class="c1">// Pairing / Bonding state Callback</span>
+  <span class="p">};</span>
+
+  <span class="cm">/*********************************************************************</span>
+<span class="cm">  * @fn      SimpleBLECentral_passcodeCB</span>
+<span class="cm">  *</span>
+<span class="cm">  * @brief   Passcode callback.</span>
+<span class="cm">  *</span>
+<span class="cm">  * @return  none</span>
+<span class="cm">  */</span>
+  <span class="k">static</span> <span class="kt">void</span> <span class="nf">SimpleBLECentral_passcodeCB</span><span class="p">(</span><span class="kt">uint8_t</span> <span class="o">*</span><span class="n">deviceAddr</span><span class="p">,</span> <span class="kt">uint16_t</span> <span class="n">connHandle</span><span class="p">,</span> <span class="kt">uint8_t</span> <span class="n">uiInputs</span><span class="p">,</span> <span class="kt">uint8_t</span> <span class="n">uiOutputs</span><span class="p">)</span>
+  <span class="p">{</span>
+      <span class="kt">uint8_t</span> <span class="o">*</span><span class="n">pData</span><span class="p">;</span>
+
+      <span class="c1">// Allocate space for the passcode event.</span>
+      <span class="k">if</span> <span class="p">((</span><span class="n">pData</span> <span class="o">=</span> <span class="n">ICall_malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">uiOutputs</span><span class="p">))))</span>
+      <span class="p">{</span>
+          <span class="o">*</span><span class="n">pData</span> <span class="o">=</span> <span class="n">uiOutputs</span><span class="p">;</span>
+
+          <span class="c1">// Enqueue the event.</span>
+          <span class="n">SimpleBLECentral_enqueueMsg</span><span class="p">(</span><span class="n">SBC_PASSCODE_NEEDED_EVT</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">pData</span><span class="p">);</span>
+      <span class="p">}</span>
+  <span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<ol class="arabic simple" start="2">
+<li>Configure GAPBondMgr</li>
+</ol>
+<div class="literal-block-wrapper docutils container" id="id12">
+<div class="code-block-caption"><span class="caption-number">Listing 70. </span><span class="caption-text">Configure GAPBondMgr for MITM.</span><a class="headerlink" href="#id12" title="Permalink to this code">¶</a></div>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="kt">uint8_t</span> <span class="n">pairMode</span> <span class="o">=</span> <span class="n">GAPBOND_PAIRING_MODE_INITIATE</span><span class="p">;</span>
+<span class="kt">uint8_t</span> <span class="n">mitm</span> <span class="o">=</span> <span class="n">TRUE</span><span class="p">;</span>
+<span class="n">GAPBondMgr_SetParameter</span><span class="p">(</span><span class="n">GAPBOND_PAIRING_MODE</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">uint8_t</span><span class="p">),</span> <span class="o">&amp;</span><span class="kt">uint8_t</span> <span class="n">pairMode</span> <span class="o">=</span> <span class="n">GAPBOND_PAIRING_MODE_INITIATE</span><span class="p">;</span>
+<span class="n">GAPBondMgr_SetParameter</span><span class="p">(</span><span class="n">GAPBOND_PAIRING_MODE</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">uint8_t</span><span class="p">),</span> <span class="o">&amp;</span><span class="n">mitm</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<ol class="arabic simple" start="3">
+<li>Process passcode callback and send the response to the stack.</li>
+</ol>
+<div class="literal-block-wrapper docutils container" id="id13">
+<span id="gapbondmgr-process-passcode"></span><div class="code-block-caption"><span class="caption-number">Listing 71. </span><span class="caption-text">Process passcode and send the response.</span><a class="headerlink" href="#id13" title="Permalink to this code">¶</a></div>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="c1">//! BLE Default Passcode</span>
+<span class="cp">#define B_APP_DEFAULT_PASSCODE                    123456</span>
+
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">SimpleBLECentral_processPasscode</span><span class="p">(</span><span class="kt">uint16_t</span> <span class="n">connectionHandle</span><span class="p">,</span> <span class="kt">uint8_t</span> <span class="n">uiOutputs</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="c1">// This app uses a default passcode. A real-life scenario would handle all</span>
+  <span class="c1">// pairing scenarios and likely generate this randomly.</span>
+  <span class="kt">uint32_t</span> <span class="n">passcode</span> <span class="o">=</span> <span class="n">B_APP_DEFAULT_PASSCODE</span><span class="p">;</span>
+
+  <span class="c1">// Display passcode to user</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">uiOutputs</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span>
+  <span class="p">{</span>
+      <span class="n">Display_print1</span><span class="p">(</span><span class="n">dispHandle</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&quot;Passcode: %d&quot;</span><span class="p">,</span> <span class="n">passcode</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="c1">// Send passcode response</span>
+  <span class="n">GAPBondMgr_PasscodeRsp</span><span class="p">(</span><span class="n">connectionHandle</span><span class="p">,</span> <span class="n">SUCCESS</span><span class="p">,</span> <span class="n">passcode</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<p>Depending on the <code class="docutils literal"><span class="pre">uiInputs</span></code> and <code class="docutils literal"><span class="pre">uiOutputs</span></code> returned from the GAPBondMgr,
+the passcode must either be displayed or entered. The passcode is
+then sent to the GAPBondMgr using <a class="reference external" href="../../doxygen/ble/html/group___g_a_p_bond_mgr.html#ga3fed7c7c4af15a9f59b89374cdac5447">GAPBondMgr_PasscodeRsp()</a>, so that
+pairing can continue. ThIn this case, the password is statically set to 123456.
+In a real product, the password will likely be randomly generated, and the
+device must expose a way for the user to enter the passcode, then send it to the
+GAPBondMgr using <a class="reference external" href="../../doxygen/ble/html/group___g_a_p_bond_mgr.html#ga3fed7c7c4af15a9f59b89374cdac5447">GAPBondMgr_PasscodeRsp()</a>. An example interaction
+between the GAPBondMgr and the application is shown in
+<a class="reference internal" href="#gapbondmgr-exchange-passcode"><span class="std std-numref">Figure 60.</span></a>.</p>
+<div class="figure align-center" id="id14">
+<span id="gapbondmgr-exchange-passcode"></span><p class="plantuml">
+<img src="../_images/plantuml-7e804e772b265336f6100e616249b21c914c3b4d.png" alt=" &#64;startuml
+  participant Application
+  participant GAPRole
+  participant Gapbondmgr as &quot;GAPBondMgr&quot;
+  participant BLEStack as &quot;BLE Stack&quot;
+
+  BLEStack -&gt; GAPRole : GAP_LINK_ESTABLISHED_EVENT
+  GAPRole -&gt; Gapbondmgr : GAPBondMgr_LinkEst()
+  Gapbondmgr -&gt; BLEStack : GAP_Authenticate()
+  BLEStack --&gt;] : Pairing req
+  Gapbondmgr -&gt; Application : Pairing state callback
+
+  rnote over Application
+  GAPBOND_PAIRING_
+  STATE_STARTED
+  end note
+
+  BLEStack -&gt; Gapbondmgr : GAP_PASSKEY_NEEDED_\nEVENT
+  Gapbondmgr -&gt; Application : Passcode callback
+  [--&gt; Application : Enter or display\npasscode
+  Application -&gt; Gapbondmgr : GAPBondMgr_PasscodeRsp()
+  Gapbondmgr -&gt; BLEStack : GAP_PasscodeUpdate()
+  BLEStack --&gt;] : Encryption req
+  BLEStack &lt;--] : Encryption rsp
+  BLEStack -&gt; Gapbondmgr : GAP_AUTHENTICATION_\nCOMPLETE_EVENT
+  Gapbondmgr -&gt; Application : Pairing state callback
+
+  rnote over Application
+  GAPBOND_PAIRING_
+  STATE_COMPLETE
+  end note
+&#64;enduml" />
+</p>
+<p class="caption"><span class="caption-number">Figure 60. </span><span class="caption-text">Interaction Between the GAPBondMgr and the Application when exchanging a passcode.</span><a class="headerlink" href="#id14" title="Permalink to this image">¶</a></p>
+</div>
+</div>
+<div class="section" id="numeric-comparison">
+<h3>Numeric Comparison<a class="headerlink" href="#numeric-comparison" title="Permalink to this headline">¶</a></h3>
+<p>Numeric comparison is a type of authenticated pairing that protects
+from MITM attacks. It is only possible as a Secure Connections
+pairing; not LE legacy. For numeric comparison pairing, both devices
+display a 6-digit code. Each device must then indicate, through a
+button press or some other yes-no input, whether the codes match.
+The passcode callback registered with the GAPBondMgr when it was
+started is used to display the 6-digit code. The following is an
+example of initiating Numeric Comparison pairing where the passcode
+is displayed. The IO capabilities must be set appropriately to
+select numeric comparison (that is, Display/Yes-No on both sides).</p>
+<ol class="arabic simple">
+<li>Define passcode callback to display code.</li>
+</ol>
+<div class="literal-block-wrapper docutils container" id="id15">
+<span id="gapbondmgr-define-passcode"></span><div class="code-block-caption"><span class="caption-number">Listing 72. </span><span class="caption-text">Define passcode callback to display code.</span><a class="headerlink" href="#id15" title="Permalink to this code">¶</a></div>
+<div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1">// Bond Manager Callbacks</span>
+<span class="k">static</span> <span class="n">gapBondCBs_t</span> <span class="n">SimpleBLECentral_bondCB</span> <span class="o">=</span>
+<span class="p">{</span>
+  <span class="p">(</span><span class="n">pfnPasscodeCB_t</span><span class="p">)</span><span class="n">SimpleBLECentral_passcodeCB</span><span class="p">,</span> <span class="c1">//Passcode callback</span>
+  <span class="n">SimpleBLECentral_pairStateCB</span>                  <span class="c1">//Pairing state callback</span>
+<span class="p">};</span>
+
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">SimpleBLECentral_passcodeCB</span> <span class="p">(</span><span class="kt">uint8_t</span> <span class="o">*</span><span class="n">deviceAddr</span><span class="p">,</span> <span class="kt">uint16_t</span> <span class="n">connHandle</span><span class="p">,</span> <span class="kt">uint8_t</span> <span class="n">uiInputs</span><span class="p">,</span> <span class="kt">uint8_t</span> <span class="n">uiOutputs</span><span class="p">,</span> <span class="kt">uint32_t</span> <span class="n">numComparison</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">gapPasskeyNeededEvent_t</span> <span class="o">*</span><span class="n">pData</span><span class="p">;</span>
+
+  <span class="c1">// Allocate space for the passcode event.</span>
+  <span class="k">if</span> <span class="p">((</span><span class="n">pData</span> <span class="o">=</span> <span class="n">ICall_malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">gapPasskeyNeededEvent_t</span><span class="p">))))</span>
+  <span class="p">{</span>
+    <span class="n">memcpy</span><span class="p">(</span><span class="n">pData</span><span class="o">-&gt;</span><span class="n">deviceAddr</span><span class="p">,</span> <span class="n">deviceAddr</span><span class="p">,</span> <span class="n">B_ADDR_LEN</span><span class="p">);</span>
+    <span class="n">pData</span><span class="o">-&gt;</span><span class="n">connectionHandle</span> <span class="o">=</span> <span class="n">connHandle</span><span class="p">;</span>
+    <span class="n">pData</span><span class="o">-&gt;</span><span class="n">numComparison</span> <span class="o">=</span> <span class="n">numComparison</span><span class="p">;</span>
+
+    <span class="c1">// Enqueue the event.</span>
+    <span class="n">SimpleBLECentral_enqueueMsg</span><span class="p">(</span><span class="n">SEC_PASSCODE_NEEDED_EVT</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="kt">uint8_t</span> <span class="o">*</span><span class="p">)</span> <span class="n">pData</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<ol class="arabic simple" start="2">
+<li>Configure GAPBondMgr</li>
+</ol>
+<div class="literal-block-wrapper docutils container" id="id16">
+<span id="gapbondmgr-authenticate-configure"></span><div class="code-block-caption"><span class="caption-number">Listing 73. </span><span class="caption-text">Configure GAPBondMgr For Secure Connections + Authentication.</span><a class="headerlink" href="#id16" title="Permalink to this code">¶</a></div>
+<div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kt">uint8_t</span> <span class="n">pairMode</span> <span class="o">=</span> <span class="n">GAPBOND_PAIRING_MODE_INITIATE</span><span class="p">;</span>
+<span class="kt">uint8_t</span> <span class="n">scMode</span> <span class="o">=</span> <span class="n">GAPBOND_SECURE_CONNECTION_ONLY</span><span class="p">;</span>
+<span class="kt">uint8_t</span> <span class="n">mitm</span> <span class="o">=</span> <span class="n">TRUE</span><span class="p">;</span>
+<span class="kt">uint8_t</span> <span class="n">ioCap</span> <span class="o">=</span> <span class="n">GAPBOND_IO_CAP_DISPLAY_YES_NO</span><span class="p">;</span>
+
+<span class="n">GAPBondMgr_SetParameter</span><span class="p">(</span><span class="n">GAPBOND_IO_CAPABILITIES</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">uint8_t</span><span class="p">),</span> <span class="o">&amp;</span><span class="n">ioCap</span><span class="p">);</span>
+<span class="n">GAPBondMgr_SetParameter</span><span class="p">(</span><span class="n">GAPBOND_PAIRING_MODE</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">uint8_t</span><span class="p">),</span> <span class="o">&amp;</span><span class="n">pairMode</span><span class="p">);</span>
+<span class="n">GAPBondMgr_SetParameter</span><span class="p">(</span><span class="n">GAPBOND_MITM_PROTECTION</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">uint8_t</span><span class="p">),</span> <span class="o">&amp;</span><span class="n">mitm</span><span class="p">);</span>
+<span class="n">GAPBondMgr_SetParameter</span><span class="p">(</span><span class="n">GAPBOND_SECURE_CONNECTION</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">uint8_t</span><span class="p">),</span> <span class="o">&amp;</span><span class="n">scMode</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<ol class="arabic simple" start="3">
+<li>Process passcode callback and display code.</li>
+</ol>
+<div class="literal-block-wrapper docutils container" id="id17">
+<span id="gapbondmgr-authenticate-process"></span><div class="code-block-caption"><span class="caption-number">Listing 74. </span><span class="caption-text">Process passcode callback and display code.</span><a class="headerlink" href="#id17" title="Permalink to this code">¶</a></div>
+<div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">static</span> <span class="kt">void</span> <span class="nf">SimpleBLECentral_processPasscode</span> <span class="p">(</span><span class="kt">uint16_t</span> <span class="n">connectionHandle</span><span class="p">,</span> <span class="n">gapPasskeyNeededEvent_t</span> <span class="o">*</span><span class="n">pData</span><span class="p">)</span>
+<span class="p">{</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="n">pData</span><span class="o">-&gt;</span><span class="n">numComparison</span><span class="p">)</span> <span class="c1">//numeric comparison</span>
+  <span class="p">{</span>
+
+    <span class="c1">//Display passcode</span>
+    <span class="n">DISPLAY_WRITE_STRING_VALUE</span><span class="p">(</span><span class="s">&quot;Num Cmp: %d&quot;</span><span class="p">,</span> <span class="n">pData</span><span class="o">-&gt;</span><span class="n">numComparison</span><span class="p">,</span> <span class="n">LCD_PAGE4</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<ol class="arabic simple" start="4">
+<li>Accept Yes-No input from user and send response to GAPBondMgr.</li>
+</ol>
+<div class="literal-block-wrapper docutils container" id="id18">
+<span id="gapbondmgr-authenticate-accept"></span><div class="code-block-caption"><span class="caption-number">Listing 75. </span><span class="caption-text">Accept Yes-No input from user and send response to GAPBondMgr.</span><a class="headerlink" href="#id18" title="Permalink to this code">¶</a></div>
+<div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="p">(</span><span class="n">keys</span> <span class="o">&amp;</span> <span class="n">KEY_RIGHT</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">GAPBondMgr_PasscodeRsp</span><span class="p">(</span><span class="n">connHandle</span><span class="p">,</span> <span class="n">SUCCESS</span><span class="p">,</span> <span class="n">TRUE</span><span class="p">);</span>
+  <span class="n">DISPLAY_WRITE_STRING</span><span class="p">(</span><span class="s">&quot;Codes Match!&quot;</span><span class="p">,</span> <span class="n">LCD_PAGE5</span><span class="p">);</span>
+  <span class="k">return</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<p>In this case, the third parameter of GAPBondMgr_PasscodeRsp, which
+usually accepts a passcode, is overloaded to send TRUE to the stack to
+indicate that the codes match and to continue with pairing. The process of numeric comparison is illustrated in <a class="reference internal" href="#numeric-comparison-fig"><span class="std std-numref">Figure 61.</span></a>.</p>
+<div class="figure align-center" id="id19">
+<span id="numeric-comparison-fig"></span><p class="plantuml">
+<img src="../_images/plantuml-3ba35e48e570b61dda64b15eb57ad6e4c67b624c.png" alt=" &#64;startuml
+  participant Application
+  participant GAPRole
+  participant Gapbondmgr as &quot;GAPBondMgr&quot;
+  participant BLEStack as &quot;BLE Stack&quot;
+
+  BLEStack -&gt; GAPRole : GAP_LINK_ESTABLISHED_EVENT
+  GAPRole -&gt; Gapbondmgr : GAPBondMgr_LinkEst()
+  Gapbondmgr -&gt; BLEStack : GAP_Authenticate
+  BLEStack --&gt;] : Pairing req
+  Gapbondmgr -&gt; Application : Pairing state callback
+  rnote over Application
+  GAPBOND_PAIRING_
+  STATE_STARTED
+  end note
+
+  BLEStack -&gt; Gapbondmgr : GAP_PASSKEY_\nNEEDED_EVENT
+  Gapbondmgr -&gt; Application : Passcode callback
+
+  [&lt;-- Application : Display code
+  [--&gt; Application : Codes match
+
+  Application -&gt; Gapbondmgr : GAPBondMgr_PasscodeRsp()
+  Gapbondmgr -&gt; BLEStack : GAP_PasscodeUpdate()
+
+  BLEStack --&gt;] : Encryption req
+  BLEStack &lt;--] : Encryption rsp
+  BLEStack -&gt; Gapbondmgr : GAP_AUTHENTICATION_\nCOMPLETE_EVENT
+  Gapbondmgr -&gt; Application : Pairing state callback
+  rnote over Application
+  GAPBOND_PAIRING_
+  STATE_COMPLETE
+  end note
+&#64;enduml" />
+</p>
+<p class="caption"><span class="caption-number">Figure 61. </span><span class="caption-text">Numeric Comparison.</span><a class="headerlink" href="#id19" title="Permalink to this image">¶</a></p>
+</div>
+</div>
+</div>
+<div class="section" id="gapbondmgr-example-with-bonding-enabled">
+<h2>GAPBondMgr Example With Bonding Enabled<a class="headerlink" href="#gapbondmgr-example-with-bonding-enabled" title="Permalink to this headline">¶</a></h2>
+<p>Bonding can enabled or disabled for any type of pairing through the
+<code class="docutils literal"><span class="pre">GAPBOND_BONDING_ENABLED</span></code> parameter, and occurs after the pairing
+process is complete. To enable bonding, configure the GAPBondMgr as
+follows:</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="kt">uint8_t</span> <span class="n">bonding</span> <span class="o">=</span> <span class="n">TRUE</span><span class="p">;</span>
+<span class="n">GAPBondMgr_SetParameter</span><span class="p">(</span><span class="n">GAPBOND_BONDING_ENABLED</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">uint8_t</span><span class="p">),</span> <span class="o">&amp;</span><span class="n">bonding</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>With bonding enabled, the GAPBondMgr stores the long-term key
+transferred during the pairing process to SNV. See <a class="reference internal" href="#gapbondmgr-and-snv"><span class="std std-ref">GAPBondMgr and SNV</span></a> for more information. After this is completed, the application is notified
+through the <code class="xref c c-type docutils literal"><span class="pre">GAPBOND_PAIRING_STATE_COMPLETE</span></code> event. <code class="xref c c-type docutils literal"><span class="pre">GAPBOND_PAIRING_STATE_BOND_SAVED</span></code> is only passed to the application pair
+state callback when initially connecting, pairing, and bonding. For
+future connections to a bonded device, the security keys are loaded from
+flash, thus skipping the pairing process. In this case, only
+<code class="xref c c-type docutils literal"><span class="pre">GAPBOND_PAIRING_STATE_BONDED</span></code> is passed to the application pair state callback. This is illustrated in <a class="reference internal" href="#gapbondmgr-example-bonding"><span class="std std-numref">Figure 62.</span></a></p>
+<div class="figure align-center" id="id20">
+<span id="gapbondmgr-example-bonding"></span><p class="plantuml">
+<img src="../_images/plantuml-16e27601da92bb5510ccdb4ef7047579775f758c.png" alt=" &#64;startuml
+
+  participant Application
+  participant GAPRole
+  participant Gapbondmgr as &quot;GAPBondMgr&quot;
+  participant BLEStack as &quot;BLE Stack&quot;
+
+  BLEStack -&gt; GAPRole : GAP_LINK_ESTABLISHED_EVENT
+  GAPRole -&gt; Gapbondmgr : GAPBondMgr_LinkEst()
+  Gapbondmgr -&gt; BLEStack : GAP_Authenticate
+  BLEStack --&gt;] : Pairing req
+  Gapbondmgr -&gt; Application : Pairing state callback
+  rnote over Application
+  GAPBOND_PAIRING_
+  STATE_STARTED
+  end note
+
+  == This section will vary depending on the pairing type.\nSee above examples for more information. ==
+
+  BLEStack --&gt;] : Encryption req
+  BLEStack &lt;--] : Encryption rsp
+  BLEStack -&gt; Gapbondmgr : GAP_AUTHENTICATION_\nCOMPLETE_EVENT
+
+  rnote over Gapbondmgr
+  Save bond info in SNV
+  end note
+
+  Gapbondmgr -&gt; Application : Pairing state callback
+  rnote over Application
+  GAPBOND_PAIRING_
+  STATE_COMPLETE
+  end note
+
+  rnote over Application
+  GAPBOND_PAIRING_
+  STATE_BOND_SAVED
+  end note
+
+  == Eventually the connection may be terminated and re-established. ==
+
+  BLEStack -&gt; GAPRole : GAP_LINK_ESTABLISHED_EVENT
+  GAPRole -&gt; Gapbondmgr : GAPBondMgr_LinkEst()
+
+  rnote over Gapbondmgr
+  Read bond info from SNV.
+  end note
+
+  Gapbondmgr -&gt; BLEStack : GAP_Bond()
+  BLEStack --&gt;] : Encryption req
+  BLEStack &lt;--] : Encryption rsp
+  BLEStack -&gt; Gapbondmgr : GAP_BOND_COMPLETE_\nEVENT
+  Gapbondmgr -&gt; Application : Pairing state callback
+  rnote over Application
+  GAPBOND_PAIRING_
+  STATE_BONDED
+  end note
+
+
+&#64;enduml" />
+</p>
+<p class="caption"><span class="caption-number">Figure 62. </span><span class="caption-text">GAPBondMgr Example With Bonding Enabled.</span><a class="headerlink" href="#id20" title="Permalink to this image">¶</a></p>
+</div>
+</div>
+<div class="section" id="gapbondmgr-and-snv">
+<span id="id4"></span><h2>GAPBondMgr and SNV<a class="headerlink" href="#gapbondmgr-and-snv" title="Permalink to this headline">¶</a></h2>
+<p>This section describes how the GAPBondMgr uses the SNV flash area
+for storing bonding information. For more information on SNV itself,
+see <a class="reference internal" href="../cc2640/memory_management.html#flash"><span class="std std-ref">Flash</span></a>. The amount of bonds that can be stored
+is set by the <code class="docutils literal"><span class="pre">GAP_BONDINGS_MAX</span></code> definition, which is set to 10 by default in
+gapbondmgr.h. The functionality of the GAPBondMgr when there are no
+more available bonds varies based on whether the &#8220;least recently
+used&#8221; scheme is enabled. See <a class="reference internal" href="../ble-stack-3.x-guide/api-reference.html#ble-api-reference"><span class="std std-ref">BLE Stack API Reference</span></a> (GAPBondMgr section) for
+more information
+on the <code class="docutils literal"><span class="pre">GAPBOND_LRU_BOND_REPLACEMENT</span></code> parameter. If this parameter is set
+to false, it is not possible to add any more bonds without manually
+deleting a bond. If the parameter is set to true, the least recently
+used bond is deleted to make room for the new bond.</p>
+<p>The following components comprise one bonding entry:</p>
+<ol class="arabic simple">
+<li><strong>Bond Record:</strong> this consists of the peer&#8217;s address, address type,
+privacy reconnection address, and state flags. This comprises 14
+bytes and is defined as such:</li>
+</ol>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="k">typedef</span> <span class="k">struct</span>
+<span class="p">{</span>
+  <span class="n">uint8</span>   <span class="n">publicAddr</span><span class="p">[</span><span class="n">B_ADDR_LEN</span><span class="p">];</span>     <span class="c1">// Peer&#39;s address</span>
+  <span class="n">uint8</span>   <span class="n">publicAddrType</span><span class="p">;</span>             <span class="c1">// Peer&#39;s address type</span>
+  <span class="n">uint8</span>   <span class="n">reconnectAddr</span><span class="p">[</span><span class="n">B_ADDR_LEN</span><span class="p">];</span>  <span class="c1">// Privacy Reconnection Address</span>
+  <span class="n">uint8</span>   <span class="n">stateFlags</span><span class="p">;</span>                 <span class="c1">// State flags: @ref GAP_BONDED_STATE_FLAGS</span>
+<span class="p">}</span> <span class="n">gapBondRec_t</span><span class="p">;</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><strong>Client Characteristic Configurations (CCC):</strong> the amount of CCCs stored
+in each entry are set by the <code class="docutils literal"><span class="pre">GAP_CHAR_CFG_MAX</span></code> define. This is
+set to 4 by default. Each CCC is comprised of 4-bytes and is
+defined as follows:</li>
+</ol>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="k">typedef</span> <span class="k">struct</span>
+<span class="p">{</span>
+  <span class="n">uint16</span> <span class="n">attrHandle</span><span class="p">;</span>  <span class="c1">// attribute handle</span>
+  <span class="n">uint8</span>  <span class="n">value</span><span class="p">;</span>       <span class="c1">// attribute value for this device</span>
+<span class="p">}</span> <span class="n">gapBondCharCfg_t</span><span class="p">;</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><strong>Local Long Term Key (LTK) info:</strong> this stores the local device&#8217;s
+encryption information. This comprises 28 bytes and is composed
+as such:</li>
+</ol>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="k">typedef</span> <span class="k">struct</span>
+<span class="p">{</span>
+  <span class="n">uint8</span>   <span class="n">LTK</span><span class="p">[</span><span class="n">KEYLEN</span><span class="p">];</span>              <span class="c1">// Long Term Key (LTK)</span>
+  <span class="n">uint16</span>  <span class="n">div</span><span class="p">;</span>  <span class="c1">//lint -e754        // LTK eDiv</span>
+  <span class="n">uint8</span>   <span class="n">rand</span><span class="p">[</span><span class="n">B_RANDOM_NUM_SIZE</span><span class="p">];</span>  <span class="c1">// LTK random number</span>
+  <span class="n">uint8</span>   <span class="n">keySize</span><span class="p">;</span>                  <span class="c1">// LTK key size</span>
+<span class="p">}</span> <span class="n">gapBondLTK_t</span><span class="p">;</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="4">
+<li><strong>Connected Device Long Term Key Info:</strong> this stores the connected
+device&#8217;s encryption information. This is also a gapBondLTK_t and
+comprises 28 bytes.</li>
+<li><strong>Connected Device Identity Resolving Key (IRK):</strong> this stores the IRK
+generated during pairing. This is a 16-byte array.</li>
+<li><strong>Connected Device Sign Resolving Key (SRK):</strong> this stores the SRK
+generated during pairing. This is a 16-byte array.</li>
+<li><strong>Connected Device Sign counter:</strong> this stores the sign counter generated
+during pairing. This is a 4-byte word.</li>
+</ol>
+</div>
+</div>
+<div class="section" id="le-privacy-1-2">
+<h1>LE Privacy 1.2<a class="headerlink" href="#le-privacy-1-2" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h2>
+<p>BLE-Stack 3.01.01.00 and newer support the privacy feature that reduces the ability to
+track an LE device over a period of time, by changing the Bluetooth device
+address on a frequent basis. LE Privacy 1.2 extends privacy to the controller by
+allowing the controller to both resolve peer and generate local resolvable
+private addresses (RPAs). It is used during connection mode and connection
+procedures. In BLE-Stack 3.01.01.00, Privacy 1.2 is always enabled.
+<a class="reference internal" href="#leprivacy-terms"><span class="std std-numref">Table 11.</span></a> lists the definition of terms related to the privacy
+feature.</p>
+<span id="leprivacy-terms"></span><table border="1" class="docutils" id="id21">
+<caption><span class="caption-number">Table 11. </span><span class="caption-text">Definition of Privacy Feature Terms</span><a class="headerlink" href="#id21" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="24%" />
+<col width="76%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Term</th>
+<th class="head">Definition</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Resolvable address</td>
+<td>A resolvable address is one that can potentially be resolved.
+Resolvable address Specifically, it is a device address that is a
+random resolvable private address (RPA).</td>
+</tr>
+<tr class="row-odd"><td>Resolving list (RL)</td>
+<td>One or more entries of local/peer IRK pairs associated with an
+identity address (public or random static).</td>
+</tr>
+<tr class="row-even"><td>Device address</td>
+<td>A 48-bit value used to identify a device. A device address can be public
+or random. A device may use at least one, and can use both.</td>
+</tr>
+<tr class="row-odd"><td>Identity (ID) address</td>
+<td>An RPA is resolved with an identity resolving key (IRK) and is
+associated with a public address or a random static address, known as
+the identity (ID) address.</td>
+</tr>
+<tr class="row-even"><td>Non-resolvable address</td>
+<td>A non-resolvable address is one that can never be resolved.
+Specifically, it is a device address that is a public address, a random
+static address, or a non-resolvable private address.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="theory-of-operation">
+<h2>Theory of Operation<a class="headerlink" href="#theory-of-operation" title="Permalink to this headline">¶</a></h2>
+<p>For a device using the privacy feature to reconnect to known
+devices, the device address, referred to as the private address,
+must be resolvable by the other device. The private address is
+generated using the device&#8217;s resolving identity key (IRK) exchanged
+during the bonding procedure.</p>
+<p>With LE Privacy 1.2, the host is able to populate a resolving list
+in the controller. The resolving list consists of a set of records,
+where each record contains a pair of IRKs, one for local and one for
+peer, as well as the identity address of the peer device. A identity
+address of the peer device should be the public or static address of
+that device, which is obtained during phase 3 of pairing. The
+controller, which now contains all of the IRKs for previously bonded
+devices, is able to resolve private addresses into identity addresses of peers.
+These addresses are then able to be passed to the controller white list for
+further action, as shown in <a class="reference internal" href="#figure-resolving-list"><span class="std std-numref">Figure 63.</span></a></p>
+<div class="figure align-center" id="id22">
+<span id="figure-resolving-list"></span><img alt="../_images/resolvinglist.png" src="../_images/resolvinglist.png" />
+<p class="caption"><span class="caption-number">Figure 63. </span><span class="caption-text">Resolving List.</span></p>
+</div>
+<p>If the controller is unable to resolve the peer RPAs, or the white
+list takes no actions for the incoming address, the address is still
+passed to the host. If the local device or peer device wishes, it
+can initiate a bonding sequence to exchange IRKs as well as device
+identity addresses. If these are exchanged, the host can use those
+parameters to update the controller&#8217;s resolving list, and even
+update the white list, so that the controller can automatically form
+a connection with the peer during a future connection attempt.</p>
+</div>
+<div class="section" id="new-hci-commands">
+<h2>New HCI Commands<a class="headerlink" href="#new-hci-commands" title="Permalink to this headline">¶</a></h2>
+<p>The following new HCI commands are now supported in the controller:</p>
+<ul class="simple">
+<li>LE Add Device to Resolving List Command</li>
+<li>LE Remove Device to Resolving List Command</li>
+<li>LE Clear Resolving List Command</li>
+<li>LE Read Resolving List Size Command</li>
+<li>LE Read Peer Resolvable Address Command</li>
+<li>LE Read Local Resolvable Address Command</li>
+<li>LE Set Address Resolution Enable Command</li>
+<li>LE Set Random Private Address Timeout Command</li>
+</ul>
+<p>For additional details, please see <a class="reference external" href="https://www.bluetooth.com/specifications/adopted-specifications">Bluetooth Core_v4.2 specification</a> (Vol 2, Part E, Section 7.8 for the commands, and Section 7.7 for the event).</p>
+</div>
+<div class="section" id="privacy-and-white-list">
+<h2>Privacy and White List<a class="headerlink" href="#privacy-and-white-list" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="enabling-auto-sync-of-white-list">
+<h3>Enabling Auto Sync of White List<a class="headerlink" href="#enabling-auto-sync-of-white-list" title="Permalink to this headline">¶</a></h3>
+<p>The stack can automatically add devices to the white list after
+bonding. Use the following code to enable this syncing of the white
+list.</p>
+<div class="literal-block-wrapper docutils container" id="id23">
+<span id="privacy12-add-to-whitelist"></span><div class="code-block-caption"><span class="caption-number">Listing 76. </span><span class="caption-text">Enable syncing of white list.</span><a class="headerlink" href="#id23" title="Permalink to this code">¶</a></div>
+<div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kt">uint8_t</span> <span class="n">autoSyncWhiteList</span> <span class="o">=</span> <span class="n">TRUE</span><span class="p">;</span>
+<span class="n">GAPBondMgr_SetParameter</span><span class="p">(</span><span class="n">GAPBOND_AUTO_SYNC_WL</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">uint8_t</span><span class="p">),</span> <span class="o">&amp;</span><span class="n">autoSyncWhiteList</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+</div>
+<div class="section" id="using-resolvable-private-addresses">
+<h3>Using Resolvable Private Addresses<a class="headerlink" href="#using-resolvable-private-addresses" title="Permalink to this headline">¶</a></h3>
+<p>The device also can be configured to use a random address. Use <a class="reference external" href="../../doxygen/ble/html/group___g_a_p.html#gaaffa833dc484847afd019d087eefb2c6">GAP_ConfigDeviceAddr()</a>
+to use random address. This API must be called after the GAP layer is started but cannot
+be called during any BLE activity. In the function <code class="docutils literal"><span class="pre">gapRole_processGAPMsg()</span></code> add the
+code below after <code class="docutils literal"><span class="pre">gapRole_state</span> <span class="pre">=</span> <span class="pre">GAPROLE_STARTED</span></code>:</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="c1">//set address type to resolvable private address</span>
+<span class="n">status</span> <span class="o">=</span> <span class="n">GAP_ConfigDeviceAddr</span><span class="p">(</span><span class="n">ADDRMODE_PRIVATE_RESOLVE</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="n">status</span> <span class="o">!=</span> <span class="n">SUCCESS</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">System_abort</span><span class="p">(</span><span class="s">&quot;Error!&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>It can be verified with a sniffer that the address changes when
+advertising. The default timeout value between private (resolvable)
+address changes is 15 minutes. This can be modified by <a class="reference external" href="../../doxygen/ble/html/group___g_a_p.html#ga45fab6682fc253681d7abe697a4fc0b5">GAP_SetParamValue()</a>
+after calling <a class="reference external" href="../../doxygen/ble/html/group___g_a_p.html#gaaffa833dc484847afd019d087eefb2c6">GAP_ConfigDeviceAddr()</a>:</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="c1">//Set timeout value to 5 minute</span>
+<span class="n">GAP_SetParamValue</span><span class="p">(</span> <span class="n">TGAP_PRIVATE_ADDR_INT</span> <span class="p">,</span> <span class="mi">5</span><span class="p">);</span>
+
+<span class="c1">// Update the advertising data</span>
+<span class="c1">//...</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="testing-privacy-with-white-list">
+<h3>Testing Privacy with White List<a class="headerlink" href="#testing-privacy-with-white-list" title="Permalink to this headline">¶</a></h3>
+<p>The following steps can be made to test the privacy with white list
+feature:</p>
+<ol class="arabic simple">
+<li>Connect a iOS device to the CC2640R2F both supporting Privacy 1.2.</li>
+<li>Pair with the device with the default passcode: 000000.</li>
+<li>The iOS devices should be automatically added to the white list.</li>
+<li>Disconnect and wait for the iOS device address to change.</li>
+<li>Reconnect to the CC2640R2F.</li>
+</ol>
+</div>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="l2cap.html" class="btn btn-neutral float-right" title="Logical Link Control and Adaptation Layer Protocol (L2CAP)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="gatt.html" class="btn btn-neutral" title="Generic Attribute Profile (GATT)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Texas Instruments.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.01.01.00',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

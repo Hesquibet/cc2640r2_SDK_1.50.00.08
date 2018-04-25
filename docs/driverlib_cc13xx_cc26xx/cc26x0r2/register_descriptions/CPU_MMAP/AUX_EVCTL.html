@@ -1,0 +1,3533 @@
+<HTML>
+<HEAD><META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
+<link href="..//elements/mmap.css" rel="stylesheet" type="text/css">
+<TITLE>AUX_EVCTL</TITLE>
+</HEAD>
+<BODY class=mmapBody>
+<h2 class="mmapCellTitle">
+  <a name="Top_Tag">AUX_EVCTL</a>
+</h2>
+<P>Instance: AUX_EVCTL<BR>
+Component: AUX_EVCTL<BR>
+Base address: 0x400C5000</P>
+<BR>
+<P>AUX Event Controller</P>
+ <H3 class="mmapRegisterSummaryTitle"><A name="AUX_EVCTL"></A><A href="CPU_MMAP.html"> TOP</A>:<B>AUX_EVCTL</B> Register Summary</H3>
+<TABLE cellspacing="0" class="mmapRegisterSummaryTable">
+<TR class="rowTop">
+<TD class="cellTopCol1">
+  <P>Register Name</P>
+</TD>
+<TD class="cellTopCol2">
+  <P>Type</P>
+</TD>
+<TD class="cellTopCol3">
+  <P>Register Width (Bits)</P>
+</TD>
+<TD class="cellTopCol4">
+  <P>Register Reset</P>
+</TD>
+<TD class="cellTopCol5">
+  <P>Address Offset</P>
+</TD>
+<TD class="cellTopCol5">
+  <P>Physical Address</P>
+</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">
+  <P>
+    <A href="#VECCFG0" title="Vector Configuration 0">VECCFG0</A>
+  </P>
+</TD>
+<TD class="cellCol2">
+  <P>RW</P>
+</TD>
+<TD class="cellCol3">
+  <P>32</P>
+</TD>
+<TD class="cellCol4">
+  <P>0x0000 0000</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x0000 0000</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x400C 5000</P>
+</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">
+  <P>
+    <A href="#VECCFG1" title="Vector Configuration 1">VECCFG1</A>
+  </P>
+</TD>
+<TD class="cellCol2">
+  <P>RW</P>
+</TD>
+<TD class="cellCol3">
+  <P>32</P>
+</TD>
+<TD class="cellCol4">
+  <P>0x0000 0000</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x0000 0004</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x400C 5004</P>
+</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">
+  <P>
+    <A href="#SCEWEVSEL" title="Sensor Controller Engine Wait Event Selection">SCEWEVSEL</A>
+  </P>
+</TD>
+<TD class="cellCol2">
+  <P>RW</P>
+</TD>
+<TD class="cellCol3">
+  <P>32</P>
+</TD>
+<TD class="cellCol4">
+  <P>0x0000 0000</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x0000 0008</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x400C 5008</P>
+</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">
+  <P>
+    <A href="#EVTOAONFLAGS" title="Events To AON Flags">EVTOAONFLAGS</A>
+  </P>
+</TD>
+<TD class="cellCol2">
+  <P>RW</P>
+</TD>
+<TD class="cellCol3">
+  <P>32</P>
+</TD>
+<TD class="cellCol4">
+  <P>0x0000 0000</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x0000 000C</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x400C 500C</P>
+</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">
+  <P>
+    <A href="#EVTOAONPOL" title="Events To AON Polarity">EVTOAONPOL</A>
+  </P>
+</TD>
+<TD class="cellCol2">
+  <P>RW</P>
+</TD>
+<TD class="cellCol3">
+  <P>32</P>
+</TD>
+<TD class="cellCol4">
+  <P>0x0000 0000</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x0000 0010</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x400C 5010</P>
+</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">
+  <P>
+    <A href="#DMACTL" title="Direct Memory Access Control">DMACTL</A>
+  </P>
+</TD>
+<TD class="cellCol2">
+  <P>RW</P>
+</TD>
+<TD class="cellCol3">
+  <P>32</P>
+</TD>
+<TD class="cellCol4">
+  <P>0x0000 0000</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x0000 0014</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x400C 5014</P>
+</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">
+  <P>
+    <A href="#SWEVSET" title="Software Event Set">SWEVSET</A>
+  </P>
+</TD>
+<TD class="cellCol2">
+  <P>RW</P>
+</TD>
+<TD class="cellCol3">
+  <P>32</P>
+</TD>
+<TD class="cellCol4">
+  <P>0x0000 0000</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x0000 0018</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x400C 5018</P>
+</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">
+  <P>
+    <A href="#EVSTAT0" title="Event Status 0">EVSTAT0</A>
+  </P>
+</TD>
+<TD class="cellCol2">
+  <P>RO</P>
+</TD>
+<TD class="cellCol3">
+  <P>32</P>
+</TD>
+<TD class="cellCol4">
+  <P>0x0000 0000</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x0000 001C</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x400C 501C</P>
+</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">
+  <P>
+    <A href="#EVSTAT1" title="Event Status 1">EVSTAT1</A>
+  </P>
+</TD>
+<TD class="cellCol2">
+  <P>RO</P>
+</TD>
+<TD class="cellCol3">
+  <P>32</P>
+</TD>
+<TD class="cellCol4">
+  <P>0x0000 0000</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x0000 0020</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x400C 5020</P>
+</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">
+  <P>
+    <A href="#EVTOMCUPOL" title="Event To MCU Polarity">EVTOMCUPOL</A>
+  </P>
+</TD>
+<TD class="cellCol2">
+  <P>RW</P>
+</TD>
+<TD class="cellCol3">
+  <P>32</P>
+</TD>
+<TD class="cellCol4">
+  <P>0x0000 0000</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x0000 0024</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x400C 5024</P>
+</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">
+  <P>
+    <A href="#EVTOMCUFLAGS" title="Events to MCU Flags">EVTOMCUFLAGS</A>
+  </P>
+</TD>
+<TD class="cellCol2">
+  <P>RW</P>
+</TD>
+<TD class="cellCol3">
+  <P>32</P>
+</TD>
+<TD class="cellCol4">
+  <P>0x0000 0000</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x0000 0028</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x400C 5028</P>
+</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">
+  <P>
+    <A href="#COMBEVTOMCUMASK" title="Combined Event To MCU Mask">COMBEVTOMCUMASK</A>
+  </P>
+</TD>
+<TD class="cellCol2">
+  <P>RW</P>
+</TD>
+<TD class="cellCol3">
+  <P>32</P>
+</TD>
+<TD class="cellCol4">
+  <P>0x0000 0000</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x0000 002C</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x400C 502C</P>
+</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">
+  <P>
+    <A href="#VECFLAGS" title="Vector Flags">VECFLAGS</A>
+  </P>
+</TD>
+<TD class="cellCol2">
+  <P>RW</P>
+</TD>
+<TD class="cellCol3">
+  <P>32</P>
+</TD>
+<TD class="cellCol4">
+  <P>0x0000 0000</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x0000 0034</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x400C 5034</P>
+</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">
+  <P>
+    <A href="#EVTOMCUFLAGSCLR" title="Events To MCU Flags Clear">EVTOMCUFLAGSCLR</A>
+  </P>
+</TD>
+<TD class="cellCol2">
+  <P>RW</P>
+</TD>
+<TD class="cellCol3">
+  <P>32</P>
+</TD>
+<TD class="cellCol4">
+  <P>0x0000 0000</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x0000 0038</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x400C 5038</P>
+</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">
+  <P>
+    <A href="#EVTOAONFLAGSCLR" title="Events To AON Clear">EVTOAONFLAGSCLR</A>
+  </P>
+</TD>
+<TD class="cellCol2">
+  <P>RW</P>
+</TD>
+<TD class="cellCol3">
+  <P>32</P>
+</TD>
+<TD class="cellCol4">
+  <P>0x0000 0000</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x0000 003C</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x400C 503C</P>
+</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">
+  <P>
+    <A href="#VECFLAGSCLR" title="Vector Flags Clear">VECFLAGSCLR</A>
+  </P>
+</TD>
+<TD class="cellCol2">
+  <P>RW</P>
+</TD>
+<TD class="cellCol3">
+  <P>32</P>
+</TD>
+<TD class="cellCol4">
+  <P>0x0000 0000</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x0000 0040</P>
+</TD>
+<TD class="cellCol5">
+  <P>0x400C 5040</P>
+</TD>
+</TR>
+</TABLE>
+<H3 class="mmapRegisterSummaryTitle"><A href="CPU_MMAP.html"> TOP</A>:AUX_EVCTL Register Descriptions</H3>
+<H3 class="mmapRegisterTitle"><A name="VECCFG0"></A><A class="mmapRegisterTitle" href="CPU_MMAP.html">TOP</A>:<A class="mmapRegisterTitle" href="#Top_Tag">AUX_EVCTL</A>:VECCFG0</H3><TABLE cellspacing="0" class="mmapRegisterTable">
+<TR class="row">
+<TD class="cellCol1"><B>Address Offset</B></TD>
+<TD class="cellCol2" colspan="3">0x0000 0000</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Physical Address</TD>
+<TD class="cellCol2">0x400C 5000</TD>
+<TD class="cellCol3">Instance</TD>
+<TD class="cellCol4">0x400C 5000</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Description</TD>
+<TD class="cellCol2" colspan="3">Vector Configuration 0<BR>
+<BR>
+<A class="xref" href="AUX_SCE.html">AUX_SCE</A> wakeup vector 0 and 1 configuration</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Type</TD>
+<TD class="cellCol2" colspan="3">RW</TD>
+</TR>
+</TABLE>
+<TABLE cellspacing="0" class="mmapBitfieldTable">
+<TR class="rowTop">
+<TD class="cellTopCol1">Bits</TD>
+<TD class="cellTopCol2">Field Name</TD>
+<TD class="cellTopCol3" colspan="3">Description</TD>
+<TD class="cellTopCol4">Type</TD>
+<TD class="cellTopCol5">Reset</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="VECCFG0_RESERVED15">31:15</a>
+</TD>
+<TD class="cellBitfieldCol2">RESERVED15</TD>
+<TD class="cellBitfieldCol3" colspan="3">Software should not rely on the value of a reserved. Writing any other value than the reset value may result in undefined behavior.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0b0 0000 0000 0000 0000</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="VECCFG0_VEC1_POL">14</a>
+</TD>
+<TD class="cellBitfieldCol2">VEC1_POL</TD>
+<TD class="cellBitfieldCol3" colspan="3">Vector 1 trigger event polarity.<BR>
+<BR>
+To manually trigger vector 1 execution:<BR>
+- <A class="xref" href="AUX_SCE.html">AUX_SCE</A> must sleep.<BR>
+- Set <A class="xref" href="#VECCFG0_VEC1_EV">VEC1_EV</A> to a known static value.<BR>
+- Toggle <A class="xref" href="#VECCFG0_VEC1_POL">VEC1_POL</A> twice.<TABLE cellspacing="0" class="LprfEnum">
+<TR class="rowEnumHead">
+<TD class="cellEnumTableHeadCol1">Value</TD>
+<TD class="cellEnumTableHeadCol2">ENUM Name</TD>
+<TD class="cellEnumTableHeadCol3">Description</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x0</TD>
+<TD class="cellEnumTableCol2">RISE</TD>
+<TD class="cellEnumTableCol3">Rising edge triggers vector 1 execution.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1</TD>
+<TD class="cellEnumTableCol2">FALL</TD>
+<TD class="cellEnumTableCol3">Falling edge triggers vector 1 execution.</TD>
+</TR>
+</TABLE>
+</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="VECCFG0_VEC1_EN">13</a>
+</TD>
+<TD class="cellBitfieldCol2">VEC1_EN</TD>
+<TD class="cellBitfieldCol3" colspan="3">Vector 1 trigger enable.<BR>
+<BR>
+When enabled, <A class="xref" href="#VECCFG0_VEC1_EV">VEC1_EV</A> event with <A class="xref" href="#VECCFG0_VEC1_POL">VEC1_POL</A> polarity triggers a jump to vector # 1 when <A class="xref" href="AUX_SCE.html">AUX_SCE</A> sleeps.<BR>
+<BR>
+Lower vectors (0) have priority.<TABLE cellspacing="0" class="LprfEnum">
+<TR class="rowEnumHead">
+<TD class="cellEnumTableHeadCol1">Value</TD>
+<TD class="cellEnumTableHeadCol2">ENUM Name</TD>
+<TD class="cellEnumTableHeadCol3">Description</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x0</TD>
+<TD class="cellEnumTableCol2">DIS</TD>
+<TD class="cellEnumTableCol3">Disable vector 1 trigger.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1</TD>
+<TD class="cellEnumTableCol2">EN</TD>
+<TD class="cellEnumTableCol3">Enable vector 1 trigger.</TD>
+</TR>
+</TABLE>
+</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="VECCFG0_VEC1_EV">12:8</a>
+</TD>
+<TD class="cellBitfieldCol2">VEC1_EV</TD>
+<TD class="cellBitfieldCol3" colspan="3">Select vector 1 trigger source event.<TABLE cellspacing="0" class="LprfEnum">
+<TR class="rowEnumHead">
+<TD class="cellEnumTableHeadCol1">Value</TD>
+<TD class="cellEnumTableHeadCol2">ENUM Name</TD>
+<TD class="cellEnumTableHeadCol3">Description</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x0</TD>
+<TD class="cellEnumTableCol2">AON_RTC_CH2</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_AON_RTC_CH2">EVSTAT0.AON_RTC_CH2</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1</TD>
+<TD class="cellEnumTableCol2">AUX_COMPA</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_AUX_COMPA">EVSTAT0.AUX_COMPA</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x2</TD>
+<TD class="cellEnumTableCol2">AUX_COMPB</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_AUX_COMPB">EVSTAT0.AUX_COMPB</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x3</TD>
+<TD class="cellEnumTableCol2">TDC_DONE</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_TDC_DONE">EVSTAT0.TDC_DONE</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x4</TD>
+<TD class="cellEnumTableCol2">TIMER0_EV</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_TIMER0_EV">EVSTAT0.TIMER0_EV</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x5</TD>
+<TD class="cellEnumTableCol2">TIMER1_EV</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_TIMER1_EV">EVSTAT0.TIMER1_EV</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x6</TD>
+<TD class="cellEnumTableCol2">SMPH_AUTOTAKE_DONE</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_SMPH_AUTOTAKE_DONE">EVSTAT0.SMPH_AUTOTAKE_DONE</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x7</TD>
+<TD class="cellEnumTableCol2">ADC_DONE</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_ADC_DONE">EVSTAT0.ADC_DONE</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x8</TD>
+<TD class="cellEnumTableCol2">ADC_FIFO_ALMOST_FULL</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_ADC_FIFO_ALMOST_FULL">EVSTAT0.ADC_FIFO_ALMOST_FULL</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x9</TD>
+<TD class="cellEnumTableCol2">OBSMUX0</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_OBSMUX0">EVSTAT0.OBSMUX0</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xA</TD>
+<TD class="cellEnumTableCol2">OBSMUX1</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_OBSMUX1">EVSTAT0.OBSMUX1</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xB</TD>
+<TD class="cellEnumTableCol2">AON_SW</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_AON_SW">EVSTAT0.AON_SW</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xC</TD>
+<TD class="cellEnumTableCol2">AON_PROG_WU</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_AON_PROG_WU">EVSTAT0.AON_PROG_WU</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xD</TD>
+<TD class="cellEnumTableCol2">AUXIO0</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_AUXIO0">EVSTAT0.AUXIO0</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xE</TD>
+<TD class="cellEnumTableCol2">AUXIO1</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_AUXIO1">EVSTAT0.AUXIO1</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xF</TD>
+<TD class="cellEnumTableCol2">AUXIO2</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_AUXIO2">EVSTAT0.AUXIO2</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x10</TD>
+<TD class="cellEnumTableCol2">AUXIO3</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_AUXIO3">EVSTAT1.AUXIO3</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x11</TD>
+<TD class="cellEnumTableCol2">AUXIO4</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_AUXIO4">EVSTAT1.AUXIO4</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x12</TD>
+<TD class="cellEnumTableCol2">AUXIO5</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_AUXIO5">EVSTAT1.AUXIO5</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x13</TD>
+<TD class="cellEnumTableCol2">AUXIO6</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_AUXIO6">EVSTAT1.AUXIO6</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x14</TD>
+<TD class="cellEnumTableCol2">AUXIO7</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_AUXIO7">EVSTAT1.AUXIO7</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x15</TD>
+<TD class="cellEnumTableCol2">AUXIO8</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_AUXIO8">EVSTAT1.AUXIO8</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x16</TD>
+<TD class="cellEnumTableCol2">AUXIO9</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_AUXIO9">EVSTAT1.AUXIO9</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x17</TD>
+<TD class="cellEnumTableCol2">AUXIO10</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_AUXIO10">EVSTAT1.AUXIO10</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x18</TD>
+<TD class="cellEnumTableCol2">AUXIO11</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_AUXIO11">EVSTAT1.AUXIO11</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x19</TD>
+<TD class="cellEnumTableCol2">AUXIO12</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_AUXIO12">EVSTAT1.AUXIO12</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1A</TD>
+<TD class="cellEnumTableCol2">AUXIO13</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_AUXIO13">EVSTAT1.AUXIO13</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1B</TD>
+<TD class="cellEnumTableCol2">AUXIO14</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_AUXIO14">EVSTAT1.AUXIO14</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1C</TD>
+<TD class="cellEnumTableCol2">AUXIO15</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_AUXIO15">EVSTAT1.AUXIO15</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1D</TD>
+<TD class="cellEnumTableCol2">ACLK_REF</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_ACLK_REF">EVSTAT1.ACLK_REF</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1E</TD>
+<TD class="cellEnumTableCol2">MCU_EV</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_MCU_EV">EVSTAT1.MCU_EV</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1F</TD>
+<TD class="cellEnumTableCol2">ADC_IRQ</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_ADC_IRQ">EVSTAT1.ADC_IRQ</A></TD>
+</TR>
+</TABLE>
+</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0b0 0000</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="VECCFG0_RESERVED7">7</a>
+</TD>
+<TD class="cellBitfieldCol2">RESERVED7</TD>
+<TD class="cellBitfieldCol3" colspan="3">Software should not rely on the value of a reserved. Writing any other value than the reset value may result in undefined behavior.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="VECCFG0_VEC0_POL">6</a>
+</TD>
+<TD class="cellBitfieldCol2">VEC0_POL</TD>
+<TD class="cellBitfieldCol3" colspan="3">Vector 0 trigger event polarity.<BR>
+<BR>
+To manually trigger vector 0 execution:<BR>
+- <A class="xref" href="AUX_SCE.html">AUX_SCE</A> must sleep.<BR>
+- Set <A class="xref" href="#VECCFG0_VEC0_EV">VEC0_EV</A> to a known static value.<BR>
+- Toggle <A class="xref" href="#VECCFG0_VEC0_POL">VEC0_POL</A> twice.<TABLE cellspacing="0" class="LprfEnum">
+<TR class="rowEnumHead">
+<TD class="cellEnumTableHeadCol1">Value</TD>
+<TD class="cellEnumTableHeadCol2">ENUM Name</TD>
+<TD class="cellEnumTableHeadCol3">Description</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x0</TD>
+<TD class="cellEnumTableCol2">RISE</TD>
+<TD class="cellEnumTableCol3">Rising edge triggers vector 0 execution.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1</TD>
+<TD class="cellEnumTableCol2">FALL</TD>
+<TD class="cellEnumTableCol3">Falling edge triggers vector 0 execution.</TD>
+</TR>
+</TABLE>
+</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="VECCFG0_VEC0_EN">5</a>
+</TD>
+<TD class="cellBitfieldCol2">VEC0_EN</TD>
+<TD class="cellBitfieldCol3" colspan="3">Vector 0 trigger enable.<BR>
+<BR>
+When enabled, <A class="xref" href="#VECCFG0_VEC0_EV">VEC0_EV</A> event with <A class="xref" href="#VECCFG0_VEC0_POL">VEC0_POL</A> polarity triggers a jump to vector # 0 when <A class="xref" href="AUX_SCE.html">AUX_SCE</A> sleeps.<TABLE cellspacing="0" class="LprfEnum">
+<TR class="rowEnumHead">
+<TD class="cellEnumTableHeadCol1">Value</TD>
+<TD class="cellEnumTableHeadCol2">ENUM Name</TD>
+<TD class="cellEnumTableHeadCol3">Description</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x0</TD>
+<TD class="cellEnumTableCol2">DIS</TD>
+<TD class="cellEnumTableCol3">Disable vector 0 trigger.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1</TD>
+<TD class="cellEnumTableCol2">EN</TD>
+<TD class="cellEnumTableCol3">Enable vector 0 trigger.</TD>
+</TR>
+</TABLE>
+</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="VECCFG0_VEC0_EV">4:0</a>
+</TD>
+<TD class="cellBitfieldCol2">VEC0_EV</TD>
+<TD class="cellBitfieldCol3" colspan="3">Select vector 0 trigger source event.<TABLE cellspacing="0" class="LprfEnum">
+<TR class="rowEnumHead">
+<TD class="cellEnumTableHeadCol1">Value</TD>
+<TD class="cellEnumTableHeadCol2">ENUM Name</TD>
+<TD class="cellEnumTableHeadCol3">Description</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x0</TD>
+<TD class="cellEnumTableCol2">AON_RTC_CH2</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_AON_RTC_CH2">EVSTAT0.AON_RTC_CH2</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1</TD>
+<TD class="cellEnumTableCol2">AUX_COMPA</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_AUX_COMPA">EVSTAT0.AUX_COMPA</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x2</TD>
+<TD class="cellEnumTableCol2">AUX_COMPB</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_AUX_COMPB">EVSTAT0.AUX_COMPB</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x3</TD>
+<TD class="cellEnumTableCol2">TDC_DONE</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_TDC_DONE">EVSTAT0.TDC_DONE</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x4</TD>
+<TD class="cellEnumTableCol2">TIMER0_EV</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_TIMER0_EV">EVSTAT0.TIMER0_EV</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x5</TD>
+<TD class="cellEnumTableCol2">TIMER1_EV</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_TIMER1_EV">EVSTAT0.TIMER1_EV</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x6</TD>
+<TD class="cellEnumTableCol2">SMPH_AUTOTAKE_DONE</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_SMPH_AUTOTAKE_DONE">EVSTAT0.SMPH_AUTOTAKE_DONE</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x7</TD>
+<TD class="cellEnumTableCol2">ADC_DONE</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_ADC_DONE">EVSTAT0.ADC_DONE</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x8</TD>
+<TD class="cellEnumTableCol2">ADC_FIFO_ALMOST_FULL</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_ADC_FIFO_ALMOST_FULL">EVSTAT0.ADC_FIFO_ALMOST_FULL</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x9</TD>
+<TD class="cellEnumTableCol2">OBSMUX0</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_OBSMUX0">EVSTAT0.OBSMUX0</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xA</TD>
+<TD class="cellEnumTableCol2">OBSMUX1</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_OBSMUX1">EVSTAT0.OBSMUX1</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xB</TD>
+<TD class="cellEnumTableCol2">AON_SW</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_AON_SW">EVSTAT0.AON_SW</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xC</TD>
+<TD class="cellEnumTableCol2">AON_PROG_WU</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_AON_PROG_WU">EVSTAT0.AON_PROG_WU</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xD</TD>
+<TD class="cellEnumTableCol2">AUXIO0</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_AUXIO0">EVSTAT0.AUXIO0</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xE</TD>
+<TD class="cellEnumTableCol2">AUXIO1</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_AUXIO1">EVSTAT0.AUXIO1</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xF</TD>
+<TD class="cellEnumTableCol2">AUXIO2</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_AUXIO2">EVSTAT0.AUXIO2</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x10</TD>
+<TD class="cellEnumTableCol2">AUXIO3</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_AUXIO3">EVSTAT1.AUXIO3</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x11</TD>
+<TD class="cellEnumTableCol2">AUXIO4</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_AUXIO4">EVSTAT1.AUXIO4</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x12</TD>
+<TD class="cellEnumTableCol2">AUXIO5</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_AUXIO5">EVSTAT1.AUXIO5</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x13</TD>
+<TD class="cellEnumTableCol2">AUXIO6</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_AUXIO6">EVSTAT1.AUXIO6</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x14</TD>
+<TD class="cellEnumTableCol2">AUXIO7</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_AUXIO7">EVSTAT1.AUXIO7</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x15</TD>
+<TD class="cellEnumTableCol2">AUXIO8</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_AUXIO8">EVSTAT1.AUXIO8</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x16</TD>
+<TD class="cellEnumTableCol2">AUXIO9</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_AUXIO9">EVSTAT1.AUXIO9</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x17</TD>
+<TD class="cellEnumTableCol2">AUXIO10</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_AUXIO10">EVSTAT1.AUXIO10</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x18</TD>
+<TD class="cellEnumTableCol2">AUXIO11</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_AUXIO11">EVSTAT1.AUXIO11</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x19</TD>
+<TD class="cellEnumTableCol2">AUXIO12</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_AUXIO12">EVSTAT1.AUXIO12</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1A</TD>
+<TD class="cellEnumTableCol2">AUXIO13</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_AUXIO13">EVSTAT1.AUXIO13</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1B</TD>
+<TD class="cellEnumTableCol2">AUXIO14</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_AUXIO14">EVSTAT1.AUXIO14</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1C</TD>
+<TD class="cellEnumTableCol2">AUXIO15</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_AUXIO15">EVSTAT1.AUXIO15</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1D</TD>
+<TD class="cellEnumTableCol2">ACLK_REF</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_ACLK_REF">EVSTAT1.ACLK_REF</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1E</TD>
+<TD class="cellEnumTableCol2">MCU_EV</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_MCU_EV">EVSTAT1.MCU_EV</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1F</TD>
+<TD class="cellEnumTableCol2">ADC_IRQ</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_ADC_IRQ">EVSTAT1.ADC_IRQ</A></TD>
+</TR>
+</TABLE>
+</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0b0 0000</TD>
+</TR>
+</TABLE>
+<H3 class="mmapRegisterTitle"><A name="VECCFG1"></A><A class="mmapRegisterTitle" href="CPU_MMAP.html">TOP</A>:<A class="mmapRegisterTitle" href="#Top_Tag">AUX_EVCTL</A>:VECCFG1</H3><TABLE cellspacing="0" class="mmapRegisterTable">
+<TR class="row">
+<TD class="cellCol1"><B>Address Offset</B></TD>
+<TD class="cellCol2" colspan="3">0x0000 0004</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Physical Address</TD>
+<TD class="cellCol2">0x400C 5004</TD>
+<TD class="cellCol3">Instance</TD>
+<TD class="cellCol4">0x400C 5004</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Description</TD>
+<TD class="cellCol2" colspan="3">Vector Configuration 1<BR>
+<BR>
+<A class="mmap_legend_link" href="../legend.html#AUX_SCE">AUX_SCE</A> event vectors 2 and 3 configuration</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Type</TD>
+<TD class="cellCol2" colspan="3">RW</TD>
+</TR>
+</TABLE>
+<TABLE cellspacing="0" class="mmapBitfieldTable">
+<TR class="rowTop">
+<TD class="cellTopCol1">Bits</TD>
+<TD class="cellTopCol2">Field Name</TD>
+<TD class="cellTopCol3" colspan="3">Description</TD>
+<TD class="cellTopCol4">Type</TD>
+<TD class="cellTopCol5">Reset</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="VECCFG1_RESERVED15">31:15</a>
+</TD>
+<TD class="cellBitfieldCol2">RESERVED15</TD>
+<TD class="cellBitfieldCol3" colspan="3">Software should not rely on the value of a reserved. Writing any other value than the reset value may result in undefined behavior.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0b0 0000 0000 0000 0000</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="VECCFG1_VEC3_POL">14</a>
+</TD>
+<TD class="cellBitfieldCol2">VEC3_POL</TD>
+<TD class="cellBitfieldCol3" colspan="3">Vector 3 trigger event polarity.<BR>
+<BR>
+To manually trigger vector 3 execution:<BR>
+- <A class="xref" href="AUX_SCE.html">AUX_SCE</A> must sleep.<BR>
+- Set <A class="xref" href="#VECCFG1_VEC3_EV">VEC3_EV</A> to a known static value.<BR>
+- Toggle <A class="xref" href="#VECCFG1_VEC3_POL">VEC3_POL</A> twice.<TABLE cellspacing="0" class="LprfEnum">
+<TR class="rowEnumHead">
+<TD class="cellEnumTableHeadCol1">Value</TD>
+<TD class="cellEnumTableHeadCol2">ENUM Name</TD>
+<TD class="cellEnumTableHeadCol3">Description</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x0</TD>
+<TD class="cellEnumTableCol2">RISE</TD>
+<TD class="cellEnumTableCol3">Rising edge triggers vector 3 execution.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1</TD>
+<TD class="cellEnumTableCol2">FALL</TD>
+<TD class="cellEnumTableCol3">Falling edge triggers vector 3 execution.</TD>
+</TR>
+</TABLE>
+</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="VECCFG1_VEC3_EN">13</a>
+</TD>
+<TD class="cellBitfieldCol2">VEC3_EN</TD>
+<TD class="cellBitfieldCol3" colspan="3">Vector 3 trigger enable.<BR>
+<BR>
+When enabled, <A class="xref" href="#VECCFG1_VEC3_EV">VEC3_EV</A> event with <A class="xref" href="#VECCFG1_VEC3_POL">VEC3_POL</A> polarity triggers a jump to vector # 3 when <A class="xref" href="AUX_SCE.html">AUX_SCE</A> sleeps.<BR>
+<BR>
+Lower vectors (0, 1, and 2) have priority.<TABLE cellspacing="0" class="LprfEnum">
+<TR class="rowEnumHead">
+<TD class="cellEnumTableHeadCol1">Value</TD>
+<TD class="cellEnumTableHeadCol2">ENUM Name</TD>
+<TD class="cellEnumTableHeadCol3">Description</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x0</TD>
+<TD class="cellEnumTableCol2">DIS</TD>
+<TD class="cellEnumTableCol3">Disable vector 3 trigger.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1</TD>
+<TD class="cellEnumTableCol2">EN</TD>
+<TD class="cellEnumTableCol3">Enable vector 3 trigger.</TD>
+</TR>
+</TABLE>
+</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="VECCFG1_VEC3_EV">12:8</a>
+</TD>
+<TD class="cellBitfieldCol2">VEC3_EV</TD>
+<TD class="cellBitfieldCol3" colspan="3">Select vector 3 trigger source event.<TABLE cellspacing="0" class="LprfEnum">
+<TR class="rowEnumHead">
+<TD class="cellEnumTableHeadCol1">Value</TD>
+<TD class="cellEnumTableHeadCol2">ENUM Name</TD>
+<TD class="cellEnumTableHeadCol3">Description</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x0</TD>
+<TD class="cellEnumTableCol2">AON_RTC_CH2</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_AON_RTC_CH2">EVSTAT0.AON_RTC_CH2</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1</TD>
+<TD class="cellEnumTableCol2">AUX_COMPA</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_AUX_COMPA">EVSTAT0.AUX_COMPA</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x2</TD>
+<TD class="cellEnumTableCol2">AUX_COMPB</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_AUX_COMPB">EVSTAT0.AUX_COMPB</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x3</TD>
+<TD class="cellEnumTableCol2">TDC_DONE</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_TDC_DONE">EVSTAT0.TDC_DONE</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x4</TD>
+<TD class="cellEnumTableCol2">TIMER0_EV</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_TIMER0_EV">EVSTAT0.TIMER0_EV</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x5</TD>
+<TD class="cellEnumTableCol2">TIMER1_EV</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_TIMER1_EV">EVSTAT0.TIMER1_EV</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x6</TD>
+<TD class="cellEnumTableCol2">SMPH_AUTOTAKE_DONE</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_SMPH_AUTOTAKE_DONE">EVSTAT0.SMPH_AUTOTAKE_DONE</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x7</TD>
+<TD class="cellEnumTableCol2">ADC_DONE</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_ADC_DONE">EVSTAT0.ADC_DONE</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x8</TD>
+<TD class="cellEnumTableCol2">ADC_FIFO_ALMOST_FULL</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_ADC_FIFO_ALMOST_FULL">EVSTAT0.ADC_FIFO_ALMOST_FULL</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x9</TD>
+<TD class="cellEnumTableCol2">OBSMUX0</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_OBSMUX0">EVSTAT0.OBSMUX0</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xA</TD>
+<TD class="cellEnumTableCol2">OBSMUX1</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_OBSMUX1">EVSTAT0.OBSMUX1</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xB</TD>
+<TD class="cellEnumTableCol2">AON_SW</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_AON_SW">EVSTAT0.AON_SW</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xC</TD>
+<TD class="cellEnumTableCol2">AON_PROG_WU</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_AON_PROG_WU">EVSTAT0.AON_PROG_WU</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xD</TD>
+<TD class="cellEnumTableCol2">AUXIO0</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_AUXIO0">EVSTAT0.AUXIO0</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xE</TD>
+<TD class="cellEnumTableCol2">AUXIO1</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_AUXIO1">EVSTAT0.AUXIO1</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xF</TD>
+<TD class="cellEnumTableCol2">AUXIO2</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_AUXIO2">EVSTAT0.AUXIO2</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x10</TD>
+<TD class="cellEnumTableCol2">AUXIO3</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_AUXIO3">EVSTAT1.AUXIO3</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x11</TD>
+<TD class="cellEnumTableCol2">AUXIO4</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_AUXIO4">EVSTAT1.AUXIO4</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x12</TD>
+<TD class="cellEnumTableCol2">AUXIO5</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_AUXIO5">EVSTAT1.AUXIO5</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x13</TD>
+<TD class="cellEnumTableCol2">AUXIO6</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_AUXIO6">EVSTAT1.AUXIO6</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x14</TD>
+<TD class="cellEnumTableCol2">AUXIO7</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_AUXIO7">EVSTAT1.AUXIO7</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x15</TD>
+<TD class="cellEnumTableCol2">AUXIO8</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_AUXIO8">EVSTAT1.AUXIO8</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x16</TD>
+<TD class="cellEnumTableCol2">AUXIO9</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_AUXIO9">EVSTAT1.AUXIO9</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x17</TD>
+<TD class="cellEnumTableCol2">AUXIO10</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_AUXIO10">EVSTAT1.AUXIO10</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x18</TD>
+<TD class="cellEnumTableCol2">AUXIO11</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_AUXIO11">EVSTAT1.AUXIO11</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x19</TD>
+<TD class="cellEnumTableCol2">AUXIO12</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_AUXIO12">EVSTAT1.AUXIO12</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1A</TD>
+<TD class="cellEnumTableCol2">AUXIO13</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_AUXIO13">EVSTAT1.AUXIO13</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1B</TD>
+<TD class="cellEnumTableCol2">AUXIO14</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_AUXIO14">EVSTAT1.AUXIO14</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1C</TD>
+<TD class="cellEnumTableCol2">AUXIO15</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_AUXIO15">EVSTAT1.AUXIO15</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1D</TD>
+<TD class="cellEnumTableCol2">ACLK_REF</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_ACLK_REF">EVSTAT1.ACLK_REF</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1E</TD>
+<TD class="cellEnumTableCol2">MCU_EV</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_MCU_EV">EVSTAT1.MCU_EV</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1F</TD>
+<TD class="cellEnumTableCol2">ADC_IRQ</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_ADC_IRQ">EVSTAT1.ADC_IRQ</A></TD>
+</TR>
+</TABLE>
+</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0b0 0000</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="VECCFG1_RESERVED7">7</a>
+</TD>
+<TD class="cellBitfieldCol2">RESERVED7</TD>
+<TD class="cellBitfieldCol3" colspan="3">Software should not rely on the value of a reserved. Writing any other value than the reset value may result in undefined behavior.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="VECCFG1_VEC2_POL">6</a>
+</TD>
+<TD class="cellBitfieldCol2">VEC2_POL</TD>
+<TD class="cellBitfieldCol3" colspan="3">Vector 2 trigger event polarity.<BR>
+<BR>
+To manually trigger vector 2 execution:<BR>
+- <A class="xref" href="AUX_SCE.html">AUX_SCE</A> must sleep.<BR>
+- Set <A class="xref" href="#VECCFG1_VEC2_EV">VEC2_EV</A> to a known static value.<BR>
+- Toggle <A class="xref" href="#VECCFG1_VEC2_POL">VEC2_POL</A> twice.<TABLE cellspacing="0" class="LprfEnum">
+<TR class="rowEnumHead">
+<TD class="cellEnumTableHeadCol1">Value</TD>
+<TD class="cellEnumTableHeadCol2">ENUM Name</TD>
+<TD class="cellEnumTableHeadCol3">Description</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x0</TD>
+<TD class="cellEnumTableCol2">RISE</TD>
+<TD class="cellEnumTableCol3">Rising edge triggers vector 2 execution.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1</TD>
+<TD class="cellEnumTableCol2">FALL</TD>
+<TD class="cellEnumTableCol3">Falling edge triggers vector 2 execution.</TD>
+</TR>
+</TABLE>
+</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="VECCFG1_VEC2_EN">5</a>
+</TD>
+<TD class="cellBitfieldCol2">VEC2_EN</TD>
+<TD class="cellBitfieldCol3" colspan="3">Vector 2 trigger enable.<BR>
+<BR>
+When enabled, <A class="xref" href="#VECCFG1_VEC2_EV">VEC2_EV</A> event with <A class="xref" href="#VECCFG1_VEC2_POL">VEC2_POL</A> polarity triggers a jump to vector # 2 when <A class="xref" href="AUX_SCE.html">AUX_SCE</A> sleeps.<BR>
+<BR>
+Lower vectors (0 and 1) have priority.<TABLE cellspacing="0" class="LprfEnum">
+<TR class="rowEnumHead">
+<TD class="cellEnumTableHeadCol1">Value</TD>
+<TD class="cellEnumTableHeadCol2">ENUM Name</TD>
+<TD class="cellEnumTableHeadCol3">Description</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x0</TD>
+<TD class="cellEnumTableCol2">DIS</TD>
+<TD class="cellEnumTableCol3">Disable vector 2 trigger.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1</TD>
+<TD class="cellEnumTableCol2">EN</TD>
+<TD class="cellEnumTableCol3">Enable vector 2 trigger.</TD>
+</TR>
+</TABLE>
+</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="VECCFG1_VEC2_EV">4:0</a>
+</TD>
+<TD class="cellBitfieldCol2">VEC2_EV</TD>
+<TD class="cellBitfieldCol3" colspan="3">Select vector 2 trigger source event.<TABLE cellspacing="0" class="LprfEnum">
+<TR class="rowEnumHead">
+<TD class="cellEnumTableHeadCol1">Value</TD>
+<TD class="cellEnumTableHeadCol2">ENUM Name</TD>
+<TD class="cellEnumTableHeadCol3">Description</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x0</TD>
+<TD class="cellEnumTableCol2">AON_RTC_CH2</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_AON_RTC_CH2">EVSTAT0.AON_RTC_CH2</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1</TD>
+<TD class="cellEnumTableCol2">AUX_COMPA</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_AUX_COMPA">EVSTAT0.AUX_COMPA</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x2</TD>
+<TD class="cellEnumTableCol2">AUX_COMPB</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_AUX_COMPB">EVSTAT0.AUX_COMPB</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x3</TD>
+<TD class="cellEnumTableCol2">TDC_DONE</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_TDC_DONE">EVSTAT0.TDC_DONE</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x4</TD>
+<TD class="cellEnumTableCol2">TIMER0_EV</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_TIMER0_EV">EVSTAT0.TIMER0_EV</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x5</TD>
+<TD class="cellEnumTableCol2">TIMER1_EV</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_TIMER1_EV">EVSTAT0.TIMER1_EV</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x6</TD>
+<TD class="cellEnumTableCol2">SMPH_AUTOTAKE_DONE</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_SMPH_AUTOTAKE_DONE">EVSTAT0.SMPH_AUTOTAKE_DONE</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x7</TD>
+<TD class="cellEnumTableCol2">ADC_DONE</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_ADC_DONE">EVSTAT0.ADC_DONE</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x8</TD>
+<TD class="cellEnumTableCol2">ADC_FIFO_ALMOST_FULL</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_ADC_FIFO_ALMOST_FULL">EVSTAT0.ADC_FIFO_ALMOST_FULL</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x9</TD>
+<TD class="cellEnumTableCol2">OBSMUX0</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_OBSMUX0">EVSTAT0.OBSMUX0</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xA</TD>
+<TD class="cellEnumTableCol2">OBSMUX1</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_OBSMUX1">EVSTAT0.OBSMUX1</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xB</TD>
+<TD class="cellEnumTableCol2">AON_SW</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_AON_SW">EVSTAT0.AON_SW</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xC</TD>
+<TD class="cellEnumTableCol2">AON_PROG_WU</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_AON_PROG_WU">EVSTAT0.AON_PROG_WU</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xD</TD>
+<TD class="cellEnumTableCol2">AUXIO0</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_AUXIO0">EVSTAT0.AUXIO0</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xE</TD>
+<TD class="cellEnumTableCol2">AUXIO1</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_AUXIO1">EVSTAT0.AUXIO1</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xF</TD>
+<TD class="cellEnumTableCol2">AUXIO2</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_AUXIO2">EVSTAT0.AUXIO2</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x10</TD>
+<TD class="cellEnumTableCol2">AUXIO3</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_AUXIO3">EVSTAT1.AUXIO3</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x11</TD>
+<TD class="cellEnumTableCol2">AUXIO4</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_AUXIO4">EVSTAT1.AUXIO4</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x12</TD>
+<TD class="cellEnumTableCol2">AUXIO5</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_AUXIO5">EVSTAT1.AUXIO5</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x13</TD>
+<TD class="cellEnumTableCol2">AUXIO6</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_AUXIO6">EVSTAT1.AUXIO6</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x14</TD>
+<TD class="cellEnumTableCol2">AUXIO7</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_AUXIO7">EVSTAT1.AUXIO7</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x15</TD>
+<TD class="cellEnumTableCol2">AUXIO8</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_AUXIO8">EVSTAT1.AUXIO8</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x16</TD>
+<TD class="cellEnumTableCol2">AUXIO9</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_AUXIO9">EVSTAT1.AUXIO9</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x17</TD>
+<TD class="cellEnumTableCol2">AUXIO10</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_AUXIO10">EVSTAT1.AUXIO10</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x18</TD>
+<TD class="cellEnumTableCol2">AUXIO11</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_AUXIO11">EVSTAT1.AUXIO11</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x19</TD>
+<TD class="cellEnumTableCol2">AUXIO12</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_AUXIO12">EVSTAT1.AUXIO12</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1A</TD>
+<TD class="cellEnumTableCol2">AUXIO13</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_AUXIO13">EVSTAT1.AUXIO13</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1B</TD>
+<TD class="cellEnumTableCol2">AUXIO14</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_AUXIO14">EVSTAT1.AUXIO14</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1C</TD>
+<TD class="cellEnumTableCol2">AUXIO15</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_AUXIO15">EVSTAT1.AUXIO15</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1D</TD>
+<TD class="cellEnumTableCol2">ACLK_REF</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_ACLK_REF">EVSTAT1.ACLK_REF</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1E</TD>
+<TD class="cellEnumTableCol2">MCU_EV</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_MCU_EV">EVSTAT1.MCU_EV</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1F</TD>
+<TD class="cellEnumTableCol2">ADC_IRQ</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_ADC_IRQ">EVSTAT1.ADC_IRQ</A></TD>
+</TR>
+</TABLE>
+</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0b0 0000</TD>
+</TR>
+</TABLE>
+<H3 class="mmapRegisterTitle"><A name="SCEWEVSEL"></A><A class="mmapRegisterTitle" href="CPU_MMAP.html">TOP</A>:<A class="mmapRegisterTitle" href="#Top_Tag">AUX_EVCTL</A>:SCEWEVSEL</H3><TABLE cellspacing="0" class="mmapRegisterTable">
+<TR class="row">
+<TD class="cellCol1"><B>Address Offset</B></TD>
+<TD class="cellCol2" colspan="3">0x0000 0008</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Physical Address</TD>
+<TD class="cellCol2">0x400C 5008</TD>
+<TD class="cellCol3">Instance</TD>
+<TD class="cellCol4">0x400C 5008</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Description</TD>
+<TD class="cellCol2" colspan="3">Sensor Controller Engine Wait Event Selection<BR>
+<BR>
+Configuration of this register controls bit index 7 in <A class="xref" href="AUX_SCE.html#WUSTAT_EV_SIGNALS">AUX_SCE:WUSTAT.EV_SIGNALS</A>. This bit can be used by <A class="xref" href="AUX_SCE.html">AUX_SCE</A> WEV0, WEV1, BEV0 and BEV1 instructions</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Type</TD>
+<TD class="cellCol2" colspan="3">RW</TD>
+</TR>
+</TABLE>
+<TABLE cellspacing="0" class="mmapBitfieldTable">
+<TR class="rowTop">
+<TD class="cellTopCol1">Bits</TD>
+<TD class="cellTopCol2">Field Name</TD>
+<TD class="cellTopCol3" colspan="3">Description</TD>
+<TD class="cellTopCol4">Type</TD>
+<TD class="cellTopCol5">Reset</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="SCEWEVSEL_RESERVED5">31:5</a>
+</TD>
+<TD class="cellBitfieldCol2">RESERVED5</TD>
+<TD class="cellBitfieldCol3" colspan="3">Software should not rely on the value of a reserved. Writing any other value than the reset value may result in undefined behavior.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0b000 0000 0000 0000 0000 0000 0000</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="SCEWEVSEL_WEV7_EV">4:0</a>
+</TD>
+<TD class="cellBitfieldCol2">WEV7_EV</TD>
+<TD class="cellBitfieldCol3" colspan="3">Select event source to connect to <A class="xref" href="AUX_SCE.html#WUSTAT_EV_SIGNALS">AUX_SCE:WUSTAT.EV_SIGNALS</A> bit 7.<TABLE cellspacing="0" class="LprfEnum">
+<TR class="rowEnumHead">
+<TD class="cellEnumTableHeadCol1">Value</TD>
+<TD class="cellEnumTableHeadCol2">ENUM Name</TD>
+<TD class="cellEnumTableHeadCol3">Description</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x0</TD>
+<TD class="cellEnumTableCol2">AON_RTC_CH2</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_AON_RTC_CH2">EVSTAT0.AON_RTC_CH2</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1</TD>
+<TD class="cellEnumTableCol2">AUX_COMPA</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_AUX_COMPA">EVSTAT0.AUX_COMPA</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x2</TD>
+<TD class="cellEnumTableCol2">AUX_COMPB</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_AUX_COMPB">EVSTAT0.AUX_COMPB</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x3</TD>
+<TD class="cellEnumTableCol2">TDC_DONE</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_TDC_DONE">EVSTAT0.TDC_DONE</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x4</TD>
+<TD class="cellEnumTableCol2">TIMER0_EV</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_TIMER0_EV">EVSTAT0.TIMER0_EV</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x5</TD>
+<TD class="cellEnumTableCol2">TIMER1_EV</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_TIMER1_EV">EVSTAT0.TIMER1_EV</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x6</TD>
+<TD class="cellEnumTableCol2">SMPH_AUTOTAKE_DONE</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_SMPH_AUTOTAKE_DONE">EVSTAT0.SMPH_AUTOTAKE_DONE</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x7</TD>
+<TD class="cellEnumTableCol2">ADC_DONE</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_ADC_DONE">EVSTAT0.ADC_DONE</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x8</TD>
+<TD class="cellEnumTableCol2">ADC_FIFO_ALMOST_FULL</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_ADC_FIFO_ALMOST_FULL">EVSTAT0.ADC_FIFO_ALMOST_FULL</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x9</TD>
+<TD class="cellEnumTableCol2">OBSMUX0</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_OBSMUX0">EVSTAT0.OBSMUX0</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xA</TD>
+<TD class="cellEnumTableCol2">OBSMUX1</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_OBSMUX1">EVSTAT0.OBSMUX1</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xB</TD>
+<TD class="cellEnumTableCol2">AON_SW</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_AON_SW">EVSTAT0.AON_SW</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xC</TD>
+<TD class="cellEnumTableCol2">AON_PROG_WU</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_AON_PROG_WU">EVSTAT0.AON_PROG_WU</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xD</TD>
+<TD class="cellEnumTableCol2">AUXIO0</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_AUXIO0">EVSTAT0.AUXIO0</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xE</TD>
+<TD class="cellEnumTableCol2">AUXIO1</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_AUXIO1">EVSTAT0.AUXIO1</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0xF</TD>
+<TD class="cellEnumTableCol2">AUXIO2</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT0_AUXIO2">EVSTAT0.AUXIO2</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x10</TD>
+<TD class="cellEnumTableCol2">AUXIO3</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_AUXIO3">EVSTAT1.AUXIO3</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x11</TD>
+<TD class="cellEnumTableCol2">AUXIO4</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_AUXIO4">EVSTAT1.AUXIO4</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x12</TD>
+<TD class="cellEnumTableCol2">AUXIO5</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_AUXIO5">EVSTAT1.AUXIO5</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x13</TD>
+<TD class="cellEnumTableCol2">AUXIO6</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_AUXIO6">EVSTAT1.AUXIO6</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x14</TD>
+<TD class="cellEnumTableCol2">AUXIO7</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_AUXIO7">EVSTAT1.AUXIO7</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x15</TD>
+<TD class="cellEnumTableCol2">AUXIO8</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_AUXIO8">EVSTAT1.AUXIO8</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x16</TD>
+<TD class="cellEnumTableCol2">AUXIO9</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_AUXIO9">EVSTAT1.AUXIO9</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x17</TD>
+<TD class="cellEnumTableCol2">AUXIO10</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_AUXIO10">EVSTAT1.AUXIO10</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x18</TD>
+<TD class="cellEnumTableCol2">AUXIO11</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_AUXIO11">EVSTAT1.AUXIO11</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x19</TD>
+<TD class="cellEnumTableCol2">AUXIO12</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_AUXIO12">EVSTAT1.AUXIO12</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1A</TD>
+<TD class="cellEnumTableCol2">AUXIO13</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_AUXIO13">EVSTAT1.AUXIO13</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1B</TD>
+<TD class="cellEnumTableCol2">AUXIO14</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_AUXIO14">EVSTAT1.AUXIO14</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1C</TD>
+<TD class="cellEnumTableCol2">AUXIO15</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_AUXIO15">EVSTAT1.AUXIO15</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1D</TD>
+<TD class="cellEnumTableCol2">ACLK_REF</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_ACLK_REF">EVSTAT1.ACLK_REF</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1E</TD>
+<TD class="cellEnumTableCol2">MCU_EV</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_MCU_EV">EVSTAT1.MCU_EV</A></TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1F</TD>
+<TD class="cellEnumTableCol2">ADC_IRQ</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="#EVSTAT1_ADC_IRQ">EVSTAT1.ADC_IRQ</A></TD>
+</TR>
+</TABLE>
+</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0b0 0000</TD>
+</TR>
+</TABLE>
+<H3 class="mmapRegisterTitle"><A name="EVTOAONFLAGS"></A><A class="mmapRegisterTitle" href="CPU_MMAP.html">TOP</A>:<A class="mmapRegisterTitle" href="#Top_Tag">AUX_EVCTL</A>:EVTOAONFLAGS</H3><TABLE cellspacing="0" class="mmapRegisterTable">
+<TR class="row">
+<TD class="cellCol1"><B>Address Offset</B></TD>
+<TD class="cellCol2" colspan="3">0x0000 000C</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Physical Address</TD>
+<TD class="cellCol2">0x400C 500C</TD>
+<TD class="cellCol3">Instance</TD>
+<TD class="cellCol4">0x400C 500C</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Description</TD>
+<TD class="cellCol2" colspan="3">Events To <A class="mmap_legend_link" href="../legend.html#AON">AON</A> Flags<BR>
+<BR>
+This register contains a collection of event flags routed to <A class="xref" href="AON_EVENT.html">AON_EVENT</A>. <BR>
+<BR>
+To clear an event flag, write to <A class="xref" href="#EVTOAONFLAGSCLR">EVTOAONFLAGSCLR</A> or write 0 to event flag in this register.</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Type</TD>
+<TD class="cellCol2" colspan="3">RW</TD>
+</TR>
+</TABLE>
+<TABLE cellspacing="0" class="mmapBitfieldTable">
+<TR class="rowTop">
+<TD class="cellTopCol1">Bits</TD>
+<TD class="cellTopCol2">Field Name</TD>
+<TD class="cellTopCol3" colspan="3">Description</TD>
+<TD class="cellTopCol4">Type</TD>
+<TD class="cellTopCol5">Reset</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVTOAONFLAGS_RESERVED9">31:9</a>
+</TD>
+<TD class="cellBitfieldCol2">RESERVED9</TD>
+<TD class="cellBitfieldCol3" colspan="3">Software should not rely on the value of a reserved. Writing any other value than the reset value may result in undefined behavior.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0b000 0000 0000 0000 0000 0000</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVTOAONFLAGS_TIMER1_EV">8</a>
+</TD>
+<TD class="cellBitfieldCol2">TIMER1_EV</TD>
+<TD class="cellBitfieldCol3" colspan="3">This event flag is set when level selected by <A class="xref" href="#EVTOAONPOL_TIMER1_EV">EVTOAONPOL.TIMER1_EV</A> occurs on <A class="xref" href="#EVSTAT0_TIMER1_EV">EVSTAT0.TIMER1_EV</A>.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVTOAONFLAGS_TIMER0_EV">7</a>
+</TD>
+<TD class="cellBitfieldCol2">TIMER0_EV</TD>
+<TD class="cellBitfieldCol3" colspan="3">This event flag is set when level selected by <A class="xref" href="#EVTOAONPOL_TIMER0_EV">EVTOAONPOL.TIMER0_EV</A> occurs on <A class="xref" href="#EVSTAT0_TIMER0_EV">EVSTAT0.TIMER0_EV</A>.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVTOAONFLAGS_TDC_DONE">6</a>
+</TD>
+<TD class="cellBitfieldCol2">TDC_DONE</TD>
+<TD class="cellBitfieldCol3" colspan="3">This event flag is set when level selected by <A class="xref" href="#EVTOAONPOL_TDC_DONE">EVTOAONPOL.TDC_DONE</A> occurs on <A class="xref" href="#EVSTAT0_TDC_DONE">EVSTAT0.TDC_DONE</A>.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVTOAONFLAGS_ADC_DONE">5</a>
+</TD>
+<TD class="cellBitfieldCol2">ADC_DONE</TD>
+<TD class="cellBitfieldCol3" colspan="3">This event flag is set when level selected by <A class="xref" href="#EVTOAONPOL_ADC_DONE">EVTOAONPOL.ADC_DONE</A> occurs on <A class="xref" href="#EVSTAT0_ADC_DONE">EVSTAT0.ADC_DONE</A>.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVTOAONFLAGS_AUX_COMPB">4</a>
+</TD>
+<TD class="cellBitfieldCol2">AUX_COMPB</TD>
+<TD class="cellBitfieldCol3" colspan="3">This event flag is set when edge selected by <A class="xref" href="#EVTOAONPOL_AUX_COMPB">EVTOAONPOL.AUX_COMPB</A> occurs on <A class="xref" href="#EVSTAT0_AUX_COMPB">EVSTAT0.AUX_COMPB</A>.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVTOAONFLAGS_AUX_COMPA">3</a>
+</TD>
+<TD class="cellBitfieldCol2">AUX_COMPA</TD>
+<TD class="cellBitfieldCol3" colspan="3">This event flag is set when edge selected by <A class="xref" href="#EVTOAONPOL_AUX_COMPA">EVTOAONPOL.AUX_COMPA</A> occurs on <A class="xref" href="#EVSTAT0_AUX_COMPA">EVSTAT0.AUX_COMPA</A>.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVTOAONFLAGS_SWEV2">2</a>
+</TD>
+<TD class="cellBitfieldCol2">SWEV2</TD>
+<TD class="cellBitfieldCol3" colspan="3">This event flag is set when software writes a 1 to <A class="xref" href="#SWEVSET_SWEV2">SWEVSET.SWEV2</A>.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVTOAONFLAGS_SWEV1">1</a>
+</TD>
+<TD class="cellBitfieldCol2">SWEV1</TD>
+<TD class="cellBitfieldCol3" colspan="3">This event flag is set when software writes a 1 to <A class="xref" href="#SWEVSET_SWEV1">SWEVSET.SWEV1</A>.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVTOAONFLAGS_SWEV0">0</a>
+</TD>
+<TD class="cellBitfieldCol2">SWEV0</TD>
+<TD class="cellBitfieldCol3" colspan="3">This event flag is set when software writes a 1 to <A class="xref" href="#SWEVSET_SWEV0">SWEVSET.SWEV0</A>.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+</TABLE>
+<H3 class="mmapRegisterTitle"><A name="EVTOAONPOL"></A><A class="mmapRegisterTitle" href="CPU_MMAP.html">TOP</A>:<A class="mmapRegisterTitle" href="#Top_Tag">AUX_EVCTL</A>:EVTOAONPOL</H3><TABLE cellspacing="0" class="mmapRegisterTable">
+<TR class="row">
+<TD class="cellCol1"><B>Address Offset</B></TD>
+<TD class="cellCol2" colspan="3">0x0000 0010</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Physical Address</TD>
+<TD class="cellCol2">0x400C 5010</TD>
+<TD class="cellCol3">Instance</TD>
+<TD class="cellCol4">0x400C 5010</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Description</TD>
+<TD class="cellCol2" colspan="3">Events To <A class="mmap_legend_link" href="../legend.html#AON">AON</A> Polarity<BR>
+<BR>
+Event source polarity configuration for <A class="xref" href="#EVTOAONFLAGS">EVTOAONFLAGS</A>.</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Type</TD>
+<TD class="cellCol2" colspan="3">RW</TD>
+</TR>
+</TABLE>
+<TABLE cellspacing="0" class="mmapBitfieldTable">
+<TR class="rowTop">
+<TD class="cellTopCol1">Bits</TD>
+<TD class="cellTopCol2">Field Name</TD>
+<TD class="cellTopCol3" colspan="3">Description</TD>
+<TD class="cellTopCol4">Type</TD>
+<TD class="cellTopCol5">Reset</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVTOAONPOL_RESERVED9">31:9</a>
+</TD>
+<TD class="cellBitfieldCol2">RESERVED9</TD>
+<TD class="cellBitfieldCol3" colspan="3">Software should not rely on the value of a reserved. Writing any other value than the reset value may result in undefined behavior.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0b000 0000 0000 0000 0000 0000</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVTOAONPOL_TIMER1_EV">8</a>
+</TD>
+<TD class="cellBitfieldCol2">TIMER1_EV</TD>
+<TD class="cellBitfieldCol3" colspan="3">Select the level of <A class="xref" href="#EVSTAT0_TIMER1_EV">EVSTAT0.TIMER1_EV</A> that sets <A class="xref" href="#EVTOAONFLAGS_TIMER1_EV">EVTOAONFLAGS.TIMER1_EV</A>.<TABLE cellspacing="0" class="LprfEnum">
+<TR class="rowEnumHead">
+<TD class="cellEnumTableHeadCol1">Value</TD>
+<TD class="cellEnumTableHeadCol2">ENUM Name</TD>
+<TD class="cellEnumTableHeadCol3">Description</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x0</TD>
+<TD class="cellEnumTableCol2">HIGH</TD>
+<TD class="cellEnumTableCol3">High level</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1</TD>
+<TD class="cellEnumTableCol2">LOW</TD>
+<TD class="cellEnumTableCol3">Low level</TD>
+</TR>
+</TABLE>
+</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVTOAONPOL_TIMER0_EV">7</a>
+</TD>
+<TD class="cellBitfieldCol2">TIMER0_EV</TD>
+<TD class="cellBitfieldCol3" colspan="3">Select the level of <A class="xref" href="#EVSTAT0_TIMER0_EV">EVSTAT0.TIMER0_EV</A> that sets <A class="xref" href="#EVTOAONFLAGS_TIMER0_EV">EVTOAONFLAGS.TIMER0_EV</A>.<TABLE cellspacing="0" class="LprfEnum">
+<TR class="rowEnumHead">
+<TD class="cellEnumTableHeadCol1">Value</TD>
+<TD class="cellEnumTableHeadCol2">ENUM Name</TD>
+<TD class="cellEnumTableHeadCol3">Description</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x0</TD>
+<TD class="cellEnumTableCol2">HIGH</TD>
+<TD class="cellEnumTableCol3">High level</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1</TD>
+<TD class="cellEnumTableCol2">LOW</TD>
+<TD class="cellEnumTableCol3">Low level</TD>
+</TR>
+</TABLE>
+</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVTOAONPOL_TDC_DONE">6</a>
+</TD>
+<TD class="cellBitfieldCol2">TDC_DONE</TD>
+<TD class="cellBitfieldCol3" colspan="3">Select level of <A class="xref" href="#EVSTAT0_TDC_DONE">EVSTAT0.TDC_DONE</A> that sets <A class="xref" href="#EVTOAONFLAGS_TDC_DONE">EVTOAONFLAGS.TDC_DONE</A>.<TABLE cellspacing="0" class="LprfEnum">
+<TR class="rowEnumHead">
+<TD class="cellEnumTableHeadCol1">Value</TD>
+<TD class="cellEnumTableHeadCol2">ENUM Name</TD>
+<TD class="cellEnumTableHeadCol3">Description</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x0</TD>
+<TD class="cellEnumTableCol2">HIGH</TD>
+<TD class="cellEnumTableCol3">High level</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1</TD>
+<TD class="cellEnumTableCol2">LOW</TD>
+<TD class="cellEnumTableCol3">Low level</TD>
+</TR>
+</TABLE>
+</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVTOAONPOL_ADC_DONE">5</a>
+</TD>
+<TD class="cellBitfieldCol2">ADC_DONE</TD>
+<TD class="cellBitfieldCol3" colspan="3">Select the level of  <A class="xref" href="#EVSTAT0_ADC_DONE">EVSTAT0.ADC_DONE</A> that sets <A class="xref" href="#EVTOAONFLAGS_ADC_DONE">EVTOAONFLAGS.ADC_DONE</A>.<TABLE cellspacing="0" class="LprfEnum">
+<TR class="rowEnumHead">
+<TD class="cellEnumTableHeadCol1">Value</TD>
+<TD class="cellEnumTableHeadCol2">ENUM Name</TD>
+<TD class="cellEnumTableHeadCol3">Description</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x0</TD>
+<TD class="cellEnumTableCol2">HIGH</TD>
+<TD class="cellEnumTableCol3">High level</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1</TD>
+<TD class="cellEnumTableCol2">LOW</TD>
+<TD class="cellEnumTableCol3">Low level</TD>
+</TR>
+</TABLE>
+</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVTOAONPOL_AUX_COMPB">4</a>
+</TD>
+<TD class="cellBitfieldCol2">AUX_COMPB</TD>
+<TD class="cellBitfieldCol3" colspan="3">Select the edge of  <A class="xref" href="#EVSTAT0_AUX_COMPB">EVSTAT0.AUX_COMPB</A> that sets <A class="xref" href="#EVTOAONFLAGS_AUX_COMPB">EVTOAONFLAGS.AUX_COMPB</A>.<TABLE cellspacing="0" class="LprfEnum">
+<TR class="rowEnumHead">
+<TD class="cellEnumTableHeadCol1">Value</TD>
+<TD class="cellEnumTableHeadCol2">ENUM Name</TD>
+<TD class="cellEnumTableHeadCol3">Description</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x0</TD>
+<TD class="cellEnumTableCol2">HIGH</TD>
+<TD class="cellEnumTableCol3">Rising edge</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1</TD>
+<TD class="cellEnumTableCol2">LOW</TD>
+<TD class="cellEnumTableCol3">Falling edge</TD>
+</TR>
+</TABLE>
+</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVTOAONPOL_AUX_COMPA">3</a>
+</TD>
+<TD class="cellBitfieldCol2">AUX_COMPA</TD>
+<TD class="cellBitfieldCol3" colspan="3">Select the edge of  <A class="xref" href="#EVSTAT0_AUX_COMPA">EVSTAT0.AUX_COMPA</A> that sets <A class="xref" href="#EVTOAONFLAGS_AUX_COMPA">EVTOAONFLAGS.AUX_COMPA</A>.<TABLE cellspacing="0" class="LprfEnum">
+<TR class="rowEnumHead">
+<TD class="cellEnumTableHeadCol1">Value</TD>
+<TD class="cellEnumTableHeadCol2">ENUM Name</TD>
+<TD class="cellEnumTableHeadCol3">Description</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x0</TD>
+<TD class="cellEnumTableCol2">HIGH</TD>
+<TD class="cellEnumTableCol3">Rising edge</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1</TD>
+<TD class="cellEnumTableCol2">LOW</TD>
+<TD class="cellEnumTableCol3">Falling edge</TD>
+</TR>
+</TABLE>
+</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVTOAONPOL_RESERVED2">2:0</a>
+</TD>
+<TD class="cellBitfieldCol2">RESERVED2</TD>
+<TD class="cellBitfieldCol3" colspan="3">Software should not rely on the value of a reserved. Writing any other value than the reset value may result in undefined behavior.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0b000</TD>
+</TR>
+</TABLE>
+<H3 class="mmapRegisterTitle"><A name="DMACTL"></A><A class="mmapRegisterTitle" href="CPU_MMAP.html">TOP</A>:<A class="mmapRegisterTitle" href="#Top_Tag">AUX_EVCTL</A>:DMACTL</H3><TABLE cellspacing="0" class="mmapRegisterTable">
+<TR class="row">
+<TD class="cellCol1"><B>Address Offset</B></TD>
+<TD class="cellCol2" colspan="3">0x0000 0014</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Physical Address</TD>
+<TD class="cellCol2">0x400C 5014</TD>
+<TD class="cellCol3">Instance</TD>
+<TD class="cellCol4">0x400C 5014</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Description</TD>
+<TD class="cellCol2" colspan="3">Direct Memory Access Control</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Type</TD>
+<TD class="cellCol2" colspan="3">RW</TD>
+</TR>
+</TABLE>
+<TABLE cellspacing="0" class="mmapBitfieldTable">
+<TR class="rowTop">
+<TD class="cellTopCol1">Bits</TD>
+<TD class="cellTopCol2">Field Name</TD>
+<TD class="cellTopCol3" colspan="3">Description</TD>
+<TD class="cellTopCol4">Type</TD>
+<TD class="cellTopCol5">Reset</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="DMACTL_RESERVED3">31:3</a>
+</TD>
+<TD class="cellBitfieldCol2">RESERVED3</TD>
+<TD class="cellBitfieldCol3" colspan="3">Software should not rely on the value of a reserved. Writing any other value than the reset value may result in undefined behavior.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0b0 0000 0000 0000 0000 0000 0000 0000</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="DMACTL_REQ_MODE">2</a>
+</TD>
+<TD class="cellBitfieldCol2">REQ_MODE</TD>
+<TD class="cellBitfieldCol3" colspan="3"><A class="xref" href="UDMA0.html">UDMA0</A> Request mode<TABLE cellspacing="0" class="LprfEnum">
+<TR class="rowEnumHead">
+<TD class="cellEnumTableHeadCol1">Value</TD>
+<TD class="cellEnumTableHeadCol2">ENUM Name</TD>
+<TD class="cellEnumTableHeadCol3">Description</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x0</TD>
+<TD class="cellEnumTableCol2">BURST</TD>
+<TD class="cellEnumTableCol3">Burst requests are generated on <A class="xref" href="UDMA0.html">UDMA0</A> channel 7 when the condition configured in <A class="xref" href="#DMACTL_SEL">SEL</A> is met.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1</TD>
+<TD class="cellEnumTableCol2">SINGLE</TD>
+<TD class="cellEnumTableCol3">Single requests are generated on <A class="xref" href="UDMA0.html">UDMA0</A> channel 7 when the condition configured in <A class="xref" href="#DMACTL_SEL">SEL</A> is met.</TD>
+</TR>
+</TABLE>
+</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="DMACTL_EN">1</a>
+</TD>
+<TD class="cellBitfieldCol2">EN</TD>
+<TD class="cellBitfieldCol3" colspan="3"><A class="mmap_legend_link" href="../legend.html#uDMA">uDMA</A> <A class="mmap_legend_link" href="../legend.html#ADC">ADC</A> interface enable.<BR>
+<BR>
+0: Disable <A class="xref" href="UDMA0.html">UDMA0</A> interface to <A class="mmap_legend_link" href="../legend.html#ADC">ADC</A>.<BR>
+1: Enable <A class="xref" href="UDMA0.html">UDMA0</A> interface to <A class="mmap_legend_link" href="../legend.html#ADC">ADC</A>.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="DMACTL_SEL">0</a>
+</TD>
+<TD class="cellBitfieldCol2">SEL</TD>
+<TD class="cellBitfieldCol3" colspan="3">Select <A class="mmap_legend_link" href="../legend.html#FIFO">FIFO</A> watermark level required to trigger a <A class="xref" href="UDMA0.html">UDMA0</A> transfer of <A class="mmap_legend_link" href="../legend.html#ADC">ADC</A> FIFO data.<TABLE cellspacing="0" class="LprfEnum">
+<TR class="rowEnumHead">
+<TD class="cellEnumTableHeadCol1">Value</TD>
+<TD class="cellEnumTableHeadCol2">ENUM Name</TD>
+<TD class="cellEnumTableHeadCol3">Description</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x0</TD>
+<TD class="cellEnumTableCol2">FIFO_NOT_EMPTY</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="UDMA0.html">UDMA0</A> trigger event will be generated when there are samples in the <A class="mmap_legend_link" href="../legend.html#ADC">ADC</A> <A class="mmap_legend_link" href="../legend.html#FIFO">FIFO</A>.</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1</TD>
+<TD class="cellEnumTableCol2">FIFO_ALMOST_FULL</TD>
+<TD class="cellEnumTableCol3"><A class="xref" href="UDMA0.html">UDMA0</A> trigger event will be generated when the <A class="mmap_legend_link" href="../legend.html#ADC">ADC</A> <A class="mmap_legend_link" href="../legend.html#FIFO">FIFO</A> is almost full (3/4 full).</TD>
+</TR>
+</TABLE>
+</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+</TABLE>
+<H3 class="mmapRegisterTitle"><A name="SWEVSET"></A><A class="mmapRegisterTitle" href="CPU_MMAP.html">TOP</A>:<A class="mmapRegisterTitle" href="#Top_Tag">AUX_EVCTL</A>:SWEVSET</H3><TABLE cellspacing="0" class="mmapRegisterTable">
+<TR class="row">
+<TD class="cellCol1"><B>Address Offset</B></TD>
+<TD class="cellCol2" colspan="3">0x0000 0018</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Physical Address</TD>
+<TD class="cellCol2">0x400C 5018</TD>
+<TD class="cellCol3">Instance</TD>
+<TD class="cellCol4">0x400C 5018</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Description</TD>
+<TD class="cellCol2" colspan="3">Software Event Set<BR>
+<BR>
+Set software event flags from <A class="mmap_legend_link" href="../legend.html#AUX">AUX</A> domain to <A class="mmap_legend_link" href="../legend.html#AON">AON</A> and <A class="mmap_legend_link" href="../legend.html#MCU">MCU</A> domains. CPUs in <A class="mmap_legend_link" href="../legend.html#MCU">MCU</A> domain can read the event flags from <A class="xref" href="#EVTOAONFLAGS">EVTOAONFLAGS</A> and clear them in <A class="xref" href="#EVTOAONFLAGSCLR">EVTOAONFLAGSCLR</A>. <BR>
+<BR>
+Use of these event flags is software-defined.</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Type</TD>
+<TD class="cellCol2" colspan="3">RW</TD>
+</TR>
+</TABLE>
+<TABLE cellspacing="0" class="mmapBitfieldTable">
+<TR class="rowTop">
+<TD class="cellTopCol1">Bits</TD>
+<TD class="cellTopCol2">Field Name</TD>
+<TD class="cellTopCol3" colspan="3">Description</TD>
+<TD class="cellTopCol4">Type</TD>
+<TD class="cellTopCol5">Reset</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="SWEVSET_RESERVED3">31:3</a>
+</TD>
+<TD class="cellBitfieldCol2">RESERVED3</TD>
+<TD class="cellBitfieldCol3" colspan="3">Software should not rely on the value of a reserved. Writing any other value than the reset value may result in undefined behavior.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0b0 0000 0000 0000 0000 0000 0000 0000</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="SWEVSET_SWEV2">2</a>
+</TD>
+<TD class="cellBitfieldCol2">SWEV2</TD>
+<TD class="cellBitfieldCol3" colspan="3">Software event flag 2.<BR>
+<BR>
+0: No effect.<BR>
+1: Set software event flag 2.</TD>
+<TD class="cellBitfieldCol4">WO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="SWEVSET_SWEV1">1</a>
+</TD>
+<TD class="cellBitfieldCol2">SWEV1</TD>
+<TD class="cellBitfieldCol3" colspan="3">Software event flag 1.<BR>
+<BR>
+0: No effect.<BR>
+1: Set software event flag 1.</TD>
+<TD class="cellBitfieldCol4">WO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="SWEVSET_SWEV0">0</a>
+</TD>
+<TD class="cellBitfieldCol2">SWEV0</TD>
+<TD class="cellBitfieldCol3" colspan="3">Software event flag 0.<BR>
+<BR>
+0: No effect.<BR>
+1: Set software event flag 0.</TD>
+<TD class="cellBitfieldCol4">WO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+</TABLE>
+<H3 class="mmapRegisterTitle"><A name="EVSTAT0"></A><A class="mmapRegisterTitle" href="CPU_MMAP.html">TOP</A>:<A class="mmapRegisterTitle" href="#Top_Tag">AUX_EVCTL</A>:EVSTAT0</H3><TABLE cellspacing="0" class="mmapRegisterTable">
+<TR class="row">
+<TD class="cellCol1"><B>Address Offset</B></TD>
+<TD class="cellCol2" colspan="3">0x0000 001C</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Physical Address</TD>
+<TD class="cellCol2">0x400C 501C</TD>
+<TD class="cellCol3">Instance</TD>
+<TD class="cellCol4">0x400C 501C</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Description</TD>
+<TD class="cellCol2" colspan="3">Event Status 0<BR>
+<BR>
+Register holds events 0 thru 15 of the 32-bit event bus that is synchronous to <A class="mmap_legend_link" href="../legend.html#AUX">AUX</A> clock. The following subscribers use the asynchronous version of events in this register.<BR>
+- <A class="xref" href="AUX_ANAIF.html">AUX_ANAIF</A>.<BR>
+- <A class="xref" href="AUX_TDC.html">AUX_TDC</A>.</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Type</TD>
+<TD class="cellCol2" colspan="3">RO</TD>
+</TR>
+</TABLE>
+<TABLE cellspacing="0" class="mmapBitfieldTable">
+<TR class="rowTop">
+<TD class="cellTopCol1">Bits</TD>
+<TD class="cellTopCol2">Field Name</TD>
+<TD class="cellTopCol3" colspan="3">Description</TD>
+<TD class="cellTopCol4">Type</TD>
+<TD class="cellTopCol5">Reset</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVSTAT0_RESERVED">31:16</a>
+</TD>
+<TD class="cellBitfieldCol2">RESERVED</TD>
+<TD class="cellBitfieldCol3" colspan="3">Software should not rely on the value of a reserved. Writing any other value than the reset value may result in undefined behavior.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0x0000</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVSTAT0_AUXIO2">15</a>
+</TD>
+<TD class="cellBitfieldCol2">AUXIO2</TD>
+<TD class="cellBitfieldCol3" colspan="3">AUXIO2   pin level, read value corresponds to <A class="xref" href="AUX_AIODIO0.html#GPIODIN">AUX_AIODIO0:GPIODIN</A> bit 2.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVSTAT0_AUXIO1">14</a>
+</TD>
+<TD class="cellBitfieldCol2">AUXIO1</TD>
+<TD class="cellBitfieldCol3" colspan="3">AUXIO1   pin level, read value corresponds to <A class="xref" href="AUX_AIODIO0.html#GPIODIN">AUX_AIODIO0:GPIODIN</A> bit 1.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVSTAT0_AUXIO0">13</a>
+</TD>
+<TD class="cellBitfieldCol2">AUXIO0</TD>
+<TD class="cellBitfieldCol3" colspan="3">AUXIO0   pin level, read value corresponds to <A class="xref" href="AUX_AIODIO0.html#GPIODIN">AUX_AIODIO0:GPIODIN</A> bit 0.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVSTAT0_AON_PROG_WU">12</a>
+</TD>
+<TD class="cellBitfieldCol2">AON_PROG_WU</TD>
+<TD class="cellBitfieldCol3" colspan="3"><A class="xref" href="AON_EVENT.html#AUXWUSEL_WU2_EV">AON_EVENT:AUXWUSEL.WU2_EV</A> OR <A class="xref" href="AON_EVENT.html#AUXWUSEL_WU1_EV">AON_EVENT:AUXWUSEL.WU1_EV</A> OR <A class="xref" href="AON_EVENT.html#AUXWUSEL_WU0_EV">AON_EVENT:AUXWUSEL.WU0_EV</A></TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVSTAT0_AON_SW">11</a>
+</TD>
+<TD class="cellBitfieldCol2">AON_SW</TD>
+<TD class="cellBitfieldCol3" colspan="3"><A class="xref" href="AON_WUC.html#AUXCTL_SWEV">AON_WUC:AUXCTL.SWEV</A></TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVSTAT0_OBSMUX1">10</a>
+</TD>
+<TD class="cellBitfieldCol2">OBSMUX1</TD>
+<TD class="cellBitfieldCol3" colspan="3">Observation input 1 from <A class="xref" href="IOC.html">IOC</A>. <BR>
+This event is configured by <A class="xref" href="IOC.html#OBSAUXOUTPUT_SEL1">IOC:OBSAUXOUTPUT.SEL1</A>.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVSTAT0_OBSMUX0">9</a>
+</TD>
+<TD class="cellBitfieldCol2">OBSMUX0</TD>
+<TD class="cellBitfieldCol3" colspan="3">Observation input 0 from <A class="xref" href="IOC.html">IOC</A>. <BR>
+This event is configured by <A class="xref" href="IOC.html#OBSAUXOUTPUT_SEL0">IOC:OBSAUXOUTPUT.SEL0</A> and can be overridden by <A class="xref" href="IOC.html#OBSAUXOUTPUT_SEL_MISC">IOC:OBSAUXOUTPUT.SEL_MISC</A>.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVSTAT0_ADC_FIFO_ALMOST_FULL">8</a>
+</TD>
+<TD class="cellBitfieldCol2">ADC_FIFO_ALMOST_FULL</TD>
+<TD class="cellBitfieldCol3" colspan="3"><A class="xref" href="AUX_ANAIF.html#ADCFIFOSTAT_ALMOST_FULL">AUX_ANAIF:ADCFIFOSTAT.ALMOST_FULL</A></TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVSTAT0_ADC_DONE">7</a>
+</TD>
+<TD class="cellBitfieldCol2">ADC_DONE</TD>
+<TD class="cellBitfieldCol3" colspan="3"><A class="xref" href="AUX_ANAIF.html">AUX_ANAIF</A> <A class="mmap_legend_link" href="../legend.html#ADC">ADC</A> conversion done event.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVSTAT0_SMPH_AUTOTAKE_DONE">6</a>
+</TD>
+<TD class="cellBitfieldCol2">SMPH_AUTOTAKE_DONE</TD>
+<TD class="cellBitfieldCol3" colspan="3">See <A class="xref" href="AUX_SMPH.html#AUTOTAKE_SMPH_ID">AUX_SMPH:AUTOTAKE.SMPH_ID</A> for description.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVSTAT0_TIMER1_EV">5</a>
+</TD>
+<TD class="cellBitfieldCol2">TIMER1_EV</TD>
+<TD class="cellBitfieldCol3" colspan="3">AUX_TIMER1_EV event, see <A class="xref" href="AUX_TIMER.html#T1TARGET">AUX_TIMER:T1TARGET</A> for description.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVSTAT0_TIMER0_EV">4</a>
+</TD>
+<TD class="cellBitfieldCol2">TIMER0_EV</TD>
+<TD class="cellBitfieldCol3" colspan="3">AUX_TIMER0_EV event, see <A class="xref" href="AUX_TIMER.html#T0TARGET">AUX_TIMER:T0TARGET</A> for description.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVSTAT0_TDC_DONE">3</a>
+</TD>
+<TD class="cellBitfieldCol2">TDC_DONE</TD>
+<TD class="cellBitfieldCol3" colspan="3"><A class="xref" href="AUX_TDC.html#STAT_DONE">AUX_TDC:STAT.DONE</A></TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVSTAT0_AUX_COMPB">2</a>
+</TD>
+<TD class="cellBitfieldCol2">AUX_COMPB</TD>
+<TD class="cellBitfieldCol3" colspan="3">Comparator B output</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVSTAT0_AUX_COMPA">1</a>
+</TD>
+<TD class="cellBitfieldCol2">AUX_COMPA</TD>
+<TD class="cellBitfieldCol3" colspan="3">Comparator A output</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVSTAT0_AON_RTC_CH2">0</a>
+</TD>
+<TD class="cellBitfieldCol2">AON_RTC_CH2</TD>
+<TD class="cellBitfieldCol3" colspan="3"><A class="xref" href="AON_RTC.html#EVFLAGS_CH2">AON_RTC:EVFLAGS.CH2</A></TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+</TABLE>
+<H3 class="mmapRegisterTitle"><A name="EVSTAT1"></A><A class="mmapRegisterTitle" href="CPU_MMAP.html">TOP</A>:<A class="mmapRegisterTitle" href="#Top_Tag">AUX_EVCTL</A>:EVSTAT1</H3><TABLE cellspacing="0" class="mmapRegisterTable">
+<TR class="row">
+<TD class="cellCol1"><B>Address Offset</B></TD>
+<TD class="cellCol2" colspan="3">0x0000 0020</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Physical Address</TD>
+<TD class="cellCol2">0x400C 5020</TD>
+<TD class="cellCol3">Instance</TD>
+<TD class="cellCol4">0x400C 5020</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Description</TD>
+<TD class="cellCol2" colspan="3">Event Status 1<BR>
+<BR>
+Current event source levels, 31:16</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Type</TD>
+<TD class="cellCol2" colspan="3">RO</TD>
+</TR>
+</TABLE>
+<TABLE cellspacing="0" class="mmapBitfieldTable">
+<TR class="rowTop">
+<TD class="cellTopCol1">Bits</TD>
+<TD class="cellTopCol2">Field Name</TD>
+<TD class="cellTopCol3" colspan="3">Description</TD>
+<TD class="cellTopCol4">Type</TD>
+<TD class="cellTopCol5">Reset</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVSTAT1_RESERVED16">31:16</a>
+</TD>
+<TD class="cellBitfieldCol2">RESERVED16</TD>
+<TD class="cellBitfieldCol3" colspan="3">Software should not rely on the value of a reserved. Writing any other value than the reset value may result in undefined behavior.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0x0000</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVSTAT1_ADC_IRQ">15</a>
+</TD>
+<TD class="cellBitfieldCol2">ADC_IRQ</TD>
+<TD class="cellBitfieldCol3" colspan="3">The logical function for this event is configurable.<BR>
+<BR>
+When <A class="xref" href="#DMACTL_EN">DMACTL.EN</A> = 1 : <BR>
+   Event = <A class="xref" href="UDMA0.html">UDMA0</A> Channel 7 done event     OR     <A class="xref" href="AUX_ANAIF.html#ADCFIFOSTAT_OVERFLOW">AUX_ANAIF:ADCFIFOSTAT.OVERFLOW</A>      OR      <A class="xref" href="AUX_ANAIF.html#ADCFIFOSTAT_UNDERFLOW">AUX_ANAIF:ADCFIFOSTAT.UNDERFLOW</A><BR>
+<BR>
+When <A class="xref" href="#DMACTL_EN">DMACTL.EN</A> = 0 :<BR>
+   Event = (NOT <A class="xref" href="AUX_ANAIF.html#ADCFIFOSTAT_EMPTY">AUX_ANAIF:ADCFIFOSTAT.EMPTY</A>)      OR      <A class="xref" href="AUX_ANAIF.html#ADCFIFOSTAT_OVERFLOW">AUX_ANAIF:ADCFIFOSTAT.OVERFLOW</A>      OR      <A class="xref" href="AUX_ANAIF.html#ADCFIFOSTAT_UNDERFLOW">AUX_ANAIF:ADCFIFOSTAT.UNDERFLOW</A>  <BR>
+<BR>
+Bit 7 in <A class="xref" href="UDMA0.html#DONEMASK">UDMA0:DONEMASK</A> must be 0.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVSTAT1_MCU_EV">14</a>
+</TD>
+<TD class="cellBitfieldCol2">MCU_EV</TD>
+<TD class="cellBitfieldCol3" colspan="3">Event from <A class="xref" href="EVENT.html">EVENT</A> configured by <A class="xref" href="EVENT.html#AUXSEL0">EVENT:AUXSEL0</A>.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVSTAT1_ACLK_REF">13</a>
+</TD>
+<TD class="cellBitfieldCol2">ACLK_REF</TD>
+<TD class="cellBitfieldCol3" colspan="3"><A class="mmap_legend_link" href="../legend.html#TDC">TDC</A> reference clock.<BR>
+It is configured by <A class="xref" href="../ANATOP_MMAP/DDI_0_OSC.html#CTL0_ACLK_REF_SRC_SEL">DDI_0_OSC:CTL0.ACLK_REF_SRC_SEL</A> and enabled by <A class="xref" href="AUX_WUC.html#REFCLKCTL_REQ">AUX_WUC:REFCLKCTL.REQ</A>.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVSTAT1_AUXIO15">12</a>
+</TD>
+<TD class="cellBitfieldCol2">AUXIO15</TD>
+<TD class="cellBitfieldCol3" colspan="3">AUXIO15 pin level, read value corresponds to <A class="xref" href="AUX_AIODIO1.html#GPIODIN">AUX_AIODIO1:GPIODIN</A> bit 7.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVSTAT1_AUXIO14">11</a>
+</TD>
+<TD class="cellBitfieldCol2">AUXIO14</TD>
+<TD class="cellBitfieldCol3" colspan="3">AUXIO14 pin level, read value corresponds to <A class="xref" href="AUX_AIODIO1.html#GPIODIN">AUX_AIODIO1:GPIODIN</A> bit 6.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVSTAT1_AUXIO13">10</a>
+</TD>
+<TD class="cellBitfieldCol2">AUXIO13</TD>
+<TD class="cellBitfieldCol3" colspan="3">AUXIO13 pin level, read value corresponds to <A class="xref" href="AUX_AIODIO1.html#GPIODIN">AUX_AIODIO1:GPIODIN</A> bit 5.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVSTAT1_AUXIO12">9</a>
+</TD>
+<TD class="cellBitfieldCol2">AUXIO12</TD>
+<TD class="cellBitfieldCol3" colspan="3">AUXIO12 pin level, read value corresponds to <A class="xref" href="AUX_AIODIO1.html#GPIODIN">AUX_AIODIO1:GPIODIN</A> bit 4.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVSTAT1_AUXIO11">8</a>
+</TD>
+<TD class="cellBitfieldCol2">AUXIO11</TD>
+<TD class="cellBitfieldCol3" colspan="3">AUXIO11 pin level, read value corresponds to <A class="xref" href="AUX_AIODIO1.html#GPIODIN">AUX_AIODIO1:GPIODIN</A> bit 3.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVSTAT1_AUXIO10">7</a>
+</TD>
+<TD class="cellBitfieldCol2">AUXIO10</TD>
+<TD class="cellBitfieldCol3" colspan="3">AUXIO10 pin level, read value corresponds to <A class="xref" href="AUX_AIODIO1.html#GPIODIN">AUX_AIODIO1:GPIODIN</A> bit 2.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVSTAT1_AUXIO9">6</a>
+</TD>
+<TD class="cellBitfieldCol2">AUXIO9</TD>
+<TD class="cellBitfieldCol3" colspan="3">AUXIO9   pin level, read value corresponds to <A class="xref" href="AUX_AIODIO1.html#GPIODIN">AUX_AIODIO1:GPIODIN</A> bit 1.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVSTAT1_AUXIO8">5</a>
+</TD>
+<TD class="cellBitfieldCol2">AUXIO8</TD>
+<TD class="cellBitfieldCol3" colspan="3">AUXIO8   pin level, read value corresponds to <A class="xref" href="AUX_AIODIO1.html#GPIODIN">AUX_AIODIO1:GPIODIN</A> bit 0.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVSTAT1_AUXIO7">4</a>
+</TD>
+<TD class="cellBitfieldCol2">AUXIO7</TD>
+<TD class="cellBitfieldCol3" colspan="3">AUXIO7   pin level, read value corresponds to <A class="xref" href="AUX_AIODIO0.html#GPIODIN">AUX_AIODIO0:GPIODIN</A> bit 7.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVSTAT1_AUXIO6">3</a>
+</TD>
+<TD class="cellBitfieldCol2">AUXIO6</TD>
+<TD class="cellBitfieldCol3" colspan="3">AUXIO6   pin level, read value corresponds to <A class="xref" href="AUX_AIODIO0.html#GPIODIN">AUX_AIODIO0:GPIODIN</A> bit 6.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVSTAT1_AUXIO5">2</a>
+</TD>
+<TD class="cellBitfieldCol2">AUXIO5</TD>
+<TD class="cellBitfieldCol3" colspan="3">AUXIO5   pin level, read value corresponds to <A class="xref" href="AUX_AIODIO0.html#GPIODIN">AUX_AIODIO0:GPIODIN</A> bit 5.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVSTAT1_AUXIO4">1</a>
+</TD>
+<TD class="cellBitfieldCol2">AUXIO4</TD>
+<TD class="cellBitfieldCol3" colspan="3">AUXIO4   pin level, read value corresponds to <A class="xref" href="AUX_AIODIO0.html#GPIODIN">AUX_AIODIO0:GPIODIN</A> bit 4.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVSTAT1_AUXIO3">0</a>
+</TD>
+<TD class="cellBitfieldCol2">AUXIO3</TD>
+<TD class="cellBitfieldCol3" colspan="3">AUXIO3   pin level, read value corresponds to <A class="xref" href="AUX_AIODIO0.html#GPIODIN">AUX_AIODIO0:GPIODIN</A> bit 3.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+</TABLE>
+<H3 class="mmapRegisterTitle"><A name="EVTOMCUPOL"></A><A class="mmapRegisterTitle" href="CPU_MMAP.html">TOP</A>:<A class="mmapRegisterTitle" href="#Top_Tag">AUX_EVCTL</A>:EVTOMCUPOL</H3><TABLE cellspacing="0" class="mmapRegisterTable">
+<TR class="row">
+<TD class="cellCol1"><B>Address Offset</B></TD>
+<TD class="cellCol2" colspan="3">0x0000 0024</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Physical Address</TD>
+<TD class="cellCol2">0x400C 5024</TD>
+<TD class="cellCol3">Instance</TD>
+<TD class="cellCol4">0x400C 5024</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Description</TD>
+<TD class="cellCol2" colspan="3">Event To <A class="mmap_legend_link" href="../legend.html#MCU">MCU</A> Polarity<BR>
+<BR>
+Event source polarity configuration for <A class="xref" href="#EVTOMCUFLAGS">EVTOMCUFLAGS</A>.</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Type</TD>
+<TD class="cellCol2" colspan="3">RW</TD>
+</TR>
+</TABLE>
+<TABLE cellspacing="0" class="mmapBitfieldTable">
+<TR class="rowTop">
+<TD class="cellTopCol1">Bits</TD>
+<TD class="cellTopCol2">Field Name</TD>
+<TD class="cellTopCol3" colspan="3">Description</TD>
+<TD class="cellTopCol4">Type</TD>
+<TD class="cellTopCol5">Reset</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVTOMCUPOL_RESERVED11">31:11</a>
+</TD>
+<TD class="cellBitfieldCol2">RESERVED11</TD>
+<TD class="cellBitfieldCol3" colspan="3">Software should not rely on the value of a reserved. Writing any other value than the reset value may result in undefined behavior.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0b0 0000 0000 0000 0000 0000</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVTOMCUPOL_ADC_IRQ">10</a>
+</TD>
+<TD class="cellBitfieldCol2">ADC_IRQ</TD>
+<TD class="cellBitfieldCol3" colspan="3">Select the event source level that sets <A class="xref" href="#EVTOMCUFLAGS_ADC_IRQ">EVTOMCUFLAGS.ADC_IRQ</A>.<TABLE cellspacing="0" class="LprfEnum">
+<TR class="rowEnumHead">
+<TD class="cellEnumTableHeadCol1">Value</TD>
+<TD class="cellEnumTableHeadCol2">ENUM Name</TD>
+<TD class="cellEnumTableHeadCol3">Description</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x0</TD>
+<TD class="cellEnumTableCol2">HIGH</TD>
+<TD class="cellEnumTableCol3">High level</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1</TD>
+<TD class="cellEnumTableCol2">LOW</TD>
+<TD class="cellEnumTableCol3">Low level</TD>
+</TR>
+</TABLE>
+</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVTOMCUPOL_OBSMUX0">9</a>
+</TD>
+<TD class="cellBitfieldCol2">OBSMUX0</TD>
+<TD class="cellBitfieldCol3" colspan="3">Select the event source level that sets <A class="xref" href="#EVTOMCUFLAGS_OBSMUX0">EVTOMCUFLAGS.OBSMUX0</A>.<TABLE cellspacing="0" class="LprfEnum">
+<TR class="rowEnumHead">
+<TD class="cellEnumTableHeadCol1">Value</TD>
+<TD class="cellEnumTableHeadCol2">ENUM Name</TD>
+<TD class="cellEnumTableHeadCol3">Description</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x0</TD>
+<TD class="cellEnumTableCol2">HIGH</TD>
+<TD class="cellEnumTableCol3">High level</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1</TD>
+<TD class="cellEnumTableCol2">LOW</TD>
+<TD class="cellEnumTableCol3">Low level</TD>
+</TR>
+</TABLE>
+</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVTOMCUPOL_ADC_FIFO_ALMOST_FULL">8</a>
+</TD>
+<TD class="cellBitfieldCol2">ADC_FIFO_ALMOST_FULL</TD>
+<TD class="cellBitfieldCol3" colspan="3">Select the event source level that sets <A class="xref" href="#EVTOMCUFLAGS_ADC_FIFO_ALMOST_FULL">EVTOMCUFLAGS.ADC_FIFO_ALMOST_FULL</A>.<TABLE cellspacing="0" class="LprfEnum">
+<TR class="rowEnumHead">
+<TD class="cellEnumTableHeadCol1">Value</TD>
+<TD class="cellEnumTableHeadCol2">ENUM Name</TD>
+<TD class="cellEnumTableHeadCol3">Description</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x0</TD>
+<TD class="cellEnumTableCol2">HIGH</TD>
+<TD class="cellEnumTableCol3">High level</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1</TD>
+<TD class="cellEnumTableCol2">LOW</TD>
+<TD class="cellEnumTableCol3">Low level</TD>
+</TR>
+</TABLE>
+</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVTOMCUPOL_ADC_DONE">7</a>
+</TD>
+<TD class="cellBitfieldCol2">ADC_DONE</TD>
+<TD class="cellBitfieldCol3" colspan="3">Select the event source level that sets <A class="xref" href="#EVTOMCUFLAGS_ADC_DONE">EVTOMCUFLAGS.ADC_DONE</A>.<TABLE cellspacing="0" class="LprfEnum">
+<TR class="rowEnumHead">
+<TD class="cellEnumTableHeadCol1">Value</TD>
+<TD class="cellEnumTableHeadCol2">ENUM Name</TD>
+<TD class="cellEnumTableHeadCol3">Description</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x0</TD>
+<TD class="cellEnumTableCol2">HIGH</TD>
+<TD class="cellEnumTableCol3">High level</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1</TD>
+<TD class="cellEnumTableCol2">LOW</TD>
+<TD class="cellEnumTableCol3">Low level</TD>
+</TR>
+</TABLE>
+</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVTOMCUPOL_SMPH_AUTOTAKE_DONE">6</a>
+</TD>
+<TD class="cellBitfieldCol2">SMPH_AUTOTAKE_DONE</TD>
+<TD class="cellBitfieldCol3" colspan="3">Select the event source level that sets <A class="xref" href="#EVTOMCUFLAGS_SMPH_AUTOTAKE_DONE">EVTOMCUFLAGS.SMPH_AUTOTAKE_DONE</A>.<TABLE cellspacing="0" class="LprfEnum">
+<TR class="rowEnumHead">
+<TD class="cellEnumTableHeadCol1">Value</TD>
+<TD class="cellEnumTableHeadCol2">ENUM Name</TD>
+<TD class="cellEnumTableHeadCol3">Description</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x0</TD>
+<TD class="cellEnumTableCol2">HIGH</TD>
+<TD class="cellEnumTableCol3">High level</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1</TD>
+<TD class="cellEnumTableCol2">LOW</TD>
+<TD class="cellEnumTableCol3">Low level</TD>
+</TR>
+</TABLE>
+</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVTOMCUPOL_TIMER1_EV">5</a>
+</TD>
+<TD class="cellBitfieldCol2">TIMER1_EV</TD>
+<TD class="cellBitfieldCol3" colspan="3">Select the event source level that sets <A class="xref" href="#EVTOMCUFLAGS_TIMER1_EV">EVTOMCUFLAGS.TIMER1_EV</A>.<TABLE cellspacing="0" class="LprfEnum">
+<TR class="rowEnumHead">
+<TD class="cellEnumTableHeadCol1">Value</TD>
+<TD class="cellEnumTableHeadCol2">ENUM Name</TD>
+<TD class="cellEnumTableHeadCol3">Description</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x0</TD>
+<TD class="cellEnumTableCol2">HIGH</TD>
+<TD class="cellEnumTableCol3">High level</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1</TD>
+<TD class="cellEnumTableCol2">LOW</TD>
+<TD class="cellEnumTableCol3">Low level</TD>
+</TR>
+</TABLE>
+</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVTOMCUPOL_TIMER0_EV">4</a>
+</TD>
+<TD class="cellBitfieldCol2">TIMER0_EV</TD>
+<TD class="cellBitfieldCol3" colspan="3">Select the event source level that sets <A class="xref" href="#EVTOMCUFLAGS_TIMER0_EV">EVTOMCUFLAGS.TIMER0_EV</A>.<TABLE cellspacing="0" class="LprfEnum">
+<TR class="rowEnumHead">
+<TD class="cellEnumTableHeadCol1">Value</TD>
+<TD class="cellEnumTableHeadCol2">ENUM Name</TD>
+<TD class="cellEnumTableHeadCol3">Description</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x0</TD>
+<TD class="cellEnumTableCol2">HIGH</TD>
+<TD class="cellEnumTableCol3">High level</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1</TD>
+<TD class="cellEnumTableCol2">LOW</TD>
+<TD class="cellEnumTableCol3">Low level</TD>
+</TR>
+</TABLE>
+</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVTOMCUPOL_TDC_DONE">3</a>
+</TD>
+<TD class="cellBitfieldCol2">TDC_DONE</TD>
+<TD class="cellBitfieldCol3" colspan="3">Select the event source level that sets <A class="xref" href="#EVTOMCUFLAGS_TDC_DONE">EVTOMCUFLAGS.TDC_DONE</A>.<TABLE cellspacing="0" class="LprfEnum">
+<TR class="rowEnumHead">
+<TD class="cellEnumTableHeadCol1">Value</TD>
+<TD class="cellEnumTableHeadCol2">ENUM Name</TD>
+<TD class="cellEnumTableHeadCol3">Description</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x0</TD>
+<TD class="cellEnumTableCol2">HIGH</TD>
+<TD class="cellEnumTableCol3">High level</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1</TD>
+<TD class="cellEnumTableCol2">LOW</TD>
+<TD class="cellEnumTableCol3">Low level</TD>
+</TR>
+</TABLE>
+</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVTOMCUPOL_AUX_COMPB">2</a>
+</TD>
+<TD class="cellBitfieldCol2">AUX_COMPB</TD>
+<TD class="cellBitfieldCol3" colspan="3">Select the event source level that sets <A class="xref" href="#EVTOMCUFLAGS_AUX_COMPB">EVTOMCUFLAGS.AUX_COMPB</A>.<TABLE cellspacing="0" class="LprfEnum">
+<TR class="rowEnumHead">
+<TD class="cellEnumTableHeadCol1">Value</TD>
+<TD class="cellEnumTableHeadCol2">ENUM Name</TD>
+<TD class="cellEnumTableHeadCol3">Description</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x0</TD>
+<TD class="cellEnumTableCol2">HIGH</TD>
+<TD class="cellEnumTableCol3">High level</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1</TD>
+<TD class="cellEnumTableCol2">LOW</TD>
+<TD class="cellEnumTableCol3">Low level</TD>
+</TR>
+</TABLE>
+</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVTOMCUPOL_AUX_COMPA">1</a>
+</TD>
+<TD class="cellBitfieldCol2">AUX_COMPA</TD>
+<TD class="cellBitfieldCol3" colspan="3">Select the event source level that sets <A class="xref" href="#EVTOMCUFLAGS_AUX_COMPA">EVTOMCUFLAGS.AUX_COMPA</A>.<TABLE cellspacing="0" class="LprfEnum">
+<TR class="rowEnumHead">
+<TD class="cellEnumTableHeadCol1">Value</TD>
+<TD class="cellEnumTableHeadCol2">ENUM Name</TD>
+<TD class="cellEnumTableHeadCol3">Description</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x0</TD>
+<TD class="cellEnumTableCol2">HIGH</TD>
+<TD class="cellEnumTableCol3">High level</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1</TD>
+<TD class="cellEnumTableCol2">LOW</TD>
+<TD class="cellEnumTableCol3">Low level</TD>
+</TR>
+</TABLE>
+</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVTOMCUPOL_AON_WU_EV">0</a>
+</TD>
+<TD class="cellBitfieldCol2">AON_WU_EV</TD>
+<TD class="cellBitfieldCol3" colspan="3">Select the event source level that sets <A class="xref" href="#EVTOMCUFLAGS_AON_WU_EV">EVTOMCUFLAGS.AON_WU_EV</A>.<TABLE cellspacing="0" class="LprfEnum">
+<TR class="rowEnumHead">
+<TD class="cellEnumTableHeadCol1">Value</TD>
+<TD class="cellEnumTableHeadCol2">ENUM Name</TD>
+<TD class="cellEnumTableHeadCol3">Description</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x0</TD>
+<TD class="cellEnumTableCol2">HIGH</TD>
+<TD class="cellEnumTableCol3">High level</TD>
+</TR>
+<TR class="rowEnum">
+<TD class="cellEnumTableCol1">0x1</TD>
+<TD class="cellEnumTableCol2">LOW</TD>
+<TD class="cellEnumTableCol3">Low level</TD>
+</TR>
+</TABLE>
+</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+</TABLE>
+<H3 class="mmapRegisterTitle"><A name="EVTOMCUFLAGS"></A><A class="mmapRegisterTitle" href="CPU_MMAP.html">TOP</A>:<A class="mmapRegisterTitle" href="#Top_Tag">AUX_EVCTL</A>:EVTOMCUFLAGS</H3><TABLE cellspacing="0" class="mmapRegisterTable">
+<TR class="row">
+<TD class="cellCol1"><B>Address Offset</B></TD>
+<TD class="cellCol2" colspan="3">0x0000 0028</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Physical Address</TD>
+<TD class="cellCol2">0x400C 5028</TD>
+<TD class="cellCol3">Instance</TD>
+<TD class="cellCol4">0x400C 5028</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Description</TD>
+<TD class="cellCol2" colspan="3">Events to <A class="mmap_legend_link" href="../legend.html#MCU">MCU</A> Flags<BR>
+<BR>
+This register contains a collection of event flags routed to MCU domain. <BR>
+<BR>
+To clear an event flag, write to <A class="xref" href="#EVTOMCUFLAGSCLR">EVTOMCUFLAGSCLR</A> or write 0 to event flag in this register. Follow procedure described in <A class="xref" href="AUX_SYSIF.html#WUCLR">AUX_SYSIF:WUCLR</A> to clear <A class="xref" href="#EVTOMCUFLAGS_AUX_WU_EV">AUX_WU_EV</A> event flag.</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Type</TD>
+<TD class="cellCol2" colspan="3">RW</TD>
+</TR>
+</TABLE>
+<TABLE cellspacing="0" class="mmapBitfieldTable">
+<TR class="rowTop">
+<TD class="cellTopCol1">Bits</TD>
+<TD class="cellTopCol2">Field Name</TD>
+<TD class="cellTopCol3" colspan="3">Description</TD>
+<TD class="cellTopCol4">Type</TD>
+<TD class="cellTopCol5">Reset</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVTOMCUFLAGS_RESERVED11">31:11</a>
+</TD>
+<TD class="cellBitfieldCol2">RESERVED11</TD>
+<TD class="cellBitfieldCol3" colspan="3">Software should not rely on the value of a reserved. Writing any other value than the reset value may result in undefined behavior.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0b0 0000 0000 0000 0000 0000</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVTOMCUFLAGS_ADC_IRQ">10</a>
+</TD>
+<TD class="cellBitfieldCol2">ADC_IRQ</TD>
+<TD class="cellBitfieldCol3" colspan="3">This event flag is set when level selected by <A class="xref" href="#EVTOMCUPOL_ADC_IRQ">EVTOMCUPOL.ADC_IRQ</A> occurs on <A class="xref" href="#EVSTAT0_ADC_IRQ">EVSTAT0.ADC_IRQ</A>.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVTOMCUFLAGS_OBSMUX0">9</a>
+</TD>
+<TD class="cellBitfieldCol2">OBSMUX0</TD>
+<TD class="cellBitfieldCol3" colspan="3">This event flag is set when level selected by <A class="xref" href="#EVTOMCUPOL_MCU_OBSMUX0">EVTOMCUPOL.MCU_OBSMUX0</A> occurs on <A class="xref" href="#EVSTAT0_MCU_OBSMUX0">EVSTAT0.MCU_OBSMUX0</A>.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVTOMCUFLAGS_ADC_FIFO_ALMOST_FULL">8</a>
+</TD>
+<TD class="cellBitfieldCol2">ADC_FIFO_ALMOST_FULL</TD>
+<TD class="cellBitfieldCol3" colspan="3">This event flag is set when level selected by <A class="xref" href="#EVTOMCUPOL_ADC_FIFO_ALMOST_FULL">EVTOMCUPOL.ADC_FIFO_ALMOST_FULL</A> occurs on <A class="xref" href="#EVSTAT0_ADC_FIFO_ALMOST_FULL">EVSTAT0.ADC_FIFO_ALMOST_FULL</A>.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVTOMCUFLAGS_ADC_DONE">7</a>
+</TD>
+<TD class="cellBitfieldCol2">ADC_DONE</TD>
+<TD class="cellBitfieldCol3" colspan="3">This event flag is set when level selected by <A class="xref" href="#EVTOMCUPOL_ADC_DONE">EVTOMCUPOL.ADC_DONE</A> occurs on <A class="xref" href="#EVSTAT0_ADC_DONE">EVSTAT0.ADC_DONE</A>.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVTOMCUFLAGS_SMPH_AUTOTAKE_DONE">6</a>
+</TD>
+<TD class="cellBitfieldCol2">SMPH_AUTOTAKE_DONE</TD>
+<TD class="cellBitfieldCol3" colspan="3">This event flag is set when level selected by <A class="xref" href="#EVTOMCUPOL_SMPH_AUTOTAKE_DONE">EVTOMCUPOL.SMPH_AUTOTAKE_DONE</A> occurs on <A class="xref" href="#EVSTAT0_SMPH_AUTOTAKE_DONE">EVSTAT0.SMPH_AUTOTAKE_DONE</A>.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVTOMCUFLAGS_TIMER1_EV">5</a>
+</TD>
+<TD class="cellBitfieldCol2">TIMER1_EV</TD>
+<TD class="cellBitfieldCol3" colspan="3">This event flag is set when level selected by <A class="xref" href="#EVTOMCUPOL_TIMER1_EV">EVTOMCUPOL.TIMER1_EV</A> occurs on <A class="xref" href="#EVSTAT0_TIMER1_EV">EVSTAT0.TIMER1_EV</A>.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVTOMCUFLAGS_TIMER0_EV">4</a>
+</TD>
+<TD class="cellBitfieldCol2">TIMER0_EV</TD>
+<TD class="cellBitfieldCol3" colspan="3">This event flag is set when level selected by <A class="xref" href="#EVTOMCUPOL_TIMER0_EV">EVTOMCUPOL.TIMER0_EV</A> occurs on <A class="xref" href="#EVSTAT0_TIMER0_EV">EVSTAT0.TIMER0_EV</A>.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVTOMCUFLAGS_TDC_DONE">3</a>
+</TD>
+<TD class="cellBitfieldCol2">TDC_DONE</TD>
+<TD class="cellBitfieldCol3" colspan="3">This event flag is set when level selected by <A class="xref" href="#EVTOMCUPOL_TDC_DONE">EVTOMCUPOL.TDC_DONE</A> occurs on <A class="xref" href="#EVSTAT0_TDC_DONE">EVSTAT0.TDC_DONE</A>.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVTOMCUFLAGS_AUX_COMPB">2</a>
+</TD>
+<TD class="cellBitfieldCol2">AUX_COMPB</TD>
+<TD class="cellBitfieldCol3" colspan="3">This event flag is set when edge selected by <A class="xref" href="#EVTOMCUPOL_AUX_COMPB">EVTOMCUPOL.AUX_COMPB</A> occurs on <A class="xref" href="#EVSTAT0_AUX_COMPB">EVSTAT0.AUX_COMPB</A>.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVTOMCUFLAGS_AUX_COMPA">1</a>
+</TD>
+<TD class="cellBitfieldCol2">AUX_COMPA</TD>
+<TD class="cellBitfieldCol3" colspan="3">This event flag is set when edge selected by <A class="xref" href="#EVTOMCUPOL_AUX_COMPA">EVTOMCUPOL.AUX_COMPA</A> occurs on <A class="xref" href="#EVSTAT0_AUX_COMPA">EVSTAT0.AUX_COMPA</A>.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVTOMCUFLAGS_AON_WU_EV">0</a>
+</TD>
+<TD class="cellBitfieldCol2">AON_WU_EV</TD>
+<TD class="cellBitfieldCol3" colspan="3">This event flag is set when level selected by <A class="xref" href="#EVTOMCUPOL_AON_WU_EV">EVTOMCUPOL.AON_WU_EV</A> occurs on the reduction-OR of the <A class="xref" href="AUX_EVCTL.html#EVSTAT0_RTC_CH2_EV">AUX_EVCTL:EVSTAT0.RTC_CH2_EV</A>, <A class="xref" href="AUX_EVCTL.html#EVSTAT0_AON_SW">AUX_EVCTL:EVSTAT0.AON_SW</A>, and <A class="xref" href="AUX_EVCTL.html#EVSTAT0_AON_PROG_WU">AUX_EVCTL:EVSTAT0.AON_PROG_WU</A> events.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+</TABLE>
+<H3 class="mmapRegisterTitle"><A name="COMBEVTOMCUMASK"></A><A class="mmapRegisterTitle" href="CPU_MMAP.html">TOP</A>:<A class="mmapRegisterTitle" href="#Top_Tag">AUX_EVCTL</A>:COMBEVTOMCUMASK</H3><TABLE cellspacing="0" class="mmapRegisterTable">
+<TR class="row">
+<TD class="cellCol1"><B>Address Offset</B></TD>
+<TD class="cellCol2" colspan="3">0x0000 002C</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Physical Address</TD>
+<TD class="cellCol2">0x400C 502C</TD>
+<TD class="cellCol3">Instance</TD>
+<TD class="cellCol4">0x400C 502C</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Description</TD>
+<TD class="cellCol2" colspan="3">Combined Event To <A class="mmap_legend_link" href="../legend.html#MCU">MCU</A> Mask<BR>
+<BR>
+Select event flags in <A class="xref" href="#EVTOMCUFLAGS">EVTOMCUFLAGS</A> that contribute to the <A class="mmap_legend_link" href="../legend.html#AUX_COMB">AUX_COMB</A> event to <A class="xref" href="EVENT.html">EVENT</A> and system CPU.<BR>
+<BR>
+The AUX_COMB event is high as long as one or more of the included event flags are set.</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Type</TD>
+<TD class="cellCol2" colspan="3">RW</TD>
+</TR>
+</TABLE>
+<TABLE cellspacing="0" class="mmapBitfieldTable">
+<TR class="rowTop">
+<TD class="cellTopCol1">Bits</TD>
+<TD class="cellTopCol2">Field Name</TD>
+<TD class="cellTopCol3" colspan="3">Description</TD>
+<TD class="cellTopCol4">Type</TD>
+<TD class="cellTopCol5">Reset</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="COMBEVTOMCUMASK_RESERVED11">31:11</a>
+</TD>
+<TD class="cellBitfieldCol2">RESERVED11</TD>
+<TD class="cellBitfieldCol3" colspan="3">Software should not rely on the value of a reserved. Writing any other value than the reset value may result in undefined behavior.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0b0 0000 0000 0000 0000 0000</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="COMBEVTOMCUMASK_ADC_IRQ">10</a>
+</TD>
+<TD class="cellBitfieldCol2">ADC_IRQ</TD>
+<TD class="cellBitfieldCol3" colspan="3"><A class="xref" href="#EVTOMCUFLAGS_ADC_IRQ">EVTOMCUFLAGS.ADC_IRQ</A> contribution to the AUX_COMB event.<BR>
+<BR>
+0: Exclude.<BR>
+1: Include.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="COMBEVTOMCUMASK_OBSMUX0">9</a>
+</TD>
+<TD class="cellBitfieldCol2">OBSMUX0</TD>
+<TD class="cellBitfieldCol3" colspan="3"><A class="xref" href="#EVTOMCUFLAGS_MCU_OBSMUX0">EVTOMCUFLAGS.MCU_OBSMUX0</A> contribution to the AUX_COMB event.<BR>
+<BR>
+0: Exclude.<BR>
+1: Include.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="COMBEVTOMCUMASK_ADC_FIFO_ALMOST_FULL">8</a>
+</TD>
+<TD class="cellBitfieldCol2">ADC_FIFO_ALMOST_FULL</TD>
+<TD class="cellBitfieldCol3" colspan="3"><A class="xref" href="#EVTOMCUFLAGS_ADC_FIFO_ALMOST_FULL">EVTOMCUFLAGS.ADC_FIFO_ALMOST_FULL</A> contribution to the AUX_COMB event.<BR>
+<BR>
+0: Exclude.<BR>
+1: Include.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="COMBEVTOMCUMASK_ADC_DONE">7</a>
+</TD>
+<TD class="cellBitfieldCol2">ADC_DONE</TD>
+<TD class="cellBitfieldCol3" colspan="3"><A class="xref" href="#EVTOMCUFLAGS_ADC_DONE">EVTOMCUFLAGS.ADC_DONE</A> contribution to the AUX_COMB event.<BR>
+<BR>
+0: Exclude.<BR>
+1: Include.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="COMBEVTOMCUMASK_SMPH_AUTOTAKE_DONE">6</a>
+</TD>
+<TD class="cellBitfieldCol2">SMPH_AUTOTAKE_DONE</TD>
+<TD class="cellBitfieldCol3" colspan="3"><A class="xref" href="#EVTOMCUFLAGS_SMPH_AUTOTAKE_DONE">EVTOMCUFLAGS.SMPH_AUTOTAKE_DONE</A> contribution to the AUX_COMB event.<BR>
+<BR>
+0: Exclude.<BR>
+1: Include.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="COMBEVTOMCUMASK_TIMER1_EV">5</a>
+</TD>
+<TD class="cellBitfieldCol2">TIMER1_EV</TD>
+<TD class="cellBitfieldCol3" colspan="3"><A class="xref" href="#EVTOMCUFLAGS_TIMER1_EV">EVTOMCUFLAGS.TIMER1_EV</A> contribution to the AUX_COMB event.<BR>
+<BR>
+0: Exclude.<BR>
+1: Include.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="COMBEVTOMCUMASK_TIMER0_EV">4</a>
+</TD>
+<TD class="cellBitfieldCol2">TIMER0_EV</TD>
+<TD class="cellBitfieldCol3" colspan="3"><A class="xref" href="#EVTOMCUFLAGS_TIMER0_EV">EVTOMCUFLAGS.TIMER0_EV</A> contribution to the AUX_COMB event.<BR>
+<BR>
+0: Exclude.<BR>
+1: Include.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="COMBEVTOMCUMASK_TDC_DONE">3</a>
+</TD>
+<TD class="cellBitfieldCol2">TDC_DONE</TD>
+<TD class="cellBitfieldCol3" colspan="3"><A class="xref" href="#EVTOMCUFLAGS_TDC_DONE">EVTOMCUFLAGS.TDC_DONE</A> contribution to the AUX_COMB event.<BR>
+<BR>
+0: Exclude.<BR>
+1: Include.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="COMBEVTOMCUMASK_AUX_COMPB">2</a>
+</TD>
+<TD class="cellBitfieldCol2">AUX_COMPB</TD>
+<TD class="cellBitfieldCol3" colspan="3"><A class="xref" href="#EVTOMCUFLAGS_AUX_COMPB">EVTOMCUFLAGS.AUX_COMPB</A> contribution to the AUX_COMB event.<BR>
+<BR>
+0: Exclude<BR>
+1: Include.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="COMBEVTOMCUMASK_AUX_COMPA">1</a>
+</TD>
+<TD class="cellBitfieldCol2">AUX_COMPA</TD>
+<TD class="cellBitfieldCol3" colspan="3"><A class="xref" href="#EVTOMCUFLAGS_AUX_COMPA">EVTOMCUFLAGS.AUX_COMPA</A> contribution to the AUX_COMB event.<BR>
+<BR>
+0: Exclude.<BR>
+1: Include.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="COMBEVTOMCUMASK_AON_WU_EV">0</a>
+</TD>
+<TD class="cellBitfieldCol2">AON_WU_EV</TD>
+<TD class="cellBitfieldCol3" colspan="3"><A class="xref" href="#EVTOMCUFLAGS_AON_WU_EV">EVTOMCUFLAGS.AON_WU_EV</A> contribution to the AUX_COMB event.<BR>
+<BR>
+0: Exclude.<BR>
+1: Include.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+</TABLE>
+<H3 class="mmapRegisterTitle"><A name="VECFLAGS"></A><A class="mmapRegisterTitle" href="CPU_MMAP.html">TOP</A>:<A class="mmapRegisterTitle" href="#Top_Tag">AUX_EVCTL</A>:VECFLAGS</H3><TABLE cellspacing="0" class="mmapRegisterTable">
+<TR class="row">
+<TD class="cellCol1"><B>Address Offset</B></TD>
+<TD class="cellCol2" colspan="3">0x0000 0034</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Physical Address</TD>
+<TD class="cellCol2">0x400C 5034</TD>
+<TD class="cellCol3">Instance</TD>
+<TD class="cellCol4">0x400C 5034</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Description</TD>
+<TD class="cellCol2" colspan="3">Vector Flags<BR>
+<BR>
+If a vector flag becomes 1 and <A class="xref" href="AUX_SCE.html">AUX_SCE</A> sleeps, <A class="xref" href="AUX_SCE.html">AUX_SCE</A> will wake up and execute the corresponding vector. The vector with the lowest index will execute first if multiple vectors flags are set. <A class="xref" href="AUX_SCE.html">AUX_SCE</A> must return to sleep to execute the next vector.<BR>
+<BR>
+During execution of a vector, <A class="xref" href="AUX_SCE.html">AUX_SCE</A> must clear the vector flag that triggered execution. Write 1 to bit index n in <A class="xref" href="#VECFLAGSCLR">VECFLAGSCLR</A> to clear vector flag n.</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Type</TD>
+<TD class="cellCol2" colspan="3">RW</TD>
+</TR>
+</TABLE>
+<TABLE cellspacing="0" class="mmapBitfieldTable">
+<TR class="rowTop">
+<TD class="cellTopCol1">Bits</TD>
+<TD class="cellTopCol2">Field Name</TD>
+<TD class="cellTopCol3" colspan="3">Description</TD>
+<TD class="cellTopCol4">Type</TD>
+<TD class="cellTopCol5">Reset</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="VECFLAGS_RESERVED4">31:4</a>
+</TD>
+<TD class="cellBitfieldCol2">RESERVED4</TD>
+<TD class="cellBitfieldCol3" colspan="3">Software should not rely on the value of a reserved. Writing any other value than the reset value may result in undefined behavior.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0x000 0000</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="VECFLAGS_VEC3">3</a>
+</TD>
+<TD class="cellBitfieldCol2">VEC3</TD>
+<TD class="cellBitfieldCol3" colspan="3">Vector flag 3.<BR>
+<BR>
+The vector flag is set if the edge selected <A class="xref" href="#VECCFG1_VEC3_POL">VECCFG1.VEC3_POL</A> occurs on the event selected in <A class="xref" href="#VECCFG1_VEC3_EV">VECCFG1.VEC3_EV</A>.<BR>
+<BR>
+The flag is cleared by writing a 0 to this bit, or (preferably) a 1 to <A class="xref" href="#VECFLAGSCLR_VEC3">VECFLAGSCLR.VEC3</A>.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="VECFLAGS_VEC2">2</a>
+</TD>
+<TD class="cellBitfieldCol2">VEC2</TD>
+<TD class="cellBitfieldCol3" colspan="3">Vector flag 2.<BR>
+<BR>
+The vector flag is set if the edge selected <A class="xref" href="#VECCFG1_VEC2_POL">VECCFG1.VEC2_POL</A> occurs on the event selected in <A class="xref" href="#VECCFG1_VEC2_EV">VECCFG1.VEC2_EV</A>.<BR>
+<BR>
+The flag is cleared by writing a 0 to this bit, or (preferably) a 1 to <A class="xref" href="#VECFLAGSCLR_VEC2">VECFLAGSCLR.VEC2</A>.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="VECFLAGS_VEC1">1</a>
+</TD>
+<TD class="cellBitfieldCol2">VEC1</TD>
+<TD class="cellBitfieldCol3" colspan="3">Vector flag 1.<BR>
+<BR>
+The vector flag is set if the edge selected <A class="xref" href="#VECCFG0_VEC1_POL">VECCFG0.VEC1_POL</A> occurs on the event selected in <A class="xref" href="#VECCFG0_VEC1_EV">VECCFG0.VEC1_EV</A>.<BR>
+<BR>
+The flag is cleared by writing a 0 to this bit, or (preferably) a 1 to <A class="xref" href="#VECFLAGSCLR_VEC1">VECFLAGSCLR.VEC1</A>.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="VECFLAGS_VEC0">0</a>
+</TD>
+<TD class="cellBitfieldCol2">VEC0</TD>
+<TD class="cellBitfieldCol3" colspan="3">Vector flag 0.<BR>
+<BR>
+The vector flag is set if the edge selected <A class="xref" href="#VECCFG0_VEC0_POL">VECCFG0.VEC0_POL</A> occurs on the event selected in <A class="xref" href="#VECCFG0_VEC0_EV">VECCFG0.VEC0_EV</A>.<BR>
+<BR>
+The flag is cleared by writing a 0 to this bit, or (preferably) a 1 to <A class="xref" href="#VECFLAGSCLR_VEC0">VECFLAGSCLR.VEC0</A>.</TD>
+<TD class="cellBitfieldCol4">RW</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+</TABLE>
+<H3 class="mmapRegisterTitle"><A name="EVTOMCUFLAGSCLR"></A><A class="mmapRegisterTitle" href="CPU_MMAP.html">TOP</A>:<A class="mmapRegisterTitle" href="#Top_Tag">AUX_EVCTL</A>:EVTOMCUFLAGSCLR</H3><TABLE cellspacing="0" class="mmapRegisterTable">
+<TR class="row">
+<TD class="cellCol1"><B>Address Offset</B></TD>
+<TD class="cellCol2" colspan="3">0x0000 0038</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Physical Address</TD>
+<TD class="cellCol2">0x400C 5038</TD>
+<TD class="cellCol3">Instance</TD>
+<TD class="cellCol4">0x400C 5038</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Description</TD>
+<TD class="cellCol2" colspan="3">Events To <A class="mmap_legend_link" href="../legend.html#MCU">MCU</A> Flags Clear<BR>
+<BR>
+Clear event flags in <A class="xref" href="#EVTOMCUFLAGS">EVTOMCUFLAGS</A>. <BR>
+<BR>
+In order to clear a level sensitive event flag, the event must be deasserted.</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Type</TD>
+<TD class="cellCol2" colspan="3">RW</TD>
+</TR>
+</TABLE>
+<TABLE cellspacing="0" class="mmapBitfieldTable">
+<TR class="rowTop">
+<TD class="cellTopCol1">Bits</TD>
+<TD class="cellTopCol2">Field Name</TD>
+<TD class="cellTopCol3" colspan="3">Description</TD>
+<TD class="cellTopCol4">Type</TD>
+<TD class="cellTopCol5">Reset</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVTOMCUFLAGSCLR_RESERVED11">31:11</a>
+</TD>
+<TD class="cellBitfieldCol2">RESERVED11</TD>
+<TD class="cellBitfieldCol3" colspan="3">Software should not rely on the value of a reserved. Writing any other value than the reset value may result in undefined behavior.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0b0 0000 0000 0000 0000 0000</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVTOMCUFLAGSCLR_ADC_IRQ">10</a>
+</TD>
+<TD class="cellBitfieldCol2">ADC_IRQ</TD>
+<TD class="cellBitfieldCol3" colspan="3">Write 1 to clear <A class="xref" href="#EVTOMCUFLAGS_ADC_IRQ">EVTOMCUFLAGS.ADC_IRQ</A>.<BR>
+<BR>
+Read value is 0.</TD>
+<TD class="cellBitfieldCol4">WO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVTOMCUFLAGSCLR_OBSMUX0">9</a>
+</TD>
+<TD class="cellBitfieldCol2">OBSMUX0</TD>
+<TD class="cellBitfieldCol3" colspan="3">Write 1 to clear <A class="xref" href="#EVTOMCUFLAGS_MCU_OBSMUX0">EVTOMCUFLAGS.MCU_OBSMUX0</A>.<BR>
+<BR>
+Read value is 0.</TD>
+<TD class="cellBitfieldCol4">WO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVTOMCUFLAGSCLR_ADC_FIFO_ALMOST_FULL">8</a>
+</TD>
+<TD class="cellBitfieldCol2">ADC_FIFO_ALMOST_FULL</TD>
+<TD class="cellBitfieldCol3" colspan="3">Write 1 to clear <A class="xref" href="#EVTOMCUFLAGS_ADC_FIFO_ALMOST_FULL">EVTOMCUFLAGS.ADC_FIFO_ALMOST_FULL</A>.<BR>
+<BR>
+Read value is 0.</TD>
+<TD class="cellBitfieldCol4">WO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVTOMCUFLAGSCLR_ADC_DONE">7</a>
+</TD>
+<TD class="cellBitfieldCol2">ADC_DONE</TD>
+<TD class="cellBitfieldCol3" colspan="3">Write 1 to clear <A class="xref" href="#EVTOMCUFLAGS_ADC_DONE">EVTOMCUFLAGS.ADC_DONE</A>.<BR>
+<BR>
+Read value is 0.</TD>
+<TD class="cellBitfieldCol4">WO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVTOMCUFLAGSCLR_SMPH_AUTOTAKE_DONE">6</a>
+</TD>
+<TD class="cellBitfieldCol2">SMPH_AUTOTAKE_DONE</TD>
+<TD class="cellBitfieldCol3" colspan="3">Write 1 to clear <A class="xref" href="#EVTOMCUFLAGS_SMPH_AUTOTAKE_DONE">EVTOMCUFLAGS.SMPH_AUTOTAKE_DONE</A>.<BR>
+<BR>
+Read value is 0.</TD>
+<TD class="cellBitfieldCol4">WO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVTOMCUFLAGSCLR_TIMER1_EV">5</a>
+</TD>
+<TD class="cellBitfieldCol2">TIMER1_EV</TD>
+<TD class="cellBitfieldCol3" colspan="3">Write 1 to clear <A class="xref" href="#EVTOMCUFLAGS_TIMER1_EV">EVTOMCUFLAGS.TIMER1_EV</A>.<BR>
+<BR>
+Read value is 0.</TD>
+<TD class="cellBitfieldCol4">WO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVTOMCUFLAGSCLR_TIMER0_EV">4</a>
+</TD>
+<TD class="cellBitfieldCol2">TIMER0_EV</TD>
+<TD class="cellBitfieldCol3" colspan="3">Write 1 to clear <A class="xref" href="#EVTOMCUFLAGS_TIMER0_EV">EVTOMCUFLAGS.TIMER0_EV</A>.<BR>
+<BR>
+Read value is 0.</TD>
+<TD class="cellBitfieldCol4">WO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVTOMCUFLAGSCLR_TDC_DONE">3</a>
+</TD>
+<TD class="cellBitfieldCol2">TDC_DONE</TD>
+<TD class="cellBitfieldCol3" colspan="3">Write 1 to clear <A class="xref" href="#EVTOMCUFLAGS_TDC_DONE">EVTOMCUFLAGS.TDC_DONE</A>.<BR>
+<BR>
+Read value is 0.</TD>
+<TD class="cellBitfieldCol4">WO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVTOMCUFLAGSCLR_AUX_COMPB">2</a>
+</TD>
+<TD class="cellBitfieldCol2">AUX_COMPB</TD>
+<TD class="cellBitfieldCol3" colspan="3">Write 1 to clear <A class="xref" href="#EVTOMCUFLAGS_AUX_COMPB">EVTOMCUFLAGS.AUX_COMPB</A>.<BR>
+<BR>
+Read value is 0.</TD>
+<TD class="cellBitfieldCol4">WO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVTOMCUFLAGSCLR_AUX_COMPA">1</a>
+</TD>
+<TD class="cellBitfieldCol2">AUX_COMPA</TD>
+<TD class="cellBitfieldCol3" colspan="3">Write 1 to clear <A class="xref" href="#EVTOMCUFLAGS_AUX_COMPA">EVTOMCUFLAGS.AUX_COMPA</A>.<BR>
+<BR>
+Read value is 0.</TD>
+<TD class="cellBitfieldCol4">WO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVTOMCUFLAGSCLR_AON_WU_EV">0</a>
+</TD>
+<TD class="cellBitfieldCol2">AON_WU_EV</TD>
+<TD class="cellBitfieldCol3" colspan="3">Write 1 to clear <A class="xref" href="#EVTOMCUFLAGS_AON_WU_EV">EVTOMCUFLAGS.AON_WU_EV</A>.<BR>
+<BR>
+Read value is 0.</TD>
+<TD class="cellBitfieldCol4">WO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+</TABLE>
+<H3 class="mmapRegisterTitle"><A name="EVTOAONFLAGSCLR"></A><A class="mmapRegisterTitle" href="CPU_MMAP.html">TOP</A>:<A class="mmapRegisterTitle" href="#Top_Tag">AUX_EVCTL</A>:EVTOAONFLAGSCLR</H3><TABLE cellspacing="0" class="mmapRegisterTable">
+<TR class="row">
+<TD class="cellCol1"><B>Address Offset</B></TD>
+<TD class="cellCol2" colspan="3">0x0000 003C</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Physical Address</TD>
+<TD class="cellCol2">0x400C 503C</TD>
+<TD class="cellCol3">Instance</TD>
+<TD class="cellCol4">0x400C 503C</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Description</TD>
+<TD class="cellCol2" colspan="3">Events To <A class="mmap_legend_link" href="../legend.html#AON">AON</A> Clear<BR>
+<BR>
+Clear event flags in <A class="xref" href="#EVTOAONFLAGS">EVTOAONFLAGS</A>. <BR>
+<BR>
+In order to clear a level sensitive event flag, the event must be deasserted.</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Type</TD>
+<TD class="cellCol2" colspan="3">RW</TD>
+</TR>
+</TABLE>
+<TABLE cellspacing="0" class="mmapBitfieldTable">
+<TR class="rowTop">
+<TD class="cellTopCol1">Bits</TD>
+<TD class="cellTopCol2">Field Name</TD>
+<TD class="cellTopCol3" colspan="3">Description</TD>
+<TD class="cellTopCol4">Type</TD>
+<TD class="cellTopCol5">Reset</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVTOAONFLAGSCLR_RESERVED9">31:9</a>
+</TD>
+<TD class="cellBitfieldCol2">RESERVED9</TD>
+<TD class="cellBitfieldCol3" colspan="3">Software should not rely on the value of a reserved. Writing any other value than the reset value may result in undefined behavior.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0b000 0000 0000 0000 0000 0000</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVTOAONFLAGSCLR_TIMER1_EV">8</a>
+</TD>
+<TD class="cellBitfieldCol2">TIMER1_EV</TD>
+<TD class="cellBitfieldCol3" colspan="3">Write 1 to clear <A class="xref" href="#EVTOAONFLAGS_TIMER1_EV">EVTOAONFLAGS.TIMER1_EV</A>.<BR>
+<BR>
+Read value is 0.</TD>
+<TD class="cellBitfieldCol4">WO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVTOAONFLAGSCLR_TIMER0_EV">7</a>
+</TD>
+<TD class="cellBitfieldCol2">TIMER0_EV</TD>
+<TD class="cellBitfieldCol3" colspan="3">Write 1 to clear <A class="xref" href="#EVTOAONFLAGS_TIMER0_EV">EVTOAONFLAGS.TIMER0_EV</A>.<BR>
+<BR>
+Read value is 0.</TD>
+<TD class="cellBitfieldCol4">WO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVTOAONFLAGSCLR_TDC_DONE">6</a>
+</TD>
+<TD class="cellBitfieldCol2">TDC_DONE</TD>
+<TD class="cellBitfieldCol3" colspan="3">Write 1 to clear <A class="xref" href="#EVTOAONFLAGS_TDC_DONE">EVTOAONFLAGS.TDC_DONE</A>.<BR>
+<BR>
+Read value is 0.</TD>
+<TD class="cellBitfieldCol4">WO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVTOAONFLAGSCLR_ADC_DONE">5</a>
+</TD>
+<TD class="cellBitfieldCol2">ADC_DONE</TD>
+<TD class="cellBitfieldCol3" colspan="3">Write 1 to clear <A class="xref" href="#EVTOAONFLAGS_ADC_DONE">EVTOAONFLAGS.ADC_DONE</A>.<BR>
+<BR>
+Read value is 0.</TD>
+<TD class="cellBitfieldCol4">WO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVTOAONFLAGSCLR_AUX_COMPB">4</a>
+</TD>
+<TD class="cellBitfieldCol2">AUX_COMPB</TD>
+<TD class="cellBitfieldCol3" colspan="3">Write 1 to clear <A class="xref" href="#EVTOAONFLAGS_AUX_COMPB">EVTOAONFLAGS.AUX_COMPB</A>.<BR>
+<BR>
+Read value is 0.</TD>
+<TD class="cellBitfieldCol4">WO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVTOAONFLAGSCLR_AUX_COMPA">3</a>
+</TD>
+<TD class="cellBitfieldCol2">AUX_COMPA</TD>
+<TD class="cellBitfieldCol3" colspan="3">Write 1 to clear <A class="xref" href="#EVTOAONFLAGS_AUX_COMPA">EVTOAONFLAGS.AUX_COMPA</A>.<BR>
+<BR>
+Read value is 0.</TD>
+<TD class="cellBitfieldCol4">WO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVTOAONFLAGSCLR_SWEV2">2</a>
+</TD>
+<TD class="cellBitfieldCol2">SWEV2</TD>
+<TD class="cellBitfieldCol3" colspan="3">Write 1 to clear <A class="xref" href="#EVTOAONFLAGS_SWEV2">EVTOAONFLAGS.SWEV2</A>.<BR>
+<BR>
+Read value is 0.</TD>
+<TD class="cellBitfieldCol4">WO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVTOAONFLAGSCLR_SWEV1">1</a>
+</TD>
+<TD class="cellBitfieldCol2">SWEV1</TD>
+<TD class="cellBitfieldCol3" colspan="3">Write 1 to clear <A class="xref" href="#EVTOAONFLAGS_SWEV1">EVTOAONFLAGS.SWEV1</A>.<BR>
+<BR>
+Read value is 0.</TD>
+<TD class="cellBitfieldCol4">WO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="EVTOAONFLAGSCLR_SWEV0">0</a>
+</TD>
+<TD class="cellBitfieldCol2">SWEV0</TD>
+<TD class="cellBitfieldCol3" colspan="3">Write 1 to clear <A class="xref" href="#EVTOAONFLAGS_SWEV0">EVTOAONFLAGS.SWEV0</A>.<BR>
+<BR>
+Read value is 0.</TD>
+<TD class="cellBitfieldCol4">WO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+</TABLE>
+<H3 class="mmapRegisterTitle"><A name="VECFLAGSCLR"></A><A class="mmapRegisterTitle" href="CPU_MMAP.html">TOP</A>:<A class="mmapRegisterTitle" href="#Top_Tag">AUX_EVCTL</A>:VECFLAGSCLR</H3><TABLE cellspacing="0" class="mmapRegisterTable">
+<TR class="row">
+<TD class="cellCol1"><B>Address Offset</B></TD>
+<TD class="cellCol2" colspan="3">0x0000 0040</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Physical Address</TD>
+<TD class="cellCol2">0x400C 5040</TD>
+<TD class="cellCol3">Instance</TD>
+<TD class="cellCol4">0x400C 5040</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Description</TD>
+<TD class="cellCol2" colspan="3">Vector Flags Clear<BR>
+<BR>
+Strobes for clearing flags in <A class="xref" href="#VECFLAGS">VECFLAGS</A>.</TD>
+</TR>
+<TR class="row">
+<TD class="cellCol1">Type</TD>
+<TD class="cellCol2" colspan="3">RW</TD>
+</TR>
+</TABLE>
+<TABLE cellspacing="0" class="mmapBitfieldTable">
+<TR class="rowTop">
+<TD class="cellTopCol1">Bits</TD>
+<TD class="cellTopCol2">Field Name</TD>
+<TD class="cellTopCol3" colspan="3">Description</TD>
+<TD class="cellTopCol4">Type</TD>
+<TD class="cellTopCol5">Reset</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="VECFLAGSCLR_RESERVED4">31:4</a>
+</TD>
+<TD class="cellBitfieldCol2">RESERVED4</TD>
+<TD class="cellBitfieldCol3" colspan="3">Software should not rely on the value of a reserved. Writing any other value than the reset value may result in undefined behavior.</TD>
+<TD class="cellBitfieldCol4">RO</TD>
+<TD class="cellBitfieldCol5">0x000 0000</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="VECFLAGSCLR_VEC3">3</a>
+</TD>
+<TD class="cellBitfieldCol2">VEC3</TD>
+<TD class="cellBitfieldCol3" colspan="3">Clear vector flag 3.<BR>
+<BR>
+0: No effect.<BR>
+1: Clear <A class="xref" href="#VECFLAGS_VEC3">VECFLAGS.VEC3</A>.<BR>
+<BR>
+Read value is 0.</TD>
+<TD class="cellBitfieldCol4">WO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="VECFLAGSCLR_VEC2">2</a>
+</TD>
+<TD class="cellBitfieldCol2">VEC2</TD>
+<TD class="cellBitfieldCol3" colspan="3">Clear vector flag 2.<BR>
+<BR>
+0: No effect.<BR>
+1: Clear <A class="xref" href="#VECFLAGS_VEC2">VECFLAGS.VEC2</A>.<BR>
+<BR>
+Read value is 0.</TD>
+<TD class="cellBitfieldCol4">WO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="VECFLAGSCLR_VEC1">1</a>
+</TD>
+<TD class="cellBitfieldCol2">VEC1</TD>
+<TD class="cellBitfieldCol3" colspan="3">Clear vector flag 1.<BR>
+<BR>
+0: No effect.<BR>
+1: Clear <A class="xref" href="#VECFLAGS_VEC1">VECFLAGS.VEC1</A>.<BR>
+<BR>
+Read value is 0.</TD>
+<TD class="cellBitfieldCol4">WO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+<TR class="rowBitfield">
+<TD class="cellBitfieldCol1"><a name="VECFLAGSCLR_VEC0">0</a>
+</TD>
+<TD class="cellBitfieldCol2">VEC0</TD>
+<TD class="cellBitfieldCol3" colspan="3">Clear vector flag 0.<BR>
+<BR>
+0: No effect.<BR>
+1: Clear <A class="xref" href="#VECFLAGS_VEC0">VECFLAGS.VEC0</A>.<BR>
+<BR>
+Read value is 0.</TD>
+<TD class="cellBitfieldCol4">WO</TD>
+<TD class="cellBitfieldCol5">0</TD>
+</TR>
+</TABLE>
+<BR>
+<BR>
+<hr><table class="footer"><tr><td>&copy; 2015 - 2016. Texas Instruments | All Rights Reserved</td></tr></table>
+</BODY>
+</HTML>

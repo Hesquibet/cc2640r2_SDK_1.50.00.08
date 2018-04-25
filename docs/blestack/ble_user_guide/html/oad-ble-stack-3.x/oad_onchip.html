@@ -1,0 +1,692 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>On-Chip OAD &mdash; BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation" href="../index.html"/>
+        <link rel="up" title="Over the Air Download (OAD)" href="oad.html"/>
+        <link rel="next" title="Creating a Voice Enabled Application" href="../voice/voice.html"/>
+        <link rel="prev" title="Off-Chip OAD" href="oad_offchip.html"/> 
+    <script language="JavaScript">
+        var tiPageName;
+        tiPageName = "sug oad-ble-stack-3.x oad_onchip";
+
+        if (location.protocol == "file:"){
+            var ci_analytics_poc_load = true;
+        }
+    </script> 
+
+    <script src="http://www.ti.com/assets/js/headerfooter/analytics.js" type="text/javascript" charset="utf-8">     
+
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../ble-stack-3.x-guide/index.html" class="icon icon-home"> BLE-Stack User's Guide for Bluetooth 4.2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.01.01.00
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../cc2640/disclaimer.html">Disclaimer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/get-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cc2640/platform.html">The CC2640R2F SDK Platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x/index.html">Developing a Bluetooth Low Energy Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../u-stack/index.html">Micro BLE Stack</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="oad.html">Over the Air Download (OAD)</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="oad_concepts.html">OAD Concept Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="oad_profile.html">OAD Profile</a></li>
+<li class="toctree-l2"><a class="reference internal" href="oad_offchip.html">Off-Chip OAD</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">On-Chip OAD</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#supported-configurations-for-on-chip-oad">Supported Configurations for On-Chip OAD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#constraints-and-requirements-for-on-chip-oad">Constraints and Requirements for On-chip OAD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#on-chip-oad-memory-layout">On-Chip OAD Memory layout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bim-for-on-chip-oad">BIM for On-chip OAD</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#application-execution-switching-using-ram">Application Execution switching using RAM</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#out-of-the-box-demo-on-chip-oad">Out of the Box Demo (On-Chip OAD)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#using-ccs">Using CCS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#using-iar">Using IAR</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../voice/voice.html">Creating a Voice Enabled Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../secure-fw-3.x/index.html">Secure Firmware (SFW)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensor-controller/sensor-controller.html">Sensor Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../debugging/ble-index.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/migration.html">Migration Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/api-reference.html">API References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/reference.html">Terms and Definitions</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../ble-stack-3.x-guide/index.html">BLE-Stack User's Guide for Bluetooth 4.2</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../ble-stack-3.x-guide/index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="oad.html">Over the Air Download (OAD)</a> &raquo;</li>
+        
+      <li>On-Chip OAD</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="on-chip-oad">
+<span id="sect-on-chip-oad"></span><h1>On-Chip OAD<a class="headerlink" href="#on-chip-oad" title="Permalink to this headline">¶</a></h1>
+<p>This section describes the On-chip OAD process. On-chip OAD uses only internal
+flash to update the user application. No external memory components are required
+to implement On-chip OAD.
+This section aims to address the following procedures that are
+unique to on-chip OAD:</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference internal" href="#sect-on-chip-limitations"><span class="std std-ref">Constraints and Requirements for On-chip OAD</span></a></li>
+<li><a class="reference internal" href="#sect-on-chip-bim-memory-layout"><span class="std std-ref">On-Chip OAD Memory layout</span></a></li>
+<li><a class="reference internal" href="#sect-bim-for-on-chip-oad"><span class="std std-ref">BIM for On-chip OAD</span></a></li>
+<li><a class="reference internal" href="#sect-on-chip-demo"><span class="std std-ref">Out of the Box Demo (On-Chip OAD)</span></a></li>
+<li><span class="xref std std-ref">sect-on-chip-add-to-proj</span></li>
+</ul>
+</div></blockquote>
+<p>For information about the OAD profile and image header, please see
+<a class="reference internal" href="oad_concepts.html#sec-oad-concepts"><span class="std std-ref">OAD Concept Overview</span></a></p>
+<p>For information about the TI OAD Sample Applications that showcase On-Chip OAD,
+see <a class="reference internal" href="oad_concepts.html#oad-projects-overview"><span class="std std-ref">OAD Projects Overview.</span></a>.</p>
+<div class="section" id="supported-configurations-for-on-chip-oad">
+<span id="sect-on-chip-stack-images"></span><h2>Supported Configurations for On-Chip OAD<a class="headerlink" href="#supported-configurations-for-on-chip-oad" title="Permalink to this headline">¶</a></h2>
+<p>On-chip OAD supports the split image build configuration only. Stack library
+image types are not supported.</p>
+<p>On-chip OAD supports Application Only and Stack Only OADs. The Stack Only OAD
+must be followed by an Application Only OAD.</p>
+<p>App + Stack Merged Image OADs and App + Stack Library OADs are not supported.</p>
+</div>
+<div class="section" id="constraints-and-requirements-for-on-chip-oad">
+<span id="sect-on-chip-limitations"></span><h2>Constraints and Requirements for On-chip OAD<a class="headerlink" href="#constraints-and-requirements-for-on-chip-oad" title="Permalink to this headline">¶</a></h2>
+<p>The On-chip OAD solution will have two application images residing in the
+on-chip flash. In this document, the term Persistent Application or Persistent
+App will refer to the permanently resident project/image that implements the OAD
+Service and the term Application or User Application will refer to the
+project/image that implements user customized profiles and implements the OAD
+Reset Service. Both application images share the same BLE Stack image.</p>
+<p>In case of OAD failure, BIM will execute the Persistent App. The Persistent App
+must implement the TI OAD Service. The User Application can choose not to
+implement the OAD Service as it can switch to the Persistent Application for
+downloading a new image. The User Application must implement the OAD Reset
+Service.</p>
+<p>In order to perform On-chip OAD the target system meet the following
+requirements:</p>
+<blockquote>
+<div><ul class="simple">
+<li>The Persistent App and the User Application shall share the same BLE stack.</li>
+<li>As a side effect of having permanent resident target application, there is
+less flash available for the User Application.</li>
+<li>A Stack upgrade should be compatible with the Persistent Application since
+the Stack is shared between the User Application and the Persistent App.</li>
+<li>The Persistent App should not be upgraded as this provides a backup in
+case of an OAD failure.</li>
+<li>The Application and Stack must use the split image ICall (FlashROM)
+architecture to ensure that the Persistent App, User Application
+and BLE protocol stack do not contain overlapping flash pages</li>
+<li>A Stack Only OAD must be followed by an Application Only OAD</li>
+</ul>
+</div></blockquote>
+<p>The RTOS ROM configuration is fixed at sector 1/flash page 1. Because this is
+part of the User Application Image (see <a class="reference internal" href="#sect-on-chip-bim-memory-layout"><span class="std std-ref">On-Chip OAD Memory layout</span></a>)
+the User Application should use TI-RTOS ROM implementation, while the
+Persistent App should use RTOS is flash to avoid dependency on flash page 1,
+which can be erased during the User Application upgrade process.</p>
+<p>The Persistent Application and the User Application should share the same
+RAM range as only one image is active at any given time. The User Application
+image must be a complete application image, capable of running independently of the
+Persistent App.</p>
+<p>One <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-51"><span class="xref std std-term">SNV</span></a> page is used by default. If the OAD Image is too large to fit in
+its allocated space, consider removing some features of the BLE stack to reduce
+its size.</p>
+</div>
+<div class="section" id="on-chip-oad-memory-layout">
+<span id="sect-on-chip-bim-memory-layout"></span><h2>On-Chip OAD Memory layout<a class="headerlink" href="#on-chip-oad-memory-layout" title="Permalink to this headline">¶</a></h2>
+<p>The on-chip flash memory is divided into the following sections:</p>
+<blockquote>
+<div><ul class="simple">
+<li>CCFG and BIM Image</li>
+<li>Persistent Application image</li>
+<li>NV storage area – this area is optional, if user runs short of flash space, it can be compiled out</li>
+<li>Stack image – stack image will be shared between Persistent Application and
+upgradable User Application image</li>
+<li>Free/Unused space</li>
+<li>Upgradable User Application image</li>
+</ul>
+</div></blockquote>
+<p>The last page of flash is reserved for BIM, CCFG and interrupt vectors. The
+Persistent App image will be stored on flash pages below the BIM flash page.
+Since the Persistent Application image should not be upgraded, this storage
+arrangement is chosen so that it can be stored at fixed location providing
+flexibility to upgrade Stack and Application. The flash pages next to this will
+be used by NVRAM storage. The NVRAM is user configurable, can use up-to two
+flash pages. To have an efficient BIM implementation, the User Application will
+be stored at the very bottom of flash, starting at flash page 0.</p>
+<p>The memory map for CC2640R2F internal flash in an On-chip OAD configuration is
+shown below.</p>
+<div class="figure align-center" id="id4">
+<span id="fig-on-chip-oad-target-memory-partition"></span><img alt="../_images/onchip_oad_mem_layout.png" src="../_images/onchip_oad_mem_layout.png" />
+<p class="caption"><span class="caption-number">Figure 92. </span><span class="caption-text">On-Chip OAD Memory Layout</span></p>
+</div>
+</div>
+<div class="section" id="bim-for-on-chip-oad">
+<span id="sect-bim-for-on-chip-oad"></span><h2>BIM for On-chip OAD<a class="headerlink" href="#bim-for-on-chip-oad" title="Permalink to this headline">¶</a></h2>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-46"><span class="xref std std-term">BIM</span></a> will link the resident <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-ccfg"><span class="xref std std-term">CCFG</span></a> sector. Furthermore,
+this is a custom CCFG, with the <code class="code docutils literal"><span class="pre">IMAGE_VALID_CONF</span></code> field set to
+0x1F000. This means that the boot ROM of the device will automatically
+execute <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-46"><span class="xref std std-term">BIM</span></a> code instead of application code at startup. <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-46"><span class="xref std std-term">BIM</span></a>
+will handle starting the application. OAD applications will not need to
+include a <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-ccfg"><span class="xref std std-term">CCFG</span></a>. This is a feature of CC2640R2F, and not compatible
+with R1 devices.</p>
+</div>
+<p>The OAD solution requires that permanently resident boot code, the <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-46"><span class="xref std std-term">BIM</span></a>,
+exists in order to provide a fail-safe mechanism for determining (in
+preferential order) the image which is ready to run. When a valid image
+is found, the <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-46"><span class="xref std std-term">BIM</span></a> jumps to that image at which point the image takes
+over execution. Either the Persistent Application or User Application must
+implement the proprietary TI OAD Profile. By default, this is the role of the
+Persistent App. When an image with the OAD Profile downloads a new image, a
+system reset can be executed to return to <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-46"><span class="xref std std-term">BIM</span></a> to verify the correctness
+of the download and begin execution.</p>
+<div class="figure align-center" id="id5">
+<span id="functional-overview-on-chip-bim"></span><img alt="../_images/onchip_oad_bim.png" src="../_images/onchip_oad_bim.png" />
+<p class="caption"><span class="caption-number">Figure 93. </span><span class="caption-text">Functional Overview of On-chip <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-46"><span class="xref std std-term">BIM</span></a></span></p>
+</div>
+<p>As the permanent owner of the flash interrupt vectors, <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-46"><span class="xref std std-term">BIM</span></a> provides a
+fail-safe mechanism for intercepting the reset vector, putting the
+hardware into a safe state, and taking the most appropriate action by
+reading the headers of the Persistent App and the User Application.</p>
+<p>The On-chip OAD solution supports Application only and Stack only (followed by
+Application only) OADs. In both upgrade options, the &#8216;OAD capable&#8217; application
+will download the new image either by storing at empty flash pages or by
+replacing the old image with the new one. After successful copy, BIM will
+calculate the CRC32 of the image. If it matches with image’s CRC32 value embedded
+in the image, it will set the image ‘CRC Status’ bits to value ‘10’(0xFE) to
+indicate valid CRC in the image header and execution will be switched to
+the newly downloaded image. If the device has RAM retention capability over
+resets then it can use the &#8216;BIM Argument&#8217; for switching the
+application execution as described in <a class="reference internal" href="#sect-ram-argument"><span class="std std-ref">Application Execution switching using RAM</span></a>. If the device
+does not have RAM retention, it can use &#8216;Image validation bytes&#8217; as described in
+<a class="reference internal" href="oad_profile.html#sec-oad-image-metadata"><span class="std std-ref">OAD Image Header</span></a> for switching.</p>
+<div class="section" id="application-execution-switching-using-ram">
+<span id="sect-ram-argument"></span><h3>Application Execution switching using RAM<a class="headerlink" href="#application-execution-switching-using-ram" title="Permalink to this headline">¶</a></h3>
+<p>On devices which have RAM retention capability between soft resets, execution
+switching between application can be done using RAM variables.
+For example, on the CC2640R2F, execution switching between User and Persistent
+Applications will be done by writing to a RAM variable stored at
+a known RAM location. This location will be used explicitly for application
+switching only. The value will be retained between soft resets.</p>
+<p>The RAM variable called &#8216;BIM Argument&#8217; is two bytes long with values as defined
+in <a class="reference internal" href="#tbl-bim-argument"><span class="std std-ref">Description of the BIM Argument variable.</span></a>. The byte 0 value defines the meaning of
+the byte 1 content. In SimpleLink CC2640R2 SDK, there are two valid values for byte 0: &#8216;0&#8217; and &#8216;1&#8217;.
+Values 2-255 are reserved for future use. If BIM encounters a byte0 value
+greater than 1, it will consider if invalid, will try to find the
+default application starting from flash page &#8216;0&#8217;, by reading image header.</p>
+<span id="tbl-bim-argument"></span><table border="1" class="docutils" id="id6">
+<caption><span class="caption-number">Table 22. </span><span class="caption-text">Description of the BIM Argument variable.</span><a class="headerlink" href="#id6" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="16%" />
+<col width="22%" />
+<col width="62%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Byte 0 Value</th>
+<th class="head">Byte 1 Value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td rowspan="9">0</td>
+<td rowspan="9">0</td>
+<td rowspan="9"><p class="first">Default value after hard reset.</p>
+<p>The &#8216;argument variable&#8217; contents are invalid, BIM</p>
+<p>needs to find a valid on-chip user application and</p>
+<p>execute it.</p>
+<p>If BIM cannot find the valid User Application,</p>
+<p>then it will try to find a valid Pesistant App</p>
+<p>and execute.</p>
+<p>If it is unable to find either application it will</p>
+<p class="last">put the device to low power sleep mode.</p>
+</td>
+</tr>
+<tr class="row-odd"></tr>
+<tr class="row-even"></tr>
+<tr class="row-odd"></tr>
+<tr class="row-even"></tr>
+<tr class="row-odd"></tr>
+<tr class="row-even"></tr>
+<tr class="row-odd"></tr>
+<tr class="row-even"></tr>
+<tr class="row-odd"><td rowspan="4">0</td>
+<td rowspan="4">Flash page number</td>
+<td rowspan="4"><p class="first">Byte 1 contains the application start address BIM</p>
+<p>needs to jump to on resuming execution after a soft</p>
+<p>reset. The address will be in terms of flash page</p>
+<p class="last">number.</p>
+</td>
+</tr>
+<tr class="row-even"></tr>
+<tr class="row-odd"></tr>
+<tr class="row-even"></tr>
+<tr class="row-odd"><td>1</td>
+<td>Image Type</td>
+<td>Version required to support image format</td>
+</tr>
+<tr class="row-even"><td>2-255</td>
+<td>N/A</td>
+<td>Version of Image Header contained in image</td>
+</tr>
+</tbody>
+</table>
+<p>Only two applications can co-exist on the on-chip flash in the CC2640R2F. The
+value of Image Type = ‘1’ defines User Application image and Image Type = ‘0’
+defines Persistent Application. When the target application downloads a new
+valid application image which needs to be executed, it sets the RAM argument
+variable&#8217;s byte0=0 and byte1=1 and triggers a soft reset. The soft reset
+will cause BIM to execute. BIM, on resuming execution, will read this value and
+find that it need to run the User Application, it will start looking for the
+image header of the User Application starting at flash page 0. After finding a
+valid image header, BIM will jump to the start address of the User Application.</p>
+<p>If the Application knows flash page number it wishes to jump to,
+it sets byte0=1, and sets the value of byte 1 to the flash page number of the
+application image start address. On resuming execution, BIM will read these
+values and jumps directly to that page, and execute the application if that
+flash contains the valid executable application.</p>
+<p>Note: An application image is considered valid if it has
+&#8216;CRC status&#8217;== 0xFE(CRC valid).</p>
+</div>
+</div>
+<div class="section" id="out-of-the-box-demo-on-chip-oad">
+<span id="sect-on-chip-demo"></span><h2>Out of the Box Demo (On-Chip OAD)<a class="headerlink" href="#out-of-the-box-demo-on-chip-oad" title="Permalink to this headline">¶</a></h2>
+<p>The SimpleLink CC2640R2 SDK includes demo projects that are setup to use OAD in advance. These
+build configurations may be flashed onto the device out of the box. All out of
+the box demos use BTool as the <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-oad-downloader"><span class="xref std std-term">OAD Downloader</span></a>. Please see
+<a class="reference internal" href="oad_concepts.html#sec-oad-topology"><span class="std std-ref">OAD Topology Overview</span></a> for more information. Ensure that BTool is setup
+correctly first. See <a class="reference internal" href="oad_appendix.html#sec-oad-btool-setup"><span class="std std-ref">BTool Setup</span></a> for steps on how to do so.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">There are two BTool version shipped with the SimpleLink CC2640R2 SDK. For these steps, use
+the BTool version located at <code class="code docutils literal"><span class="pre">tools/blestack/btool</span></code>.</p>
+</div>
+<p>The steps listed below assume that a <a class="reference external" href="http://www.ti.com.cn/tool/launchxl-cc2640r2">CC2640R2 Launchpad</a> is being used. Additional steps may be
+required for custom hardware.</p>
+<p>Furthermore, the steps in this section are referring to the
+<a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-oad-target"><span class="xref std std-term">OAD Target</span></a> device, the images referenced below should be flashed onto
+that device.</p>
+<div class="section" id="using-ccs">
+<h3>Using CCS<a class="headerlink" href="#using-ccs" title="Permalink to this headline">¶</a></h3>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">If both the <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-oad-target"><span class="xref std std-term">OAD Target</span></a> and the <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-oad-downloader"><span class="xref std std-term">OAD Downloader</span></a> are connected
+at the same time, CCS may load the image to the wrong device. This is because
+CCS will select the first XDS110 it finds. This behavior can be avoided by
+unplugging the <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-oad-target"><span class="xref std std-term">OAD Target</span></a> device, or by setting a multi emulator
+debug session using CCS.
+See the wiki <a class="reference external" href="http://processors.wiki.ti.com/index.php/Multi-Emulator_Debug_with_CCS">Debug with Multiple Emulators</a>
+for more information.</p>
+</div>
+<ol class="arabic">
+<li><p class="first">Import the <code class="code docutils literal"><span class="pre">bim_oad_onchip_cc2640r2lp_app</span></code>,
+<code class="code docutils literal"><span class="pre">persistent_app_cc2640r2lp</span></code>,
+<code class="code docutils literal"><span class="pre">simple_peripheral_cc2640r2lp_oad_onchip_stack</span></code>, and
+<code class="code docutils literal"><span class="pre">simple_peripheral_cc2640r2lp_oad_onchip_app</span></code> projects into
+the workspace. This can be done by importing the
+<code class="code docutils literal"><span class="pre">simple_peripheral_cc2640r2lp_oad_onchip_app</span></code> project. It will pull the
+other required projects in automatically.</p>
+<blockquote>
+<div><div class="figure align-center" id="id7">
+<span id="fig-onchip-oad-ccs-workspace"></span><img alt="../_images/onchip_oad_workspace_ccs.png" src="../_images/onchip_oad_workspace_ccs.png" />
+<p class="caption"><span class="caption-number">Figure 94. </span><span class="caption-text">On-chip OAD CCS Workspace</span></p>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">Build the projects in the following order:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><code class="code docutils literal"><span class="pre">bim_oad_onchip_cc2640r2lp_app</span></code>,</li>
+<li><code class="code docutils literal"><span class="pre">persistent_app_cc2640r2lp</span></code></li>
+<li><code class="code docutils literal"><span class="pre">simple_peripheral_cc2640r2lp_oad_onchip_stack</span></code></li>
+<li><code class="code docutils literal"><span class="pre">simple_peripheral_cc2640r2lp_oad_onchip_app</span></code></li>
+</ol>
+</div></blockquote>
+</li>
+<li><p class="first">Use Smart RF Flash Programmer 2 to load the hex images created in the
+previous step to the <a class="reference external" href="http://www.ti.com.cn/tool/launchxl-cc2640r2">CC2640R2 Launchpad</a> for the BIM, Persistant App, and Stack.</p>
+<blockquote>
+<div><ul class="simple">
+<li>By default these images can be found at:
+:code:<a href="#id2"><span class="problematic" id="id3">`</span></a>workspace_v7&lt;PROJECT_NAME&gt;FlashOnly`</li>
+</ul>
+</div></blockquote>
+</li>
+<li><dl class="first docutils">
+<dt>To flash the application file, make sure the &#8220;Pages in image&#8221; option is</dt>
+<dd><p class="first last">selected in the Erase settings. Make sure to use
+either the <code class="code docutils literal"><span class="pre">simple_peripheral_cc2640r2lp_oad_onchip_app_FlashROM_oad.bin</span></code>
+file (app only image) or the
+<code class="code docutils literal"><span class="pre">simple_peripheral_cc2640r2lp_oad_onchip_app_FlashROM_oad_merged.bin</span></code>
+file (app + stack merged image). By default these images can be found at:
+<code class="code docutils literal"><span class="pre">\workspace_v7\&lt;PROJECT_NAME&gt;\FlashOnly</span></code>
+The start address should be given as 0x00000000.</p>
+</dd>
+</dl>
+</li>
+<li><p class="first">You should now be able to observe that the device is advertising via BTool.</p>
+<blockquote>
+<div><ul class="simple">
+<li>The Persistent App advertises as &#8220;OAD Persistent App&#8221;.</li>
+<li>See <a class="reference internal" href="oad_appendix.html#sec-oad-btool-verify-adv"><span class="std std-ref">BTool OAD Verify Advertising</span></a> for steps.</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">Make your application level changes that are intended for OAD update.
+Follow steps in <a class="reference internal" href="oad_appendix.html#sec-oad-adv-change"><span class="std std-ref">Changing Application Data to Verify an OAD</span></a> for a trivial way to change app to
+verify the OAD. Build the application with changes.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Remember that with the architecture of On-chip OAD, the User
+Application is <code class="code docutils literal"><span class="pre">simple_peripheral_cc2640r2lp_oad_onchip_app</span></code>.
+Changes should be made to the User Application as the Persistent App is
+permanently resident.</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">Use BTool to OAD your modified application file following the steps detailed in
+<a class="reference internal" href="oad_appendix.html#sec-oad-btool-procedure"><span class="std std-ref">BTool OAD Procedure</span></a></p>
+<blockquote>
+<div><ul class="simple">
+<li>Make sure you are using the *_oad.bin file with BTool as this file
+contains the image header. By default these images can be found at:
+<code class="code docutils literal"><span class="pre">\workspace_v7\simple_peripheral_cc2640r2lp_oad_onchip_app</span></code></li>
+</ul>
+</div></blockquote>
+</li>
+</ol>
+<div class="admonition attention">
+<p class="first admonition-title">Attention</p>
+<p class="last">After a successful OAD, the new image must be enabled. This is done by
+writing the Enable OAD Image Command to the OAD Control Characteristic.
+BTool will send the appropriate command automatically.</p>
+</div>
+</div>
+<div class="section" id="using-iar">
+<h3>Using IAR<a class="headerlink" href="#using-iar" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic">
+<li><p class="first">Open <code class="code docutils literal"><span class="pre">simple_peripheral_oad_onchip.eww</span></code> workspace. This will open all
+four required projects.</p>
+</li>
+<li><p class="first">Build the projects in the following order:
+<code class="code docutils literal"><span class="pre">cc2640r2lp_bim_onchip</span></code>
+<code class="code docutils literal"><span class="pre">cc2640r2lp_persistent_app</span></code>
+<code class="code docutils literal"><span class="pre">cc2640r2lp_stack</span></code>
+<code class="code docutils literal"><span class="pre">cc2640r2lp_app</span></code></p>
+</li>
+<li><p class="first">Use Smart RF Flash Programmer 2 to load the hex images created in the
+previous step to the <a class="reference external" href="http://www.ti.com.cn/tool/launchxl-cc2640r2">CC2640R2 Launchpad</a> for the BIM, Persistant App, and Stack.</p>
+<blockquote>
+<div><ul class="simple">
+<li>By default these images can be found at:
+<code class="code docutils literal"><span class="pre">\examples\rtos\CC2640R2_LAUNCHXL\blestack\simple_peripheral_oad_onchip\tirtos\iar\&lt;PROJECT_NAME&gt;\FlashROM\Exe</span></code></li>
+</ul>
+</div></blockquote>
+</li>
+<li><dl class="first docutils">
+<dt>To flash the application file, make sure the &#8220;Pages in image&#8221; option is</dt>
+<dd><p class="first last">selected in the Erase settings. Make sure to use
+either the <code class="code docutils literal"><span class="pre">sp_oad_onchip_cc2640r2lp_app_FlashROM_oad.bin</span></code>
+file (app only image)or the
+<code class="code docutils literal"><span class="pre">sp_oad_onchip_cc2640r2lp_app_FlashROM_oad_merged.bin</span></code>
+file (app + stack merged image). By default these images can be found at:
+<code class="code docutils literal"><span class="pre">\examples\rtos\CC2640R2_LAUNCHXL\blestack\simple_peripheral_oad_onchip\tirtos\iar\app\FlashROM\Exe</span></code>
+The start address should be given as 0x00000000.</p>
+</dd>
+</dl>
+</li>
+<li><p class="first">You should now be able to observe that the device is advertising via BTool.</p>
+<blockquote>
+<div><ul class="simple">
+<li>The User Application advertises as &#8220;SBP OAD APP vXXX where XXX is the
+value of SOFTVER.</li>
+<li>See <a class="reference internal" href="oad_appendix.html#sec-oad-btool-verify-adv"><span class="std std-ref">BTool OAD Verify Advertising</span></a> for steps.</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">Make your application level changes that are intended for OAD update.
+Follow steps in <a class="reference internal" href="oad_appendix.html#sec-oad-adv-change"><span class="std std-ref">Changing Application Data to Verify an OAD</span></a> for a trivial way to change
+<code class="code docutils literal"><span class="pre">cc2640r2lp_app</span></code> to verify the OAD. Build the Application with changes.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Remember that with the architecture of On-chip OAD, the User
+Application is <code class="code docutils literal"><span class="pre">cc2640r2lp_app</span></code>. Changes should be made to this
+application as <code class="code docutils literal"><span class="pre">cc2640r2lp_persistent_app</span></code> is permanently resident
+and cannot be updated.</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">Use BTool to OAD your modified application file following the steps detailed in
+<a class="reference internal" href="oad_appendix.html#sec-oad-btool-procedure"><span class="std std-ref">BTool OAD Procedure</span></a></p>
+<blockquote>
+<div><ul class="simple">
+<li>Make sure you are using the *_oad.bin file with BTool as this file
+contains the metadata. By default these images can be found at:
+<code class="code docutils literal"><span class="pre">\examples\rtos\CC2640R2_LAUNCHXL\ble5stack\simple_peripheral_oad_onchip\tirtos\iar\app\FlashOnly_OAD_ImgB\Exe</span></code></li>
+</ul>
+</div></blockquote>
+</li>
+</ol>
+<div class="admonition attention">
+<p class="first admonition-title">Attention</p>
+<p class="last">After a successful OAD, the new image must be enabled. This is done by
+writing the Enable OAD Image Command to the OAD Control Characteristic.
+BTool will send the appropriate command automatically.</p>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../voice/voice.html" class="btn btn-neutral float-right" title="Creating a Voice Enabled Application" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="oad_offchip.html" class="btn btn-neutral" title="Off-Chip OAD" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Texas Instruments.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.01.01.00',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

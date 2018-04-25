@@ -1,0 +1,427 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Terms and Definitions &mdash; BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation" href="../index.html"/>
+        <link rel="prev" title="API References" href="api-reference.html"/> 
+    <script language="JavaScript">
+        var tiPageName;
+        tiPageName = "sug ble-stack-3.x-guide reference";
+
+        if (location.protocol == "file:"){
+            var ci_analytics_poc_load = true;
+        }
+    </script> 
+
+    <script src="http://www.ti.com/assets/js/headerfooter/analytics.js" type="text/javascript" charset="utf-8">     
+
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> BLE-Stack User's Guide for Bluetooth 4.2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.01.01.00
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../cc2640/disclaimer.html">Disclaimer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="get-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cc2640/platform.html">The CC2640R2F SDK Platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x/index.html">Developing a Bluetooth Low Energy Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../u-stack/index.html">Micro BLE Stack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../oad-ble-stack-3.x/oad.html">Over the Air Download (OAD)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../voice/voice.html">Creating a Voice Enabled Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../secure-fw-3.x/index.html">Secure Firmware (SFW)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensor-controller/sensor-controller.html">Sensor Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../debugging/ble-index.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="migration.html">Migration Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api-reference.html">API References</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Terms and Definitions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#bluetooth-low-energy-terms-and-acronyms">Bluetooth Low Energy Terms and Acronyms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#general-terms-and-acronyms">General Terms and Acronyms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#ti-rtos-terms-and-acronyms">TI-RTOS Terms and Acronyms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#over-the-air-download-oad-terms-and-acronyms">Over the Air Download (OAD) Terms and Acronyms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#secure-firmware-sfw-terms-and-acronyms">Secure Firmware (SFW) Terms and Acronyms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sensor-controller-terms-and-acronyms">Sensor Controller Terms and Acronyms</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">BLE-Stack User's Guide for Bluetooth 4.2</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Terms and Definitions</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="terms-and-definitions">
+<h1>Terms and Definitions<a class="headerlink" href="#terms-and-definitions" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="bluetooth-low-energy-terms-and-acronyms">
+<h2>Bluetooth Low Energy Terms and Acronyms<a class="headerlink" href="#bluetooth-low-energy-terms-and-acronyms" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-ble">BLE</dt>
+<dd>Bluetooth Low Energy</dd>
+<dt id="term-br">BR</dt>
+<dd>Basic Rate</dd>
+<dt id="term-br-edr">BR/EDR</dt>
+<dd>Basic Rate/Enhanced Data Rate</dd>
+<dt id="term-cccd">CCCD</dt>
+<dd>Client Characteristic Configuration Descriptor</dd>
+<dt id="term-device-address">Device Address</dt>
+<dd>A 48-bit value used to identify a device. A device address can be
+public, random static, or random private.</dd>
+<dt id="term-gap">GAP</dt>
+<dd>Generic Access Protocol</dd>
+<dt id="term-gfsk">GFSK</dt>
+<dd>Gaussian Frequency-Shift Keying</dd>
+<dt id="term-hci">HCI</dt>
+<dd>Host Control Interface</dd>
+<dt id="term-identity-address">Identity Address<dt id="term-ia">IA</dt>
+<dd>A <a class="reference internal" href="#term-resolvable-private-address"><span class="xref std std-term">Resolvable Private Address</span></a> that is resolveable with an
+<a class="reference internal" href="#term-identity-resolving-key"><span class="xref std std-term">Identity Resolving Key</span></a> yields an <a class="reference internal" href="#term-identity-address"><span class="xref std std-term">Identity Address</span></a>.</dd>
+<dt id="term-identity-resolving-key">Identity Resolving Key<dt id="term-irk">IRK</dt>
+<dd>A key exchanged during Phase 3 of the bonding process. A
+<a class="reference internal" href="#term-resolving-list"><span class="xref std std-term">Resolving List</span></a> contains a local and a peer Identity Resolving
+Key as well as an <a class="reference internal" href="#term-identity-address"><span class="xref std std-term">Identity Address</span></a>.</dd>
+<dt id="term-ism">ISM</dt>
+<dd>Industrial, Scientific, and Medical</dd>
+<dt id="term-l2cap">L2CAP</dt>
+<dd>Link Logical Control and Adaption Protocol</dd>
+<dt id="term-le">LE</dt>
+<dd>Low Energy</dd>
+<dt id="term-link-layer">Link Layer<dt id="term-ll">LL</dt>
+<dd>A Bluetooth low energy stack layer in on the controller side.</dd>
+<dt id="term-phy">PHY</dt>
+<dd>Physical Layer</dd>
+<dt id="term-resolving-list">Resolving List<dt id="term-rl">RL</dt>
+<dd>A <a class="reference internal" href="#term-link-layer"><span class="xref std std-term">Link Layer</span></a> maintained table of one or more entries of a local
+and peer <a class="reference internal" href="#term-identity-resolving-key"><span class="xref std std-term">Identity Resolving Key</span></a> associated to an
+<a class="reference internal" href="#term-identity-address"><span class="xref std std-term">Identity Address</span></a>.</dd>
+<dt id="term-resolvable-private-address">Resolvable Private Address<dt id="term-rpa">RPA</dt>
+<dd>A resolvable address is one that can be resolved given that the device
+has an <a class="reference internal" href="#term-identity-resolving-key"><span class="xref std std-term">Identity Resolving Key</span></a>. By resolving a Resolvable
+Private Address one can determine its <a class="reference internal" href="#term-identity-address"><span class="xref std std-term">Identity Address</span></a>.</dd>
+<dt id="term-white-list">White List<dt id="term-wl">WL</dt>
+<dd>A filter policy in the Controller&#8217;s Link Layer that can prevent unwanted
+link layer events from waking up the host.</dd>
+</dl>
+</div>
+<div class="section" id="general-terms-and-acronyms">
+<h2>General Terms and Acronyms<a class="headerlink" href="#general-terms-and-acronyms" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-bim">BIM</dt>
+<dd>Boot Image Manager, the software bootloader</dd>
+<dt id="term-bss">.bss</dt>
+<dd>Block started by symbol. This memory setion usually contains uninitialized variables including the task stacks and the TI-RTOS heap.</dd>
+<dt id="term-cca">CCA<dt id="term-ccfg">CCFG</dt>
+<dd>Customer Configuration Area, contains lock-bits on flash page 31 and the
+Customer Configuration Table (.ccfg)</dd>
+<dt id="term-ccs">CCS</dt>
+<dd>Code Composer Studio</dd>
+<dt id="term-gpram">GPRAM</dt>
+<dd>General purpose RAM. This memory area is used for the cache per default,
+but can be configured to be used as RAM.</dd>
+<dt id="term-iar">IAR</dt>
+<dd>IAR Systems</dd>
+<dt id="term-mcu">MCU</dt>
+<dd>Microcontroller Unit</dd>
+<dt id="term-oad">OAD</dt>
+<dd>Over the Air Download</dd>
+<dt id="term-rcfg">RCFG</dt>
+<dd>TI-RTOS in ROM Configuration Table</dd>
+<dt id="term-rom">ROM</dt>
+<dd>Read-only Memory</dd>
+<dt id="term-snv">SNV</dt>
+<dd>Simple Non-Volatile storage</dd>
+<dt id="term-snp">SNP</dt>
+<dd>Simple Network Processor, a BLE network processor implementation that
+supports the peripheral and broadcaster GAP Roles.</dd>
+<dt id="term-ap">AP</dt>
+<dd>Application Processor, the host MCU that implements the user application.
+Connected to a network processor via a serial interface such as NPI</dd>
+<dt id="term-unpi">UNPI</dt>
+<dd>Unified Network Processor Interface, a standardized serial transport
+format that is implemented by TI for the purposes of interfacing to
+network processor devices like the SNP. UNPI also manages the handshaking
+required for the serial interface.</dd>
+<dt id="term-rtsc">RTSC</dt>
+<dd>Real Time Software Components. See <a class="reference external" href="http://www.eclipse.org/rtsc/">RTSC</a>
+and <a class="reference external" href="http://rtsc.eclipse.org/docs-tip/Main_Page">RTSC-Pedia</a>.</dd>
+</dl>
+</div>
+<div class="section" id="ti-rtos-terms-and-acronyms">
+<h2>TI-RTOS Terms and Acronyms<a class="headerlink" href="#ti-rtos-terms-and-acronyms" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-hwi">Hwi</dt>
+<dd>A TI-RTOS Hardware interrupt.</dd>
+<dt id="term-idle-task">Idle Task</dt>
+<dd>A TI-RTOS default task that is executes when no other higher priority
+thread needs to run.</dd>
+<dt id="term-rtc">RTC</dt>
+<dd>Real-time Clock</dd>
+<dt id="term-swi">Swi</dt>
+<dd>A TI-RTOS Software interrupt.</dd>
+<dt id="term-ti-rtos">TI-RTOS</dt>
+<dd>Texas Instruments Real Time Operating System</dd>
+<dt id="term-zero-latency-interrupts">Zero-Latency Interrupts</dt>
+<dd>An interrupt that will not be routed through the TI-RTOS
+kernel&#8217;s Hwi dispatcher. For more information, see this
+<a class="reference external" href="http://processors.wiki.ti.com/index.php/SYS/BIOS_for_Stellaris_Devices#Configuring_a_Zero_Latency_Interrupt">wiki article</a>.</dd>
+</dl>
+</div>
+<div class="section" id="over-the-air-download-oad-terms-and-acronyms">
+<h2>Over the Air Download (OAD) Terms and Acronyms<a class="headerlink" href="#over-the-air-download-oad-terms-and-acronyms" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-46">BIM</dt>
+<dd>Boot Image Manager</dd>
+<dt id="term-47">OAD</dt>
+<dd>Over the Air Download</dd>
+<dt id="term-48">CCCD</dt>
+<dd>Client Characteristic Configuration Descriptor</dd>
+<dt id="term-oad-target">OAD Target</dt>
+<dd><p class="first">The device whose firmware is being upgraded over the air.
+This is assumed to be a CC26xx device running the TI OAD service.</p>
+<p class="last">OAD Target App also refers to the Image A project for on-chip
+OAD applications</p>
+</dd>
+<dt id="term-oad-downloader">OAD Downloader</dt>
+<dd>The device responsible for accepting an OAD enabled image from the
+compiler and transferring it over the air to the OAD target.</dd>
+<dt id="term-51">SNV</dt>
+<dd>Simple Non Volatile. An abstraction layer used by the BLE stack for
+reading and writing to non volatile memory. The GAPBondMgr layer of
+stack uses SNV to store keys. This region can also be used by the
+user.</dd>
+</dl>
+</div>
+<div class="section" id="secure-firmware-sfw-terms-and-acronyms">
+<h2>Secure Firmware (SFW) Terms and Acronyms<a class="headerlink" href="#secure-firmware-sfw-terms-and-acronyms" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-secure-firmware">Secure Firmware<dt id="term-sfw">SFW</dt>
+<dd>The process of verifying an image before running for improved integrity and security</dd>
+<dt id="term-secure-firmware-bootloader">Secure Firmware Bootloader<dt id="term-sfb">SFB</dt>
+<dd>The bootloader that verifies the secure firmware image</dd>
+<dt id="term-secure-firmware-image">Secure Firmware Image<dt id="term-sfi">SFI</dt>
+<dd>The application image that needs to be verified</dd>
+<dt id="term-ecc">ECC</dt>
+<dd>Elliptic Curve Cryptography</dd>
+<dt id="term-sha">SHA</dt>
+<dd>Secure Hash Algorithm</dd>
+<dt id="term-aes-cbc-mac">AES CBC MAC</dt>
+<dd>Advanced Encryption Standard Cipher Block Chaining Message Authentication Code</dd>
+<dt id="term-tlv">TLV</dt>
+<dd>Type Length Value</dd>
+</dl>
+</div>
+<div class="section" id="sensor-controller-terms-and-acronyms">
+<h2>Sensor Controller Terms and Acronyms<a class="headerlink" href="#sensor-controller-terms-and-acronyms" title="Permalink to this headline">¶</a></h2>
+<dl class="glossary docutils">
+<dt id="term-sc">SC</dt>
+<dd>Sensor Controller</dd>
+<dt id="term-scs">SCS</dt>
+<dd>Sensor Controller Studio</dd>
+</dl>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="api-reference.html" class="btn btn-neutral" title="API References" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Texas Instruments.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.01.01.00',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

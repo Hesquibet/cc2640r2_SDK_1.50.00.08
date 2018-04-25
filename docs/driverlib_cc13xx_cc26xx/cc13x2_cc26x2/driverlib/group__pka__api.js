@@ -1,0 +1,37 @@
+var group__pka__api =
+[
+    [ "PKA_EccParam256", "union_p_k_a___ecc_param256.html", [
+      [ "byte", "union_p_k_a___ecc_param256.html#a64b4481a464f51406e4d5cc08c386459", null ],
+      [ "word", "union_p_k_a___ecc_param256.html#a1000be58334750b21d5982cd06279c91", null ]
+    ] ],
+    [ "PKABigNumAddGetResult", "group__pka__api.html#ga8449b8c71a902d877c82b330f364fa3a", null ],
+    [ "PKABigNumAddStart", "group__pka__api.html#ga38a2c6d0a3f30509fff6e5207e5d4d95", null ],
+    [ "PKABigNumCmpGetResult", "group__pka__api.html#ga28d29afe4d56e10e0ced138068ab8b94", null ],
+    [ "PKABigNumCmpStart", "group__pka__api.html#ga242b7e1a2627118568eae5783240aeda", null ],
+    [ "PKABigNumInvModGetResult", "group__pka__api.html#ga36b872c78e0e78ad886dec3b3285f458", null ],
+    [ "PKABigNumInvModStart", "group__pka__api.html#ga4cb6f2c2ee22246d5158b6b728177b08", null ],
+    [ "PKABigNumModGetResult", "group__pka__api.html#ga8e4f33999dcf192e85b3c2b22f898595", null ],
+    [ "PKABigNumModStart", "group__pka__api.html#ga2dcc81e531966fb788e8d24e16526a95", null ],
+    [ "PKABigNumMultGetResult", "group__pka__api.html#ga5c68e120c04de8fae4f2c263fa6b7694", null ],
+    [ "PKABigNumMultiplyStart", "group__pka__api.html#gae2dec29ba7b1a23be9ec93d8849755b0", null ],
+    [ "PKAEccAddGetResult", "group__pka__api.html#ga8034d4bbb62522c9524da8b7e281508e", null ],
+    [ "PKAEccAddStart", "group__pka__api.html#ga9546ad8de9dd4fd3aedcdf04d5dbc100", null ],
+    [ "PKAEccMultiplyGetResult", "group__pka__api.html#gad813e1f8369b2da852934765493e56f2", null ],
+    [ "PKAEccMultiplyStart", "group__pka__api.html#gadff4c5f9209fc99fddb95264cf71dbe7", null ],
+    [ "PKAGetOpsStatus", "group__pka__api.html#ga4c7f9edf362c0a7102c481f901fbf732", null ],
+    [ "PKA_STATUS_A_GR_B", "group__pka__api.html#ga44ba964235708526426f713b1d0326a8", null ],
+    [ "PKA_STATUS_A_LT_B", "group__pka__api.html#ga2fced46456f8a316568814bfc70866c4", null ],
+    [ "PKA_STATUS_BUF_UNDERFLOW", "group__pka__api.html#ga1a17123017c14a56bc15579eb321f43b", null ],
+    [ "PKA_STATUS_FAILURE", "group__pka__api.html#gaa2181ee0338ecd27e6b8a5d092c3c611", null ],
+    [ "PKA_STATUS_INVALID_PARAM", "group__pka__api.html#ga5dfdaa80f7c2a9e84bb15489f9983029", null ],
+    [ "PKA_STATUS_OPERATION_BUSY", "group__pka__api.html#ga50c528ee185ea1b778eb75bbdf5f37de", null ],
+    [ "PKA_STATUS_OPERATION_RDY", "group__pka__api.html#ga38076c13975d81110dcbf1facebb6fc7", null ],
+    [ "PKA_STATUS_RESULT_0", "group__pka__api.html#gacf24295e092c175c0100a09bb067f474", null ],
+    [ "PKA_STATUS_SUCCESS", "group__pka__api.html#gaf93f63e19b7558a08670f4e9c7b4a805", null ],
+    [ "NISTP256_a", "group__pka__api.html#ga9bcf0524ef5b306ef8b534d591b3874e", null ],
+    [ "NISTP256_b", "group__pka__api.html#gad9d5431f9087aeb3f6f5c85242b4118e", null ],
+    [ "NISTP256_generatorX", "group__pka__api.html#ga123050cfb0533dcd2481018cd00b6733", null ],
+    [ "NISTP256_generatorY", "group__pka__api.html#ga36f584f229a816f18bb85540eb24e9cc", null ],
+    [ "NISTP256_order", "group__pka__api.html#ga77d3bbef4c7175f6ee40e772d8445ac6", null ],
+    [ "NISTP256_prime", "group__pka__api.html#ga20d540bc557f705365a8da032596f6a0", null ]
+];

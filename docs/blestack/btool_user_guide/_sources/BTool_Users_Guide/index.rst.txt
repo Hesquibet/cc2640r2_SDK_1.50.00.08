@@ -1,0 +1,435 @@
+Using BTool
+===========
+
+BTool is a PC Application that allows a user to form a connection between two
+BLE devices. BTool works by  communicating  with  the  CC2640R2F LaunchPad,
+acting  as  a network  processor, by  means  of  HCI  vendor  specific commands.
+This requires the CC2640R2F to be running the Host Test sample application.
+
+More information on the network processor configuration can be found in the
+Bluetooth low energy Software Developer's Guide. More information on the Host
+Test sample application can be found in the Host Test overview. More information
+on the HCI interface, as well as details on the HCI vendor specific commands
+that are used by the CC2640R2F launchPad can be found in the TI BLE Vendor
+Specific HCI Guide.
+
+For this section, a PC running Windows 7 has been used, but the procedures are
+essentially the same for other Windows versions.
+
+Starting the Application
+------------------------
+
+Once a CC2640R2F has been connected to the PC via USB, upon opening BTool, you
+should be able to set the Serial Port
+Settings. Set the "Port" value to the COM Port number associated with "XDS110
+Class Application/User." For the other settings, use the default values as shown
+in :numref:`BTool-serial-port-settings`.
+
+.. _BTool-serial-port-settings:
+.. figure:: BTool_resources/figure1.png
+    :align: center
+
+    BTool Serial Port Settings
+
+When connected, you should see the screed presented in
+:numref:`BTool-connected-screen`. This
+screen indicates that you now have a serial port connection to the CC2640R2F
+launchPad. The screen is divided up into a few sections. The left sidebar
+contains information on the status or the connected device. The left side of the
+sub-window contains a log of all messages sent from the PC to the CC2640R2F
+launchPad and received by the PC from the CC2640R2F launchPad. The right side
+of the sub-window contains a GUI for control of the CC2640R2F launchPad.
+
+.. _BTool-connected-screen:
+.. figure:: BTool_resources/figure2.png
+    :align: center
+
+    BTool Screen When Connected to Host Test Device
+
+.. _create-connection:
+    
+Creating a Connection Between the CC2640R2F LaunchPad and a Peripheral Device
+-----------------------------------------------------------------------------
+
+At this point, the CC2640R2F LaunchPad (central device) is ready to discover
+other BLE devices that are advertising. This section will use a CC2640R2F
+running the Simple Peripheral sample application as the peripheral device that is
+being connected to. More information on running this project can be found in the
+Bluetooth low energy Software Developer's Guide and the Simple Peripheral sample
+application page. The Simple Peripheral device will immediately begin
+advertising upon startup.
+
+Scanning for Devices
+####################
+
+In BTool, press the "Scan" button under the "Discover/Connect" tab, as shown in
+:numref:`BTool-scan-button`. The device running Host Test will begin searching
+for other BLE devices.
+
+.. _BTool-scan-button:
+.. figure:: BTool_resources/figure3.png
+    :align: center
+
+    Pressing the scan button
+
+As devices are found, the log on the left side of the screen will
+display the devices that are discovered. After 10 seconds, the device discovery
+process will complete, and the device running Host Test will stop scanning. A
+summary of all of the scanned devices will be displayed in the log window. In
+the example in :numref:`BTool-discovered-devices`, 19 peripheral devices were
+discovered while scanning. If you
+do not want to wait through the full 10 seconds of scanning, the “Cancel” button
+can be pressed to stop the device discovery process. The
+address of any scanned devices will appear in the “Slave BDA” section of the
+“Link Control” section in the bottom right corner of the sub-window.
+
+.. _BTool-discovered-devices:
+.. figure:: BTool_resources/figure4.png
+    :align: center
+
+    Discovered Devices
+
+Selecting Connection Parameters
+###############################
+
+Before establishing a connection, you can set up the desired connection
+parameters. The default values of 100ms  connection  interval, 0 slave
+latency, and 20s supervision timeout should serve as a good starting point;
+however for different applications you may want to experiment with other values.
+
+Once the desired values have been set, be sure to click the “Set” button; 
+otherwise the settings will not be saved. Note that the connection parameters
+must be set before a connection is established; changing the values and clicking
+the “Set” button while a connection is active will not change the settings of an
+active connection. The connection must be terminated and re-established to use
+the new parameters. (The Bluetooth specification does support connection
+parameter updates while a connection is active; however this must be done using
+either an L2CAP connection parameter update request, or using a direct HCI
+command. More information can be found in the Specification of the Bluetooth
+System).
+
+.. _BTool-connection settings:
+.. figure:: BTool_resources/figure5.png
+    :align: center
+
+    Connection Settings
+
+Establishing a Connection
+#########################
+
+To establish a connection with the CC2640R2F LaunchPad that is running Simple
+Peripheral, select the address of the device to connect with, and click the
+"Establish" button as shown in :numref:`BTool-establish-connection`.
+
+.. _BTool-establish-connection:
+.. figure:: BTool_resources/figure6.png
+    :align: center
+
+    Establish Connection
+
+If the device running Simple Peripheral
+is still in discoverable mode, a connection should be established. Once a
+connection is established, the message window will return a "GAP_EstablishLink"
+event message with a "Status" value of "0x00 (Success)" as shown in
+:numref:`BTool-link-established`.
+
+.. _BTool-link-established:
+.. figure:: BTool_resources/figure7.png
+    :align: center
+
+    Link Established
+
+In BTool, you can see your connected peripheral device in the Device Information
+field, as shown in :numref:`BTool-device-information`.
+
+.. _BTool-device-information:
+.. figure:: BTool_resources/figure8.png
+    :align: center
+
+    Device Information
+    
+Simple Peripheral Profiles
+--------------------------
+
+The Simple Peripheral application contains several GATT service profiles (more
+information can be found in the Simple Peripheral Sample Application Guide).
+GATT wervices contain data values known as "characteristic values." All
+application data that is being sent or received in Bluetooth low energy must be
+contained within characteristic values. This section details a step-by-step
+process that demonstrates several processes for reading, writing, discovering,
+and notifying GATT characteristic values using BTool. 
+
+In a Bluetooth low energy system, upon connection, the the central device
+(client) performs a service discovery on the peripheral device (server) to
+build up an attribute table. This attribute table will provide handles
+(internal addresses of the characteristics) which can be used by the client to
+access the data located in the server. The device discovery is typically an
+automated process that can be started with a single command. In BTool, this can
+be done by right clicking on "Handle" (under "Connection Info" on the left side
+of the screen) and then selecting "Discover UUIDs".
+
+Reading a Characteristic Value by UUID
+######################################
+
+A characteristic value is essentially where the data is stored, which could be,
+for example, termperature data or battery level. It's the stored data in a
+server that a client wants to access. A characteristic is a descrete value that
+has the following three properties associated with it:
+
+#. A handle (address)
+
+#. A type (UUID)
+
+#. A set of permissions
+
+The simplest way to read its value is to use the "Read Characteristic by UUID"
+sub-procedure. To do this, you will first need to click the "Read/Write" tab in
+BTool. Select the option "Read Using Characteristic UUID" under the"sub-procedure"
+option in the "Characteristic Read" section at the top of the screen. Enter the
+UUID (note that the LSB is entered first, and the MSB is entered last) in the
+"Characteristic UUID" box, and click the "Read" button. An attribute protocol
+Read by Type Request packet gets sent over the air from the Host Test device to
+the Simple Peripheral device, and an attribute protocol Read by Type Response
+packet gets sent back from the Simple Peripheral device to the Host Test device.
+The characteristic value is displayed in the "Value" box, and "Success" is
+displayed in the "Status" box. In addition, the message window will display
+information on the Read by Type Response packet that was received by the
+Hoist Test device. The message includes not only the characteristic's data
+value, but also the handle of the characteristic value.
+
+Reading a Characteristic Value by Handle
+########################################
+
+It is also possible to read the characteristic value if the handle is known.
+This is done by selecting the option "Read Characteristic Value/Descriptor"
+under the "Sub-Procedure" option in the "Characteristic Read" section. Enter the
+handle into the "Characteristic Value Handle" box and click the "Read" button to
+execute the read.
+
+An attribute protocol Read Request packet gets sent over the air from the Host
+Test device to the Simple Peripheral device, and an attribute protocol Read
+Response packet gets sent back from the Simple Peripheral device to the Host
+Test device. The new value is 
+displayed in the “Value” box, and “Success” is displayed in the “Status” box.
+This value should match the value that was written in the previous step for the
+same characteristic.
+
+Writing a Characteristic Value
+##############################
+
+If a characteristic has write permission, it is possible for a client to write a
+value to the server. This is done in the "Characteristic Write" section by
+entering the handle in the "Characteristic Value Handle" box and the value in
+the "Value" section (the format can be set to either "Decimal" or "Hex"). The
+write operation is performed when the "Write Value" button is clicked.
+
+An attribute protocol Write Request packet gets sent over the air from the Host
+Test device to the Simple Peripheral, and an attribute protocol Write Response
+packet gets sent back from the Simple Peripheral device to the Host Test device.
+The status box will display "Success", indicating that the write was successful.
+
+Disovering a Characteristic by UUID
+###################################
+
+By dicovering a characteristic by UUID, not only will the handle of the UUID be
+obtained, but the properties of the characteristic (handle and permission) will
+as well. The operation is performed by selecting the option "Discover
+Characteristic by UUID" under the "Sub-Procedure" option in the "Characteristic
+Read" section at the top of the screen. The discovery is performed when the UUID
+is entered into the "Characteristic UUID" box, and the "Read" button is clicked.
+
+A series of attribute protocol Read by Type REquest packets get sent over the
+air over the air from the Host Test device to the Simple Peripheral device, and
+for each request an attribute protocol REad by Type Response packet gets sent
+back from the Simple Peripheral device to the Host Test device. Essentially, the
+the host Test device is reading every attribute on the Simple Peripheral device
+with a UUID of 0x2803 (this is the UUID for a characteristic declaration), and
+checking the "Characteristic Value UUID" portion of each declaration to see if
+it matches the UUID type you've entered. The procedure is complete once every
+characteristic declaration has been read.
+
+As per the Bluetooth specification, the first byte presents the properties of
+the characteristic. The second and third bytes present the handle of the
+characteristic value. The fourth and fifth bytes present the UUID of the
+characteristic.
+
+Reading Multiple Characteristic Values
+######################################
+
+It is also possible to read multiple characteristic values with one request, as
+long as the handle of each value is known. To read several values from different
+characteristics, select the option "Read Multiple Characteristic Values" under
+the "Sub-Procedure option" in the "Characteristic Read" section at the top of the
+screen. Enter the handle with the semicolon separation (ie. "0x0022;0x0025") in
+the "Characteristic Value Handle" box, and click the "Run" button.
+
+An attribute protocol Read Multiple Request packet gets sent over the air from
+the host Test device to the Simple Peripheral device, and an attribute protocol
+Read Multiple Response packet gets sent back from the Simple Peripheral device
+to the Host Test device. The values of the two characteristics are displayed in
+the "Value" box, and "Success" is displayed in the "Status" box.
+
+.. note::
+    The response will not parse the separate values. This means that the size of
+    each value being read must be fixed, and must be known by the client. In the
+    example here, this is not an issue since there are only two bytes in the
+    response; however, care must be taken when using this command.
+    
+Enable Notifications
+####################
+
+In BLE, it is possible for a GATT server device to "push" characteristic value
+data out to a client device without being prompted with a read request. This
+process is called "characteristic value notification". Notifications are useful
+in that they allow a device in a BLE connection to send out as much or as little
+data as required at any point in time. In addition, since no request from the
+client is required, the overhead is reduced and the data is transmitted more
+efficiently.
+
+In order to enable notifications, the client device must write a
+value of 0x0001 to the client characteristic configuration descriptor (CCCD) for
+the particular characteristic. The handle for the CCCD immediately follows the
+characteristic value's handle. Therefore, a value of 0x0001 must be written to
+the "handle + 1".
+
+Using BLE Security
+------------------
+
+BTool also includes the ability to make use of security features in BLE,
+including encryption, authentication, and bonding.
+
+Encrypting the Connection
+#########################
+
+To encrypt the link, the pairing process must be initiated. click on the
+"Pairing/Bonding" tab in BTool. In the "Initiate Pairing" section at the top of
+the screen, check the boxes labeled "Bonding Enabled" and "Authentication (MITM)
+Enabled", and click the "Send Pairing Request" button as shown in
+:numref:`BTool-sending-pairing-request`. This will send the pairing request to
+the peripheral device.
+
+.. _BTool-sending-pairing-request:
+.. figure:: BTool_resources/figure9.png
+    :align: center
+
+    Sending Pairing Request
+    
+The peripheral will send a pairing response in return, which will require a
+six-digit passkey to be entered by the user in order to complete the process.
+Typically, this passkey is intended to be used by a peripheral device
+containing a display. By displaying the passkey on the peripheral device and
+requiring the user to enter it in the central device's user interface, the link
+is authenticated, in that it has been verified that the connection has not been
+hijacked using a man-in-the-middle (MITM) attack.
+
+In the box labeled "Passkey" in the "Passkey Input" section in BTool, enter the
+passkey value and click the "Send Passkey" button as shown in
+:numref:`BTool-sending-passkey`. Note that if you do not send the passkey within
+30 seconds after receiving the pairing response message, the pairing process
+will fail, and you will need to re-send the pairing request.
+
+.. _BTool-sending-passkey:
+.. figure:: BTool_resources/figure10.png
+    :align: center
+
+    Sending the Passkey
+    
+When pairing is successfully completed, you will see a
+"GAP_AuthenticationComplete" event in the log window, with a "Success" status.
+The BLE connection is now encrypted as shown in
+:numref:`BTool-encrypted-connection`.
+
+.. _BTool-encrypted-connection:
+.. figure:: BTool_resources/figure11.png
+    :align: center
+
+    Encrypted Connection
+    
+Using Bonding and Long-Term Keys
+################################
+
+Bonding is a feature in BLE that allows a device, after initial pairing with a
+peer, to remember specific information about that peer device. In particular,
+the long-term key data that is generated during the inital pairing process can
+be stored locally. If the connection is then terminated and the two devices
+later reconnect, this data can be used to quickly re-initiate encryption without
+needing to go through the full pairing process and/or use a passkey. In
+addition, if a client device had enabled notifications of any characteristics on
+the server device while the two devices were bonded, the server device will
+remember the setting and the client will not have to re-enable them.
+
+After pairing has been completed with the bonding enabled, the "Long-term Key
+(LTK) Data" will be populated with some of the data from the
+"GAP_AuthenticationComplete" event that was generated during the encryption
+process. This data is required for re-initiating encryption upon reconnect.
+Click the "Save Long-term Key Data to File" button to save this information to
+file. The data is saved in a "comma separated value" (CSV) format as simple
+text, and can be stored anywhere on disk. Be sure to note the location that the
+file is stored in. 
+
+.. _BTool-save-long-term-key:
+.. figure:: BTool_resources/figure12.png
+    :align: center
+
+    Save Long-term Key
+    
+Within the Simple Peripheral device, a similar process is going on, in that the
+the Simple Peripheral sample application contains a bond manager that is storing
+the long-term key data that it had generated during encryption. Since the Simple
+Peripheral sample application does not have a file system, it is simply storing
+the data in the nonvolatile memory of the CC2640R2. Moore information on the bond
+manager can be found in the Bluetooth low energy Software Developer's Guide.
+With a bond now active, you can enable notifications of a characteristic value
+and have that setting remembered for later. Note that if notifications were
+enabled before going through the pairing process, then the setting will not be
+stored. Therefore, you will need to re-write the value "01:00" to a CCCD.
+Because the devices are paierd with bonding enabled, the bond manager in the
+Simple Peripheral sample application will store the CCCD data in nonvolatile
+memory,
+
+To verify that bonding worked, you will need to disconnect and re-connect. Click
+on the "Discover/Connect" tab and click the "Terminate" button at the bottom of
+the screen to disconnect from the Simple Peripheral device. The message window
+will show a "GAP_TerminateLink" event with "Success" status as shown in
+:numref:`BTool-terminate-link`. In addition, the connection information in the
+upper-left corner of the screen will disappear.
+
+.. _BTool-terminate-link:
+.. figure:: BTool_resources/figure13.png
+    :align: center
+
+    Terminate Link
+    
+At a later time, re-connect with the Simple Peripheral device following the procedure in
+:ref:`create-connection`. Note that the value of the CCCD for a characteristic
+is always set back to "00:00" if a connection is terminated or if the device
+resets.
+
+To re-initiate encryption and re-enable any notifications that were enabled in
+the previous connection, return to the "Pairing/Bonding" tab. In the "Encrypt
+Using Long-Term Key" section, click the "Load Long-Term Key Data From File"
+button, and select the file in which the data was previously stored. The data
+fields will get automatically populated from the data in the file. Click the
+"Encrypt Link" button to re-eneble encryption as shown in
+:numref:`BTool-re-encrypt-using-long-term-keys`.
+
+.. _BTool-re-encrypt-using-long-term-keys:
+.. figure:: BTool_resources/figure14.png
+    :align: center
+
+    Re-Encrypt Using Long-Term Keys
+    
+A "GAP_BondComplete" event with "Success" status will be displayed in the log
+window. This indicates that the link has been re-encrypted as shown in
+:numref:`BTool-bonding-completed`. You will also now be able to receive any
+notifications that were enabled in the previous connection. Any changes to the
+CCCD value of a characteristic will be saved to nonvolatile memory and
+remembered for the next time that encryption is initiated using the ong-term
+key.
+
+.. _BTool-bonding-completed:
+.. figure:: BTool_resources/figure15.png
+    :align: center
+
+    Bonding Completed
+    

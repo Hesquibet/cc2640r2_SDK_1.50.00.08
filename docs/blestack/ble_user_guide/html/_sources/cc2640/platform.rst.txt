@@ -1,0 +1,17 @@
+The |DEVICE| SDK Platform
+*************************
+
+.. rubric:: Table of contents
+
+.. toctree::
+   :maxdepth: 2
+
+   architecture
+   install_ble_stack
+   developing_in_ccs
+   developing_in_iar
+   rtos-overview
+   memory_management
+
+
+.. .. include:: /cc2640/inc_startup-sequence.rst

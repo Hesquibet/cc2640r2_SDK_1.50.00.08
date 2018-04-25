@@ -1,0 +1,977 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Appendix &mdash; BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation" href="../index.html"/> 
+    <script language="JavaScript">
+        var tiPageName;
+        tiPageName = "sug oad-ble-stack-3.x oad_appendix";
+
+        if (location.protocol == "file:"){
+            var ci_analytics_poc_load = true;
+        }
+    </script> 
+
+    <script src="http://www.ti.com/assets/js/headerfooter/analytics.js" type="text/javascript" charset="utf-8">     
+
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../ble-stack-3.x-guide/index.html" class="icon icon-home"> BLE-Stack User's Guide for Bluetooth 4.2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.01.01.00
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../cc2640/disclaimer.html">Disclaimer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/get-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cc2640/platform.html">The CC2640R2F SDK Platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x/index.html">Developing a Bluetooth Low Energy Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../u-stack/index.html">Micro BLE Stack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oad.html">Over the Air Download (OAD)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../voice/voice.html">Creating a Voice Enabled Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../secure-fw-3.x/index.html">Secure Firmware (SFW)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensor-controller/sensor-controller.html">Sensor Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../debugging/ble-index.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/migration.html">Migration Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/api-reference.html">API References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/reference.html">Terms and Definitions</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../ble-stack-3.x-guide/index.html">BLE-Stack User's Guide for Bluetooth 4.2</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../ble-stack-3.x-guide/index.html">Docs</a> &raquo;</li>
+        
+      <li>Appendix</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="appendix">
+<span id="sec-oad-appendix"></span><h1>Appendix<a class="headerlink" href="#appendix" title="Permalink to this headline">¶</a></h1>
+<p>This section will cover various tutorials that are helpful throughout the OAD
+process. It is not intended to be read sequentially, but instead referenced from
+other sections.</p>
+<div class="section" id="generating-linker-command-file-for-oad-off-chip">
+<span id="sec-generating-oad-linker-file"></span><h2>Generating Linker Command File for OAD Off-chip<a class="headerlink" href="#generating-linker-command-file-for-oad-off-chip" title="Permalink to this headline">¶</a></h2>
+<p>Understanding of <a class="reference internal" href="oad_concepts.html#sec-oad-concepts"><span class="std std-ref">OAD Concept Overview</span></a>, particularly what are
+the <a class="reference internal" href="oad_concepts.html#sec-concepts-linker"><span class="std std-ref">Linker Responsibilities</span></a> is recommended.</p>
+<p>This section describes how to convert a standard SDK
+linker command file to be compatible with the TI OAD Ecosystem for both
+CCS and IAR linkers.</p>
+<div class="section" id="modifications-for-ccs-cc26xx-app-cmd">
+<h3>Modifications for CCS (cc26xx_app.cmd)<a class="headerlink" href="#modifications-for-ccs-cc26xx-app-cmd" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ol class="arabic">
+<li><p class="first">Allocation of Flash for Metadata Vector and App Start</p>
+<blockquote>
+<div><p><code class="docutils literal"><span class="pre">FLASH_APP_BASE</span></code> defines where the linker begin to place read and execute
+application code and data because of the following section:</p>
+<blockquote>
+<div><div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cm">/* System memory map */</span>
+<span class="n">MEMORY</span>
+<span class="p">{</span>
+    <span class="cm">/* EDITOR&#39;S NOTE:</span>
+<span class="cm">     * the FLASH and SRAM lengths can be changed by defining</span>
+<span class="cm">     * ICALL_STACK0_START or ICALL_RAM0_START in</span>
+<span class="cm">     * Properties-&gt;ARM Linker-&gt;Advanced Options-&gt;Command File Preprocessing.</span>
+<span class="cm">     */</span>
+
+    <span class="cm">/* Application stored in and executes from internal flash */</span>
+    <span class="cm">/* Flash Size 128 KB */</span>
+    <span class="cp">#ifdef ICALL_STACK0_START</span>
+        <span class="n">FLASH</span> <span class="p">(</span><span class="n">RX</span><span class="p">)</span> <span class="o">:</span> <span class="n">origin</span> <span class="o">=</span> <span class="n">FLASH_APP_BASE</span><span class="p">,</span> <span class="n">length</span> <span class="o">=</span> <span class="n">ADJ_ICALL_STACK0_START</span> <span class="o">-</span> <span class="n">FLASH_APP_BASE</span>
+    <span class="cp">#else </span><span class="c1">// default</span>
+        <span class="n">FLASH</span> <span class="p">(</span><span class="n">RX</span><span class="p">)</span> <span class="o">:</span> <span class="n">origin</span> <span class="o">=</span> <span class="n">FLASH_APP_BASE</span><span class="p">,</span> <span class="n">length</span> <span class="o">=</span> <span class="n">FLASH_LEN</span> <span class="o">-</span> <span class="n">FLASH_PAGE_LEN</span>
+    <span class="cp">#endif</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Instead of <code class="docutils literal"><span class="pre">origin</span></code> being assigned to <code class="docutils literal"><span class="pre">FLASH_APP_BASE</span></code>, assign
+to a new undefined symbol <code class="docutils literal"><span class="pre">FLASH_OAD_IMG_START</span></code>.</p>
+<blockquote>
+<div><div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cm">/* System memory map */</span>
+<span class="n">MEMORY</span>
+<span class="p">{</span>
+    <span class="cm">/* EDITOR&#39;S NOTE:</span>
+<span class="cm">     * the FLASH and SRAM lengths can be changed by defining</span>
+<span class="cm">     * ICALL_STACK0_START or ICALL_RAM0_START in</span>
+<span class="cm">     * Properties-&gt;ARM Linker-&gt;Advanced Options-&gt;Command File Preprocessing.</span>
+<span class="cm">     */</span>
+
+    <span class="cm">/* Application stored in and executes from internal flash */</span>
+    <span class="cm">/* Flash Size 128 KB */</span>
+    <span class="cp">#ifdef ICALL_STACK0_START</span>
+        <span class="n">FLASH</span> <span class="p">(</span><span class="n">RX</span><span class="p">)</span> <span class="o">:</span> <span class="n">origin</span> <span class="o">=</span> <span class="n">FLASH_OAD_IMG_START</span><span class="p">,</span> <span class="n">length</span> <span class="o">=</span> <span class="n">ADJ_ICALL_STACK0_START</span> <span class="o">-</span> <span class="n">FLASH_APP_BASE</span>
+    <span class="cp">#else </span><span class="c1">// default</span>
+        <span class="n">FLASH</span> <span class="p">(</span><span class="n">RX</span><span class="p">)</span> <span class="o">:</span> <span class="n">origin</span> <span class="o">=</span> <span class="n">FLASH_OAD_IMG_START</span><span class="p">,</span> <span class="n">length</span> <span class="o">=</span> <span class="n">FLASH_LEN</span> <span class="o">-</span> <span class="n">FLASH_PAGE_LEN</span>
+    <span class="cp">#endif</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Now to define the symbol, we need to shift the starting point over 16 bytes.
+The original linker file code is:</p>
+<blockquote>
+<div><div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cm">/* The starting address of the application.  Normally the interrupt vectors  */</span>
+<span class="cm">/* must be located at the beginning of the application. Flash is 128KB, with */</span>
+<span class="cm">/* sector length of 4KB                                                      */</span>
+<span class="cp">#define FLASH_APP_BASE          0x00000000</span>
+<span class="cp">#define FLASH_LEN               0x20000</span>
+<span class="cp">#define FLASH_PAGE_LEN          0x1000</span>
+<span class="cp">#define FLASH_PAGE_MASK         0xFFFFF000</span>
+
+<span class="cm">/* Last page of Flash is allocated to App: 0x1F000 - 0x1FFFF */</span>
+<span class="cp">#define FLASH_LAST_PAGE_START   (FLASH_LEN - FLASH_PAGE_LEN)</span>
+
+<span class="cp">#ifdef ICALL_STACK0_START</span>
+<span class="cp">#ifdef PAGE_ALIGN</span>
+<span class="cp">#define ADJ_ICALL_STACK0_START (ICALL_STACK0_START &amp; FLASH_PAGE_MASK)</span>
+<span class="cp">#else </span><span class="cm">/* !PAGE_ALIGN */</span><span class="cp"></span>
+<span class="cp">#define ADJ_ICALL_STACK0_START ICALL_STACK0_START</span>
+<span class="cp">#endif </span><span class="cm">/* PAGE_ALIGN */</span><span class="cp"></span>
+<span class="cp">#endif </span><span class="cm">/* ICALL_STACK0_START */</span><span class="cp"></span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Replace with the following which defines <code class="docutils literal"><span class="pre">FLASH_OAD_IMG_START</span></code> relative
+to the symbol <code class="docutils literal"><span class="pre">FLASH_OAD_IMG_HDR_SIZE</span></code>, or 16 bytes.</p>
+<blockquote>
+<div><div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cm">/* The starting address of the application.  Normally the interrupt vectors  */</span>
+<span class="cm">/* must be located at the beginning of the application.                      */</span>
+<span class="cp">#ifndef FLASH_APP_BASE</span>
+<span class="cp">#define FLASH_APP_BASE          0x00000000</span>
+<span class="cp">#endif </span><span class="cm">/* FLASH_APP_BASE */</span><span class="cp"></span>
+
+<span class="cp">#define FLASH_OAD_IMG_HDR_SIZE  0x10  </span><span class="cm">/* header size (hex) in bytes */</span><span class="cp"></span>
+<span class="cp">#define FLASH_OAD_IMG_START     (FLASH_APP_BASE + FLASH_OAD_IMG_HDR_SIZE)</span>
+
+<span class="cp">#define FLASH_LEN               0x20000</span>
+<span class="cp">#define FLASH_PAGE_LEN          0x1000</span>
+<span class="cp">#define FLASH_PAGE_MASK         0xFFFFF000</span>
+
+<span class="cp">#ifdef ICALL_STACK0_START</span>
+<span class="cp">#define ADJ_ICALL_STACK0_START (ICALL_STACK0_START &amp; FLASH_PAGE_MASK)</span>
+<span class="cp">#endif </span><span class="cm">/* ICALL_STACK0_START */</span><span class="cp"></span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+</div></blockquote>
+</li>
+<li><p class="first">Preservation of Page 31 (BIM + CCFGs)</p>
+<blockquote>
+<div><p>Due to the previous step, we can violate this rule. Look at the following:</p>
+<blockquote>
+<div><div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cm">/* Application stored in and executes from internal flash */</span>
+<span class="cm">/* Flash Size 128 KB */</span>
+<span class="cp">#ifdef ICALL_STACK0_START</span>
+    <span class="n">FLASH</span> <span class="p">(</span><span class="n">RX</span><span class="p">)</span> <span class="o">:</span> <span class="n">origin</span> <span class="o">=</span> <span class="n">FLASH_OAD_IMG_START</span><span class="p">,</span> <span class="n">length</span> <span class="o">=</span> <span class="n">ADJ_ICALL_STACK0_START</span> <span class="o">-</span> <span class="n">FLASH_APP_BASE</span>
+<span class="cp">#else </span><span class="c1">// default</span>
+    <span class="n">FLASH</span> <span class="p">(</span><span class="n">RX</span><span class="p">)</span> <span class="o">:</span> <span class="n">origin</span> <span class="o">=</span> <span class="n">FLASH_OAD_IMG_START</span><span class="p">,</span> <span class="n">length</span> <span class="o">=</span> <span class="n">FLASH_LEN</span> <span class="o">-</span> <span class="n">FLASH_PAGE_LEN</span>
+<span class="cp">#endif</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>For example, if <code class="docutils literal"><span class="pre">ICALL_STACK0_START</span></code> isn&#8217;t defined (for a Library build)
+then the starting address <code class="docutils literal"><span class="pre">FLASH_OAD_IMG_START</span></code> but the length is
+<code class="docutils literal"><span class="pre">FLASH_LEN</span> <span class="pre">-</span> <span class="pre">FLASH_PAGE_LEN</span></code> which is 128 kB - 4 kB. The problem is there
+is actually less space available and we are over allocating. Rewritten,
+the starting address for <code class="docutils literal"><span class="pre">FLASH</span></code> is <code class="docutils literal"><span class="pre">0x010</span></code>, the ending address is
+<code class="docutils literal"><span class="pre">0x1F010</span></code>, cutting into the last page, violating this rule.</p>
+<p>To fix this, simply subtract off the size of the meta data vector by
+using the previously defined <code class="docutils literal"><span class="pre">FLASH_OAD_IMG_HDR_SIZE</span></code>.</p>
+<p>The fix will look like:</p>
+<blockquote>
+<div><div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cm">/* Application stored in and executes from internal flash */</span>
+<span class="cm">/* Flash Size 128 KB */</span>
+<span class="cp">#ifdef ICALL_STACK0_START</span>
+    <span class="n">FLASH</span> <span class="p">(</span><span class="n">RX</span><span class="p">)</span> <span class="o">:</span> <span class="n">origin</span> <span class="o">=</span> <span class="n">FLASH_OAD_IMG_START</span><span class="p">,</span> <span class="n">length</span> <span class="o">=</span> <span class="n">ADJ_ICALL_STACK0_START</span> <span class="o">-</span> <span class="n">FLASH_OAD_IMG_HDR_SIZE</span>
+<span class="cp">#else </span><span class="c1">// default</span>
+    <span class="n">FLASH</span> <span class="p">(</span><span class="n">RX</span><span class="p">)</span> <span class="o">:</span> <span class="n">origin</span> <span class="o">=</span> <span class="n">FLASH_OAD_IMG_START</span><span class="p">,</span> <span class="n">length</span> <span class="o">=</span> <span class="n">FLASH_LEN</span> <span class="o">-</span> <span class="n">FLASH_PAGE_LEN</span> <span class="o">-</span> <span class="n">FLASH_OAD_IMG_HDR_SIZE</span>
+<span class="cp">#endif</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>The final range for <code class="docutils literal"><span class="pre">FLASH</span></code> if <code class="docutils literal"><span class="pre">ICALL_STACK0_START</span></code> isn&#8217;t defined
+(like in a Library build), will be <code class="docutils literal"><span class="pre">0x010</span></code> to <code class="docutils literal"><span class="pre">0x1F000</span></code>. In other words,
+all the way until the last page.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">For App only OAD or App + Stack non-library OAD, you will have to build
+the stack image first or manually define <code class="docutils literal"><span class="pre">ICALL_STACK0_START</span></code> so
+the stack image&#8217;s entry point doesn&#8217;t get corrupted.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p><a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-51"><span class="xref std std-term">SNV</span></a> flash range is automatically accounted for if <code class="docutils literal"><span class="pre">ICALL_STACK0_START</span></code>
+is defined.</p>
+<p class="last"><a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-51"><span class="xref std std-term">SNV</span></a> flash range does not need to accounted for in library builds, as
+long <code class="docutils literal"><span class="pre">FLASH</span></code> range extends to right up to the last page,
+the <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-51"><span class="xref std std-term">SNV</span></a> sectors will get linked in.</p>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">Alignment of Interrupt Vector Table see <a class="reference internal" href="#sec-oad-reset-vect-change"><span class="std std-ref">Using a custom reset vector address for your application</span></a></p>
+<blockquote>
+<div><p>This is already handled by the existing linker file with:</p>
+<blockquote>
+<div><div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cm">/* Retain interrupt vector table variable                                    */</span>
+<span class="o">--</span><span class="n">retain</span><span class="o">=</span><span class="n">g_pfnVectors</span>
+<span class="cm">/* Override default entry point.                                             */</span>
+<span class="o">--</span><span class="n">entry_point</span> <span class="n">ResetISR</span>
+<span class="cm">/* Suppress warnings and errors:                                             */</span>
+<span class="cm">/* - 10063: Warning about entry point not being _c_int00                     */</span>
+<span class="cm">/* - 16011, 16012: 8-byte alignment errors. Observed when linking in object  */</span>
+<span class="cm">/*   files compiled using Keil (ARM compiler)                                */</span>
+<span class="o">--</span><span class="n">diag_suppress</span><span class="o">=</span><span class="mi">10063</span><span class="p">,</span><span class="mi">16011</span><span class="p">,</span><span class="mi">16012</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+</div></blockquote>
+</li>
+<li><p class="first">Page Alignment of OAD Image</p>
+<blockquote>
+<div><p>The OAD image for a library OAD build with <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-51"><span class="xref std std-term">SNV</span></a> will always be 31 pages.
+No page alignment is necessary. OAD Image Tool also will pad with 0xFF to
+the next page when producing an output binary.</p>
+</div></blockquote>
+</li>
+</ol>
+</div></blockquote>
+</div>
+<div class="section" id="modifications-for-iar-cc26xx-app-and-stack-icf">
+<h3>Modifications for IAR (cc26xx_app_and_stack.icf)<a class="headerlink" href="#modifications-for-iar-cc26xx-app-and-stack-icf" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ol class="arabic">
+<li><p class="first">Allocation of Flash for Metadata Vector and App Start</p>
+<blockquote>
+<div><p>We want the <code class="docutils literal"><span class="pre">FLASH</span></code> region to defines where the linker should
+place application and stack code and data.</p>
+<p>Replace:</p>
+<blockquote>
+<div><div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1">// Code and RO Data</span>
+<span class="n">place</span> <span class="n">in</span> <span class="n">FLASH_ALL</span> <span class="p">{</span> <span class="n">readonly</span> <span class="p">};</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>With:</p>
+<blockquote>
+<div><div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1">// Code and RO Data</span>
+<span class="n">place</span> <span class="n">in</span> <span class="n">FLASH</span> <span class="p">{</span> <span class="n">readonly</span> <span class="p">};</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Next redefine <code class="docutils literal"><span class="pre">FLASH</span></code> such that it goes from a undefined
+symbol <code class="docutils literal"><span class="pre">OAD_FLASH_START</span></code> to <code class="docutils literal"><span class="pre">FLASH_END</span></code> which is defined
+to the end of page 30. <code class="docutils literal"><span class="pre">OAD_FLASH_START</span></code> will represent where
+application/stack code may begin, after the header</p>
+<blockquote>
+<div><div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">define</span> <span class="n">region</span> <span class="n">FLASH</span> <span class="o">=</span> <span class="nl">mem</span><span class="p">:[</span><span class="n">from</span> <span class="n">OAD_FLASH_START</span> <span class="n">to</span> <span class="n">FLASH_END</span><span class="p">];</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Then define the symbols that accounts for the OAD metadata:</p>
+<blockquote>
+<div><div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1">// OAD specific</span>
+<span class="n">define</span> <span class="n">symbol</span> <span class="n">OAD_HDR_SIZE</span>  <span class="o">=</span> <span class="mi">16</span><span class="p">;</span> <span class="c1">// Size of metadata vector</span>
+<span class="n">define</span> <span class="n">symbol</span> <span class="n">OAD_HDR_START</span>   <span class="o">=</span> <span class="n">FLASH_START</span><span class="p">;</span>
+<span class="n">define</span> <span class="n">symbol</span> <span class="n">OAD_HDR_END</span>     <span class="o">=</span> <span class="n">OAD_HDR_START</span> <span class="o">+</span> <span class="n">OAD_HDR_SIZE</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Lastly define <code class="docutils literal"><span class="pre">OAD_FLASH_START</span></code>, accounting for the metadata
+vector as well as the interrupt table:</p>
+<blockquote>
+<div><div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">define</span> <span class="n">symbol</span> <span class="n">OAD_FLASH_START</span> <span class="o">=</span> <span class="n">INT_VEC_START</span> <span class="o">+</span> <span class="n">INT_VEC_SIZE</span><span class="p">;</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">To fully define <code class="docutils literal"><span class="pre">OAD_FLASH_START</span></code>, the interrupt
+vector table needs to be accounted for. See the next step.</p>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">Alignment of Interrupt Vector Table see <a class="reference internal" href="#sec-oad-reset-vect-change"><span class="std std-ref">Using a custom reset vector address for your application</span></a></p>
+<blockquote>
+<div><p>The Interrupt Vector Table needs to be placed in order for the
+application to function correctly. Normally, the table would
+start at the beginning of flash; however, due to the metadata
+vector, the table needs to be moved.</p>
+<p>First define symbols to account for the table:</p>
+<blockquote>
+<div><div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">define</span> <span class="n">symbol</span> <span class="n">INT_VEC_SIZE</span>    <span class="o">=</span> <span class="mi">64</span><span class="p">;</span>
+<span class="n">define</span> <span class="n">symbol</span> <span class="n">INT_VEC_START</span>   <span class="o">=</span> <span class="n">OAD_HDR_START</span> <span class="o">+</span> <span class="n">OAD_HDR_SIZE</span><span class="p">;</span>
+<span class="n">define</span> <span class="n">symbol</span> <span class="n">INT_VEC_END</span>     <span class="o">=</span> <span class="n">INT_VEC_START</span> <span class="o">+</span> <span class="n">INT_VEC_SIZE</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Symbols <code class="docutils literal"><span class="pre">OAD_HDR_START</span></code> and <code class="docutils literal"><span class="pre">OAD_HDR_SIZE</span></code> are defined in the
+previous step.</p>
+</div>
+<p>Next define the region based off the symbols defined:</p>
+<blockquote>
+<div><div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">define</span> <span class="n">region</span> <span class="n">INT_VEC</span>   <span class="o">=</span> <span class="nl">mem</span><span class="p">:[</span><span class="n">from</span> <span class="n">INT_VEC_START</span> <span class="n">to</span> <span class="n">INT_VEC_END</span><span class="p">];</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Lastly, for memory placement, the following needs to be
+added so the <code class="docutils literal"><span class="pre">.intvec</span></code> section gets placed correctly:</p>
+<blockquote>
+<div><div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1">// Interrupt Vector Table</span>
+<span class="n">place</span> <span class="n">at</span> <span class="n">start</span> <span class="n">of</span> <span class="n">INT_VEC</span>       <span class="p">{</span> <span class="n">readonly</span> <span class="n">section</span> <span class="p">.</span><span class="n">intvec</span> <span class="p">};</span>
+<span class="n">keep</span>                            <span class="p">{</span> <span class="n">readonly</span> <span class="n">section</span> <span class="p">.</span><span class="n">intvec</span> <span class="p">};</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+</div></blockquote>
+</li>
+<li><p class="first">Preservation of Page 31 (BIM + CCFGs)</p>
+<blockquote>
+<div><p>Although the project shouldn&#8217;t be building the <code class="docutils literal"><span class="pre">ccfg_app_ble.c</span></code>
+file, thus there shouldn&#8217;t be anything to link, removal of the
+following lines is recommended:</p>
+<blockquote>
+<div><div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1">// CCFG</span>
+<span class="n">place</span> <span class="n">at</span> <span class="n">end</span> <span class="n">of</span> <span class="n">FLASH_LAST_PAGE</span> <span class="p">{</span> <span class="n">readonly</span> <span class="n">section</span> <span class="p">.</span><span class="n">ccfg</span> <span class="p">};</span>
+<span class="n">keep</span> <span class="p">{</span> <span class="n">section</span> <span class="p">.</span><span class="n">ccfg</span> <span class="p">};</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>BIM should be building and linking the CCFGs.</p>
+<p>The previous steps ensure that page 31 isn&#8217;t used by linker.</p>
+</div></blockquote>
+</li>
+<li><p class="first">Page Alignment of OAD Image</p>
+<blockquote>
+<div><p>The OAD image for a library OAD build with <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-51"><span class="xref std std-term">SNV</span></a> will always be 31
+pages. No page alignment is necessary. OAD Image Tool also will pad with
+0xFF to the next page when producing an output binary.</p>
+</div></blockquote>
+</li>
+</ol>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="stack-side-changes-for-oad-project">
+<span id="sec-stack-side-changes-oad"></span><h2>Stack Side Changes for OAD Project<a class="headerlink" href="#stack-side-changes-for-oad-project" title="Permalink to this headline">¶</a></h2>
+<p>Generally, no stack side changes to enable OAD are required.
+However, if desired, depending on the OAD configuration type,
+stack side changes may be done in the project.</p>
+<p>The configurations that may a stack side change are configurations
+where the stack image is separate from the application image.
+In other words, App only and Stack only for Off-chip, and
+(Img_B) App only for On-chip. No changes on stack project in Library OAD
+configurations should be done.</p>
+<p>One possible change is to page align the stack, such that
+the entry point is always the same address at the beginning
+of a page. To force the linker to be page aligned, simply
+add <code class="docutils literal"><span class="pre">PAGE_ALIGN=1</span></code> to the linker defines on the stack
+project.</p>
+<p>In the case of a Stack only OAD configuration, the stack OAD
+project can be page aligned to allow for the additional features
+(up to the boundary). As long as the entry point is the same,
+the application will function normally.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Modifying the Stack project to meet your applications needs
+is highly encouraged. For example, adding/removing <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-51"><span class="xref std std-term">SNV</span></a>
+<a class="reference internal" href="../cc2640/memory_management.html#using-simple-nv"><span class="std std-ref">Using Simple NV for Flash Storage</span></a> or changing <a class="reference internal" href="../ble-stack-3.x/stack-configuration.html#stack-features-configuration"><span class="std std-ref">Stack Configurations</span></a>,
+should be done to meet application needs.</p>
+<p class="last">This topic of this section is stack side changes in order to work
+with the TI OAD ecosystem.</p>
+</div>
+</div>
+<div class="section" id="generating-metadata-vector-for-oad-image">
+<span id="sec-generating-metadata-vector"></span><h2>Generating Metadata Vector for OAD Image<a class="headerlink" href="#generating-metadata-vector-for-oad-image" title="Permalink to this headline">¶</a></h2>
+<p>The OAD_Image_Tool is designed to generate a metadata vector and insert it
+into a given image, to produce an OAD ready image. An OAD ready image can be
+a hex file or a binary that contains metadata for the target to interpret.</p>
+<p>The OAD_Image_Tool can be found as a Python script or as a binary inside
+SimpleLink CC2640R2 SDK installation. It is located in BLE Examples Support Files in the <code class="docutils literal"><span class="pre">Tools</span></code>
+folder.</p>
+<p>To view usage instructions for the tool, run the Python script or the
+binary with the <code class="docutils literal"><span class="pre">-h</span></code> argument passed in.</p>
+<p>For example, to generate an OAD ready application image, invoke the tool with:</p>
+<blockquote>
+<div><div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="p">.</span><span class="o">/</span><span class="n">oad_image_tool</span><span class="p">.</span><span class="n">exe</span> <span class="o">-</span><span class="n">t</span> <span class="n">offchip</span> <span class="o">-</span><span class="n">o</span> <span class="n">out</span><span class="p">.</span><span class="n">hex</span> <span class="o">-</span><span class="n">m</span> <span class="mh">0x0000</span> <span class="o">-</span><span class="n">i</span> <span class="n">app</span> <span class="n">in</span><span class="p">.</span><span class="n">hex</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>The <code class="docutils literal"><span class="pre">out.hex</span></code> file will be an OAD ready image with the metadata to tell
+the OAD Target that it&#8217;s an Application image for Off-chip OAD.</p>
+</div>
+<div class="section" id="generating-a-production-image-for-oad">
+<span id="sec-generating-production-image"></span><h2>Generating a Production Image for OAD<a class="headerlink" href="#generating-a-production-image-for-oad" title="Permalink to this headline">¶</a></h2>
+<p>A production image is one that contains the app, stack, and <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-46"><span class="xref std std-term">BIM</span></a> images
+combined into a single file. Production images are generally used when an OAD
+enabled device is initially programmed at the manufacturing facility.
+Production images can also be useful for debugging as all of the information is
+contained in a single file.</p>
+<p>TI has included a Python based OAD_Image_Tool that can perform a variety of
+operations on OAD ready hex files in the SimpleLink CC2640R2 SDK. It will be used to generate a
+production OAD image.</p>
+<p>Currently, the oad_image_tool is already being invoked as a post build step on
+oad_target_app, and simple_peripheral builds for on and off-chip OAD.</p>
+<div class="section" id="ccs-update-oad-image-tool-build-step">
+<h3>CCS Update OAD Image Tool Build Step<a class="headerlink" href="#ccs-update-oad-image-tool-build-step" title="Permalink to this headline">¶</a></h3>
+<p>The image below shows how to edit the CCS post build step for the OAD image tool.
+This menu can be accessed by right clicking the project &#8211;&gt; properties.</p>
+<div class="figure align-center" id="id3">
+<span id="fig-oad-image-tool-ccs-postbuild"></span><img alt="../_images/oad_image_tool_ccs_postbuild.png" src="../_images/oad_image_tool_ccs_postbuild.png" />
+<p class="caption"><span class="caption-text">Update OAD Image Tool Post Build Step CCS</span></p>
+</div>
+</div>
+<div class="section" id="iar-update-oad-image-tool-build-step">
+<h3>IAR Update OAD Image Tool Build Step<a class="headerlink" href="#iar-update-oad-image-tool-build-step" title="Permalink to this headline">¶</a></h3>
+<p>The image below shows how to edit the IAR post build step for the OAD image tool.
+This menu can be accessed by right clicking the project &#8211;&gt; options.</p>
+<div class="figure align-center" id="id4">
+<span id="fig-oad-image-tool-iar-postbuild"></span><img alt="../_images/oad_image_tool_iar_postbuild.png" src="../_images/oad_image_tool_iar_postbuild.png" />
+<p class="caption"><span class="caption-text">Update OAD Image Tool Post Build Step IAR</span></p>
+</div>
+</div>
+<div class="section" id="generate-production-on-chip-image-a-using-ccs-or-iar">
+<h3>Generate production On-Chip (Image A) using CCS or IAR<a class="headerlink" href="#generate-production-on-chip-image-a-using-ccs-or-iar" title="Permalink to this headline">¶</a></h3>
+<p>This is done as part of the <code class="docutils literal"><span class="pre">oad_target</span></code> project within the SimpleLink CC2640R2 SDK, see the post
+build steps of <code class="docutils literal"><span class="pre">oad_target_app</span></code> for more details.</p>
+</div>
+<div class="section" id="generate-production-off-chip-using-ccs">
+<h3>Generate production Off-Chip using CCS<a class="headerlink" href="#generate-production-off-chip-using-ccs" title="Permalink to this headline">¶</a></h3>
+<p>The following steps detail how to generate an on-chip OAD production image which
+contains Image A and the on-chip <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-46"><span class="xref std std-term">BIM</span></a>.</p>
+<blockquote>
+<div><div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The following steps assume you have already followed the steps 1-2 of the
+<a class="reference internal" href="oad_onchip.html#sect-on-chip-demo"><span class="std std-ref">Out of the Box Demo (On-Chip OAD)</span></a> for CCS.</p>
+</div>
+<ul>
+<li><p class="first">Add the following code to the <code class="code docutils literal"><span class="pre">oad_target_cc2640r2lp_app</span></code> project&#8217;s post
+build steps.</p>
+<div class="highlight-text"><div class="highlight"><pre><span></span>&quot;${TI_BLE_SDK_BASE}/tools/blestack/oad/oad_image_tool.exe&quot; &quot;${ProjName}.hex&quot; &quot;${PROJECT_LOC}/../simple_peripheral_cc2640r2lp_stack_oad_offchip/FlashROM/      simple_peripheral_cc2640r2lp_stack_oad_offchip.hex&quot; &quot;${PROJECT_LOC}/../bim_oad_offchip_cc2640r2lp_app/FlashOnly/bim_oad_offchip_cc2640r2lp_app.hex&quot; -t onchip -i production -v 0 -m 0x0000 --r 0x0000 -ob &quot;${ProjName}_oad.bin&quot;
+</pre></div>
+</div>
+</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="generate-production-off-chip-image-using-iar">
+<h3>Generate production Off-Chip Image using IAR<a class="headerlink" href="#generate-production-off-chip-image-using-iar" title="Permalink to this headline">¶</a></h3>
+<p>The following steps detail how to generate an on-chip OAD production image which
+contains Image A and the on-chip <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-46"><span class="xref std std-term">BIM</span></a>.</p>
+<blockquote>
+<div><div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The following steps assume you have already followed the steps 1-2 of the
+<a class="reference internal" href="oad_onchip.html#sect-on-chip-demo"><span class="std std-ref">Out of the Box Demo (On-Chip OAD)</span></a> for IAR.</p>
+</div>
+<ul>
+<li><p class="first">Add the following code to the <code class="code docutils literal"><span class="pre">oad_target_cc2640r2lp_app</span></code> project&#8217;s post
+build steps.</p>
+<div class="highlight-text"><div class="highlight"><pre><span></span>&quot;$TOOLS_BLE$\oad\oad_image_tool.exe&quot; &quot;$PROJ_DIR$\..\..\..\..\bim_oad_offchip\tirtos\iar\app\FlashOnly\Exe\bim_oad_offchip.hex&quot; &quot;$PROJ_DIR$\..\stack\FlashROM\Exe\simple_peripheral_cc2640r2lp_stack.hex&quot; &quot;$PROJ_DIR$\FlashROM_OAD_Offchip\Exe\simple_peripheral_cc2640r2lp_app.hex&quot; -t onchip -i production -v 0 -m 0x0000 -ob &quot;$PROJ_DIR$\FlashROM_OAD_Offchip\Exe\simple_peripheral_cc2640r2lp_app_oad.bin&quot;
+</pre></div>
+</div>
+</li>
+</ul>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="using-a-custom-reset-vector-address-for-your-application">
+<span id="sec-oad-reset-vect-change"></span><h2>Using a custom reset vector address for your application<a class="headerlink" href="#using-a-custom-reset-vector-address-for-your-application" title="Permalink to this headline">¶</a></h2>
+<p>The projects within the SimpleLink CC2640R2 SDK will build the TI-RTOS kernel as a pre-build step
+within the application. This prebuild step is called configuro. During the
+configuro stage it is possible to relocate your reset vectors. This is required
+for OAD applications to make room for the metadata vector at the beginning of
+the image space. For more information about configuro, please see
+<a class="reference external" href="http://rtsc.eclipse.org/docs-tip/Command_-_xdc.tools.configuro">RTSC Configuro Page</a>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">You may need to change <code class="code docutils literal"><span class="pre">OAD_IMG_E=1</span></code> in the images below
+to <code class="code docutils literal"><span class="pre">OAD_IMG_A=1</span></code> or <code class="code docutils literal"><span class="pre">OAD_IMG_B=1</span></code> depending on your use case.</p>
+</div>
+<div class="section" id="change-reset-vector-address-in-iar">
+<h3>Change Reset Vector Address in IAR<a class="headerlink" href="#change-reset-vector-address-in-iar" title="Permalink to this headline">¶</a></h3>
+<p>IAR treats configuro as a prebuild action. These actions can be found by right
+clicking the project &#8211;&gt; Build Actions &#8211;&gt; Pre-build command line. See the image
+below for more information.</p>
+<div class="figure align-center" id="fig-configuro-iar-oad">
+<img alt="../_images/configuro_iar_oad.png" src="../_images/configuro_iar_oad.png" />
+</div>
+</div>
+<div class="section" id="change-reset-vector-address-in-ccs">
+<h3>Change Reset Vector Address in CCS<a class="headerlink" href="#change-reset-vector-address-in-ccs" title="Permalink to this headline">¶</a></h3>
+<p>CCS has native RTSC/Configuro support built into the project.
+These actions can be found by right clicking the
+project &#8211;&gt; Build &#8211;&gt; XDCtools &#8211;&gt; Advanced Options.
+See the image below for more information.</p>
+<div class="figure align-center" id="fig-configuro-iar-ccs">
+<img alt="../_images/configuro_iar_ccs.png" src="../_images/configuro_iar_ccs.png" />
+</div>
+</div>
+</div>
+<div class="section" id="changing-application-data-to-verify-an-oad">
+<span id="sec-oad-adv-change"></span><h2>Changing Application Data to Verify an OAD<a class="headerlink" href="#changing-application-data-to-verify-an-oad" title="Permalink to this headline">¶</a></h2>
+<p>It can be difficult to verify OAD without making application changes.
+A quick and easy way to change your application image before sending over the
+air is to change it&#8217;s scan response data.</p>
+<p>This way, a successful OAD can be observed via the change in scan response data.
+See below for steps on how to change this.</p>
+<blockquote>
+<div><ul class="simple">
+<li>A good test is to change the scan response data as below in
+<code class="code docutils literal"><span class="pre">simple_peripheral.c</span></code></li>
+</ul>
+<div class="literal-block-wrapper docutils container" id="id5">
+<div class="code-block-caption"><span class="caption-text">Changing SBP advertisement data</span><a class="headerlink" href="#id5" title="Permalink to this code">¶</a></div>
+<div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1">// GAP - SCAN RSP data (max size = 31 bytes)</span>
+<span class="k">static</span> <span class="kt">uint8_t</span> <span class="n">scanRspData</span><span class="p">[]</span> <span class="o">=</span>
+<span class="p">{</span>
+  <span class="c1">// complete name</span>
+<span class="hll">  <span class="mh">0x14</span><span class="p">,</span>   <span class="c1">// length of this data</span>
+</span>  <span class="n">GAP_ADTYPE_LOCAL_NAME_COMPLETE</span><span class="p">,</span>
+  <span class="sc">&#39;S&#39;</span><span class="p">,</span>
+  <span class="sc">&#39;i&#39;</span><span class="p">,</span>
+  <span class="sc">&#39;m&#39;</span><span class="p">,</span>
+  <span class="sc">&#39;p&#39;</span><span class="p">,</span>
+  <span class="sc">&#39;l&#39;</span><span class="p">,</span>
+  <span class="sc">&#39;e&#39;</span><span class="p">,</span>
+  <span class="sc">&#39;B&#39;</span><span class="p">,</span>
+  <span class="sc">&#39;L&#39;</span><span class="p">,</span>
+  <span class="sc">&#39;E&#39;</span><span class="p">,</span>
+  <span class="sc">&#39;P&#39;</span><span class="p">,</span>
+  <span class="sc">&#39;e&#39;</span><span class="p">,</span>
+  <span class="sc">&#39;r&#39;</span><span class="p">,</span>
+  <span class="sc">&#39;i&#39;</span><span class="p">,</span>
+  <span class="sc">&#39;p&#39;</span><span class="p">,</span>
+  <span class="sc">&#39;h&#39;</span><span class="p">,</span>
+  <span class="sc">&#39;e&#39;</span><span class="p">,</span>
+  <span class="sc">&#39;r&#39;</span><span class="p">,</span>
+  <span class="sc">&#39;a&#39;</span><span class="p">,</span>
+<span class="hll">  <span class="sc">&#39;2&#39;</span><span class="p">,</span>
+</span>  <span class="c1">//...</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">If you change of scan response data you must also change it&#8217;s
+length. See line 5 of the code snippet above.</p>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="using-btool-and-lp-as-an-oad-downloader">
+<span id="sec-oad-btool"></span><h2>Using BTool and <a class="reference external" href="http://www.ti.com.cn/tool/launchxl-cc2640r2">CC2640R2 Launchpad</a> as an OAD Downloader<a class="headerlink" href="#using-btool-and-lp-as-an-oad-downloader" title="Permalink to this headline">¶</a></h2>
+<p>This section will describe how to use setup and use BTool, to perform an OAD.
+These steps are independent of OAD type and can be used to perform on-chip or off-chip
+OAD.</p>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">BTool is a very feature-rich application. This guide only seeks to document
+the OAD functionality of BTool.</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Use the BTool included with SimpleLink CC2640R2 SDK, older versions may not have support
+for OAD.</p>
+</div>
+<div class="section" id="btool-setup">
+<span id="sec-oad-btool-setup"></span><h3>BTool Setup<a class="headerlink" href="#btool-setup" title="Permalink to this headline">¶</a></h3>
+<p>BTool requires a <a class="reference external" href="http://www.ti.com.cn/tool/launchxl-cc2640r2">CC2640R2 Launchpad</a> running the <code class="code docutils literal"><span class="pre">host_test</span></code> application with
+<code class="code docutils literal"><span class="pre">POWER_SAVING</span></code> disabled connected to the PC. Steps on how to setup a
+<a class="reference external" href="http://www.ti.com.cn/tool/launchxl-cc2640r2">CC2640R2 Launchpad</a> to work with BTool are listed below. See <a class="reference internal" href="oad_concepts.html#sec-oad-topology"><span class="std std-ref">OAD Topology Overview</span></a> for more
+information.</p>
+<ol class="arabic simple">
+<li>Navigate to the install location of the SimpleLink CC2640R2 SDK.</li>
+<li>Within the SimpleLink CC2640R2 SDK open the
+<code class="code docutils literal"><span class="pre">\examples\rtos\CC2640R2_LAUNCHXL\blestack\hexfiles</span></code> folder.</li>
+<li>Open <a class="reference external" href="http://www.ti.com/tool/flash-programmer">Smart RF Flash Programmer 2</a>.</li>
+<li>Load the OAD Downloader <a class="reference external" href="http://www.ti.com.cn/tool/launchxl-cc2640r2">CC2640R2 Launchpad</a> with the <code class="code docutils literal"><span class="pre">cc2640r2lp_host_test.hex</span></code>
+image.</li>
+</ol>
+</div>
+<div class="section" id="btool-oad-verify-advertising">
+<span id="sec-oad-btool-verify-adv"></span><h3>BTool OAD Verify Advertising<a class="headerlink" href="#btool-oad-verify-advertising" title="Permalink to this headline">¶</a></h3>
+<p>BTool can be used to scan and discover OAD device. You can verify your device
+is advertising by following one of the options below.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Advertisement can be verified in one of two ways:<ul>
+<li>If you know your device&#8217;s address
+(can be checked via <a class="reference external" href="http://www.ti.com/tool/flash-programmer">Smart RF Flash Programmer 2</a>)
+you can click the scan button and verify it appears in the &#8220;Slave BDA&#8221; combo box.</li>
+<li>If you don&#8217;t know your device&#8217;s address, you can change it&#8217;s
+advertisement data (described in <a class="reference internal" href="#sec-oad-adv-change"><span class="std std-ref">Changing Application Data to Verify an OAD</span></a>). From there,
+scan the scan button and look in the BTool log window during scanning to
+verify the device  with the custom advertising data appears.</li>
+</ul>
+</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="btool-oad-procedure">
+<span id="sec-oad-btool-procedure"></span><h3>BTool OAD Procedure<a class="headerlink" href="#btool-oad-procedure" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic">
+<li><p class="first">Open BTool, and connect to your device. See the image below for steps.</p>
+<blockquote>
+<div><div class="figure align-center" id="id6">
+<span id="fig-connect-via-btool"></span><img alt="../_images/connect_via_btool.png" src="../_images/connect_via_btool.png" />
+<p class="caption"><span class="caption-text">Connecting to a device using BTool</span></p>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">Select to the OAD tab in BTool and initiate the OAD process. See the image
+below for instructions</p>
+<blockquote>
+<div><div class="admonition attention">
+<p class="first admonition-title">Attention</p>
+<p class="last">Be sure to point BTool to the *_oad.bin file generated by the oad image
+tool post build step. This file contains the metadata.</p>
+</div>
+<div class="figure align-center" id="id7">
+<span id="fig-btool-oad-init"></span><img alt="../_images/btool_oad_init.png" src="../_images/btool_oad_init.png" />
+<p class="caption"><span class="caption-text">Initiating an OAD transfer via BTool</span></p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If BTool from another Software Development Kit is used
+then the OAD Transfer Tab may not exist. Use the BTool
+that is included with SimpleLink CC2640R2 SDK</p>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">OAD process will continue as below</p>
+<blockquote>
+<div><div class="figure align-center" id="id8">
+<span id="fig-btool-oad-in-progress"></span><img alt="../_images/btool_oad_in_progress.png" src="../_images/btool_oad_in_progress.png" />
+<p class="caption"><span class="caption-text">OAD transfer via BTool</span></p>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">BTool will report success</p>
+<blockquote>
+<div><div class="figure align-center" id="id9">
+<span id="fig-btool-oad-success"></span><img alt="../_images/btool_oad_success.png" src="../_images/btool_oad_success.png" />
+<p class="caption"><span class="caption-text">Successful OAD transfer using BTool</span></p>
+</div>
+</div></blockquote>
+</li>
+</ol>
+</div>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Texas Instruments.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.01.01.00',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

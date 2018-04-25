@@ -1,0 +1,27 @@
+.. _sec-ble-stack-install:
+
+Installing |BLESTACKVER|
+========================
+
+|BLESTACKVER| is a wireless component included as part of the |SDK|. All path
+and file references in this document assume that the |SDK| is installed to the
+default path (**<SDK\_INSTALL\_DIR>**).
+
+TI recommends making a backup copy of the |SDK| before to making any changes.
+|BLESTACKVER| uses paths relative to the |SDK| and therefore is portable in
+respect to any valid installation path for the |SDK|.
+
+.. attention::
+    Code Composer Studio creates a *dynamic* installation variable for a
+    discovered |SDK| instances. For more information, see
+    :ref:`sec-inc-developing-in-ccs-discover-ccs-products`.
+
+.. note::
+    If installing the |SDK| to a non-default path, do not exceed the maximum
+    length of the file system namepath. Actual paths may differ from the
+    figures.
+
+|SDK| also installs XDCTools if not already present. See the release
+notes for required version numbers. Newer versions of tools may not be
+compatible with this SDK release. Check the TI Bluetooth LE Wiki for the latest
+supported tool versions.

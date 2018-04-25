@@ -1,0 +1,23 @@
+[
+   {
+      "files" : [
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/drivers/adcbufcontinuous/tirtos/main_tirtos.c -> main_tirtos.c",
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/drivers/adcbufcontinuous/adcBufContinuousSampling.c -> adcBufContinuousSampling.c",
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/drivers/adcbufcontinuous/CC2640R2_LAUNCHXL.c -> CC2640R2_LAUNCHXL.c",
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/drivers/adcbufcontinuous/ccfg.c -> ccfg.c",
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/drivers/adcbufcontinuous/tirtos/iar/CC2640R2_LAUNCHXL_TIRTOS.icf -> adcbufcontinuous_CC2640R2_LAUNCHXL_TIRTOS.icf",
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/drivers/adcbufcontinuous/Board.h -> Board.h",
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/drivers/adcbufcontinuous/CC2640R2_LAUNCHXL.h -> CC2640R2_LAUNCHXL.h",
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/drivers/adcbufcontinuous/README.md -> README.md",
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/drivers/adcbufcontinuous/README.html -> README.html"
+      ],
+      "name" : "na",
+      "default" : "na",
+      "compiler" : {
+         "specified" : "na",
+         "location" : "na",
+         "effective" : "na"
+      },
+      "packages" : []
+   }
+]

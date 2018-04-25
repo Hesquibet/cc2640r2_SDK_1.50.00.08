@@ -1,0 +1,302 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>API References &mdash; BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation" href="../index.html"/>
+        <link rel="next" title="Terms and Definitions" href="reference.html"/>
+        <link rel="prev" title="CC254x to CC2640" href="cc254x-to-cc2640.html"/> 
+    <script language="JavaScript">
+        var tiPageName;
+        tiPageName = "sug ble-stack-3.x-guide api-reference";
+
+        if (location.protocol == "file:"){
+            var ci_analytics_poc_load = true;
+        }
+    </script> 
+
+    <script src="http://www.ti.com/assets/js/headerfooter/analytics.js" type="text/javascript" charset="utf-8">     
+
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> BLE-Stack User's Guide for Bluetooth 4.2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.01.01.00
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../cc2640/disclaimer.html">Disclaimer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="get-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cc2640/platform.html">The CC2640R2F SDK Platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x/index.html">Developing a Bluetooth Low Energy Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../u-stack/index.html">Micro BLE Stack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../oad-ble-stack-3.x/oad.html">Over the Air Download (OAD)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../voice/voice.html">Creating a Voice Enabled Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../secure-fw-3.x/index.html">Secure Firmware (SFW)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensor-controller/sensor-controller.html">Sensor Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../debugging/ble-index.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="migration.html">Migration Guides</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">API References</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#ble-api-reference">BLE Stack API Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#micro-ble-stack-api-reference">Micro BLE Stack API Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#driver-api-reference">Driver API Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">Simple Network Processor API Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference.html">Terms and Definitions</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">BLE-Stack User's Guide for Bluetooth 4.2</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>API References</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="api-references">
+<h1>API References<a class="headerlink" href="#api-references" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="ble-api-reference">
+<span id="id2"></span><h2><a class="reference external" href="../../doxygen/ble/html/index.html">BLE Stack API Reference</a><a class="headerlink" href="#ble-api-reference" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference external" href="../../doxygen/ble/html/group___a_t_t___g_a_t_t.html">ATT_GATT</a></li>
+<li><a class="reference external" href="../../doxygen/ble/html/group___g_a_t_t_serv_app.html">GATTServApp</a></li>
+<li><a class="reference external" href="../../doxygen/ble/html/group___g_a_p.html">GAP</a></li>
+<li><a class="reference external" href="../../doxygen/ble/html/group___g_a_p_bond_mgr.html">GAPBondMgr</a></li>
+<li><a class="reference external" href="../../doxygen/ble/html/group___l2_c_a_p.html">L2CAP</a></li>
+<li><a class="reference external" href="../../doxygen/ble/html/group___link_d_b.html">LinkDB</a></li>
+<li><a class="reference external" href="../../doxygen/ble/html/group___h_c_i.html">HCI</a></li>
+<li><a class="reference external" href="../../doxygen/ble/html/group___peripheral.html">Peripheral</a></li>
+<li><a class="reference external" href="../../doxygen/ble/html/group___central.html">Central</a></li>
+<li><a class="reference external" href="../../doxygen/ble/html/group___multi.html">Multi</a></li>
+<li><a class="reference external" href="../../doxygen/ble/html/group___util.html">Util</a></li>
+<li><a class="reference external" href="../../doxygen/ble/html/group___i_call.html">ICall</a></li>
+</ul>
+</div>
+<div class="section" id="micro-ble-stack-api-reference">
+<span id="micro-ble-api-reference"></span><h2>Micro BLE Stack API Reference<a class="headerlink" href="#micro-ble-stack-api-reference" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference external" href="../../doxygen/ble/html/group___u_b_l_e.html">uBLE API Reference</a></li>
+<li><a class="reference external" href="../../doxygen/ble/html/group___u_g_a_p.html">uGAP API Reference</a></li>
+</ul>
+</div>
+<div class="section" id="driver-api-reference">
+<span id="ti-driver-reference"></span><h2>Driver API Reference<a class="headerlink" href="#driver-api-reference" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference external" href="../../../doxygen/tidrivers/html/tidriversAPIs.html">Standard TI Driver API Reference</a></li>
+<li><a class="reference external" href="../../doxygen/ble/html/group___e_c_c.html">Elliptic Curve Cryptography (ECC) API Reference</a></li>
+<li><a class="reference external" href="../../doxygen/ble/html/group___t_r_n_g.html">True Random Number Generator (TRNG) API Reference</a></li>
+</ul>
+</div>
+<div class="section" id="id3">
+<h2><a class="reference external" href="../../doxygen/ble/html/group___s_n_p.html">Simple Network Processor API Reference</a><a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference external" href="../../doxygen/ble/html/_s_n_p__d_e_v__a_p_i.html">SNP Device API Reference</a></li>
+<li><a class="reference external" href="../../doxygen/ble/html/_s_n_p__g_a_t_t__a_p_i.html">SNP GATT API Reference</a></li>
+<li><a class="reference external" href="../../doxygen/ble/html/_s_n_p__g_a_p__a_p_i.html">SNP GAP API Reference</a></li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="reference.html" class="btn btn-neutral float-right" title="Terms and Definitions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="cc254x-to-cc2640.html" class="btn btn-neutral" title="CC254x to CC2640" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Texas Instruments.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.01.01.00',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

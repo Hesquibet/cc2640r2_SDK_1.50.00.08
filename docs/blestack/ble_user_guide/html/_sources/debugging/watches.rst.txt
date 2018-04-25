@@ -1,0 +1,138 @@
+Watching Variables and Registers
+--------------------------------
+
+IAR and CCS provide several ways of viewing the state of a halted
+program. Global variables are statically placed during link-time and
+can end up anywhere in the RAM available to the project or
+potentially in flash if they are declared as a constant value. These
+variables can be accessed at any time through the Watch and
+Expression windows.
+
+Unless removed due to optimizations, global variables are always
+available in these views. Local variables or variables that are only
+valid inside a limited scope are placed on the stack of the active
+task. Such variables can also be viewed with the Watch or Expression
+views, but can also be automatically displayed when breaking or
+stepping through code. To view the variables through IAR and CCS, do
+as follows.
+
+Variables in CCS
+^^^^^^^^^^^^^^^^
+
+You can view Global Variables by doing either of the following.
+
+* Select View --> Expressions
+* Select a variable name in code.
+
+  *  Right-click and select Add Watch Expression.
+
+.. figure:: resources/ccs_watch.png
+    :align: center
+
+    Variable watch window. Note that you can cast values, get address and sizeof, etc.
+
+* Select View --> Variables to ``auto-variables`` that are present at the current
+  location when stepping through code.
+
+.. figure:: resources/ccs_locals.png
+    :align: center
+
+    Local variables. This screenshot is taken during execution of
+    the Simple Peripheral init function.
+
+Variables in IAR
+^^^^^^^^^^^^^^^^
+
+To view Global Variables, do either of the following.
+
+* Right-click on the variable.
+
+  * Select Add to Watch: varName.
+
+* Select View --> Watch n
+
+  * Enter the name of the variable.
+
+.. figure:: resources/iar_watch.png
+    :align: center
+
+    Variable watch window. Note that you can cast values, get address and sizeof, etc.
+
+View --> Locals show the local variables in IAR.
+
+.. figure:: resources/iar_locals.png
+    :align: center
+
+    Local variables. This screenshot is taken during execution of
+    the Simple Peripheral init function.
+
+Considerations When Viewing Variables
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Local variables are often placed in CPU registers and not on the
+stack. These variables also have a limited lifetime even within the
+scope in which they are valid, depending on the optimization
+performed. Both CCS and IAR may struggle to show a particular
+variable due to its limited lifetime. The solution when debugging is
+as follows.
+
+-  Move the variable to global scope, so it remains accessible in RAM.
+
+-  Make the variable volatile, so the compiler doesn't place the value in a
+   register.
+
+-  Make a shadow copy of the variable that is global and volatile.
+
+IAR may remove the variable during optimization and inline the usage of the
+value. If so, add the ``__root`` directive in front.
+
+
+Memory Watchpoints
+------------------
+
+As mentioned in :ref:`sec-debug-interface`, the DWT module contains four memory
+watchpoints that allow breakpoints on memory access. The hardware
+match functionality looks only at the address. If intended for use
+on a variable, the variable must be global. Using watchpoints is
+described for IAR and CCS as follows.
+
+.. note::
+  If a data watchpoint with value match is used, two of the four watchpoints
+  are used.
+
+
+Watchpoints in CCS
+^^^^^^^^^^^^^^^^^^
+
+1. Right-click on a global variable.
+2. Select Breakpoint --> Hardware Watchpoint
+3. Go to the list of breakpoints (View --> Breakpoints)
+4. Right-click and edit the Breakpoint Properties to configure the watchpoint.
+
+.. figure:: resources/ccs_watchpoint_add.png
+    :align: center
+
+    Adding a watchpoint on a variable.
+
+This example configuration ensures that if 0x42 is written to the
+memory location for Characteristic 1 in the Bluetooth low energy
+simple\_peripheral example project the device halts execution.
+
+.. figure:: resources/ccs_watchpoint_configure.png
+    :align: center
+
+    Configuring a hardware watchpoint to break on 8-bit write with value 0x42.
+
+Watchpoints in IAR
+^^^^^^^^^^^^^^^^^^
+
+1. Right-click a variable (global).
+2. Select ``Set Data Breakpoint for 'myVar'`` to add it to the active breakpoints.
+3. Go to the list of breakpoints (View --> Breakpoints)
+4. Choose Edit... to set up whether the watchpoint should match on read,
+   write, or any access.
+
+.. figure:: resources/iar_watchpoint_configure.png
+    :align: center
+
+    Configuring a hardware watchpoint to break on 8-bit write with value 0x42.

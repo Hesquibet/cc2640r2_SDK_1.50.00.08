@@ -1,0 +1,47 @@
+.. _sec-oad:
+
+Over the Air Download (OAD)
+===========================
+
+This section serves as a guide to the Texas Instruments Over-the-Air Download
+(:term:`OAD`) ecosystem including the custom profile specification, application
+architecture, drivers, and middleware. :term:`OAD` is a device firmware upgrade
+method that allows the firmware image running on a device to be updated
+over the air using a Bluetooth low energy connection while providing power loss
+protection.
+
+The guide will cover the principles of the :term:`OAD` process, the out of
+the box examples included in the |SDK|, and the process for adding :term:`OAD`
+to an existing project.
+
+.. warning::
+
+    Updating the device firmware over serial (UART or SPI) connection from a
+    host MCU using the CC26xx embedded ROM Serial Bootloader (SBL) is covered in
+    application note CC2538/CC26xx Bootloader Interface (SWRA466).
+
+
+The :term:`OAD` guide section will cover:
+
+    - :term:`OAD` theory of operation and architecture
+    - How to run the :term:`OAD` examples included in the |SDK|
+    - How to add :term:`OAD` to an existing sample application
+
+The supported development kit for :term:`OAD` is the |LP|. To follow the
+procedures listed in this guide, two |LP| development kits are required.
+
+
+.. rubric:: Table of contents
+
+.. toctree::
+   :maxdepth: 2
+
+   oad_concepts
+   oad_profile
+   oad_offchip
+   oad_onchip
+   
+..
+    oad_troubleshooting
+    oad_appendix
+

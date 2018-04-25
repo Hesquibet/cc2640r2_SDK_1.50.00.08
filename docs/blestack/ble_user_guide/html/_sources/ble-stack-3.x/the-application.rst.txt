@@ -1,0 +1,840 @@
+.. _TI RTOS Kernel User Guide: ..\/..\/..\/..\/tirtos\/sysbios\/docs\/Bios_User_Guide.pdf
+
+.. _the_application:
+
+The Application
+===============
+
+This section describes the application portion of the
+simple\_peripheral project, which includes the following:
+
+-  :ref:`start-up-in-main`
+
+-  :ref:`icall`
+
+-  :ref:`sbp_task`
+
+-  :ref:`intertask_messages`
+
+.. note::
+    The :ref:`sec-gaprole-gaproletask` is also part of the application project
+    workspace, but is discussed with :ref:`the_stack`.
+    The functionality of the GAPRole Task relates closely to the
+    protocol stack.
+
+.. _start-up-in-main:
+
+Pre-main initialization
+-----------------------
+
+The ``main`` function is contained in source file main.c located in the
+IDE Start-up folder. This function is the starting point at run time.
+The purpose of main is to bring up the target with interrupts disabled,
+drivers initialized, power management on, TI-RTOS tasks created or
+constructed, and start the SYS/BIOS kernel scheduler with interrupts enabled.
+The ``main`` function does not return. Main.c exists in the application
+project; in other words main.c will be allocated within flash reserved for
+the application.
+
+  .. code-block:: c
+    :caption: A basic main function.
+    :linenos:
+
+    int main()
+    {
+      /* Register Application callback to trap asserts raised in the Stack */
+      RegisterAssertCback(AssertHandler);
+
+      PIN_init(BoardGpioInitTable);
+
+      #ifndef POWER_SAVING
+        /* Set constraints for Standby, powerdown and idle mode */
+        Power_setConstraint(PowerCC26XX_SB_DISALLOW);
+        Power_setConstraint(PowerCC26XX_IDLE_PD_DISALLOW);
+      #endif // POWER_SAVING
+
+      /* Initialize ICall module */
+      ICall_init();
+
+      /* Start tasks of external images - Priority 5 */
+      ICall_createRemoteTasks();
+
+      /* Kick off profile - Priority 3 */
+      GAPRole_createTask();
+
+      SimpleBLEPeripheral_createTask();
+
+      /* enable interrupts and start SYS/BIOS */
+      BIOS_start();
+
+      return 0;
+    }
+
+See :ref:`sec-tirtos-overview` for how the application and GAPRole tasks are
+constructed through TI-RTOS.
+
+.. note::
+    The ICall module must be initialized by :ble_api:`ICall_init` and the
+    stack task is created via :ble_api:`ICall_createRemoteTasks`.
+
+.. _icall:
+
+ICall
+-----
+
+Introduction
+^^^^^^^^^^^^
+
+Indirect Call Framework (ICall) is a module that provides a
+mechanism for the application to interface with the Bluetooth low
+energy protocol stack services (that is, |BLESTACK|
+APIs) as well as certain primitive services provided by TI-RTOS
+(for example, thread synchronization). ICall allows the application
+and protocol stack to operate efficiently, communicate, and share
+resources in a unified TI-RTOS environment.
+
+The central component of the ICall architecture is the dispatcher,
+which facilitates the application program interface between the
+application and the |BLESTACK| task across
+the dual-image boundary as well as in Library configuration.
+Although most ICall interactions are
+abstracted within the |BLESTACK| APIs (for
+example, GAP, HCI, and so forth), the application developer must
+understand the underlying architecture for the |BLESTACK|
+to operate properly in the multithreaded RTOS environment.
+
+The ICall module source code is provided in the ICall and ICall
+BLE IDE folders in the application project.
+
+.. _icall_app_stack:
+
+.. figure:: resources/image68.jpeg
+    :align: center
+
+    ICall Application – Protocol Stack Abstraction.
+
+ICall |BLESTACK| Protocol Service
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+As :numref:`icall_app_stack` shows, the ICall core use case involves messaging
+between a server entity (that is, the |BLESTACK|
+task) and a client entity (for example, the application task).
+
+.. note::
+    The ICall framework is not the GATT server and client
+    architecture, as defined by the Bluetooth Low Energy protocol.
+
+The reasoning for this architecture is as follows:
+
+-  To enable independent updating of the application and Bluetooth Low
+   Energy protocol stack
+
+-  To maintain API consistency as software is ported from legacy
+   platforms (that is, OSAL for the CC254x) to TI-RTOS of the |device|.
+
+The ICall |BLESTACK| service serves as the
+application interface to |BLESTACK| APIs. When a
+|BLESTACK| API is called by the application
+internally, the ICall module routes (that is, dispatches) the
+command to the |BLESTACK| and routes
+messages from the |BLESTACK| to the
+application when appropriate.
+
+Because the ICall module is part of the application project, the
+application task can access ICall with direct function calls.
+Because the |BLESTACK| executes at the
+highest priority, the application task blocks until the response is
+received. Certain protocol stack APIs may respond immediately, but
+the application thread blocks as the API is dispatched to the
+|BLESTACK| through ICall. Other |BLESTACK| APIs may also respond asynchronously to
+the application through ICall (for example, event updates) with the
+response sent to the event handler of the application task.
+
+ICall Primitive Service
+^^^^^^^^^^^^^^^^^^^^^^^
+
+ICall includes a primitive service that abstracts various operating
+system-related functions. Due to shared resources and to maintain
+interprocess communication, the application must use the following
+ICall primitive service functions:
+
+-  Messaging and Thread Synchronization
+
+-  Heap Allocation and Management
+
+Some of these are abstracted to Util functions (see the relevant
+module in :ref:`sec-tirtos-overview`).
+
+Messaging and Thread Synchronization
+""""""""""""""""""""""""""""""""""""
+
+The Messaging and Thread Synchronization functions provided by ICall
+enable an application to communicate with the |BLESTACK| in the
+multithreaded TI-RTOS environment.
+
+In ICall, messaging between two tasks occurs by sending a block of
+message from one thread to the other through a message queue. The
+sender allocates a memory block, writes the content of the message
+into the memory block, and then sends (that is, enqueues) the memory
+block to the recipient. Notification of message delivery occurs
+using an event flag. The receiver wakes up on the event flag post,
+copies the message memory block (or blocks), processes the message,
+and returns (frees) the memory block to the heap.
+
+The stack uses ICall for notifying and sending messages to the
+application. ICall delivers these service messages, the application
+task receives them, and the messages are processed in the context
+of the application.
+
+Heap Allocation and Management
+""""""""""""""""""""""""""""""
+
+ICall provides the application with global heap APIs for dynamic
+memory allocation. The size of the ICall heap is configured with the
+:c:type:`HEAPMGR_SIZE` preprocessor-defined symbol in the application
+project. See :ref:`dynamic_memory_allocation` for more details on managing dynamic
+memory. ICall uses this heap for all protocol stack messaging and to
+obtain memory for other ICall services. TI recommends that the
+application uses these ICall APIs to allocate dynamic memory.
+
+.. _the-application-icall-initialization-and-registration:
+
+ICall Initialization and Registration
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+To instantiate and initialize the ICall service, the application
+must call the functions in in the snippet below in main() before starting the
+TI-RTOS kernel scheduler:
+
+  .. code-block:: c
+    :caption: Required code to utilize ICall.
+    :linenos:
+
+    /* Initialize ICall module */
+    ICall_init();
+
+    /* Start tasks of external images - Priority 5 */
+    ICall_createRemoteTasks();
+
+Calling :ble_api:`ICall_init` initializes the ICall primitive service (for
+example, heap manager) and framework. Calling
+:ble_api:`ICall_createRemoteTasks` creates but does not start the |BLESTACK|
+task. Before using ICall protocol
+services, the server and client must enroll and register with ICall.
+The server enrolls a service, which is defined at build time.
+Service function handler registration uses a globally defined unique
+identifier for each service. For example, Bluetooth low energy uses
+:c:type:`ICALL_SERVICE_CLASS_BLE` for receiving |BLESTACK| task messages through
+ICall.
+
+To enroll the |BLESTACK| service (server) with ICall in osal\_icall\_ble.c,
+see the snippet below:
+
+  .. code-block:: c
+    :caption: ICall Enrollment
+    :linenos:
+
+    /* Enroll the service that this stack represents */
+    ICall_enrollService(ICALL_SERVICE_CLASS_BLE, NULL, &entity, &syncHandle);
+
+The registration mechanism is used by the client to send and/or
+receive messages through the ICall dispatcher.
+
+For a client (for example, application task) to use the |BLESTACK| APIs,
+the client must first register its task with
+ICall. This registration usually occurs in the task initialization
+function of the application. The snippet below is an example from
+``simple_peripheral_init`` in simple\_peripheral.c
+
+  .. code-block:: c
+    :caption: ICall Registration
+    :linenos:
+
+    // Register the current thread as an ICall dispatcher application
+    // so that the application can send and receive messages.
+    ICall_registerApp(&selfEntity, &syncEvent);
+
+The application supplies the selfEntity and syncEvent inputs. These inputs
+are initialized for the task of the client (for example,
+application) when the :ble_api:`ICall_registerApp` returns are initialized.
+These objects are subsequently used by ICall to facilitate messaging
+between the application and server tasks. The syncEvent argument
+represents the Events Module handle for signaling and the selfEntity represents
+the destination message queue of the task. Each task registering
+with ICall has unique syncEvent and selfEntity identifiers.
+
+.. note::
+    |BLESTACK| APIs defined in ``icall_ble_api.h`` and other ICall primitive
+    services are not available before ICall registration.
+
+.. _sec-the-application-icall-thread-sync:
+
+ICall Thread Synchronization
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The ICall module uses TI-RTOS Events Module for thread synchronization
+instead of Semaphores.
+
+To allow a client or a server thread to block until it receives a message,
+ICall provides the API functions which blocks until the semaphore
+associated with the caller TI-RTOS thread is posted.
+
+.. _icall_blocking:
+
+  .. code-block:: c
+    :caption: ICall Blocking/Pending Calls
+    :linenos:
+
+    UInt Event_pend(Event_Handle handle, UInt andMask, UInt orMask, UInt32 timeout);
+
+``handle`` is the constructed Event_Handle instance. ``andMask`` and
+``orMask`` are for the user to select which Event flags to block/
+pend on. ``timeout`` is a time-out period in milliseconds. If not
+already returned after this time-out period, the function returns with
+events consumed.
+
+``Event_pend`` blocks the current task until the desired Events
+are posted. Allowing an application or a server thread to block/yield
+the processor resource to other lower priority threads or conserve
+energy by shutting down power and/or clock domains when possible.
+
+There are a total of 32 events. These can be defined for application
+specific purposes. Note that there is an event specifically for ICall
+Messages and Queues.
+
+The Event associated with a TI-RTOS thread is signaled/posted by when
+``Event_post`` is called with the desired flags.
+
+``Event_post`` is used so an application or a server can add
+its own event to unblock ``Event_pend`` and synchronize the
+thread with appropriate flags. ``Event_post`` constructed
+Event_Handle instance, as well as an eventFlag mask to select the
+desired flags.
+
+.. _icall_signal:
+
+  .. code-block:: c
+    :caption: ICall Signaling/Posting Call
+    :linenos:
+
+    Void Event_post(Event_Handle handle, UInt eventMask);
+
+The Event handle associated with the thread is obtained through
+either :ble_api:`ICall_enrollService` call or :ble_api:`ICall_registerApp` call.
+
+.. danger::
+    Do not call an ICall function from a stack callback. This
+    action can cause ICall to abort (with :ble_api:`ICall_abort` and break the
+    system.
+
+
+For more information on the TI-RTOS Events Module, see :ref:`sec-rtos-overview-event`.
+
+For more information on migrating from earlier devices see
+:ref:`cc2640-cc2640r2-migration-guide`.
+
+.. _sec-the-application-icall-lite:
+
+Improved ICall Architecture (ICall Lite)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Although there are no API changes to ICall or Stack API, in order for
+projects to realize the benefits of improved ICall the APIs need to be
+remapped.
+
+The remapping is all done with ``icall_ble_api.h``, and by including
+``icall_api_lite.c`` in the build. Effectively, ``icall_ble_api.h``
+redefines all the ICall/Stack API while keeping their original function
+prototypes. This redefinition is done to utilize a different message
+format for the dispatcher to handle.
+
+In order for the redefinition to take effect correctly,
+``icall_ble_api.h`` **MUST** be the last file to be included in
+the source file. This ensures that the redefinition correctly occurs.
+If ``icall_ble_api.h`` is not the last file to be included, it's possible
+that original definitions could be used due to ``gapbondmgr.h``,
+``gapgattserver.h``, or any other ICall/Stack API being included in
+another header file.
+
+.. danger::
+    For any source file utilizing ICall/Stack API, ``#include "icall_ble_api.h"``
+    must be the last include statement. Erratic runtime behavior or
+    link time errors may result.
+
+The new message format is designed to be compatible with the improved
+ICall translation layer, defined in ``icall_lite_translation.c`` in
+the |BLESTACK| project. All messages will be processed with
+``icall_liteTranslation`` in the BLE_Stack context.
+
+.. warning::
+    Only Tasks/Threads registered with ICall via
+    :ble_api:`ICall_registerApp` should use ICall/Stack API.
+
+    Application will abort if an unknown task uses ICall/Stack API.
+
+Example ICall Usage
+^^^^^^^^^^^^^^^^^^^
+
+:numref:`icall_messaging_example` shows an example command being sent from the
+application to the |BLESTACK| through the ICall framework with a corresponding
+return value passed back to the application.
+
+:ble_api:`ICall_init` initializes the ICall module instance and
+:ble_api:`ICall_createRemoteTasks` creates a task per external image with an
+entry function at a known address.
+
+After initializing ICall, the application task registers with ICall
+through :ble_api:`ICall_registerApp`.
+
+After the SYS/BIOS scheduler starts and the application task runs,
+the application sends a protocol command defined in ``ble_dispatch_JT.c``
+such as :ble_api:`GAP_GetParamValue`.
+
+.. danger::
+    Although the protocol command is declared in ``gap.h`` and defined
+    on the |BLESTACK| side via ``ble_dispatch_JT.c``, the declaration
+    **MUST** be overridden by ``icall_api.h``.
+
+The protocol command is not executed in the thread of the application
+but is encapsulated in an ICall message and routed to the |BLESTACK| task
+via the ICall framework. This command
+is sent to the ICall dispatcher where it is dispatched and executed
+in the |BLESTACK| context. The application thread
+meanwhile blocks until the corresponding command status message is received.
+The |BLESTACK| finishes executing the command,
+then sends a command status message response is through ICall back to
+the application thread. An example diagram of this exchange can be seen
+in :numref:`icall_messaging_example`
+
+.. _icall_messaging_example:
+.. uml::
+    :caption: ICall Messaging Example
+    :align: center
+
+    @startuml
+    participant App
+    participant "ICall"
+    participant "BLE Stack"
+      App -> "ICall" : ICall_Init
+      App -> "ICall" : ICall_createRemoteTasks
+      App -> "ICall" : ICall_registerApp
+      App -> "ICall" : GAP_GetParamValue
+
+      ICall -> "BLE Stack" : ICall_dispatcher\n(BLE Primitive Service)
+
+    rnote over "BLE Stack"
+        Stack Executes
+        GAP_GetParamValue
+    end note
+
+    activate App
+
+    rnote over App
+       App Task Blocks
+    end note
+
+      "BLE Stack" -> "ICall" : ICall_send\n(sendGapCmdStatus)
+
+    deactivate "App"
+
+      ICall -> App : ICall_dispatcher\n(sendGapCmdStatus)
+
+    @enduml
+
+
+    ICall Messaging Example
+
+
+.. _sbp_task:
+
+Simple Peripheral Task
+----------------------
+
+Simple Peripheral Task, or the application task, is the lowest priority task in
+the system. The code for this task is in simple\_peripheral.c and
+simple\_peripheral in the Application IDE folder.
+
+Application Initialization Function
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+:ref:`sec-tirtos-overview` describes how a task is constructed. After the task
+is constructed and the SYS/BIOS kernel scheduler is started, the function that
+was passed during task construction is run when the task is ready (for example,
+``SimpleBLEPeripheral_taskFxn``). This function must first call an application
+initialization function.
+
+.. _sbp_general_task:
+
+  .. code-block:: c
+    :caption: simple\_peripheral Task Function Pseudocode
+    :linenos:
+
+    static void SimpleBLEPeripheral_taskFxn(UArg a0, UArg a1)
+    {
+      //Initialize application
+      SimpleBLEPeripheral_init();
+
+      //Application main loop
+      for (;;)
+      {
+
+      }
+    }
+
+This initialization function (``simple_peripheral_init``) configures
+several services for the task and sets several hardware and software
+configuration settings and parameters. The following list contains
+some common examples:
+
+-  Initializing the GATT client
+
+-  Registering for callbacks in various profiles
+
+-  Setting up the GAPRole
+
+-  Setting up the Bond Manager
+
+-  Setting up the GAP layer
+
+-  Configuring hardware modules such as LCD or SPI.
+
+For more information on these examples, see their respective
+sections in this guide.
+
+.. note::
+    In the application initialization function,
+    :ble_api:`ICall_registerApp` must be called before any stack API is called.
+
+Event Processing in the Task Function
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+simple\_peripheral implements an event driven task function.
+The task function enters an infinite loop so that it
+continuously processes as an independent task and does not run to
+completion. In this infinite loop, the task remains blocked and
+waits until proper events flags signal a new reason for processing:
+
+.. _icall_pend_wait_example:
+
+  .. code-block:: c
+    :caption: ICall task remains blocked and waits until signaled for processing.
+    :linenos:
+
+    // Waits for an event to be posted associated with the calling thread.
+    // Note that an event associated with a thread is posted when a
+    // message is queued to the message receive queue of the thread
+    events = Event_pend(syncEvent, Event_Id_NONE, SBP_ALL_EVENTS,
+                        ICALL_TIMEOUT_FOREVER);
+
+When an event or other stimulus occurs and is processed, the task
+waits for event flags and remains in a blocked state until there
+is another reason to process.
+
+
+.. _sec-task-events:
+
+Task Events
+^^^^^^^^^^^
+
+Task events are set when the |BLESTACK|
+sets an event in the application task through the Events Module. An example of a
+task event is when the :ble_api:`HCI_EXT_ConnEventNoticeCmd` is called
+to indicate the end of a connection event. An example
+of a task event that signals the end of a connection event is shown
+in the task function of the simple\_peripheral:
+
+  .. code-block:: c
+    :caption: SBP task checks for task events.
+    :linenos:
+
+    if (events)
+    {
+      ICall_EntityID dest;
+      ICall_ServiceEnum src;
+      ICall_HciExtEvt *pMsg = NULL;
+
+      if (ICall_fetchServiceMsg(&src, &dest,
+                                (void **)&pMsg) == ICALL_ERRNO_SUCCESS)
+      {
+        uint8 safeToDealloc = TRUE;
+
+        if ((src == ICALL_SERVICE_CLASS_BLE) && (dest == selfEntity))
+        {
+          ICall_Stack_Event *pEvt = (ICall_Stack_Event *)pMsg;
+
+          // Check for BLE stack events first
+          if (pEvt->signature == 0xffff)
+          {
+            if (pEvt->event_flag & SBP_CONN_EVT_END_EVT)
+            {
+              // Try to retransmit pending ATT Response (if any)
+              SimpleBLEPeripheral_sendAttRsp();
+            }
+          }
+          else
+          {
+            // Process inter-task message
+            safeToDealloc = SimpleBLEPeripheral_processStackMsg((ICall_Hdr *)pMsg);
+          }
+        }
+
+        if (pMsg && safeToDealloc)
+        {
+          ICall_freeMsg(pMsg);
+        }
+      }
+
+      // Additional Event Processing
+    }
+
+.. note::
+    In the code, the ``pEvt->signature`` is always equal to 0xFFFF
+    if the event is coming from the |BLESTACK|.
+
+When selecting an event value for an intertask event, the value must
+be unique for the given task and must be a power of 2 (so only 1 bit
+is set). Because the ``pEvt->event`` variable is initialized as
+``uint16_t``, this initialization allows for a maximum of 16 events.
+The only event values that cannot be used are those already used for
+|BLESTACK| OSAL global events (stated in bcomdef.h):
+
+.. _ble_osal_event:
+
+  .. code-block:: c
+    :caption: BLE OSAL events are defined in bcomdef.h.
+    :linenos:
+
+    /************************************************************
+    * BLE OSAL GAP GLOBAL Events
+    */
+
+    #define GAP_EVENT_SIGN_COUNTER_CHANGED 0x4000 //!< The device level sign counter changed
+
+.. note::
+    These intertask events are a different set of events than
+    the intratask events mentioned in :ref:`events_signaled_through_the_internal_event_variable`.
+
+.. _intertask_messages:
+
+Intertask Messages
+------------------
+
+These messages are passed from another task (such as the |BLESTACK| Service)
+through ICall to the application task.
+
+Some possible examples are as follows:
+
+- A confirmation sent from the protocol stack in acknowledgment of a
+  successful over-the-air indication
+
+- An event corresponding to an HCI command (see :ref:`ble_api_reference` for
+  HCI command documentation and corresponding events)
+
+- A response to a GATT client operation (see :ref:`using_the_gatt_layer_directly`)
+
+:ref:`sec-task-events` an example from the main task loop of the
+simple\_peripheral.
+
+Using TI-RTOS Events Module
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+All |BLESTACKVER| projects use the TI-RTOS Event module acquire ICall stack
+message event. Usage is described in :ref:`sec-the-application-icall-thread-sync`
+and more documentation on the Event module can be found in the
+`TI RTOS Kernel User Guide`_.
+
+Processing Queued Application Messages
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Application messages enqueued using the :ble_api:`Util_enqueueMsg` function are
+dequeued for processing in the order in which they occurred. The application
+should dequeue and free messages when ``UTIL_QUEUE_EVENT_ID`` events are posted.
+
+The code snippet below shows how simple\_peripheral
+processes application messages.
+
+  .. code-block:: c
+      :caption: Queued messages are processed in the order they occurred.
+      :linenos:
+      :emphasize-lines: 1, 4, 6, 8, 15
+
+      #define SBP_QUEUE_EVT   UTIL_QUEUE_EVENT_ID // Event_Id_30
+
+      // If TI-RTOS queue is not empty, process app message.
+      if (events & SBP_QUEUE_EVT)
+      {
+          while (!Queue_empty(appMsgQueue))
+          {
+              sbpEvt_t *pMsg = (sbpEvt_t *)Util_dequeueMsg(appMsgQueue);
+              if (pMsg)
+              {
+                  // Process message.
+                  SimpleBLEPeripheral_processAppMsg(pMsg);
+
+                  // Free the space from the message.
+                  ICall_free(pMsg);
+              }
+          }
+      }
+
+.. _events_signaled_through_the_internal_event_variable:
+
+Requesting and Processing Stack Events
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Some APIs have the option to notify the application when specific events occur in
+the |BLESTACK|. The API which enabled the notification of such events will
+contain a ``taskEvent`` argument. This ``taskEvent`` must be unique for a given
+ICall-aware task. The application can process the requested stack events by
+checking if the ``taskEvent`` is contained in the ``uint16_t event_flag``
+variable of the ``ICall_Stack_Event`` data structure.
+
+.. note::
+    The ``event_flag`` is not to be confused with events posted by the TI-RTOS
+    Event module.
+
+The snippet below shows how simple\_peripheral requests stack event flags.
+
+  .. code-block:: c
+      :caption: Application requesting to be notified when a connection interval
+                ends.
+      :linenos:
+      :emphasize-lines: 2, 11-12
+
+      // Application specific event ID for HCI Connection Event End Events
+      #define SBP_HCI_CONN_EVT_END_EVT              0x0001
+
+      static uint8_t SimpleBLEPeripheral_processGATTMsg(gattMsgEvent_t *pMsg)
+      {
+          // See if GATT server was unable to transmit an ATT response
+          if (pMsg->hdr.status == blePending)
+          {
+              // No HCI buffer was available. Let's try to retransmit the response
+              // on the next connection event.
+              if (HCI_EXT_ConnEventNoticeCmd(pMsg->connHandle, selfEntity,
+                                             SBP_HCI_CONN_EVT_END_EVT) == SUCCESS)
+              {
+                  // First free any pending response
+                  SimpleBLEPeripheral_freeAttRsp(FAILURE);
+
+                  // Hold on to the response message for retransmission
+                  pAttRsp = pMsg;
+
+                  //...
+              }
+           //...
+          }
+          //...
+      }
+
+
+The snippet below shows how simple\_peripheral processes stack event flags.
+
+  .. code-block:: c
+      :caption: Processing requested |BLESTACK| events
+      :linenos:
+      :emphasize-lines: 2, 27, 32, 37, 39
+
+      // Application specific event ID for HCI Connection Event End Events
+      #define SBP_HCI_CONN_EVT_END_EVT              0x0001
+
+      static void SimpleBLEPeripheral_taskFxn(UArg a0, UArg a1)
+      {
+
+          // Application main loop
+          for (;;)
+          {
+              uint32_t events;
+
+              // Waits for an event to be posted associated with the calling thread.
+              // Note that an event associated with a thread is posted when a
+              // message is queued to the message receive queue of the thread
+              events = Event_pend(syncEvent, Event_Id_NONE, SBP_ALL_EVENTS,
+                                  ICALL_TIMEOUT_FOREVER);
+
+              if (events)
+              {
+                  ICall_EntityID dest;
+                  ICall_ServiceEnum src;
+                  ICall_HciExtEvt *pMsg = NULL;
+
+                  if (ICall_fetchServiceMsg(&src, &dest,
+                                          (void **)&pMsg) == ICALL_ERRNO_SUCCESS)
+                  {
+                      uint8 safeToDealloc = TRUE;
+
+                      if ((src == ICALL_SERVICE_CLASS_BLE) && (dest == selfEntity))
+                      {
+                          ICall_Stack_Event *pEvt = (ICall_Stack_Event *)pMsg;
+
+                          // Check for BLE stack events first
+                          if (pEvt->signature == 0xffff)
+                          {
+                              if (pEvt->event_flag & SBP_HCI_CONN_EVT_END_EVT)
+                              {
+                                  // Try to retransmit pending ATT Response (if any)
+                                  SimpleBLEPeripheral_sendAttRsp();
+                              }
+                          }
+                          else
+                          {
+                              // Process inter-task message
+                              safeToDealloc = SimpleBLEPeripheral_processStackMsg((ICall_Hdr *)pMsg);
+                          }
+                      }
+                  }
+              }
+          }
+      }
+
+Callbacks
+^^^^^^^^^
+
+The application code also includes various callbacks to protocol
+stack layers, profiles, and TI-RTOS modules. To ensure thread safety,
+processing must be minimized in the actual callback and the bulk of
+the processing should occur in the application context. Two
+functions are defined per callback. One is the callback itself, which
+is called upon by another module or task. The second is the function
+to handle the event generated by the call back in the application context.
+Consider the GAPRole state change callback, which is called when a
+GAPRole state change occurs.
+
+.. danger::
+    No blocking TI-RTOS function calls or protocol stack APIs
+    should be performed in a callback function. Such function calls may
+    result in an abort or undefined behavior. Always perform protocol
+    stack and TI-RTOS blocking calls from the application task context.
+
+.. Note::
+    All callbacks are called in the context of the calling task or module
+    (for example, the GAPRole task). To minimize processing in the calling
+    context, this function should enqueue an event that the application pends on.
+
+  .. code-block:: c
+    :caption: simple_peripheral state change callback.
+    :linenos:
+
+    static void SimpleBLEPeripheral_stateChangeCB(gaprole_States_t newState)
+    {
+      SimpleBLEPeripheral_enqueueMsg(SBP_STATE_CHANGE_EVT, newState);
+    }
+
+The code snippet above shows the callback function that is sent to
+the GAP role via ``SimpleBLEPeripheral_gapRoleCBs`` and :ble_api:`GAPRole_StartDevice`.
+The callback simply places a message in the queue to signal the application to
+wake up. Once the callback's context returns and its parent task goes to sleep,
+the application wakes up due to the enqueue from the callback.
+The code snippet below is called when the event is popped from the
+application queue and processed.
+
+  .. code-block:: c
+    :caption: simple_peripheral state change event.
+    :linenos:
+
+    static void SimpleBLEPeripheral_processStateChangeEvt(gaprole_States_t newState)
+    {
+      //...
+    }
+
+See :ref:`gaprole_peripheral_role` for a flow diagram of this process.

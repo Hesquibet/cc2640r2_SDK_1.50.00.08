@@ -1,0 +1,28 @@
+[
+   {
+      "default" : "na",
+      "compiler" : {
+         "specified" : "na",
+         "location" : "na",
+         "effective" : "na"
+      },
+      "files" : [
+         "+../../Board.h -> Board.h",
+         "+../../CC2640R2_LAUNCHXL.c -> CC2640R2_LAUNCHXL.c",
+         "+../../CC2640R2_LAUNCHXL.h -> CC2640R2_LAUNCHXL.h",
+         "+CC2640R2_LAUNCHXL_TIRTOS.cmd -> CC2640R2_LAUNCHXL_TIRTOS.cmd",
+         "+../../../../../../../kernel/tirtos/builds/CC2640R2_LAUNCHXL/release/README.html -> README.html",
+         "+../../README.html -> README.html",
+         "+../../README.md -> README.md",
+         "+../../../../../../../kernel/tirtos/builds/CC2640R2_LAUNCHXL/release/README.md -> README.md",
+         "+../../adcBufContinuousSampling.c -> adcBufContinuousSampling.c",
+         "+../../ccfg.c -> ccfg.c",
+         "+../main_tirtos.c -> main_tirtos.c",
+         "+../../../../../../../kernel/tirtos/builds/CC2640R2_LAUNCHXL/release/ccs/makefile.defs -> makefile.defs",
+         "+../../overview.rov.json -> overview.rov.json",
+         "+../../../../../../../kernel/tirtos/builds/CC2640R2_LAUNCHXL/release/release.cfg -> release.cfg"
+      ],
+      "name" : "na",
+      "packages" : []
+   }
+]

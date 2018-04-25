@@ -1,0 +1,69 @@
+.. _Standard TI Driver API Reference:       ..\/..\/..\/doxygen\/tidrivers\/html\/tidriversAPIs.html
+.. _BLE Stack API Reference:                ..\/..\/doxygen\/ble\/html\/index.html
+.. _uBLE API Reference:                     ..\/..\/doxygen\/ble\/html\/group___u_b_l_e.html
+.. _uGAP API Reference:                     ..\/..\/doxygen\/ble\/html\/group___u_g_a_p.html
+.. _Simple Network Processor API Reference: ..\/..\/doxygen\/ble\/html\/group___s_n_p.html
+.. _SNP Device API Reference:               ..\/..\/doxygen\/ble\/html\/_s_n_p__d_e_v__a_p_i.html
+.. _SNP GATT API Reference:                 ..\/..\/doxygen\/ble\/html\/_s_n_p__g_a_t_t__a_p_i.html
+.. _SNP GAP API Reference:                  ..\/..\/doxygen\/ble\/html\/_s_n_p__g_a_p__a_p_i.html
+
+.. _Peripheral:                             ..\/..\/doxygen\/ble\/html\/group___peripheral.html
+.. _Central:                                ..\/..\/doxygen\/ble\/html\/group___central.html
+.. _ATT_GATT:                               ..\/..\/doxygen\/ble\/html\/group___a_t_t___g_a_t_t.html
+.. _GATTServApp:                            ..\/..\/doxygen\/ble\/html\/group___g_a_t_t_serv_app.html
+.. _GAPBondMgr:                             ..\/..\/doxygen\/ble\/html\/group___g_a_p_bond_mgr.html
+.. _L2CAP:                                  ..\/..\/doxygen\/ble\/html\/group___l2_c_a_p.html
+.. _HCI:                                    ..\/..\/doxygen\/ble\/html\/group___h_c_i.html
+.. _GAP:                                    ..\/..\/doxygen\/ble\/html\/group___g_a_p.html
+.. _LinkDB:                                 ..\/..\/doxygen\/ble\/html\/group___link_d_b.html
+.. _Multi:                                  ..\/..\/doxygen\/ble\/html\/group___multi.html
+.. _Util:                                   ..\/..\/doxygen\/ble\/html\/group___util.html
+.. _ICall:                                  ..\/..\/doxygen\/ble\/html\/group___i_call.html
+
+.. _Elliptic Curve Cryptography (ECC) API Reference: ..\/..\/doxygen\/ble\/html\/group___e_c_c.html
+.. _True Random Number Generator (TRNG) API Reference: ..\/..\/doxygen\/ble\/html\/group___t_r_n_g.html
+
+API References
+==============
+
+.. _ble_api_reference:
+
+`BLE Stack API Reference`_
+--------------------------
+
+* `ATT_GATT`_
+* `GATTServApp`_
+* `GAP`_
+* `GAPBondMgr`_
+* `L2CAP`_
+* `LinkDB`_
+* `HCI`_
+* `Peripheral`_
+* `Central`_
+* `Multi`_
+* `Util`_
+* `ICall`_
+
+.. _micro_ble_api_reference:
+
+Micro BLE Stack API Reference
+-----------------------------
+
+* `uBLE API Reference`_
+* `uGAP API Reference`_
+
+.. _ti_driver_reference:
+
+Driver API Reference
+--------------------
+
+* `Standard TI Driver API Reference`_
+* `Elliptic Curve Cryptography (ECC) API Reference`_
+* `True Random Number Generator (TRNG) API Reference`_
+
+`Simple Network Processor API Reference`_
+-----------------------------------------
+
+* `SNP Device API Reference`_
+* `SNP GATT API Reference`_
+* `SNP GAP API Reference`_

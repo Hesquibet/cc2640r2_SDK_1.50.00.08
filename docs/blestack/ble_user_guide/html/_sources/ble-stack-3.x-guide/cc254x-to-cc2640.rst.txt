@@ -1,0 +1,139 @@
+CC254x to CC2640
+================
+
+Introduction
+------------
+
+TI-RTOS is the new operating environment for Bluetooth low energy
+projects on CC26xx devices. This software is a multi-threaded
+environment where the protocol stack, application, and its profiles
+exist on different threads. TI-RTOS has similar features to OSAL but
+different mechanisms for accomplishing them. This section covers the
+main differences between TI-RTOS and OSAL when developing
+applications on top of the Bluetooth low energy protocol stack.
+Although the incorporation of TI-RTOS is a major architecture change, Bluetooth
+low energy APIs and related procedures are similar to CC254x.
+
+This section covers the following topics:
+
+-  OSAL
+
+-  Application and stack separation with ICall
+
+-  Threads, semaphores, and queues
+
+-  Peripheral Drivers
+
+-  Event Processing
+
+Most of these differences are unique to TI-RTOS. This section covers
+these differences and how they relate to OSAL.
+
+OSAL
+----
+
+A major change in moving to TI-RTOS is the complete removal of the
+application from the OSAL environment. While the stack code uses
+OSAL within its own thread, the application thread can only use the
+APIs of OSAL that are defined in ICallBleAPI.c. Many functions such
+as ``osal_memcpy``, ``osal_memcmp``, and
+``osal_mem_alloc()`` are unavailable. These functions have been replaced
+by TI-RTOS, C runtime, and ICall APIs.
+
+Application and Stack Separation With ICall
+-------------------------------------------
+
+In the CC2640 Bluetooth low energy protocol stack, the application
+is a separate image from the stack image unlike the OSAL method,
+which consists of only a single image. The benefit for this
+separation is detailed in the ICall. This structure allows independent upgrading
+of the application and stack images.
+
+The address of the startup entry for the stack image is known by the
+application image at build time so the application image knows where
+the stack image starts. Messages between the application and stack
+pass through a framework developed called ICall. (Indirect
+Call Framework) This functionality lets the application call the
+same APIs used in OSAL but is parsed by the ICall and sent to the
+stack for processing. Many of these stack functions are defined in
+``ICallBleAPI.c`` for the application to use transparently while ICall
+handles the sending and receiving from the stack transparently.
+
+Threads, Semaphores, and Queues
+-------------------------------
+
+Unlike single-threaded operating systems such as OSAL, TI-RTOS is
+multi-threaded with custom priorities for each thread. The TI-RTOS
+handles thread synchronization and APIs are provided for the
+application threads to use to maintain synchronization between
+different threads. Semaphores are the prime source of
+synchronization for applications. The semaphores are used to pass
+event messages to the event processor of the application.
+
+Profile callbacks that run in the context of the Bluetooth low
+energy protocol stack thread are made re-entrant by storing event
+data and posting a semaphore of the application to process in the
+context of the application. Similarly, key press events and clock
+events that run in ISR context also post semaphores to pass events
+to the application. Unique to TI-RTOS, queues are how applications
+process events in the order the events were called and make callback
+functions from profiles and the stack re-entrant. The queues also
+provide a FIFO ordering for event processing. An example project may
+use a queue to manage internal events from an application profile or
+a GAP profile role (for example, Peripheral or Central). ICall uses
+a queue and it is accessed through the ICall API. For a description
+of the TI-RTOS objects used by the Bluetooth low energy stack SDK,
+see :ref:`sec-tirtos-overview`.
+
+Peripheral Drivers
+------------------
+
+Aside from switching to an RTOS-based environment, peripheral
+drivers represent a significant change from the CC254x architecture.
+Any drivers used by the CC254x software must be ported to the
+respective TI-RTOS driver interfaces. For details on adding and
+using a CC26xx peripheral driver, see :ref:`peripherals-and-drivers`.
+
+Event Processing
+----------------
+
+Similar to OSAL, each TI-RTOS task has two functions that implement the
+fundamental tasks for an application: ``simple_peripheral_init()`` and
+``simple_peripheral_taskFxn()``.
+
+``simple_peripheral_init()`` contains ICall registration routines and
+initialization functions for the application profiles and the GAP
+and GATT roles. Function calls that are normally in the
+``START_DEVICE_EVT`` event of the CC254x application are also made in
+the ``simple_peripheral_init()`` function. The initialization includes
+setting up callbacks that the application should receive from the
+profile and stack layers. For more details on callbacks, and other
+messaging systems see :ref:`intertask_messages`.
+
+``simple_peripheral_taskFxn()`` contains an infinite loop in which
+events are processed. After entry of the loop and having just
+finished initialization, the application task calls :ble_api:`ICall_wait()` to
+block on its semaphore until an event occurs. For an example on how
+events are processed in simple\_peripheral, see :ref:`sbp_task`.
+
+Similar to ``osal_set_event()`` in a CC254x application, the
+application task can post the semaphore of the application with a
+call to ``Semaphore_post(sem)`` after setting an event such as in
+``simple_peripheral_clockHandler()``. An alternative way is to enqueue
+a message using ``simple_peripheral_enqueueMsg()`` which preserves
+the order in which the events are processed. Similar to
+``osal_start_timerEx()`` in a CC254x application, you can use a clock
+to set an event after a predetermined amount of time using
+:ble_api:`Util_constructClock`.This function can also set a periodic event
+as shown in the simple\_peripheral project.
+
+Events can come from within the same task, the profiles, or the stack.
+Events from the stack are handled first with a call to
+:ble_api:`ICall_fetchServiceMsg()` similar to ``osal_msg_receive()`` in a CC254x
+application. Internal events and messages from profiles or the
+GAP roles, that are received in callback functions, must be treated as
+re-entrant and should be handled in the ``simple_peripheral_taskFxn()`` function
+too. In other words, processing should be done within the application context.
+In many cases such as in GAP role profile callbacks, you must
+place events in a queue to preserve the order in which messages
+arrive. For general overview of application architecture see :ref:`the_application`.

@@ -1,0 +1,25 @@
+[
+   {
+      "packages" : [],
+      "name" : "na",
+      "files" : [
+         "+../../Board.h -> Board.h",
+         "+../../CC2640R2_LAUNCHXL.c -> CC2640R2_LAUNCHXL.c",
+         "+../../CC2640R2_LAUNCHXL.h -> CC2640R2_LAUNCHXL.h",
+         "+CC2640R2_LAUNCHXL_TIRTOS.cmd -> CC2640R2_LAUNCHXL_TIRTOS.cmd",
+         "+../../README.html -> README.html",
+         "+../../README.md -> README.md",
+         "+../../ccfg.c -> ccfg.c",
+         "+../../hello.c -> hello.c",
+         "+../hello.cfg -> hello.cfg",
+         "+../makefile.defs -> makefile.defs",
+         "+../../overview.rov.json -> overview.rov.json"
+      ],
+      "default" : "na",
+      "compiler" : {
+         "location" : "na",
+         "effective" : "na",
+         "specified" : "na"
+      }
+   }
+]

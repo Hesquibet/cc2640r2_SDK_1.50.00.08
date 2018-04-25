@@ -1,0 +1,303 @@
+.. _Online BLE-Stack User's Guide for Bluetooth 4.2: http://software-dl.ti.com/lprf/sdg-latest/html/
+
+.. _get-started-introduction:
+
+Getting Started
+***************
+
+.. important::
+
+    For the latest User's Guide, see the `Online BLE-Stack User's Guide for Bluetooth 4.2`_.
+
+This section serves as a road map for users developing applications
+and products using the TI SimpleLink Bluetooth low energy |DEVICE|
+wireless MCU platform. Whether a seasoned developer or just getting
+started, TI has created a variety of resources to simplify
+development on the |DEVICE| platform. These resources will enhance
+your experience with the TI SimpleLink |BLESTACK| ™ |version| Software
+Development Kit (SDK) from the out-of-the-box demo to production.
+
+:numref:`fig_suggested_workflow` shows the suggested work flow for getting
+started with TI's
+SimpleLink Bluetooth low energy (BLE) development environment.
+
+.. _fig_suggested_workflow:
+.. figure:: resources/suggestedworkflow.png
+    :align: center
+
+    Suggested Workflow
+
+.. _get-started-demo:
+
+Demo: Project Zero
+==================
+
+The |DEVICE| LaunchPad™ is the main development kit for Project Zero and
+developing applications with the |BLESTACK|. To quickly get started on a
+simple project with the |LP|, see the Project Zero overview page:
+`www.ti.com/ble-project-zero <http://ti.com/ble-project-zero>`_.
+
+Project Zero uses a modified version of the simple\_peripheral sample
+application from this SDK to demonstrate and evaluate some of the most
+commonly used BLE features. Using CCS Cloud™, TI's web based IDE, Project
+Zero can be built, downloaded, and debugged directly from a supported browser
+without the need to install a full desktop IDE. With Project Zero
+running on the |DEVICE| LaunchPad, you can connect with your smart
+phone to remotely blink on-board LEDs, send text strings to the
+LaunchPad’s serial port, and receive button press notifications, all
+right out of the box.
+
+The following sections in this document focus on developing a custom
+application with |BLESTACK|.
+
+To summarize, Project Zero allows you to quickly:
+
+-  Run software without installing any tools
+
+-  Flash the device with a single-button click from the browser
+
+-  Import a project to the cloud editor and develop, build, and debug
+
+-  Download all required project files in one archive file for CCS
+   Desktop development
+
+.. _fig_ccs_cloud:
+.. figure:: resources/image2.jpeg
+    :align: center
+
+    Project Zero on CCS Cloud
+
+
+.. This is for 3.0.0 project zero as a fallback
+    Demo: Project Zero
+    ==================
+
+    The |DEVICE| LaunchPad™ is the main development kit for developing applications
+    with the |BLESTACK|. To quickly get started with the |LP|, see Project Zero on
+    the TI SimpleLink GitHub :
+    `TI SimpleLink GitHub for ble_examples 3.0 <https://github.com/ti-simplelink/ble_examples/tree/ble_examples-3.0>`_
+
+    In order to run the Project Zero demo, you will need the |SDK| and CCS v7.1.
+    If you have not done so already, follow the directions in Step 1. of the
+    :ref:`get-started-develop` section. Next, you will need to follow the
+    `Installation instructions <https://github.com/ti-simplelink/ble_examples/blob/ble_examples-3.0/README.md>`_
+    on the TI SimpleLink GitHub page. For an in-depth guide on how to use Project Zero,
+    see the Project Zero README.md on the the TI SimpleLink GitHub page.
+
+    Project Zero uses a modified version of the simple\_peripheral sample
+    application from this SDK to demonstrate and evaluate some of the most commonly
+    used BLE features. With Project Zero running on the |LP|, you can
+    connect with your smart phone to remotely toggle on-board LEDs, send text strings
+    to the LaunchPad’s serial port, and receive button press notifications, without
+    making any code modifications.
+
+    To summarize, Project Zero allows you to quickly:
+
+    -  Flash a demo project onto the |LP|
+
+    -  Connect the |LP| to a smart phone or another central device
+
+    -  Control LEDs and send messages over UART
+
+    The following sections in this document focus on developing a custom
+    application with |BLESTACK|. When developing a new application for the
+    |LP|, we recommend starting from simple\_peripheral instead of Project Zero
+    due to flash optimizations.
+
+    After you have become familiar with Project Zero, if you want additional training
+    continue on to the :ref:`get-started-learn` track. If you are an advanced developer
+    and are ready to get started with developing your own application, continue on
+    to the :ref:`get-started-develop` track.
+
+.. _get-started-learn:
+
+Learn
+=====
+
+Resources contained in the Learn track of :numref:`fig_suggested_workflow` are
+intended for users who are new to BLE or TI-RTOS. These modules demonstrate how
+to create custom applications with |BLESTACK| and TI's Real Time Operation
+System (TI-RTOS).
+
+-  **SimpleLink Academy** `http://dev.ti.com/CC2640R2F-SimpleLink-Academy <http://dev.ti.com/tirex/#/?link=Software%2FSimpleLink%20CC2640R2%20SDK%2FSimpleLink%20Academy%2FOverview>`_
+
+SimpleLink Academy provides a comprehensive set of training tools that allow
+users from beginners to experienced developers to learn about the SimpleLink MCU
+Platform.
+
+Using introductory material and labs, learn the fundamentals of
+BLE and how to develop a custom BLE profile.
+
+SimpleLink Academy also contains modules written to demonstrate the rich debug
+environment and peripheral driver capability provided by TI-RTOS.
+
+-  **TI-RTOS Kernel Workshop** `www.training.ti.com/ti-rtos-kernel-workshop <http://training.ti.com/ti-rtos-kernel-workshop>`_
+
+This material teaches users who are new to TI-RTOS or any RTOS
+programming in general about TI’s RTOS kernel implementation.
+
+Modules within the kernel training greatly expand the information
+presented in the :ref:`sec-tirtos-overview` chapter.
+
+Learn how the TI-RTOS provides the most optimal power management
+and design flexibly.
+
+.. _get-started-develop:
+
+Develop
+=======
+
+The develop track of :numref:`fig_suggested_workflow` is intended for
+programmers who are ready to start developing an end product using the |DEVICE|.
+To begin:
+
+1. **Download the SimpleLink CC2640R2 SDK** `http://www.ti.com/tool/SIMPLELINK-CC2640R2-SDK <http://www.ti.com/tool/SIMPLELINK-CC2640R2-SDK>`_
+
+|BLESTACK| contains the code necessary to create a complete Bluetooth low energy
+end application. The stack library implements the BLE protocol stack on the
+|DEVICE|, and the various example projects use the stack library to implement
+end devices. These examples should be considered as starting points for end
+product designs.
+
+To install the |BLESTACK|, run the
+**simplelink\_cc2640r2\_sdk\_M\_mm\_pp\_bb.exe** installer.
+
+-  The default SDK install path is
+   C:\\ti\\simplelink\_cc2640r2\_sdk\_M\_mm\_pp\_bb\. Throughout the rest of
+   this document, this path will be referred to as <SDK\_INSTALL\_DIR>.
+
+   See :ref:`sec-ble-stack-install` for help installing the |SDK|.
+
+
+2.  **Get Familiar with the BLE-Stack User's Guide for Bluetooth 4.2**
+
+This User's Guide is meant to be used alongside the |BLESTACK|
+when developing an end product. It contains documentation on the stack
+architecture, APIs, and suggestions for developing applications. To jump to the
+Table of Contents, click here:  :ref:`sdg-overview`
+
+.. important::
+
+    For the latest User's Guide, see the `Online BLE-Stack User's Guide for Bluetooth 4.2`_.
+
+3. **Select an Example Project**
+
+The |BLESTACK| includes a basic set of projects to use as a starting point for
+development of your custom application. TI recommends that users start their
+development on a project starting with ``simple_``. Click the links below to find
+out more information about each project
+
+.. _tbl-sdk-ble-examples:
+.. table:: BLE examples available for the |DEVICE| platform
+
+    +----------------------------------+----------------------------------------------------------------------------------------------+
+    | Name                             | Description                                                                                  |
+    +----------------------------------+----------------------------------------------------------------------------------------------+
+    | `connection_monitor`_            | A project running on a dedicated device to monitor multiple active BLE connections.          |
+    +----------------------------------+----------------------------------------------------------------------------------------------+
+    | `host_test`_                     | A network processor project that is interfaced to via HCI and Vendor Specific HCI commands.  |
+    +----------------------------------+----------------------------------------------------------------------------------------------+
+    | `micro_eddystone_beacon`_        | A sample implementation of an eddystone beacon using the TI BLE Microstack                   |
+    +----------------------------------+----------------------------------------------------------------------------------------------+
+    | `multi_role`_                    | Project that supports multiple connection roles and is capable of functioning as any of      |
+    |                                  | the GAP roles. See :ref:`sec-gaprole-gaproletask` for more information.                      |
+    +----------------------------------+----------------------------------------------------------------------------------------------+
+    | `secure_fw`_                     | A project which provides a mechanism to verify the integrity                                 |
+    |                                  | of the firmware image before executing it on a CC2640R2 BLE device.                          |
+    +----------------------------------+----------------------------------------------------------------------------------------------+
+    | `simple_broadcaster`_            | Sample implementation of non-connectable advertising.                                        |
+    +----------------------------------+----------------------------------------------------------------------------------------------+
+    | `simple_central`_                | Simple central Implements a basic BLE central device with GATT client functionality.         |
+    +----------------------------------+----------------------------------------------------------------------------------------------+
+    | `simple_np`_                     | A network processor project that implements the BLE controller, host, and part of the        |
+    |                                  | application layer on the |DEVICE|. The simple\_np is intended for users attempting           |
+    |                                  | to quickly add BLE to an MCU only design.                                                    |
+    +----------------------------------+----------------------------------------------------------------------------------------------+
+    | `simple_observer`_               | Sample implementation of a scanner application                                               |
+    +----------------------------------+----------------------------------------------------------------------------------------------+
+    | `simple_peripheral`_             | Simple peripheral demonstrates a simple Bluetooth low energy slave application that          |
+    |                                  | implements connectable advertisements and a simple profile.                                  |
+    +----------------------------------+----------------------------------------------------------------------------------------------+
+    | `simple_peripheral_oad_offchip`_ | Identical to the simple\_peripheral project, except with off-chip OAD functionality          |
+    |                                  | added. See :ref:`sect-off-chip-oad` for more details.                                        |
+    +----------------------------------+----------------------------------------------------------------------------------------------+
+    | `simple_peripheral_oad_onchip`_  | Identical to the simple\_peripheral project, except with on-chip OAD functionality           |
+    |                                  | added. See :ref:`sect-on-chip-oad` for more details.                                         |
+    +----------------------------------+----------------------------------------------------------------------------------------------+
+    | `simple_peripheral_secure_fw`_   | A modified simple\_peripheral project which provides a mechanism to verify the integrity     |
+    |                                  | of the firmware image before executing it on a CC2640R2 BLE device.                          |
+    +----------------------------------+----------------------------------------------------------------------------------------------+
+
+
+4. **Begin Development with an IDE**
+
+An Integrated Development Environment can be set up to make it easier to browse
+through the
+relevant projects and view code. All embedded software for the |DEVICE| is
+developed using either TI's Code Composer Studio or IAR's Embedded Workbench for
+ARM (from IAR Systems) on a Windows 7\ :sup:`®` or later PC.
+
+To begin development in CCS, jump to: :ref:`sec-developing-with-ccs`
+
+To begin development in IAR, jump to: :ref:`sec-developing-with-iar`
+
+
+5. **Troubleshooting Help**
+
+While developing your custom application, you may run into issues that require
+the use of a debugger. The :ref:`sec-debugging` chapter provides help with
+configuring your debugger and understanding common problems. If you are still
+having problems after reading through the Debugging chapter, see the :ref:`get-started-support`
+track for more options.
+
+.. _get-started-enhance:
+
+Enhance
+=======
+
+The enhance track of :numref:`fig_suggested_workflow` is intended to take your
+product to
+the next level by leveraging TI’s web-based collateral. Additional
+resources found in these pages include application-specific source
+code examples, smart phone source code, and complete sub-system
+designs.
+
+-  **TI SimpleLink GitHub** `TI SimpleLink GitHub  <https://github.com/ti-simplelink/ble_examples>`_
+
+Additional sample applications created to implement specific use
+cases and examples. These are made to work in conjunction with the
+SDK.
+
+-  **Bluetooth Developer’s Studio Plugin** `TI BDS Plugin <https://www.bluetooth.com/develop-with-bluetooth/developer-resources-tools/bluetooth-developer-plugins>`_
+
+TI offers a plugin for the Bluetooth Developer Studio tool.
+Developers can use this tool, developed by the Bluetooth Special
+Interest Group (SIG), with TI’s SimpleLink plugin to reduce
+development time by automatically generating compilable code for
+proprietary and adopted profiles running on the |DEVICE|. See SimpleLink Academy
+for instructions on integrating a BDS profile with a sample project.
+
+-  **TI Designs™** `http://www.ti.com/tidesigns <http://www.ti.com/general/docs/refdesignsearchresults.tsp>`_
+
+Examples of system designs containing complete hardware and
+software examples, using the |DEVICE|.
+
+.. _get-started-support:
+
+Support
+=======
+
+The support track of :numref:`fig_suggested_workflow` is intended to provide you
+additional help and resources that aren't contained in the previous tracks.
+
+- **BLE-Wiki** `www.ti.com/ble-wiki <http://www.ti.com/ble-wiki>`_
+
+A collection of webpages that contain step-by-step guides and code
+snippets that enable certain features and enhancements to the
+|DEVICE|, such as production test mode and certification.
+
+- **E2E Forums** `www.ti.com/ble-forum <https://e2e.ti.com/support/wireless_connectivity/bluetooth_low_energy/>`_
+
+A support community providing answers to questions relating to the
+|BLESTACKVER| and the |DEVICE|. You can browse questions from other developers
+or ask your own questions if you run into issues developing with |BLESTACKVER|.

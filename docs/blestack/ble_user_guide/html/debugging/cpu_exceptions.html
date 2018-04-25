@@ -1,0 +1,437 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Deciphering CPU Exceptions &mdash; BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation" href="../index.html"/>
+        <link rel="up" title="Debugging" href="ble-index.html"/>
+        <link rel="next" title="Debugging Memory Problems" href="ble-memory_problems.html"/>
+        <link rel="prev" title="Optimizations" href="optimizations.html"/> 
+    <script language="JavaScript">
+        var tiPageName;
+        tiPageName = "sug debugging cpu_exceptions";
+
+        if (location.protocol == "file:"){
+            var ci_analytics_poc_load = true;
+        }
+    </script> 
+
+    <script src="http://www.ti.com/assets/js/headerfooter/analytics.js" type="text/javascript" charset="utf-8">     
+
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../ble-stack-3.x-guide/index.html" class="icon icon-home"> BLE-Stack User's Guide for Bluetooth 4.2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.01.01.00
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../cc2640/disclaimer.html">Disclaimer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/get-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cc2640/platform.html">The CC2640R2F SDK Platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x/index.html">Developing a Bluetooth Low Energy Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../u-stack/index.html">Micro BLE Stack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../oad-ble-stack-3.x/oad.html">Over the Air Download (OAD)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../voice/voice.html">Creating a Voice Enabled Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../secure-fw-3.x/index.html">Secure Firmware (SFW)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensor-controller/sensor-controller.html">Sensor Controller</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="ble-index.html">Debugging</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="external_resources.html">External Resources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="debug_interfaces.html">Debug Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="debug_interfaces.html#configuring-debugger-in-ccs">Configuring Debugger in CCS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="debug_interfaces.html#configuring-debugger-in-iar">Configuring Debugger in IAR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="breakpoints.html">Breakpoints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="breakpoints.html#considerations-on-breakpoints">Considerations on Breakpoints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="watches.html">Watching Variables and Registers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="watches.html#memory-watchpoints">Memory Watchpoints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rtos_object_view.html">TI-RTOS Object Viewer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="memory_browser.html">Using the Memory Browser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ble-common_heap.html">Debugging Common Heap Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="optimizations.html">Optimizations</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Deciphering CPU Exceptions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#exception-cause">Exception Cause</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#using-ti-rtos-and-rov-to-parse-exceptions">Using TI-RTOS and ROV to Parse Exceptions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ble-memory_problems.html">Debugging Memory Problems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ble-memory_problems.html#check-system-flash-and-ram-usage-with-map-file">Check System Flash and RAM Usage With Map File</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ble-debugging.html">Debugging a Program Exit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ble-debugging.html#hal-assert-handling">HAL Assert Handling</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/migration.html">Migration Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/api-reference.html">API References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/reference.html">Terms and Definitions</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../ble-stack-3.x-guide/index.html">BLE-Stack User's Guide for Bluetooth 4.2</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../ble-stack-3.x-guide/index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="ble-index.html">Debugging</a> &raquo;</li>
+        
+      <li>Deciphering CPU Exceptions</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="deciphering-cpu-exceptions">
+<h1>Deciphering CPU Exceptions<a class="headerlink" href="#deciphering-cpu-exceptions" title="Permalink to this headline">¶</a></h1>
+<p>Several possible exception causes exist. If an exception is caught,
+an exception handler function can be called. Depending on the
+project settings, this handler may be a default handler in ROM,
+which is just an infinite loop or a custom function called from this
+default handler instead of a loop.</p>
+<p>When an exception occurs, the exception may be caught and halted in
+debug mode immediately, depending on the debugger. If the execution
+halted manually later through the Break debugger, it is then stopped
+within the exception handler loop.</p>
+<div class="section" id="exception-cause">
+<h2>Exception Cause<a class="headerlink" href="#exception-cause" title="Permalink to this headline">¶</a></h2>
+<p>With the default setup using TI-RTOS, the exception cause can be
+found in the System Control Space register group (CPU_SCS) in the
+register CFSR (Configurable Fault Status Register). The ARM
+Cortex-M3 User Guide describes this register. Most exception causes
+fall into the following three categories.</p>
+<ul class="simple">
+<li>Stack overflow or corruption leads to arbitrary code execution.<ul>
+<li>Almost any exception is possible.</li>
+</ul>
+</li>
+<li>A NULL pointer has been dereferenced and written to.<ul>
+<li>Typically (IM)PRECISERR exceptions</li>
+</ul>
+</li>
+<li>A peripheral module (like UART, Timer, and so forth) is accessed
+without being powered.<ul>
+<li>Typically (IM)PRECISERR exceptions</li>
+</ul>
+</li>
+</ul>
+<p>The <code class="docutils literal"><span class="pre">CFSR</span></code> register is available in View &#8211;&gt; Registers in IAR and CCS.</p>
+<p>When an access violation occurs, the exception type is IMPRECISERR
+because writes to flash and peripheral memory regions are mostly
+buffered writes.</p>
+<p>If the CFSR:BFARVALID flag is set when the exception occurs (typical
+for PRECISERR), the BFAR register in CPU_SCS can be read out to
+find which memory address caused the exception.</p>
+<p>If the exception is IMPRECISERR, PRECISERR can be forced by manually
+disabling buffered writes. Set [CPU_SCS:ACTRL:DISDEFWBUF] to 1, by
+either manually setting the bit in the register view in IAR/CCS or
+by including &lt;hw_cpu_scs.h&gt; from Driverlib and calling the
+following.</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;ti/devices/cc26x0r2/inc/hw_cpu_scs.h&gt;</span><span class="cp"></span>
+<span class="c1">//..</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="c1">// Disable write-buffering. Note that this negatively affect performance.</span>
+  <span class="n">HWREG</span><span class="p">(</span><span class="n">CPU_SCS_BASE</span> <span class="o">+</span> <span class="n">CPU_SCS_O_ACTLR</span><span class="p">)</span> <span class="o">=</span> <span class="n">CPU_SCS_ACTLR_DISDEFWBUF</span><span class="p">;</span>
+
+  <span class="c1">// ..</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="using-ti-rtos-and-rov-to-parse-exceptions">
+<h2>Using TI-RTOS and ROV to Parse Exceptions<a class="headerlink" href="#using-ti-rtos-and-rov-to-parse-exceptions" title="Permalink to this headline">¶</a></h2>
+<p>To enable exception decoding in the RTOS Object View (ROV) without using
+too much memory, use the Minimal exception handler in TI-RTOS. The
+default choice in the BLE-Stack projects is to use no exception handler.</p>
+<p>To set this up, change the section of the TI-RTOS configuration file
+that relates to M3Hwi so that it looks like the code below:</p>
+<div class="highlight-js"><div class="highlight"><pre><span></span><span class="c1">//m3Hwi.enableException = true;</span>
+<span class="nx">m3Hwi</span><span class="p">.</span><span class="nx">enableException</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+<span class="c1">//m3Hwi.excHandlerFunc = null;</span>
+<span class="nx">m3Hwi</span><span class="p">.</span><span class="nx">excHookFunc</span> <span class="o">=</span> <span class="s2">&quot;&amp;execHandlerHook&quot;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Then, make a function somewhere with the signature
+<code class="docutils literal"><span class="pre">void</span> <span class="pre">(*Hwi_ExceptionHookFuncPtr)(Hwi_ExcContext*);</span></code> such as the one below:</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;ti/sysbios/family/arm/m3/Hwi.h&gt;</span><span class="cp"></span>
+<span class="c1">// ...</span>
+<span class="k">volatile</span> <span class="kt">uintptr_t</span> <span class="o">*</span><span class="n">excPC</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="k">volatile</span> <span class="kt">uintptr_t</span> <span class="o">*</span><span class="n">excCaller</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="c1">// ...</span>
+<span class="kt">void</span> <span class="nf">execHandlerHook</span><span class="p">(</span><span class="n">Hwi_ExcContext</span> <span class="o">*</span><span class="n">ctx</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">excPC</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">-&gt;</span><span class="n">pc</span><span class="p">;</span>     <span class="c1">// Program counter where exception occurred</span>
+    <span class="n">excCaller</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">-&gt;</span><span class="n">lr</span><span class="p">;</span> <span class="c1">// Link Register when exception occurred</span>
+
+    <span class="k">while</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Setting <code class="docutils literal"><span class="pre">m3Hwi.enableException</span></code> to false enables the minimal handler,
+which fills out the global Hwi_ExcContext structure that the ROV
+looks at to show the decoded exception. By setting up an
+excHookFunc, the minimal exception handler will call this function
+and pass along a pointer to the exception context for the user to
+work with. This structure is defined in
+<code class="docutils literal"><span class="pre">&lt;ti/sysbios/family/arm/m3/Hwi.h&gt;</span></code>.</p>
+<p>When an exception occurs, the device should end up in that infinite
+loop. Inspect the ROV -&gt; Hwi -&gt; Exception information.</p>
+<div class="figure align-center" id="id2">
+<img alt="../_images/rov_hwi_exception.png" src="../_images/rov_hwi_exception.png" />
+<p class="caption"><span class="caption-number">Figure 124. </span><span class="caption-text">Decoded exception, intentional write to address 0x0013 which is illegal. Note
+that writebuffering has been disabled to get a precise error location, and that
+m3Hwi.enableException has been set to false to get the decoding.</span></p>
+</div>
+<p>In this case, a bus fault was forced in the function writeToAddress by
+dereferencing address 0x0013 and trying to write to it:</p>
+<div class="literal-block-wrapper docutils container" id="id3">
+<div class="code-block-caption"><span class="caption-number">Listing 91. </span><span class="caption-text">Write to an address in the FLASH memory region.</span><a class="headerlink" href="#id3" title="Permalink to this code">¶</a></div>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="nf">writeToAddress</span><span class="p">(</span><span class="kt">uintptr_t</span> <span class="o">*</span><span class="n">addr</span><span class="p">,</span> <span class="kt">int</span> <span class="n">val</span><span class="p">)</span>
+<span class="p">{</span>
+   <span class="o">*</span><span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="p">)</span><span class="n">addr</span> <span class="o">=</span> <span class="n">val</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// ..</span>
+
+<span class="kt">void</span> <span class="nf">taskFxn</span><span class="p">(...)</span>
+<span class="p">{</span>
+   <span class="c1">// ..</span>
+   <span class="n">writeToAddress</span><span class="p">(</span> <span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">)</span><span class="mi">19</span><span class="p">,</span> <span class="mi">4</span> <span class="p">);</span> <span class="c1">// Randomly chosen values</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<p>The write instruction was placed on line 79 of application.c, as indicated.
+To get a precise location, the write buffer was disabled as described earlier.</p>
+<p>It can be instructive to look at the disassembly view for the locations
+specified by PC (program counter) and LR (link register). PC is the
+presumed exception location, and LR is normally the location the failing
+function should have returned to. As an example, the PC at this
+exception:</p>
+<div class="figure align-center" id="id4">
+<img alt="../_images/exception_pc_of_write.png" src="../_images/exception_pc_of_write.png" />
+<p class="caption"><span class="caption-number">Figure 125. </span><span class="caption-text">Here the <code class="docutils literal"><span class="pre">pc</span></code> from the decoded exception was looked up in the disassembly
+view.</span></p>
+</div>
+<p>Some forensics is required here. We have from the Hwi decoding in ROV (and from
+the exception context in the exception hook) that the program counter was
+<code class="docutils literal"><span class="pre">0x708e</span></code> when the exception occurred.</p>
+<p>At that location there is a store instruction <code class="docutils literal"><span class="pre">str</span> <span class="pre">r0,</span> <span class="pre">[r1]</span></code> meaning, store
+in R0 the value of what the memory address in R1 points to. The business with <code class="docutils literal"><span class="pre">SP</span></code> in the
+figure above is related to optimization being turned off, so all local variables
+are stored on the stack, even though in this case R0 and R1 could have been used
+directly from the caller.</p>
+<p>Now we know that the exception occurred because someone called <cite>writeToAddress</cite>
+with an invalid address.</p>
+<p>Thanks to the exception decoder we can easily find the call site by
+looking at the call stack, but if the call stack isn&#8217;t helpful, we can look
+at <code class="docutils literal"><span class="pre">lr</span></code>, which is seen in the exception decoder to be <code class="docutils literal"><span class="pre">0x198f</span></code></p>
+<div class="figure align-center" id="id5">
+<img alt="../_images/exception_lr_of_write.png" src="../_images/exception_lr_of_write.png" />
+<p class="caption"><span class="caption-number">Figure 126. </span><span class="caption-text">Call site as specified in <code class="docutils literal"><span class="pre">lr</span></code>. Note that lr is the instruction after the
+call to <code class="docutils literal"><span class="pre">writeToAddress</span></code> because execution would have resumed here.</span></p>
+</div>
+<p>We can see here that R0 and R1 are initialized with constants. This means that some
+programmer has intentionally called the write function with an address that
+causes a busfault.</p>
+<p>Most often the reason for a bus-fault is that a pointer is not initialized
+and a function like <code class="docutils literal"><span class="pre">writeToAddress</span></code> gets the pointer, assumes it&#8217;s valid and
+dereferences the pointer and writes to the invalid address.</p>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="ble-memory_problems.html" class="btn btn-neutral float-right" title="Debugging Memory Problems" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="optimizations.html" class="btn btn-neutral" title="Optimizations" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Texas Instruments.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.01.01.00',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

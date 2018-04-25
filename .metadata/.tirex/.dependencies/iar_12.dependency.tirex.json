@@ -1,0 +1,23 @@
+[
+   {
+      "name" : "na",
+      "files" : [
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/sysbios/mutex/mutex.c -> mutex.c",
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/sysbios/mutex/CC2640R2_LAUNCHXL.c -> CC2640R2_LAUNCHXL.c",
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/sysbios/mutex/ccfg.c -> ccfg.c",
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/sysbios/mutex/tirtos/iar/CC2640R2_LAUNCHXL_TIRTOS.icf -> mutex_CC2640R2_LAUNCHXL_TIRTOS.icf",
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/sysbios/mutex/Board.h -> Board.h",
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/sysbios/mutex/CC2640R2_LAUNCHXL.h -> CC2640R2_LAUNCHXL.h",
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/sysbios/mutex/tirtos/mutex.cfg -> mutex.cfg",
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/sysbios/mutex/README.md -> README.md",
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/sysbios/mutex/README.html -> README.html"
+      ],
+      "default" : "na",
+      "compiler" : {
+         "location" : "na",
+         "effective" : "na",
+         "specified" : "na"
+      },
+      "packages" : []
+   }
+]

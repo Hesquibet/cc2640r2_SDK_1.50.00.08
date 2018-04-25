@@ -1,0 +1,670 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>GAPRole Task &mdash; BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation" href="../index.html"/>
+        <link rel="up" title="Developing a Bluetooth Low Energy Application" href="index.html"/>
+        <link rel="next" title="Generic Attribute Profile (GATT)" href="gatt.html"/>
+        <link rel="prev" title="Generic Access Profile (GAP)" href="gap.html"/> 
+    <script language="JavaScript">
+        var tiPageName;
+        tiPageName = "sug ble-stack-3.x gaprole";
+
+        if (location.protocol == "file:"){
+            var ci_analytics_poc_load = true;
+        }
+    </script> 
+
+    <script src="http://www.ti.com/assets/js/headerfooter/analytics.js" type="text/javascript" charset="utf-8">     
+
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../ble-stack-3.x-guide/index.html" class="icon icon-home"> BLE-Stack User's Guide for Bluetooth 4.2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.01.01.00
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../cc2640/disclaimer.html">Disclaimer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/get-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cc2640/platform.html">The CC2640R2F SDK Platform</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Developing a Bluetooth Low Energy Application</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="the-application.html">The Application</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#the-stack">The Stack</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="gap.html">Generic Access Profile (GAP)</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">GAPRole Task</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#peripheral-role">Peripheral Role</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#central-role">Central Role</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="gatt.html">Generic Attribute Profile (GATT)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gatt.html#gap-gatt-service-ggs">GAP GATT Service (GGS)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gatt.html#generic-attribute-profile-service-gatt-service">Generic Attribute Profile Service (GATT Service)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gatt.html#gattservapp-module">GATTServApp Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gapbondmngr.html">GAP Bond Manager and LE Secure Connections</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gapbondmngr.html#le-privacy-1-2">LE Privacy 1.2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="l2cap.html">Logical Link Control and Adaptation Layer Protocol (L2CAP)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data-length-extensions.html">LE Data Length Extension (DLE)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hci.html">Host Controller Interface (HCI)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#creating-a-custom-bluetooth-low-energy-application">Creating a Custom Bluetooth low energy Application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#running-the-sdk-on-custom-boards">Running the SDK on Custom Boards</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../u-stack/index.html">Micro BLE Stack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../oad-ble-stack-3.x/oad.html">Over the Air Download (OAD)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../voice/voice.html">Creating a Voice Enabled Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../secure-fw-3.x/index.html">Secure Firmware (SFW)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensor-controller/sensor-controller.html">Sensor Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../debugging/ble-index.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/migration.html">Migration Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/api-reference.html">API References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/reference.html">Terms and Definitions</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../ble-stack-3.x-guide/index.html">BLE-Stack User's Guide for Bluetooth 4.2</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../ble-stack-3.x-guide/index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">Developing a Bluetooth Low Energy Application</a> &raquo;</li>
+        
+      <li>GAPRole Task</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="gaprole-task">
+<span id="sec-gaprole-gaproletask"></span><h1>GAPRole Task<a class="headerlink" href="#gaprole-task" title="Permalink to this headline">¶</a></h1>
+<p>The GAPRole task is a separate task which offloads handling most
+of the GAP layer functionality from the application. This task is
+enabled and configured by the application during initialization.
+Based on this configuration, many Bluetooth low energy protocol
+stack events are handled directly by the GAPRole task and never
+passed to the application. Callbacks exist that the application can
+register with the GAPRole task so that the application task can be
+notified of certain events and proceed accordingly.</p>
+<p>Based on the configuration of the device, the GAP layer always
+operates in one of four roles:</p>
+<ul class="simple">
+<li>Broadcaster - The device is an advertiser that is non connectable.</li>
+<li>Observer - The device scans for advertisements but cannot initiate
+connections.</li>
+<li>Peripheral - The device is an advertiser that is connectable and operates as
+slave in a single link-layer connection.</li>
+<li>Central - The device scans for advertisements and initiates
+connections and operates as a master in a single or multiple
+link-layer connections. The Bluetooth low energy central protocol
+stack supports up to three simultaneous connections.</li>
+</ul>
+<p>The <a class="reference external" href="https://www.bluetooth.com/specifications/adopted-specifications">Bluetooth Core Specification Version 4.2</a> allows for certain
+combinations of multiple-roles, which are supported by the Bluetooth
+low energy protocol stack. For configuration of the Bluetooth low
+energy stack features, see <a class="reference internal" href="index.html#creating-custom-ble-app"><span class="std std-ref">Creating a Custom Bluetooth low energy Application</span></a></p>
+<p>For supported GAPRole API, see <a class="reference internal" href="../ble-stack-3.x-guide/api-reference.html#ble-api-reference"><span class="std std-ref">BLE Stack API Reference</span></a>.</p>
+<div class="section" id="peripheral-role">
+<span id="gaprole-peripheral-role"></span><h2>Peripheral Role<a class="headerlink" href="#peripheral-role" title="Permalink to this headline">¶</a></h2>
+<p>The peripheral GAPRole task is defined in peripheral.c and
+peripheral.h. See the <a class="reference internal" href="../ble-stack-3.x-guide/api-reference.html#ble-api-reference"><span class="std std-ref">BLE Stack API Reference</span></a> for the full API Peripheral Role
+API including commands, configurable parameters, events, and callbacks. The
+steps to use this module are as follows:</p>
+<ol class="arabic simple">
+<li>Initialize the GAPRole parameters. This
+initialization should occur in the application initialization
+function. (for example <code class="docutils literal"><span class="pre">simple_peripheral_init</span></code> shown in
+<a class="reference internal" href="#gaprole-init"><span class="std std-numref">Listing 58.</span></a>).</li>
+</ol>
+<div class="literal-block-wrapper docutils container" id="id2">
+<span id="gaprole-init"></span><div class="code-block-caption"><span class="caption-number">Listing 58. </span><span class="caption-text">Setup of GAP Peripheral Role</span><a class="headerlink" href="#id2" title="Permalink to this code">¶</a></div>
+<div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33</pre></div></td><td class="code"><div class="highlight"><pre><span></span> <span class="c1">// Setup the GAP Peripheral Role Profile</span>
+
+ <span class="p">{</span>
+
+    <span class="kt">uint8_t</span> <span class="n">initialAdvertEnable</span> <span class="o">=</span> <span class="n">TRUE</span><span class="p">;</span>
+
+    <span class="kt">uint16_t</span> <span class="n">advertOffTime</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="kt">uint8_t</span> <span class="n">enableUpdateRequest</span> <span class="o">=</span> <span class="n">DEFAULT_ENABLE_UPDATE_REQUEST</span><span class="p">;</span>
+    <span class="kt">uint16_t</span> <span class="n">desiredMinInterval</span> <span class="o">=</span> <span class="n">DEFAULT_DESIRED_MIN_CONN_INTERVAL</span><span class="p">;</span>
+    <span class="kt">uint16_t</span> <span class="n">desiredMaxInterval</span> <span class="o">=</span> <span class="n">DEFAULT_DESIRED_MAX_CONN_INTERVAL</span><span class="p">;</span>
+    <span class="kt">uint16_t</span> <span class="n">desiredSlaveLatency</span> <span class="o">=</span> <span class="n">DEFAULT_DESIRED_SLAVE_LATENCY</span><span class="p">;</span>
+    <span class="kt">uint16_t</span> <span class="n">desiredConnTimeout</span> <span class="o">=</span> <span class="n">DEFAULT_DESIRED_CONN_TIMEOUT</span><span class="p">;</span>
+
+    <span class="c1">// Set the GAP Role Parameters</span>
+
+    <span class="n">GAPRole_setParameter</span><span class="p">(</span><span class="n">GAPROLE_ADVERT_ENABLED</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">uint8_t</span><span class="p">),</span>
+    <span class="o">&amp;</span><span class="n">initialAdvertEnable</span><span class="p">);</span>
+    <span class="n">GAPRole_setParameter</span><span class="p">(</span><span class="n">GAPROLE_ADVERT_OFF_TIME</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">uint16_t</span><span class="p">),</span>
+    <span class="o">&amp;</span><span class="n">advertOffTime</span><span class="p">);</span> <span class="n">GAPRole_setParameter</span><span class="p">(</span><span class="n">GAPROLE_SCAN_RSP_DATA</span><span class="p">,</span>
+    <span class="k">sizeof</span><span class="p">(</span><span class="n">scanRspData</span><span class="p">),</span> <span class="n">scanRspData</span><span class="p">);</span>
+    <span class="n">GAPRole_setParameter</span><span class="p">(</span><span class="n">GAPROLE_ADVERT_DATA</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">advertData</span><span class="p">),</span>
+    <span class="n">advertData</span><span class="p">);</span> <span class="n">GAPRole_setParameter</span><span class="p">(</span><span class="n">GAPROLE_PARAM_UPDATE_ENABLE</span><span class="p">,</span>
+    <span class="k">sizeof</span><span class="p">(</span><span class="kt">uint8_t</span><span class="p">),</span> <span class="o">&amp;</span><span class="n">enableUpdateRequest</span><span class="p">);</span>
+    <span class="n">GAPRole_setParameter</span><span class="p">(</span><span class="n">GAPROLE_MIN_CONN_INTERVAL</span><span class="p">,</span>
+    <span class="k">sizeof</span><span class="p">(</span><span class="kt">uint16_t</span><span class="p">),</span> <span class="o">&amp;</span><span class="n">desiredMinInterval</span><span class="p">);</span>
+    <span class="n">GAPRole_setParameter</span><span class="p">(</span><span class="n">GAPROLE_MAX_CONN_INTERVAL</span><span class="p">,</span>
+    <span class="k">sizeof</span><span class="p">(</span><span class="kt">uint16_t</span><span class="p">),</span> <span class="o">&amp;</span><span class="n">desiredMaxInterval</span><span class="p">);</span>
+    <span class="n">GAPRole_setParameter</span><span class="p">(</span><span class="n">GAPROLE_SLAVE_LATENCY</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">uint16_t</span><span class="p">),</span>
+    <span class="o">&amp;</span><span class="n">desiredSlaveLatency</span><span class="p">);</span>
+    <span class="n">GAPRole_setParameter</span><span class="p">(</span><span class="n">GAPROLE_TIMEOUT_MULTIPLIER</span><span class="p">,</span>
+    <span class="k">sizeof</span><span class="p">(</span><span class="kt">uint16_t</span><span class="p">),</span> <span class="o">&amp;</span><span class="n">desiredConnTimeout</span><span class="p">);</span>
+ <span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<ol class="arabic simple" start="2">
+<li>Initialize the GAPRole task and pass application callback functions
+to GAPRole. This should also occur in the
+application initialization function.</li>
+</ol>
+<div class="literal-block-wrapper docutils container" id="id3">
+<div class="code-block-caption"><span class="caption-number">Listing 59. </span><span class="caption-text">Registering Callbacks and Initialization.</span><a class="headerlink" href="#id3" title="Permalink to this code">¶</a></div>
+<div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="highlight"><pre><span></span> <span class="c1">// Start the Device</span>
+ <span class="n">VOID</span> <span class="nf">GAPRole_StartDevice</span><span class="p">(</span><span class="o">&amp;</span><span class="n">SimpleBLEPeripheral_gapRoleCBs</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<ol class="arabic simple" start="3">
+<li>Send GAPRole commands from the application. <a class="reference internal" href="#cd-gaprole-term"><span class="std std-numref">Figure 43.</span></a> is an
+example of the application using <a class="reference external" href="../../doxygen/ble/html/group___multi.html#gaaf68fe8a974b68036f4b987932879ff5">GAPRole_TerminateConnection()</a>.</li>
+</ol>
+<div class="literal-block-wrapper docutils container" id="id4">
+<div class="code-block-caption"><span class="caption-number">Listing 60. </span><span class="caption-text">Terminating Connection</span><a class="headerlink" href="#id4" title="Permalink to this code">¶</a></div>
+<div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span></span> <span class="n">GAPRole_TerminateConnection</span><span class="p">();</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="figure align-center" id="id5">
+<span id="cd-gaprole-term"></span><p class="plantuml">
+<img src="../_images/plantuml-5d055693b150f1329e149ed5b01693146f54a680.png" alt="&#64;startuml
+participant Application
+participant &quot;GAPRole (peripheral.c)&quot; as GAPRole
+participant &quot;BLE Stack&quot;
+
+
+  Application -&gt; GAPRole : GAPRole_TerminateConnection()
+
+group Device not connected
+  GAPRole -&gt; Application : return(bleIncorrectMode)
+end
+
+group Connected to a device
+
+  GAPRole -&gt; &quot;BLE Stack&quot; : GAP_TerminateLinkReq()
+
+  rnote over &quot;BLE Stack&quot;
+   BLE stack attempts to
+   terminate the connection
+  end note
+
+  &quot;BLE Stack&quot; -&gt; GAPRole : return(status)
+  GAPRole -&gt; Application : return(status)
+
+
+group status==SUCCESS
+...
+...Link is terminated by the BLE Stack...
+...
+&quot;BLE Stack&quot; -&gt; GAPRole: Message {LINK_TERMINATED}
+&quot;BLE Stack&quot; -&gt; GAPRole: gapRole_processStackMsg
+GAPRole-&gt;GAPRole : gapRole_processGAPMsg
+
+  rnote over &quot;GAPRole&quot;
+  GAP_LINK_TERMINATED_EVENT
+  end note
+
+GAPRole-&gt; Application : SimpleBLEPeripheral_stateChangeCB
+
+Application-&gt; Application : SimpleBLEPeripheral_processAppMsg
+  rnote over &quot;Application&quot;
+  SBP_STATE_CHANGE_EVT
+  end note
+
+Application-&gt; Application : SimpleBLEPeripheral_processStateChangeEvt
+  rnote over &quot;Application&quot;
+  GAPROLE_WAITING
+  end note
+end
+
+end
+
+&#64;enduml" />
+</p>
+<p class="caption"><span class="caption-number">Figure 43. </span><span class="caption-text">Context Diagram of Application using GAPRole_TerminateConnection().</span><a class="headerlink" href="#id5" title="Permalink to this image">¶</a></p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The return value only indicates whether the attempt to
+terminate the connection initiated successfully. The actual
+termination of connection event is returned asynchronously and is
+passed to the application through a callback.</p>
+</div>
+<ol class="arabic simple" start="4">
+<li>The GAPRole task processes most of the GAP-related events passed to
+it from the Bluetooth low energy protocol stack. The GAPRole task
+also forwards some events to the application. When a link is
+terminated, the GAPRole automatically restarts advertising.
+The following code snippet can be found in peripheral.c</li>
+</ol>
+<div class="literal-block-wrapper docutils container" id="id6">
+<div class="code-block-caption"><span class="caption-number">Listing 61. </span><span class="caption-text">Advertising restart upon disconnect</span><a class="headerlink" href="#id6" title="Permalink to this code">¶</a></div>
+<div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29</pre></div></td><td class="code"><div class="highlight"><pre><span></span>  <span class="k">case</span> <span class="nl">GAP_LINK_TERMINATED_EVENT</span><span class="p">:</span>
+    <span class="p">{</span>
+      <span class="c1">//.......</span>
+      <span class="c1">//.......</span>
+      <span class="c1">//.......</span>
+
+      <span class="c1">// If device was advertising when connection dropped</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">gapRole_AdvNonConnEnabled</span><span class="p">)</span>
+      <span class="p">{</span>
+        <span class="c1">// Continue advertising.</span>
+        <span class="n">gapRole_state</span> <span class="o">=</span> <span class="n">GAPROLE_ADVERTISING_NONCONN</span><span class="p">;</span>
+      <span class="p">}</span>
+      <span class="c1">// Else go to WAITING state.</span>
+      <span class="k">else</span>
+      <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">pPkt</span><span class="o">-&gt;</span><span class="n">reason</span> <span class="o">==</span> <span class="n">LL_SUPERVISION_TIMEOUT_TERM</span><span class="p">)</span>
+        <span class="p">{</span>
+          <span class="n">gapRole_state</span> <span class="o">=</span> <span class="n">GAPROLE_WAITING_AFTER_TIMEOUT</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">else</span>
+        <span class="p">{</span>
+          <span class="n">gapRole_state</span> <span class="o">=</span> <span class="n">GAPROLE_WAITING</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="c1">// Start advertising, if enabled.</span>
+<span class="hll">        <span class="n">gapRole_setEvent</span><span class="p">(</span><span class="n">START_ADVERTISING_EVT</span><span class="p">);</span>
+</span>      <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">break</span><span class="p">;</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+</div>
+<div class="section" id="central-role">
+<h2>Central Role<a class="headerlink" href="#central-role" title="Permalink to this headline">¶</a></h2>
+<p>The central GAPRole task is defined in central.c and central.h.
+See the <a class="reference internal" href="../ble-stack-3.x-guide/api-reference.html#ble-api-reference"><span class="std std-ref">BLE Stack API Reference</span></a> for the full Central Role API including
+commands, configurable parameters, events, and callbacks. See the
+simple_central example project for an example of implementing the central
+GAPRole. The steps to use this module are as follows.</p>
+<ol class="arabic simple">
+<li>Initialize the GAPRole parameters.
+This initialization should occur in the application
+initialization function (for example in <code class="docutils literal"><span class="pre">SimpleBLECentral_init</span></code>).
+GAP parameters can also be set in this initialization function.</li>
+</ol>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="c1">// Setup Central Profile</span>
+<span class="p">{</span>
+   <span class="kt">uint8_t</span> <span class="n">scanRes</span> <span class="o">=</span> <span class="n">DEFAULT_MAX_SCAN_RES</span><span class="p">;</span>
+
+   <span class="n">GAPCentralRole_SetParameter</span><span class="p">(</span><span class="n">GAPCENTRALROLE_MAX_SCAN_RES</span><span class="p">,</span>
+   <span class="k">sizeof</span><span class="p">(</span><span class="kt">uint8_t</span><span class="p">),</span> <span class="o">&amp;</span><span class="n">scanRes</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li>Start the GAPRole task. This involves passing function pointers to
+application callback function to the central GAPRole. This should also
+occur in the application initialization function.</li>
+</ol>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="n">VOID</span> <span class="nf">GAPCentralRole_StartDevice</span><span class="p">(</span><span class="o">&amp;</span><span class="n">SimpleBLECentral_roleCB</span><span class="p">);</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li>Send GAPRole commands from the application. <a class="reference internal" href="#cd-gap-dev-disc"><span class="std std-numref">Figure 44.</span></a> is
+an example of the application using <a class="reference external" href="../../doxygen/ble/html/group___central.html#gad81c19841581e833cd8117fd823746f4">GAPCentralRole_StartDiscovery()</a>.</li>
+</ol>
+<p>The return status from the protocol stack indicates only whether or
+not the attempt to perform device discovery was initiated. The
+actual device discovered is returned asynchronously as a
+<a class="reference external" href="../../doxygen/ble/html/group___g_a_p___event___i_ds.html#gaa6d799a042e8227f9d08f0365ab0b6eb">GAP_DEVICE_INFO_EVENT</a> forwarded through the central
+GAPRole callbacks as described below.</p>
+<ol class="arabic simple" start="4">
+<li>The GAPRole task performs some processing on the GAP events it
+receives from the protocol stack. The task also forwards some events
+to the application. <a class="reference internal" href="#cd-gap-dev-disc"><span class="std std-numref">Figure 44.</span></a> also shows how the
+<a class="reference external" href="../../doxygen/ble/html/group___g_a_p___event___i_ds.html#gaa6d799a042e8227f9d08f0365ab0b6eb">GAP_DEVICE_INFO_EVENT</a> is processed from the protocol stack to the
+application.</li>
+</ol>
+<div class="figure align-center" id="id7">
+<span id="cd-gap-dev-disc"></span><p class="plantuml">
+<img src="../_images/plantuml-94b558f8754e299696f797d933d16081cde88959.png" alt="&#64;startuml
+participant Application
+participant &quot;GAPRole (central.c)&quot; as GAPRole
+participant &quot;BLE Stack&quot;
+
+
+  Application -&gt; GAPRole : GAPCentralRole_StartDiscovery\n(MODE, ACTIVE_SCAN, WHITE_LIST)
+
+group scanning || ! (central or observer)
+  GAPRole -&gt; Application : return(bleIncorrectMode)
+end
+
+group !scanning &amp;&amp; (central or observer)
+
+  GAPRole -&gt; &quot;BLE Stack&quot; : GAP_DeviceDiscoveryRequest()
+
+  rnote over &quot;BLE Stack&quot;
+   BLE stack attempts to
+   start device discovery
+  end note
+
+  &quot;BLE Stack&quot; -&gt; GAPRole : return(status)
+  GAPRole -&gt; Application : return(status)
+
+
+group status==SUCCESS
+...
+... BLE Stack does device discovery ...
+...
+&quot;BLE Stack&quot; -&gt; GAPRole: Message {DISCOVERY_DONE}
+&quot;BLE Stack&quot; -&gt; GAPRole: gapCentralRole_processStackMsg
+GAPRole-&gt;GAPRole : gapCentralRole_ProcessGAPMsg
+GAPRole-&gt;Application: SimpleBLECentral_eventCB
+Application -&gt;Application: SimpleBLECentral_processStackMsg
+Application -&gt;Application: SimpleBLECentral_processRoleEvent
+
+  rnote over &quot;Application&quot;
+  GAP_DEVICE_DISCOVERY_EVENT
+  end note
+end
+
+end
+
+&#64;enduml" />
+</p>
+<p class="caption"><span class="caption-number">Figure 44. </span><span class="caption-text">Context Diagram of Application using GAPCentralRole_StartDiscovery().</span><a class="headerlink" href="#id7" title="Permalink to this image">¶</a></p>
+</div>
+<p>Note that during scanning, as defined by the <a class="reference external" href="https://www.bluetooth.com/specifications/adopted-specifications">Bluetooth Core Specification Version 4.2</a>, individual
+advertisements / scan responses are returned as <a class="reference external" href="../../doxygen/ble/html/group___g_a_p___event___i_ds.html#gaa6d799a042e8227f9d08f0365ab0b6eb">GAP_DEVICE_INFO_EVENT</a>.
+By default, duplicate reports are filtered such that only one event is returned
+to the application per unique address and data pair. This can be configured via
+the <a class="reference external" href="../../doxygen/ble/html/group___g_a_p___params.html#gabe1f01cb2dc8f180dcb98005cd1d5efe">TGAP_FILTER_ADV_REPORTS</a>
+GAP parameter.  After the scan has completed, a summary of discovered reports
+will be returned to the application as a <a class="reference external" href="../../doxygen/ble/html/group___g_a_p___event___i_ds.html#ga8ba3513558bdf856c7fcf8e3f6989026">GAP_DEVICE_DISCOVERY_EVENT</a>.</p>
+<p>The maximum amount of scan responses that can be discovered during one scan can
+be set with the <a class="reference external" href="../../doxygen/ble/html/group___central___params.html#gac56d1cf1e884e0ab336fa55a795de6fc">GAPCENTRALROLE_MAX_SCAN_RES</a> parameter.
+In an environment saturated with advertisements / scan responses, this can have
+a drastic impact on heap usage to the point of potentially breaking the stack.
+Therefore, it is essential to profile your application for the worst-case
+scenario where the maximum amount of scan responses are discovered during a scan.</p>
+<p>In the worst-case scenario where the maximum number of advertisements / scan
+responses ( n ) is found during a scan, all with the maximum data size, in which
+the application is consistently processing such that it does not process any of
+the stack&#8217;s messages, the heap could grow by: ( 8 + 87 * n bytes ).  For example, if
+<a class="reference external" href="../../doxygen/ble/html/group___central___params.html#gac56d1cf1e884e0ab336fa55a795de6fc">GAPCENTRALROLE_MAX_SCAN_RES</a> is set to 10, there must be at least 878
+bytes available for allocation from the heap.  This includes
+a completely filled <a class="reference external" href="../../doxygen/ble/html/group___g_a_p___event___i_ds.html#ga8ba3513558bdf856c7fcf8e3f6989026">GAP_DEVICE_DISCOVERY_EVENT</a>. If this allocation
+fails, a <a class="reference external" href="../../doxygen/ble/html/group___g_a_p___event___i_ds.html#ga8ba3513558bdf856c7fcf8e3f6989026">GAP_DEVICE_DISCOVERY_EVENT</a> with error status will attempt to
+be allocated instead which is only 8 bytes.  Therefore, in order for
+the system to keep running in the scenario described above, the heap must have
+space to allocate at least ( 8 + 79 * n bytes ). See the <a class="reference internal" href="../debugging/ble-index.html#sec-debugging"><span class="std std-ref">Debugging</span></a>
+chapter for steps to profile the heap.</p>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="gatt.html" class="btn btn-neutral float-right" title="Generic Attribute Profile (GATT)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="gap.html" class="btn btn-neutral" title="Generic Access Profile (GAP)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Texas Instruments.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.01.01.00',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

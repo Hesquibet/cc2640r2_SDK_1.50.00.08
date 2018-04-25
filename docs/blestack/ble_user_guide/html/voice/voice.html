@@ -1,0 +1,314 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Creating a Voice Enabled Application &mdash; BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation" href="../index.html"/>
+        <link rel="next" title="PDM Voice" href="voice_platform.html"/>
+        <link rel="prev" title="On-Chip OAD" href="../oad-ble-stack-3.x/oad_onchip.html"/> 
+    <script language="JavaScript">
+        var tiPageName;
+        tiPageName = "sug voice voice";
+
+        if (location.protocol == "file:"){
+            var ci_analytics_poc_load = true;
+        }
+    </script> 
+
+    <script src="http://www.ti.com/assets/js/headerfooter/analytics.js" type="text/javascript" charset="utf-8">     
+
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../ble-stack-3.x-guide/index.html" class="icon icon-home"> BLE-Stack User's Guide for Bluetooth 4.2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.01.01.00
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../cc2640/disclaimer.html">Disclaimer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/get-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cc2640/platform.html">The CC2640R2F SDK Platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x/index.html">Developing a Bluetooth Low Energy Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../u-stack/index.html">Micro BLE Stack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../oad-ble-stack-3.x/oad.html">Over the Air Download (OAD)</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Creating a Voice Enabled Application</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="voice_platform.html">PDM Voice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ble_voice.html">Voice over BLE</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../secure-fw-3.x/index.html">Secure Firmware (SFW)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensor-controller/sensor-controller.html">Sensor Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../debugging/ble-index.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/migration.html">Migration Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/api-reference.html">API References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/reference.html">Terms and Definitions</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../ble-stack-3.x-guide/index.html">BLE-Stack User's Guide for Bluetooth 4.2</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../ble-stack-3.x-guide/index.html">Docs</a> &raquo;</li>
+        
+      <li>Creating a Voice Enabled Application</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="creating-a-voice-enabled-application">
+<span id="sec-voice"></span><h1>Creating a Voice Enabled Application<a class="headerlink" href="#creating-a-voice-enabled-application" title="Permalink to this headline">¶</a></h1>
+<p>&#8220;Voice&#8221; in this section means &#8220;voice quality audio&#8221; or any sound with a similar
+bandwidth. Voice can be compressed into a data stream that can easily be
+transmitted over a low-bandwidth radio protocol. TI offers a voice solution based
+on sampling a <a class="reference external" href="https://en.wikipedia.org/wiki/Pulse-density_modulation">Pulse Density Modulation (PDM)</a>
+microphone.</p>
+<p>This section aims to describe the firmware that implements the TI voice
+solution. See the <a class="reference internal" href="../ble-stack-3.x-guide/get-started.html#tbl-sdk-ble-examples"><span class="std std-ref">BLE examples available for the CC2640R2F platform</span></a> in the SDK and the optional
+Example Pack User&#8217;s Guide on examples that demonstrate TI&#8217;s voice solutions.</p>
+<p>In addition to voice solution provided by the SDK, experimental development
+is also being done on <a class="reference external" href="https://github.com/ti-simplelink">TI&#8217;s SimpleLink Github Page</a>
+in the following areas:</p>
+<ul class="simple">
+<li><dl class="first docutils">
+<dt>LaunchPad based voice receiver (<a class="reference external" href="https://github.com/ti-simplelink/ble_examples/blob/ble_examples-2.2/docs/simple_central_audio_receiver.md">simple_central_audio_receiver</a> on the <em>ble_examples-2.2</em> branch)</dt>
+<dd><ul class="first last">
+<li>Includes additional compression methods such as mSBC</li>
+<li>External Codec support for line in/analog mic</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Voice over HID-over-GATT-Profile receiver Python script (<a class="reference external" href="https://github.com/ti-simplelink/ble_examples/tree/simplelink_sdk-1.35/tools/scripts/voice/voice.py">voice.py</a> on the <em>simplelink_sdk-1.40</em> branch)</dt>
+<dd><ul class="first last">
+<li>Captures voice frames via HID reports</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Currently the <code class="docutils literal"><span class="pre">ble_examples</span></code> repo contains sample applications in various
+development branches. Check back often for examples using other wireless
+technologies, or improvements to the BLE examples.</p>
+</div>
+<p class="rubric">Table of contents</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="voice_platform.html">PDM Voice</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="voice_platform.html#sampling">Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="voice_platform.html#pdm-driver">PDM Driver</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ble_voice.html">Voice over BLE</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ble_voice.html#ti-voice-profile-vogp">TI Voice Profile (VoGP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ble_voice.html#voice-over-hid-over-gatt-profile-vohogp">Voice over HID over GATT Profile (VoHoGP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ble_voice.html#ble-voice-frame-data">BLE Voice Frame Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ble_voice.html#modifiying-the-latency">Modifiying the Latency</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ble_voice.html#throughput-requirement-for-ble">Throughput Requirement for BLE</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="voice_platform.html" class="btn btn-neutral float-right" title="PDM Voice" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../oad-ble-stack-3.x/oad_onchip.html" class="btn btn-neutral" title="On-Chip OAD" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Texas Instruments.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.01.01.00',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

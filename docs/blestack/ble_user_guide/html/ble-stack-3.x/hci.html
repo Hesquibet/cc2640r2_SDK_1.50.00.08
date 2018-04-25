@@ -1,0 +1,706 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Host Controller Interface (HCI) &mdash; BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation" href="../index.html"/>
+        <link rel="up" title="Developing a Bluetooth Low Energy Application" href="index.html"/>
+        <link rel="next" title="Defining Application Behavior" href="creating-a-custom-bluetooth-low-energy-application.html"/>
+        <link rel="prev" title="LE Data Length Extension (DLE)" href="data-length-extensions.html"/> 
+    <script language="JavaScript">
+        var tiPageName;
+        tiPageName = "sug ble-stack-3.x hci";
+
+        if (location.protocol == "file:"){
+            var ci_analytics_poc_load = true;
+        }
+    </script> 
+
+    <script src="http://www.ti.com/assets/js/headerfooter/analytics.js" type="text/javascript" charset="utf-8">     
+
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../ble-stack-3.x-guide/index.html" class="icon icon-home"> BLE-Stack User's Guide for Bluetooth 4.2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.01.01.00
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../cc2640/disclaimer.html">Disclaimer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/get-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cc2640/platform.html">The CC2640R2F SDK Platform</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Developing a Bluetooth Low Energy Application</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="the-application.html">The Application</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#the-stack">The Stack</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="gap.html">Generic Access Profile (GAP)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gaprole.html">GAPRole Task</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gatt.html">Generic Attribute Profile (GATT)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gatt.html#gap-gatt-service-ggs">GAP GATT Service (GGS)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gatt.html#generic-attribute-profile-service-gatt-service">Generic Attribute Profile Service (GATT Service)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gatt.html#gattservapp-module">GATTServApp Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gapbondmngr.html">GAP Bond Manager and LE Secure Connections</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gapbondmngr.html#le-privacy-1-2">LE Privacy 1.2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="l2cap.html">Logical Link Control and Adaptation Layer Protocol (L2CAP)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data-length-extensions.html">LE Data Length Extension (DLE)</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Host Controller Interface (HCI)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#using-hci-and-hci-vendor-specific-commands-in-the-application">Using HCI and HCI Vendor-Specific Commands in the Application</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#standard-le-hci-commands-and-events">Standard LE HCI Commands and Events</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#hci-vendor-specific-commands">HCI Vendor-Specific Commands</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#creating-a-custom-bluetooth-low-energy-application">Creating a Custom Bluetooth low energy Application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#running-the-sdk-on-custom-boards">Running the SDK on Custom Boards</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../u-stack/index.html">Micro BLE Stack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../oad-ble-stack-3.x/oad.html">Over the Air Download (OAD)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../voice/voice.html">Creating a Voice Enabled Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../secure-fw-3.x/index.html">Secure Firmware (SFW)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensor-controller/sensor-controller.html">Sensor Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../debugging/ble-index.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/migration.html">Migration Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/api-reference.html">API References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/reference.html">Terms and Definitions</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../ble-stack-3.x-guide/index.html">BLE-Stack User's Guide for Bluetooth 4.2</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../ble-stack-3.x-guide/index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">Developing a Bluetooth Low Energy Application</a> &raquo;</li>
+        
+      <li>Host Controller Interface (HCI)</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="host-controller-interface-hci">
+<span id="sec-hci"></span><h1>Host Controller Interface (HCI)<a class="headerlink" href="#host-controller-interface-hci" title="Permalink to this headline">¶</a></h1>
+<p>The host controller interface (HCI) layer is a thin layer which
+transports commands and events between the host and controller
+elements of the Bluetooth protocol stack. In a pure network
+processor application (that is, the host_test project), the HCI
+layer is implemented through a transport protocol such as SPI or
+UART.</p>
+<p>In embedded wireless MCU projects such as simple_peripheral project, the
+HCI layer is implemented through function calls and callbacks within the
+wireless MCU. All of the commands and events discussed that communicate with
+the controller, such as ATT, GAP, etc, will eventually call an HCI API to
+pass from the upper layers of the protocol stack through the HCI layer to
+the controller. Likewise, the controller sends received data and
+events to the host and upper layers through HCI.</p>
+<p>As well as standard Bluetooth LE HCI commands, a number of HCI
+extension vendor-specific commands are available which extend some
+of the functionality of the controller for use by the application.
+See <a class="reference internal" href="../ble-stack-3.x-guide/api-reference.html#ble-api-reference"><span class="std std-ref">BLE Stack API Reference</span></a> for a description of available HCI
+and HCI extension commands callable in the embedded application.</p>
+<p>The BLE-Stack supports a network processor configuration
+(host_test) that allows an application to running on an external
+MCU to interface to the BLE-Stack. The network processor can
+accept all LE HCI commands over a external transport protocol (UART, SPI, etc);
+however, because the BLE host and controller both reside on the
+wireless MCU, some HCI commands will
+have their corresponding events consumed by the TI BLE host. Thus,
+it is not possible to interface an external, off-chip Bluetooth host
+to the CC2640 wireless MCU using standard HCI LE commands. Network
+processor configurations should use both HCI and TI vendor-specific
+HCI commands to implement an external Bluetooth application.</p>
+<p>Similar to a network processor configuration (host_test), the BLE-Stack
+can be configured to be pass a subset HCI commands from a transport
+protocol (UART, SPI, etc) to the controller with the ability to switch
+to an intact embedded application. This configuration is known as Production
+Test Mode (PTM). The subset of HCI commands available are those to
+perform Bluetooth RF certification. For information on how to
+enable PTM on your embedded application
+see <a class="reference internal" href="creating-a-custom-bluetooth-low-energy-application.html#sec-using-production-test-mode"><span class="std std-ref">Using Production Test Mode (PTM)</span></a>.</p>
+<p>PTM should be considered for use for Direct Test Mode (DTM)
+in place of a full network processor configuration (host_test)
+when the following is required:</p>
+<blockquote>
+<div><ul>
+<li><p class="first">Device is only Flashed Once during the production line</p>
+<blockquote>
+<div><p>If product flashing is only done once or production firmware
+is flashed prior to testing Bluetooth RF Functionality, and firmware
+images can no longer be changed.</p>
+</div></blockquote>
+</li>
+<li><p class="first">Flash Availability for HCI Transport Layer</p>
+<blockquote>
+<div><p>PTM requires flash along side the application, thus reducing
+application flash.</p>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Direct Test Mode(DTM) is also supported by the BLE-Stack.
+DTM is described in detail in the Direct Test Mode section ([Vol 6], Part F)
+of the <a class="reference external" href="https://www.bluetooth.com/specifications/adopted-specifications">Bluetooth Core Specification Version 4.2</a>. Host_test supports all DTM
+commands as well as Vendor Specific modem test commands.</p>
+<p class="last">See <a class="reference external" href="http://www.ti.com/lit/pdf/swra530">Configuring the CC2640 for Bluetooth Direct Test Mode (SWRA530)</a>
+for information on how to set up host_test application binary
+designed to work with a custom product and chip package types.</p>
+</div>
+<div class="section" id="using-hci-and-hci-vendor-specific-commands-in-the-application">
+<h2>Using HCI and HCI Vendor-Specific Commands in the Application<a class="headerlink" href="#using-hci-and-hci-vendor-specific-commands-in-the-application" title="Permalink to this headline">¶</a></h2>
+<p>Follow these steps to use these commands and receive their
+respective events in the application:</p>
+<ol class="arabic simple">
+<li>Include the HCI transport layer header file.</li>
+</ol>
+<blockquote>
+<div><div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;hci_tl.h&quot;</span><span class="cp"></span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li>Register with GAP for HCI/Host messages in order to receive events
+from the controller. This should be done in the application initialization
+function.</li>
+</ol>
+<blockquote>
+<div><div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1">// Register with GAP for HCI/Host messages</span>
+<span class="n">GAP_RegisterForMsgs</span><span class="p">(</span><span class="n">selfEntity</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<ol class="arabic simple" start="3">
+<li>Call any HCI or HCI vendor-specific command that is able to be called the application.
+See the <a class="reference internal" href="../ble-stack-3.x-guide/api-reference.html#ble-api-reference"><span class="std std-ref">BLE Stack API Reference</span></a>, specifically the HCI section for a table of
+which commands can be sent.</li>
+<li>HCI events are returned as inter-task messages as a
+<a class="reference external" href="../../doxygen/ble/html/bcomdef_8h.html#ae4c22bae259c63137ef69d9544d0f135">HCI_GAP_EVENT_EVENT</a>. See the simple_peripheral project for an
+example of this.</li>
+</ol>
+<p>The following sections consider receiving HCI events and HCI
+vendor-specific events.</p>
+</div>
+<div class="section" id="standard-le-hci-commands-and-events">
+<h2>Standard LE HCI Commands and Events<a class="headerlink" href="#standard-le-hci-commands-and-events" title="Permalink to this headline">¶</a></h2>
+<p>These commands are documented in the HCI Commands and Events chapter
+(Volume 2, Part E, Section 7) of the <a class="reference external" href="https://www.bluetooth.com/specifications/adopted-specifications">Bluetooth Core Specification Version 4.2</a>. The mechanism to use these
+commands is the same for any command in this section of the <a class="reference external" href="https://www.bluetooth.com/specifications/adopted-specifications">Bluetooth Core Specification Version 4.2</a>,
+including HCI LE commands. The example below demonstrates how to use the
+<a class="reference external" href="https://www.bluetooth.com/specifications/adopted-specifications">Bluetooth Core Specification Version 4.2</a> to implement an HCI command in the application. The command
+considered is Read RSSI Command.</p>
+<div class="section" id="sending-an-hci-command">
+<h3>Sending an HCI Command<a class="headerlink" href="#sending-an-hci-command" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic simple">
+<li>Find the command in the <a class="reference external" href="https://www.bluetooth.com/specifications/adopted-specifications">Bluetooth Core Specification Version 4.2</a>:</li>
+</ol>
+<div class="figure align-center" id="id2">
+<a class="reference internal image-reference" href="../_images/hci_ble_core_rssi_snippet.jpg"><img alt="../_images/hci_ble_core_rssi_snippet.jpg" src="../_images/hci_ble_core_rssi_snippet.jpg" style="width: 75%;" /></a>
+<p class="caption"><span class="caption-number">Figure 69. </span><span class="caption-text">RSSI Command from the <a class="reference external" href="https://www.bluetooth.com/specifications/adopted-specifications">Bluetooth Core Specification Version 4.2</a>.</span></p>
+</div>
+<ol class="arabic simple" start="2">
+<li><dl class="first docutils">
+<dt>Find mapping to BLE stack command. Using the <a class="reference internal" href="../ble-stack-3.x-guide/api-reference.html#ble-api-reference"><span class="std std-ref">BLE Stack API Reference</span></a> (HCI</dt>
+<dd>section &#8211;&gt; HCI Function Maps), shows that this command maps to <a class="reference external" href="../../doxygen/ble/html/group___h_c_i.html#ga19d1f14a0fde7b049a92f46e96671b40">HCI_ReadRssiCmd()</a>.</dd>
+</dl>
+</li>
+<li>Using the API from Step 1, fill in the parameters and call the
+command from somewhere in the application. This specific command
+should be called after a connection is formed. There is only
+command parameter here: a 2-byte connection handle. In the case
+of this example, the connection handle is 0x0000:</li>
+</ol>
+<blockquote>
+<div><div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">HCI_ReadRssiCmd</span><span class="p">(</span><span class="mh">0x0000</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+</div>
+<div class="section" id="receiving-hci-events">
+<h3>Receiving HCI Events<a class="headerlink" href="#receiving-hci-events" title="Permalink to this headline">¶</a></h3>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p>Make sure to register for messages; or no event messages will be sent to your task.</p>
+<p class="last">Register with GAP for HCI/Host messages with:
+<a class="reference external" href="../../doxygen/ble/html/group___g_a_p.html#ga29744ff36f2789227405780eea015a24">GAP_RegisterForMsgs()</a></p>
+</div>
+<ol class="arabic">
+<li><p class="first">Look at the <a class="reference external" href="https://www.bluetooth.com/specifications/adopted-specifications">Bluetooth Core Specification Version 4.2</a> to see the format of the returned event:</p>
+<blockquote>
+<div><div class="figure align-center" id="id3">
+<a class="reference internal image-reference" href="../_images/hci_ble_core_rssi_rtnparams.jpg"><img alt="../_images/hci_ble_core_rssi_rtnparams.jpg" src="../_images/hci_ble_core_rssi_rtnparams.jpg" style="width: 75%;" /></a>
+<p class="caption"><span class="caption-number">Figure 70. </span><span class="caption-text">RSSI Return information with Event from the <a class="reference external" href="https://www.bluetooth.com/specifications/adopted-specifications">Bluetooth Core Specification Version 4.2</a>.</span></p>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">This command returns a Command Complete event (<a class="reference external" href="../../doxygen/ble/html/structhci_evt___cmd_complete__t.html">hciEvt_CmdComplete_t</a>) as stated
+in the &#8220;Corresponding Events&#8221; section of the doxygen API ( <a class="reference external" href="../../doxygen/ble/html/group___h_c_i.html#ga19d1f14a0fde7b049a92f46e96671b40">HCI_ReadRssiCmd()</a> ),
+so add this as a case in the processing of <a class="reference external" href="../../doxygen/ble/html/bcomdef_8h.html#ae4c22bae259c63137ef69d9544d0f135">HCI_GAP_EVENT_EVENT</a>. This is
+further detailed below.</p>
+<blockquote>
+<div><div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">static</span> <span class="kt">uint8_t</span> <span class="nf">SimpleBLEPeripheral_processStackMsg</span><span class="p">(</span><span class="n">ICall_Hdr</span><span class="o">*</span> <span class="n">pMsg</span><span class="p">)</span>
+<span class="p">{</span>
+   <span class="kt">uint8_t</span> <span class="n">safeToDealloc</span> <span class="o">=</span> <span class="n">TRUE</span><span class="p">;</span>
+   <span class="k">switch</span> <span class="p">(</span><span class="n">pMsg</span><span class="o">-&gt;</span><span class="n">event</span><span class="p">)</span>
+   <span class="p">{</span>
+      <span class="k">case</span> <span class="nl">HCI_GAP_EVENT_EVENT</span><span class="p">:</span>
+      <span class="p">{</span>
+         <span class="c1">// Process HCI message switch(pMsg-&gt;status)</span>
+      <span class="p">{</span>
+
+      <span class="c1">// Process HCI Command Complete Event case</span>
+      <span class="nl">HCI_COMMAND_COMPLETE_EVENT_CODE</span><span class="p">:</span>
+      <span class="p">{</span>
+         <span class="c1">// Parse Command Complete Event for opcode and status</span>
+         <span class="n">hciEvt_CmdComplete_t</span><span class="o">*</span> <span class="n">command_complete</span> <span class="o">=</span> <span class="p">(</span><span class="n">hciEvt_CmdComplete_t</span><span class="o">*</span><span class="p">)</span> <span class="n">pMsg</span><span class="p">;</span>
+         <span class="kt">uint8_t</span> <span class="n">status</span> <span class="o">=</span> <span class="n">command_complete</span><span class="o">-&gt;</span><span class="n">pReturnParam</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+
+         <span class="c1">//find which command this command complete is for</span>
+         <span class="k">switch</span> <span class="p">(</span><span class="n">command_complete</span><span class="o">-&gt;</span><span class="n">cmdOpcode</span><span class="p">)</span>
+         <span class="p">{</span>
+            <span class="k">case</span> <span class="nl">HCI_READ_RSSI</span><span class="p">:</span>
+            <span class="p">{</span>
+               <span class="k">if</span> <span class="p">(</span><span class="n">status</span> <span class="o">==</span> <span class="n">SUCCESS</span><span class="p">)</span>
+               <span class="p">{</span>
+                  <span class="kt">uint16_t</span> <span class="n">handle</span> <span class="o">=</span> <span class="n">BUILD_UINT16</span><span class="p">(</span> <span class="n">command_complete</span><span class="o">-&gt;</span><span class="n">pReturnParam</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">command_complete</span><span class="o">-&gt;</span><span class="n">pReturnParam</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+
+                  <span class="c1">//check handle</span>
+                  <span class="k">if</span> <span class="p">(</span><span class="n">handle</span> <span class="o">==</span> <span class="mh">0x00</span><span class="p">)</span>
+                  <span class="p">{</span>
+                     <span class="c1">//store RSSI</span>
+                     <span class="kt">uint8_t</span> <span class="n">rssi</span> <span class="o">=</span> <span class="n">command_complete</span><span class="o">-&gt;</span><span class="n">pReturnParam</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+</li>
+</ol>
+<p>First, the status of the stack message is checked to see what type
+of HCI event it is. In this case, it is an
+<a class="reference external" href="../../doxygen/ble/html/group___h_c_i___constants.html#ga8f8066cf1e1fdf5ae124902a13e28a13">HCI_COMMAND_COMPLETE_EVENT_CODE</a>. Then the event returned
+from the stack as a message (pMsg) is cast to an <a class="reference external" href="../../doxygen/ble/html/structhci_evt___cmd_complete__t.html">hciEvt_CmdComplete_t</a>, which is defined as:</p>
+<blockquote>
+<div><div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1">// Command Complete Event typedef struct</span>
+<span class="p">{</span>
+  <span class="n">osal_event_hdr_t</span> <span class="n">hdr</span><span class="p">;</span>
+  <span class="n">uint8</span> <span class="n">numHciCmdPkt</span><span class="p">;</span>
+  <span class="n">uint16</span> <span class="n">cmdOpcode</span><span class="p">;</span>
+  <span class="n">uint8</span><span class="o">*</span> <span class="n">pReturnParam</span><span class="p">;</span>
+<span class="p">}</span> <span class="n">hciEvt_CmdComplete_t</span><span class="p">;</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+<p>Next, the cmdOpcode is checked and it is found that it matches
+<a class="reference external" href="../../doxygen/ble/html/group___h_c_i___constants.html#gaa017b6f4019664e1eb3aaaff9fe88a37">HCI_READ_RSSI</a>. Then the status of the event is checked.
+Now that the event is known, the pReturnParmam can be  parsed using the information from the
+<a class="reference external" href="https://www.bluetooth.com/specifications/adopted-specifications">Bluetooth Core Specification Version 4.2</a>. The <a class="reference external" href="https://www.bluetooth.com/specifications/adopted-specifications">Bluetooth Core Specification Version 4.2</a> API from above states that the first byte of the
+return parameters is the Status.</p>
+<p>The <a class="reference external" href="https://www.bluetooth.com/specifications/adopted-specifications">Bluetooth Core Specification Version 4.2</a> API states that the second and third bytes of the return
+parameters are the Handle.  The RSSI is then checked to
+see if it corresponds to the desired connection handle.</p>
+<p>Continuing parsing using the <a class="reference external" href="https://www.bluetooth.com/specifications/adopted-specifications">Bluetooth Core Specification Version 4.2</a> API, the RSSI value can be found by reading the fourth byte
+of the return paramters. Finally, the RSSI value is stored.</p>
+</div>
+</div>
+<div class="section" id="hci-vendor-specific-commands">
+<h2>HCI Vendor-Specific Commands<a class="headerlink" href="#hci-vendor-specific-commands" title="Permalink to this headline">¶</a></h2>
+<p>These commands are documented in the <a class="reference external" href="../../../TI_BLE_Vendor_Specific_HCI_Guide.pdf">TI Vendor Specific HCI Guide</a>. The
+mechanism to use these commands is the same for all vendor-specific commands.
+The example below demonstrates how to use the <a class="reference external" href="../../../TI_BLE_Vendor_Specific_HCI_Guide.pdf">TI Vendor Specific HCI Guide</a>
+to implement an HCI command in the application. The command considered is
+HCI Extension Packet Error Rate.</p>
+<div class="section" id="sending-hci-vendor-specific-command">
+<h3>Sending HCI Vendor-Specific Command<a class="headerlink" href="#sending-hci-vendor-specific-command" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic">
+<li><p class="first">Find the command in the TI BLE vendor-specific guide:</p>
+<blockquote>
+<div><div class="figure align-center" id="id4">
+<a class="reference internal image-reference" href="../_images/hci_vendor_per_cmd.jpg"><img alt="../_images/hci_vendor_per_cmd.jpg" src="../_images/hci_vendor_per_cmd.jpg" style="width: 75%;" /></a>
+<p class="caption"><span class="caption-number">Figure 71. </span><span class="caption-text">Packet Error Rate Cmd from HCI Vendor-Specific Commands Guide.</span></p>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">Use the HCI section in <a class="reference internal" href="../ble-stack-3.x-guide/api-reference.html#ble-api-reference"><span class="std std-ref">BLE Stack API Reference</span></a> to find the BLE Stack
+function that implements this command : <a class="reference external" href="../../doxygen/ble/html/group___h_c_i.html#gaf3ee3e4fc190bb0d226b83d76deb5c95">HCI_EXT_PacketErrorRateCmd()</a>.</p>
+</li>
+<li><p class="first">Using the API from Step 1, fill in the parameters and call the
+command from the application.  In this specific case, this command should be
+called after a connection has been formed. The first parameter is
+a 2-byte connHandle, which is 0x0000 for this example. The second
+parameter is a 1-byte command ( <a class="reference external" href="../../doxygen/ble/html/group___p_e_r___cmd.html#ga5c7b455377aff8c8b85413c6e3ff5240">HCI_EXT_PER_READ</a> ) to read the
+counters. Therefore, use:</p>
+</li>
+</ol>
+<blockquote>
+<div><div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">HCI_EXT_PacketErrorRateCmd</span><span class="p">(</span> <span class="mi">0</span><span class="p">,</span> <span class="n">HCI_EXT_PER_READ</span> <span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+</div>
+<div class="section" id="receiving-hci-vendor-specific-events">
+<h3>Receiving HCI Vendor-Specific Events<a class="headerlink" href="#receiving-hci-vendor-specific-events" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic">
+<li><p class="first">Find the corresponding event in the <a class="reference external" href="../../../TI_BLE_Vendor_Specific_HCI_Guide.pdf">TI Vendor Specific HCI Guide</a></p>
+<div class="figure align-center" id="id5">
+<a class="reference internal image-reference" href="../_images/hci_vendor_per_event.jpg"><img alt="../_images/hci_vendor_per_event.jpg" src="../_images/hci_vendor_per_event.jpg" style="width: 75%;" /></a>
+<p class="caption"><span class="caption-number">Figure 72. </span><span class="caption-text">Packet Error Rate Event from HCI Vendor-Specific Commands Guide.</span></p>
+</div>
+</li>
+<li><p class="first">As stated in the &#8220;Corresponding Events&#8221; section of the command API, this
+command returns a Vendor Specific Command Complete Event ( <a class="reference external" href="../../doxygen/ble/html/structhci_evt___v_s_cmd_complete__t.html">hciEvt_VSCmdComplete_t</a> )
+Therefore, add this as a case in the processing of <a class="reference external" href="../../doxygen/ble/html/bcomdef_8h.html#ae4c22bae259c63137ef69d9544d0f135">HCI_GAP_EVENT_EVENT</a> processing.
+This is further detailed below.</p>
+<div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">static</span> <span class="kt">uint8_t</span> <span class="nf">SimpleBLEPeripheral_processStackMsg</span><span class="p">(</span><span class="n">ICall_Hdr</span><span class="o">*</span> <span class="n">pMsg</span><span class="p">)</span>
+<span class="p">{</span>
+   <span class="kt">uint8_t</span> <span class="n">safeToDealloc</span> <span class="o">=</span> <span class="n">TRUE</span><span class="p">;</span>
+   <span class="k">switch</span> <span class="p">(</span><span class="n">pMsg</span><span class="o">-&gt;</span><span class="n">event</span><span class="p">)</span>
+   <span class="p">{</span>
+      <span class="k">case</span> <span class="nl">HCI_GAP_EVENT_EVENT</span><span class="p">:</span>
+      <span class="p">{</span>
+         <span class="c1">// Process HCI message</span>
+         <span class="k">switch</span><span class="p">(</span><span class="n">pMsg</span><span class="o">-&gt;</span><span class="n">status</span><span class="p">)</span>
+         <span class="p">{</span>
+            <span class="c1">// Process HCI Vendor Specific Command Complete Event</span>
+            <span class="k">case</span> <span class="nl">HCI_VE_EVENT_CODE</span><span class="p">:</span>
+               <span class="p">{</span>
+                  <span class="c1">// Parse Command Complete Event for opcode and status</span>
+                  <span class="n">hciEvt_VSCmdComplete_t</span><span class="o">*</span> <span class="n">command_complete</span> <span class="o">=</span> <span class="p">(</span><span class="n">hciEvt_VSCmdComplete_t</span><span class="o">*</span><span class="p">)</span><span class="n">pMsg</span><span class="p">;</span>
+
+                  <span class="c1">// Find which command this command complete is for</span>
+                  <span class="k">switch</span><span class="p">(</span><span class="n">command_complete</span><span class="o">-&gt;</span><span class="n">cmdOpcode</span><span class="p">)</span>
+                  <span class="p">{</span>
+                     <span class="k">case</span> <span class="nl">HCI_EXT_PER</span><span class="p">:</span>
+                     <span class="p">{</span>
+                        <span class="kt">uint8_t</span> <span class="n">status</span> <span class="o">=</span> <span class="n">command_complete</span><span class="o">-&gt;</span><span class="n">pEventParam</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+                        <span class="k">if</span> <span class="p">(</span><span class="n">status</span> <span class="o">==</span> <span class="n">SUCCESS</span><span class="p">)</span>
+                        <span class="p">{</span>
+                           <span class="kt">uint8_t</span> <span class="n">cmdVal</span> <span class="o">=</span> <span class="n">command_complete</span><span class="o">-&gt;</span><span class="n">pEventParam</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span>
+
+                           <span class="k">if</span> <span class="p">(</span><span class="n">cmdVal</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="c1">//if we were reading packet error rate</span>
+                           <span class="p">{</span>
+                              <span class="kt">uint16_t</span> <span class="n">numPkts</span> <span class="o">=</span> <span class="n">BUILD_UINT16</span><span class="p">(</span><span class="n">command_complete</span><span class="o">-&gt;</span><span class="n">pEventParam</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="n">command_complete</span><span class="o">-&gt;</span><span class="n">pEventParam</span><span class="p">[</span><span class="mi">4</span><span class="p">]);</span>
+                              <span class="kt">uint16_t</span> <span class="n">numCrcErr</span> <span class="o">=</span> <span class="n">BUILD_UINT16</span><span class="p">(</span><span class="n">command_complete</span><span class="o">-&gt;</span><span class="n">pEventParam</span><span class="p">[</span><span class="mi">7</span><span class="p">],</span> <span class="n">command_complete</span><span class="o">-&gt;</span><span class="n">pEventParam</span><span class="p">[</span><span class="mi">6</span><span class="p">]);</span>
+                              <span class="kt">uint16_t</span> <span class="n">numEvents</span> <span class="o">=</span> <span class="n">BUILD_UINT16</span><span class="p">(</span><span class="n">command_complete</span><span class="o">-&gt;</span><span class="n">pEventParam</span><span class="p">[</span><span class="mi">9</span><span class="p">],</span> <span class="n">command_complete</span><span class="o">-&gt;</span><span class="n">pEventParam</span><span class="p">[</span><span class="mi">8</span><span class="p">]);</span>
+                              <span class="kt">uint16_t</span> <span class="n">numMissedEvents</span> <span class="o">=</span> <span class="n">BUILD_UINT16</span><span class="p">(</span><span class="n">command_complete</span><span class="o">-&gt;</span><span class="n">pEventParam</span><span class="p">[</span><span class="mi">11</span><span class="p">],</span> <span class="n">command_complete</span><span class="o">-&gt;</span><span class="n">pEventParam</span><span class="p">[</span><span class="mi">10</span><span class="p">]);</span>
+</pre></div>
+</td></tr></table></div>
+<p>First, the status of the stack message is checked to see what type
+of HCI event it is. In this case, it is an <a class="reference external" href="../../doxygen/ble/html/group___h_c_i___constants.html#ga24e9c5c8dfdefa384b59f565aed7207d">HCI_VE_EVENT_CODE</a>.</p>
+<p>Next, the event returned from the stack as a message (pMsg) is cast
+to an <a class="reference external" href="../../doxygen/ble/html/structhci_evt___v_s_cmd_complete__t.html">hciEvt_VSCmdComplete_t</a>, which is defined as:</p>
+<div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">typedef</span> <span class="k">struct</span>
+<span class="p">{</span>
+   <span class="n">osal_event_hdr_t</span> <span class="n">hdr</span><span class="p">;</span> <span class="n">uint8</span> <span class="n">length</span><span class="p">;</span>
+   <span class="n">uint16</span> <span class="n">cmdOpcode</span><span class="p">;</span> <span class="n">uint8</span><span class="o">*</span> <span class="n">pEventParam</span><span class="p">;</span>
+<span class="p">}</span> <span class="n">hciEvt_VSCmdComplete_t</span><span class="p">;</span>
+</pre></div>
+</td></tr></table></div>
+<p>The opcode is checked by reading command_complete-&gt;cmdOpcode, and
+found that it matches <a class="reference external" href="../../doxygen/ble/html/group___h_c_i___constants.html#ga48bacccfbe64e660d31fd5965c0a0ae9">HCI_EXT_PER</a>.</p>
+<p>Next, the *pEventParam is parsed to extract the parameters defined
+in the event API. The first two bytes (shown in red in <a class="reference internal" href="#per-memory-map"><span class="std std-numref">Figure 73.</span></a>)
+are the event opcode (0x1404). The third byte is the Status. This is
+the case for all vendor-specific events.</p>
+<p>From the fourth byte of pEventParam on, the event API from the TI
+BLE Vendor-Specific Guide is used for parsing, starting at the third
+parameter. This is the case for all vendor-specific events. For this
+example, the fourth byte of pEventParam corresponds to the cmdVal
+parameter. This is shown in memory and explained further below.</p>
+<div class="figure align-center" id="id6">
+<span id="per-memory-map"></span><a class="reference internal image-reference" href="../_images/hci_vendor_per_memory.jpg"><img alt="../_images/hci_vendor_per_memory.jpg" src="../_images/hci_vendor_per_memory.jpg" style="width: 75%;" /></a>
+<p class="caption"><span class="caption-number">Figure 73. </span><span class="caption-text">RSSI Commend from the <a class="reference external" href="https://www.bluetooth.com/specifications/adopted-specifications">Bluetooth Core Specification Version 4.2</a>.</span></p>
+</div>
+<p>The status is checked by reading the third byte of the event
+parameters (command_complete-&gt;pEventParam[2]). This is shown in
+yellow in <a class="reference internal" href="#per-memory-map"><span class="std std-numref">Figure 73.</span></a>.</p>
+<p>Starting from the fourth byte of the event parameters
+(command_complete-&gt;pEventParam[3]), the event API states that the
+next parameter is a one-byte cmdVal. This is checked to verify that
+this event corresponds to a read of the PER counters. This is shown
+in pink.</p>
+<p>Continuing parsing using the event API, the next parameter is a
+two-byte numPkts. This is found by building a uint16_t out of the
+fifth and sixth bytes of the event parameters. This is shown in
+blue. In a similar fashion, numCrcErr is found from the seventh and
+eight bytes of the event parameters (shown in green).</p>
+<p>Next, numEvents is found from the ninth and tenth bytes of the event
+parameters (shown in orange). Finally, numMissedEvents is found from
+the eleventh and twelfth bytes of the event parameters (shown in
+purple).</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="creating-a-custom-bluetooth-low-energy-application.html" class="btn btn-neutral float-right" title="Defining Application Behavior" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="data-length-extensions.html" class="btn btn-neutral" title="LE Data Length Extension (DLE)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Texas Instruments.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.01.01.00',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

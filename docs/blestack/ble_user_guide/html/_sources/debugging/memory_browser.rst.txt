@@ -1,0 +1,21 @@
+Using the Memory Browser
+------------------------
+
+Both IAR and CCS are able to show a representation of the memory on the device.
+In CCS, you can index by address or by symbol name. As an example, consider the
+stack that was overrun in :numref:`fig_rov_task_detailed`:
+
+=====================================================  ===================================================
+Simple Peripheral Task's stack. Note ``BE`` watermark      GAPRole Task's stack. Note it's completely filled.
+-----------------------------------------------------  ---------------------------------------------------
+.. figure:: resources/mem_browser_sbp_stack.png        .. figure:: resources/mem_browser_gaprole_stack.png
+=====================================================  ===================================================
+
+The solution in this case would be to increase the stack size for the failing task
+and see what the stack peak really is. The ``stackPeak`` reported is relying on
+how many watermark bytes are overwritten, so it can't know how much the overrun
+amounts to.
+
+Because stacks are utilized from higher addresses towards lower addressed
+(upwards in the picture), stacks that overrun will tend to overwrite data
+at locations immediately before the stack.

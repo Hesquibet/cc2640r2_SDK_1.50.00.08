@@ -1,0 +1,335 @@
+Voice over BLE
+---------------
+
+There is no standard way of transmitting voice over BLE so a custom profile must
+be used. TI offers two BLE mechanisms in transferring voice frames.
+
+*   TI Voice Profile (VoGP)
+    A custom TI's GATT profile implementation in the |BLESTACK| to transmit
+    voice frames.
+*   Voice over HID (Human Interface Device) over GATT Profile (VoHoGP)
+    A HID over GATT Profile (HoGP) implementation in the |BLESTACK| to transmit
+    voice frame via HID reports.
+
+TI Voice Profile (VoGP)
+^^^^^^^^^^^^^^^^^^^^^^^
+
+The TI Voice Profile (`audio_profile.[ch]`) is found in the |BLESTACK|
+component's `audio_profile` folder.
+
+The audio data is transmitted using a proprietary service with UUID
+``F000B000-0451-4000-B000-000000000000``. This service is composed of the
+following 2 characteristics:
+
+.. note::
+    The characteristics below use the 128-bit TI base UUID of the
+    format ``F000XXXX-0451-4000-B000-000000000000`` where XXXX is their
+    shortened 16bit UUID. For brevity, this document will refer to the
+    characteristics by their 16-bit short UUID.
+
++---------------------+--------+--------------------------------------------------+--------------------------------------+
+| Name                | UUID   | Description                                      | GATT Properties                      |
++---------------------+--------+--------------------------------------------------+--------------------------------------+
+| AUDIOPROFILE\_START | 0xB001 | The start characteristic is used to transmit a   |                                      |
+|                     |        | start command before the streaming starts and a  |                                      |
+|                     |        | stop command as the last packet of a stream.     | GATT\_PROP\_READ, GATT\_PROP\_NOTIFY |
++---------------------+--------+--------------------------------------------------+--------------------------------------+
+| AUDIOPROFILE\_AUDIO | 0xB002 | AUDIOPROFILE\_AUDIO is used as the audio         |                                      |
+|                     |        | stream characteristic, all audio frames will be  |                                      |
+|                     |        | transmitted using this characteristic.           | GATT\_PROP\_READ, GATT\_PROP\_NOTIFY |
++---------------------+--------+--------------------------------------------------+--------------------------------------+
+
+
+:ble_api:`GATT_Notification` was selected as the primary vehicle for transmitting
+voice data over BLE in the voice profile implementation.
+
+Notifications were selected because they have low packet overhead and
+are asynchronous in nature. These qualities make notifications ideal for voice
+streaming applications.
+Before the voice stream begins, the (receiving) peer device must enable
+notifications by writing ``01:00`` to the CCCD of both AUDIOPROFILE\_START and
+AUDIOPROFILE\_AUDIO.
+If notifications are not enabled, the remote will not stream voice data.
+
+The basic flow of a voice transmission is:
+
+#. |DEVICE| sends a start command (0x04) notification (if enabled) on
+   the AUDIOPROFILE\_START characteristic.
+#. |DEVICE| starts streaming voice data. See :ref:`fig-voice-sequence-diagram`
+   for more details
+#. |DEVICE| sends a stop command (0x00) notification on the
+   AUDIOPROFILE\_START characteristic.
+
+See the figure below for an illustration of voice transmission over BLE. See
+:ref:`sect-voice-frame-data` for more information about the contents of the BLE
+voice frame.
+
+.. _fig-voice-sequence-diagram:
+.. uml::
+    :caption: Sequence diagram for Voice Transmission
+    :align: center
+
+    @startuml
+    Receiver <- Transmitter: Advertisements
+    Receiver -> Transmitter: Connect Req
+    Receiver <-> Transmitter: Voice Service Discovery
+
+    Receiver -> Transmitter: Enable Notifications on AUDIOPROFILE_START Char
+    Receiver -> Transmitter: Enable Notifications on AUDIOPROFILE_AUDIO Char
+
+    ...Wait until transmitter begins streaming...
+
+
+    Receiver <- Transmitter: GATT_Notification - AUDIOPROFILE_START - start command (0x04)
+
+    group Repeat For Each frame in voice stream
+
+
+    Receiver <- Transmitter: GATT_Notification - AUDIOPROFILE_AUDIO -  Metadata + voice data
+    Receiver <- Transmitter: GATT_Notification - AUDIOPROFILE_AUDIO -  voice data
+    Receiver <- Transmitter: GATT_Notification - AUDIOPROFILE_AUDIO -  voice data
+    Receiver <- Transmitter: GATT_Notification - AUDIOPROFILE_AUDIO -  voice data
+    Receiver <- Transmitter: GATT_Notification - AUDIOPROFILE_AUDIO -  voice data
+
+    end
+
+    Receiver <- Transmitter: GATT_Notification - AUDIOPROFILE_START - stop command (0x00)
+
+    @enduml
+
+
+Voice over HID over GATT Profile (VoHoGP)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The Voice over HID over GATT Profile HID service implementation
+(`hidservice.[ch]`) can be found under the |BLESTACK| component of the optional
+Example Pack for the |SDK|.
+
+In contrast to the VoGP, audio data is transmitted using encrypted
+Consumer Control HID Reports instead of a custom non-encrypted GATT profile. The
+advantage in using the adopted HID over GATT Profile (HoGP) is that operating
+systems and Bluetooth Low Energy software stacks generally already support this
+profile natively; thus eliminating the need for the developer to develop a
+custom GATT profile.
+
+.. tip::
+    The main advantage in transporting data over the HID is that modern
+    Operating Systems typically natively support this profile, simplifying the
+    application development by not having to develop custom GATT profiles.
+
+    * BlueZ users on Linux do not need to recompile the kernel to support a
+      custom profile.
+    * Windows 8.1 or later also supports HoGP natively.
+
+Applications using HoGP only need to collect voice frames using HID reports
+generated by the Operating System. A sample script collecting voice data from
+HID reports is hosted on
+`TI's SimpleLink Github Page <https://github.com/ti-simplelink>`__.
+
+The HID reports used to transport voice frames follow the a similar paradigm as
+with TI Voice Profile. The `HID_RPT_ID_VOICE_START_IN` report is used to
+indicate the start and stop of the voice data stream, whereas the voice data
+itself is sent via the `HID_RPT_ID_VOICE_DATA_IN` report.
+
++---------------------------+-------------+--------------------------------------------------+
+| Name                      | Report ID   | Description                                      |
++---------------------------+-------------+--------------------------------------------------+
+| HID_RPT_ID_VOICE_START_IN | 0x0A (10)   | This HID report is used to transmit a start      |
+|                           |             | command before the streaming starts and stop     |
+|                           |             | command as the last packet of a stream.          |
++---------------------------+-------------+--------------------------------------------------+
+| HID_RPT_ID_VOICE_DATA_IN  | 0x0B (11)   | This HID report is used to transmit all voice    |
+|                           |             | data.                                            |
++---------------------------+-------------+--------------------------------------------------+
+
+The basic flow of a voice transmission is:
+
+#. |DEVICE| sends a start command (0x04) on HID_RPT_ID_VOICE_START_IN.
+
+#. |DEVICE| starts streaming voice data on HID_RPT_ID_VOICE_DATA_IN. See
+   :ref:`fig-voice-hid-sequence-diagram` for more details.
+
+#. |DEVICE| sends a stop command (0x00) on HID_RPT_ID_VOICE_START_IN.
+
+The voice HID reports used to transport voice are described
+the HID Service's Report Map in the following manner:
+
+.. _lst-voice-hid-report-map:
+
+.. code-block:: c
+    :caption: Declaring Voice HID Report in the HID Service's Report Map
+
+    0x05, 0x0C,        // Usage Page (Consumer Devices)
+    0x09, 0x01,        // Usage (Consumer Control)
+    0xA1, 0x01,        // Collection (Application)
+    0x85, 0x0A,        //   Report ID (10)
+    0x15, 0x00,        //   Logical Minimum (0)
+    0x26, 0xFF, 0x00,  //   Logical Maximum (255)
+    0x75, 0x08,        //   Report Size (8)
+    0x95, 0x05,        //   Report Count (5)
+    0x09, 0x01,        //   Usage (Consumer Control)
+    0x81, 0x00,        //   Input (Data,Array,Abs,No Wrap,Linear,Preferred State,No Null Position)
+    0x85, 0x0B,        //   Report ID (11)
+    0x15, 0x00,        //   Logical Minimum (0)
+    0x26, 0xFF, 0x00,  //   Logical Maximum (255)
+    0x75, 0x08,        //   Report Size (8)
+    0x95, 0x14,        //   Report Count (20)
+    0x09, 0x01,        //   Usage (Consumer Control)
+    0x81, 0x00,        //   Input (Data,Array,Abs,No Wrap,Linear,Preferred State,No Null Position)
+    0xC0               // End Collection
+
+
+The voice stream data flow is similar to TI's Voice Profile, with the exception
+that now the link between the transmitter and receiver is encrypted. The GATT
+client, as before, will enable GATT Notifications for all the HID IN reports.
+See the figure below for an illustration of voice transmission over BLE and see
+:ref:`sect-voice-frame-data` for more information about the contents of the BLE
+voice frame.
+
+.. _fig-voice-hid-sequence-diagram:
+.. uml::
+    :caption: Sequence diagram for Voice Transmission over HID
+    :align: center
+
+    @startuml
+    Receiver <- Transmitter: Advertisements
+    Receiver -> Transmitter: Connect Req
+    Receiver <-> Transmitter: (Re-)Establish SMP Pairing and Encryption
+    Receiver <-> Transmitter: Interrogating HID Service's Report Map
+
+    ...A HoGP host will enable notifications for all HID IN Report Characteristics...
+
+    Receiver -> Transmitter: Enable Notifications on HID_RPT_ID_VOICE_START_IN
+    Receiver -> Transmitter: Enable Notifications on HID_RPT_ID_VOICE_DATA_IN
+
+    ...Wait until transmitter begins streaming...
+
+
+    Receiver <- Transmitter: GATT_Notification on HID_RPT_ID_VOICE_START_IN - start command (0x04)
+
+    group Repeat For Each Voice Frame in voice stream
+
+    Receiver <- Transmitter: GATT_Notification - HID_RPT_ID_VOICE_DATA_IN - Metadata + voice data
+    Receiver <- Transmitter: GATT_Notification - HID_RPT_ID_VOICE_DATA_IN - voice data
+    Receiver <- Transmitter: GATT_Notification - HID_RPT_ID_VOICE_DATA_IN - voice data
+    Receiver <- Transmitter: GATT_Notification - HID_RPT_ID_VOICE_DATA_IN - voice data
+    Receiver <- Transmitter: GATT_Notification - HID_RPT_ID_VOICE_DATA_IN - voice data
+
+    end
+
+    Receiver <- Transmitter: GATT_Notification on HID_RPT_ID_VOICE_START_IN - stop command (0x00)
+
+    @enduml
+
+.. _sect-voice-frame-data:
+
+BLE Voice Frame Data
+^^^^^^^^^^^^^^^^^^^^
+
+By default the voice profile will send 20 bytes of application data per notification.
+Thus, it is thus ideal to choose a PDM driver frame length that is a multiple of
+20 bytes.
+
+Recall from :ref:`sect-pdm-driver-metadata` that each frame should contain 4 bytes
+metadata as well. There is a compromise between frame duration and overhead,
+which was found to be optimized at a total frame length of 100 bytes, which
+includes 4 bytes metadata.
+
+The numbered headers in the voice frame above are the metadata fields provided by
+the PDM driver. See :ref:`sect-pdm-driver-metadata` for an explanation of the
+metadata fields.
+
+.. _Audio_packetformat:
+.. figure:: /voice/resources/Audio_packetformat.jpg
+    :align: center
+
+
+    One audio packet.
+
+
+.. aafig::
+
+            'The explanation for headers from picture above'
+                  ____________________________________________________________
+                 |                   |                    |                   |
+                 | Header 1          | Header 2           | Header 3          |
+                 |___________________|____________________|___________________|
+                 |                   |                    |                   |
+                 | SI                | PV(low)            | PV(high)          |
+                 |___________________|____________________|___________________|
+
+
+
+When transmitted over the air, the audio frames are fragmented into 20
+byte notifications, this means that each audio frame is sent as 5
+notifications:
+
+.. _Audio_packedIn5Notification:
+.. figure:: /voice/resources/Audio_packedIn5Notification.jpg
+    :align: center
+
+
+    One audio frame sent over the air as 5 notification.
+
+Modifiying the Latency
+^^^^^^^^^^^^^^^^^^^^^^
+
+The built in flow control in the Bluetooth low energy Protocol is used
+to ensure delivery of full audio frames during streaming.
+
+Since the header of each audio frame contains the information required to decode
+that frame separately, the safest way to discard data in e.g. a
+noisy environment is to discard the full frame.
+
+The PDM driver will drop full audio frames when there are no available buffers,
+and the application will handle one frame at a time until it has been
+successfully queued up in the TX FIFO within the |BLESTACK|.
+
+As mentioned above, the application must service a PDM buffer every ``2ms``.
+If the application requires a longer contiguous chunk of processing time or a
+marginal RF environment is causing many re-try events then the number of PDM
+buffers can be tweaked by modifying ``MINIMUM_PDM_BUFFER_QUEUE_DEPTH``.
+
+Each increase in ``MINIMUM_PDM_BUFFER_QUEUE_DEPTH`` triggers a corresponding
+increase of 2ms of latency which allows the application more time to process.
+The cost of the increased latency is increased RAM useage.
+
+The user application should be profiled to find the optimal tradeoff between
+the expected RF conditions, RAM useage, and latency.
+
+
+
+Throughput Requirement for BLE
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The general required throughput for sending audio frame has been covered in
+:ref:`general-throughput-requirement`. Here we will cover the calculation for
+required throughput when we take BLE specific headers into consinderation.
+
++--------------------------------+--------------------------------+------------+
+| Data                           | Calculation                    | rate       |
++================================+================================+============+
+| L2CAP and ATT header           | (7 * 5) B / 12ms               |  23.33kbps |
++--------------------------------+--------------------------------+------------+
+| Complete packets overhead      | (21 * 5) B / 12ms              |  70kpbs    |
++--------------------------------+--------------------------------+------------+
+
+From :ref:`general-throughput-requirement`, we learned that the required thoughput
+for audio frame is 66.67kbps. After adding the overhead from BLE headers,
+the required throughput is 70 + 66.67 = ``136.67kbps``
+
+The hid_adv_remote application will try to transmit as many available
+audio notifications as possible for every connection event. This means
+that the required throughput can be obtained with different settings for
+the connection interval as longs as enough packets can be transmitted in
+each connection event to successfully reach the ~417 notifications per
+second limit.
+
+1 notification = 20 B audio data = 160 bits audio data.
+
+Required audio data throughput  = ``66670bps``.
+
+66670 / 160 ~= ``417 notifications per second``
+
+Typically a connection interval of 10ms can be used where
+3-5 notifications are transmitted every connection event.

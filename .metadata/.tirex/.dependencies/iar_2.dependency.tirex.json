@@ -1,0 +1,23 @@
+[
+   {
+      "packages" : [],
+      "compiler" : {
+         "location" : "na",
+         "effective" : "na",
+         "specified" : "na"
+      },
+      "default" : "na",
+      "files" : [
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/sysbios/benchloop/benchloop.c -> benchloop.c",
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/sysbios/benchloop/CC2640R2_LAUNCHXL.c -> CC2640R2_LAUNCHXL.c",
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/sysbios/benchloop/ccfg.c -> ccfg.c",
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/sysbios/benchloop/tirtos/iar/CC2640R2_LAUNCHXL_TIRTOS.icf -> benchloop_CC2640R2_LAUNCHXL_TIRTOS.icf",
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/sysbios/benchloop/Board.h -> Board.h",
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/sysbios/benchloop/CC2640R2_LAUNCHXL.h -> CC2640R2_LAUNCHXL.h",
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/sysbios/benchloop/tirtos/benchloop.cfg -> benchloop.cfg",
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/sysbios/benchloop/README.md -> README.md",
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/sysbios/benchloop/README.html -> README.html"
+      ],
+      "name" : "na"
+   }
+]

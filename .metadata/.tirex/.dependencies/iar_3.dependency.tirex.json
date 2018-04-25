@@ -1,0 +1,23 @@
+[
+   {
+      "files" : [
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/sysbios/clock/clock.c -> clock.c",
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/sysbios/clock/CC2640R2_LAUNCHXL.c -> CC2640R2_LAUNCHXL.c",
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/sysbios/clock/ccfg.c -> ccfg.c",
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/sysbios/clock/tirtos/iar/CC2640R2_LAUNCHXL_TIRTOS.icf -> clock_CC2640R2_LAUNCHXL_TIRTOS.icf",
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/sysbios/clock/Board.h -> Board.h",
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/sysbios/clock/CC2640R2_LAUNCHXL.h -> CC2640R2_LAUNCHXL.h",
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/sysbios/clock/tirtos/clock.cfg -> clock.cfg",
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/sysbios/clock/README.md -> README.md",
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/sysbios/clock/README.html -> README.html"
+      ],
+      "name" : "na",
+      "compiler" : {
+         "specified" : "na",
+         "location" : "na",
+         "effective" : "na"
+      },
+      "default" : "na",
+      "packages" : []
+   }
+]

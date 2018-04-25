@@ -1,0 +1,154 @@
+Overview
+========
+
+This section describes the high level design and functionality of the Micro BLE Stack.
+The Micro BLE Stack enables applications on the |DEVICE| to advertise, scan, or behave
+as an connection monitor. The Micro BLE stack utilizes the MultiMode RF driver as well.
+The MultiMode RF Driver enables dual-mode applications where another communication protocol
+stack is integrated and utilized along side the Micro BLE Stack.
+
+Constraints and Requirements
+----------------------------
+
+The Micro BLE Stack has the following internal constraints and requirements:
+
+-  This design optionally depends on partial integration of ICall to save
+   system resources if there already is an application using ICall in the
+   dual-mode use case. In the case of using the ICall module, ICall's system
+   heap management and TI-RTOS service abstraction will be used.
+
+-  There is no HCI because there is no separation between the controller and the
+   host.
+
+-  The privacy feature is not supported, but random address generation is
+   supported
+
+-  To minimize the memory overhead and remove redundant context switching,
+   the Micro BLE Stack doesn't have a separate TI-RTOS task. It is instead
+   integrated in the application task.
+
+-  Only configurations utilizing the multi-mode RF driver can be used with
+   other RF driver stacks. Priority, time criticality, and scheduling
+   need to be chosen carefully to ensure compatibility with other 
+   multi-mode RF driver utilizing stack, such as TI-15.4-Stack.
+   
+.. note:   
+   The TI BLE-Stack and BLE5-Stack currently utilize the single-mode RF driver
+   and are not compatible with the TI Micro BLE Stack. 
+
+Connection Monitor Limitations
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Connection Monitor feature has the following limitations:
+-  monitoring connections utilizing LE Channel Selection Algorithm #1
+-  monitoring connections using LE 1M PHY
+-  monitoring connections on LE Data channels
+
+Dual Mode Considerations
+^^^^^^^^^^^^^^^^^^^^^^^^
+For operation of the Micro BLE Stack with other multi-mode RF driver utilizing
+stacks, Priority, time criticality, and scheduling is paramount to ensure
+compatibility.
+
+Priority
+""""""""
+Micro BLE Stack has an overall stack priority that is applied to every issued radio command. 
+The stack priority is intended to give Micro BLE Stack a relative priority against the other
+stacks. The stack priority is saved in RFPriority through ub_uble_setParam().
+RF_PRI_HIGH and RF_PRI_NORMAL are translated into RF_PriorityHigh and RF_PriorityNormal
+respectively when the Micro BLE Stack calls RF_scheduleCmd().
+
+If Micro BLE Stack's priority is higher than another stack’s, every Micro BLE Stack’s radio
+command gets privileged unless the priority of other stack command which has been scheduled
+is RF_PriorityHighest. 
+
+Note that the priority of strictly time-critical and crucial commands, such as CMD_PROP_RX_ADV
+for beacon reception in TI-15.4-Stack, tends to be set to RF_PriorityHighest regardless of the
+stack priority. 
+
+Time Critically
+"""""""""""""""
+Time Criticality is how important a radio command being executed at an exact time is. 
+Time Criticality is saved in RFTimeCriticality through ub_uble_setParam(). 
+For example, ff the accuracy of the Advertising interval is so important that missing advertising
+events not acceptable and delaying other stack’s higher-priority activities are completed; 
+RFTimeCriticality should be set to RF_TIME_CRITICAL. 
+Otherwise, RFTimeCriticality should be set to RF_TIME_RELAXED.
+
+Scheduling
+""""""""""
+When the Micro BLE Stack schedules a command, Priority and Time Criticality
+are passed to RF_scheduleCmd(). These parameters are contained in the priority
+element of RF_ScheduleCmdParams and pastTrig field in startTrigger element of the
+RF driver command struct.
+
+If RFTimeCriticality is RF_TIME_CRITICAL so the command has to start at a designated
+time, a failure returned if the radio is unavailable to schedule the command at the moment
+requested. RF_scheduleCmd() rejects the command if any portion of the desired time period
+reserved by the same- or higher-priority operation of other stacks or the RF driver command 
+queue is full.
+
+If RFTimeCriticality is RF_TIME_RELAXED so the command can be delayed if the radio is unavailable
+at moment requested; that command is scheduled with pastTrig=1. Once the command with pastTrig=1
+is scheduled successfully, it will start at the desired start time if the radio is available,
+or when the radio is available after the start time.
+
+The RF Event RF_EventRadioAvailable needs to be activated since it is used for rescheduling
+
+RF Event Processing
+"""""""""""""""""""
+The followings are the RF Events that will occurs, what they mean and how they are handled.
+
+-  RF_EventLastCmdDone
+   This case is treated as successful command completion. uLL schedules
+   the next advertising event or scan if needed.
+
+-  RF_EventCmdCancelled
+   If this RF Event comes together with RF_EventPreempted, uLL saves this
+   state for RF_EventRadioAvailable processing.
+
+-  RF_EventCmdStopped or RF_EventCmdAborted
+   If this RF Event comes together with RF_EventClientChange, uLL saves this
+   state for RF_EventRadioAvailable processing and treats this case as an
+   operation failure. uLL schedules the next advertising event or scan if needed.
+
+-  RF_EventRadioAvailable
+   If this RF Event comes after RF_scheduleCmd() was rejected or after either an
+   RF_EventCmdCancelled or RF_EventPreempted was received for the same associated
+   command, the uLL compare the current time with the start time of the associated command.
+
+   *  If the current time has already passed the start time and RFTimeCriticality
+      is RF_TIME_CRITICAL, uLL handles this case as an operation failure and schedules
+      the next advertising event or scan if needed.
+
+   *  If the current time has not passed the start time or RFTimeCriticality
+      is RF_TIME_CRITICAL, uLL retries the scheduling with the same start time.
+
+   If this RF Event comes after either RF_EventCmdStopped or RF_EventCmdAborted was
+   received with regards to the same associated command, uLL ignores this RF Event.
+
+For more information regarding the RF driver see 
+[**RF Drive API**](../../../../../docs/tidrivers/doxygen/html/_r_f_8h.html).
+
+Functional Overview
+-------------------
+
+The Micro BLE Stack consists of two layers: The Micro Link Layer (Micro LL or
+uLL) and Micro Generic Access Profile (Micro GAP or uGAP).
+
+Micro LL performs:
+
+-  Radio management
+
+-  Device state management between standby, advertising/scanning, and monitoring
+
+Micro GAP performs:
+
+-  Broadcaster role
+
+-  Connection Monitor feature
+
+-  Initialization and configuration of the Micro LL
+
+-  State Management within the role/feature
+
+-  Interfacing with the application

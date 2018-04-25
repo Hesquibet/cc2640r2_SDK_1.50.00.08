@@ -1,0 +1,374 @@
+.. _TI Vendor Specific HCI Guide: ..\/..\/..\/TI_BLE_Vendor_Specific_HCI_Guide.pdf
+
+.. _sec-hci:
+
+Host Controller Interface (HCI)
+-------------------------------
+
+The host controller interface (HCI) layer is a thin layer which
+transports commands and events between the host and controller
+elements of the Bluetooth protocol stack. In a pure network
+processor application (that is, the host\_test project), the HCI
+layer is implemented through a transport protocol such as SPI or
+UART.
+
+In embedded wireless MCU projects such as simple\_peripheral project, the
+HCI layer is implemented through function calls and callbacks within the
+wireless MCU. All of the commands and events discussed that communicate with
+the controller, such as ATT, GAP, etc, will eventually call an HCI API to
+pass from the upper layers of the protocol stack through the HCI layer to
+the controller. Likewise, the controller sends received data and
+events to the host and upper layers through HCI.
+
+As well as standard Bluetooth LE HCI commands, a number of HCI
+extension vendor-specific commands are available which extend some
+of the functionality of the controller for use by the application.
+See :ref:`ble_api_reference` for a description of available HCI
+and HCI extension commands callable in the embedded application.
+
+The |BLESTACK| supports a network processor configuration
+(host\_test) that allows an application to running on an external
+MCU to interface to the |BLESTACK|. The network processor can
+accept all LE HCI commands over a external transport protocol (UART, SPI, etc);
+however, because the BLE host and controller both reside on the
+wireless MCU, some HCI commands will
+have their corresponding events consumed by the TI BLE host. Thus,
+it is not possible to interface an external, off-chip Bluetooth host
+to the CC2640 wireless MCU using standard HCI LE commands. Network
+processor configurations should use both HCI and TI vendor-specific
+HCI commands to implement an external Bluetooth application.
+
+Similar to a network processor configuration (host\_test), the |BLESTACK|
+can be configured to be pass a subset HCI commands from a transport
+protocol (UART, SPI, etc) to the controller with the ability to switch
+to an intact embedded application. This configuration is known as Production
+Test Mode (PTM). The subset of HCI commands available are those to
+perform Bluetooth RF certification. For information on how to
+enable PTM on your embedded application
+see :ref:`sec-using-production-test-mode`.
+
+PTM should be considered for use for Direct Test Mode (DTM)
+in place of a full network processor configuration (host\_test)
+when the following is required:
+
+    * Device is only Flashed Once during the production line
+
+        If product flashing is only done once or production firmware
+        is flashed prior to testing Bluetooth RF Functionality, and firmware
+        images can no longer be changed.
+
+    * Flash Availability for HCI Transport Layer
+
+        PTM requires flash along side the application, thus reducing
+        application flash.
+
+.. note::
+
+    Direct Test Mode(DTM) is also supported by the |BLESTACK|.
+    DTM is described in detail in the Direct Test Mode section ([Vol 6], Part F)
+    of the |CORESPEC|. Host\_test supports all DTM
+    commands as well as Vendor Specific modem test commands.
+
+    See `Configuring the CC2640 for Bluetooth Direct Test Mode (SWRA530) <http://www.ti.com/lit/pdf/swra530>`_
+    for information on how to set up host\_test application binary
+    designed to work with a custom product and chip package types.
+
+Using HCI and HCI Vendor-Specific Commands in the Application
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Follow these steps to use these commands and receive their
+respective events in the application:
+
+1. Include the HCI transport layer header file.
+
+  .. code-block:: c
+    :linenos:
+
+    #include "hci_tl.h"
+
+2. Register with GAP for HCI/Host messages in order to receive events
+   from the controller. This should be done in the application initialization
+   function.
+
+  .. code-block:: c
+    :linenos:
+
+    // Register with GAP for HCI/Host messages
+    GAP_RegisterForMsgs(selfEntity);
+
+3. Call any HCI or HCI vendor-specific command that is able to be called the application.
+   See the :ref:`ble_api_reference`, specifically the HCI section for a table of
+   which commands can be sent.
+
+4. HCI events are returned as inter-task messages as a
+   :ble_api:`HCI_GAP_EVENT_EVENT`. See the simple_peripheral project for an
+   example of this.
+
+The following sections consider receiving HCI events and HCI
+vendor-specific events.
+
+Standard LE HCI Commands and Events
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+These commands are documented in the HCI Commands and Events chapter
+(Volume 2, Part E, Section 7) of the |CORESPEC|. The mechanism to use these
+commands is the same for any command in this section of the |CORESPEC|,
+including HCI LE commands. The example below demonstrates how to use the
+|CORESPEC| to implement an HCI command in the application. The command
+considered is Read RSSI Command.
+
+Sending an HCI Command
+""""""""""""""""""""""
+
+1. Find the command in the |CORESPEC|:
+
+.. figure:: resources/hci_ble_core_rssi_snippet.jpg
+    :align: center
+    :width: 75%
+
+    RSSI Command from the |CORESPEC|.
+
+2. Find mapping to BLE stack command. Using the :ref:`ble_api_reference` (HCI
+    section --> HCI Function Maps), shows that this command maps to :ble_api:`HCI_ReadRssiCmd()`.
+
+3. Using the API from Step 1, fill in the parameters and call the
+   command from somewhere in the application. This specific command
+   should be called after a connection is formed. There is only
+   command parameter here: a 2-byte connection handle. In the case
+   of this example, the connection handle is 0x0000:
+
+  .. code-block:: c
+    :linenos:
+
+    HCI_ReadRssiCmd(0x0000);
+
+Receiving HCI Events
+""""""""""""""""""""
+
+.. tip::
+    Make sure to register for messages; or no event messages will be sent to your task.
+
+    Register with GAP for HCI/Host messages with:
+    :ble_api:`GAP_RegisterForMsgs()`
+
+1. Look at the |CORESPEC| to see the format of the returned event:
+
+    .. figure:: resources/hci_ble_core_rssi_rtnparams.jpg
+        :align: center
+        :width: 75%
+
+        RSSI Return information with Event from the |CORESPEC|.
+
+2. This command returns a Command Complete event (:ble_api:`hciEvt_CmdComplete_t`) as stated
+   in the "Corresponding Events" section of the doxygen API ( :ble_api:`HCI_ReadRssiCmd` ),
+   so add this as a case in the processing of :ble_api:`HCI_GAP_EVENT_EVENT`. This is
+   further detailed below.
+
+    .. code-block:: c
+     :linenos:
+
+     static uint8_t SimpleBLEPeripheral_processStackMsg(ICall_Hdr* pMsg)
+     {
+        uint8_t safeToDealloc = TRUE;
+        switch (pMsg->event)
+        {
+           case HCI_GAP_EVENT_EVENT:
+           {
+              // Process HCI message switch(pMsg->status)
+           {
+
+           // Process HCI Command Complete Event case
+           HCI_COMMAND_COMPLETE_EVENT_CODE:
+           {
+              // Parse Command Complete Event for opcode and status
+              hciEvt_CmdComplete_t* command_complete = (hciEvt_CmdComplete_t*) pMsg;
+              uint8_t status = command_complete->pReturnParam[0];
+
+              //find which command this command complete is for
+              switch (command_complete->cmdOpcode)
+              {
+                 case HCI_READ_RSSI:
+                 {
+                    if (status == SUCCESS)
+                    {
+                       uint16_t handle = BUILD_UINT16( command_complete->pReturnParam[2], command_complete->pReturnParam[1]);
+
+                       //check handle
+                       if (handle == 0x00)
+                       {
+                          //store RSSI
+                          uint8_t rssi = command_complete->pReturnParam[3];
+
+First, the status of the stack message is checked to see what type
+of HCI event it is. In this case, it is an
+:ble_api:`HCI_COMMAND_COMPLETE_EVENT_CODE`. Then the event returned
+from the stack as a message (pMsg) is cast to an :ble_api:`hciEvt_CmdComplete_t`, which is defined as:
+
+  .. code-block:: c
+    :linenos:
+
+    // Command Complete Event typedef struct
+    {
+      osal_event_hdr_t hdr;
+      uint8 numHciCmdPkt;
+      uint16 cmdOpcode;
+      uint8* pReturnParam;
+    } hciEvt_CmdComplete_t;
+
+Next, the cmdOpcode is checked and it is found that it matches
+:ble_api:`HCI_READ_RSSI`. Then the status of the event is checked.
+Now that the event is known, the pReturnParmam can be  parsed using the information from the
+|CORESPEC|. The |CORESPEC| API from above states that the first byte of the
+return parameters is the Status.
+
+The |CORESPEC| API states that the second and third bytes of the return
+parameters are the Handle.  The RSSI is then checked to
+see if it corresponds to the desired connection handle.
+
+Continuing parsing using the |CORESPEC| API, the RSSI value can be found by reading the fourth byte
+of the return paramters. Finally, the RSSI value is stored.
+
+HCI Vendor-Specific Commands
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+These commands are documented in the `TI Vendor Specific HCI Guide`_. The
+mechanism to use these commands is the same for all vendor-specific commands.
+The example below demonstrates how to use the `TI Vendor Specific HCI Guide`_
+to implement an HCI command in the application. The command considered is
+HCI Extension Packet Error Rate.
+
+Sending HCI Vendor-Specific Command
+"""""""""""""""""""""""""""""""""""
+
+1. Find the command in the TI BLE vendor-specific guide:
+
+    .. figure:: resources/hci_vendor_per_cmd.jpg
+        :align: center
+        :width: 75%
+
+        Packet Error Rate Cmd from HCI Vendor-Specific Commands Guide.
+
+2. Use the HCI section in :ref:`ble_api_reference` to find the BLE Stack
+   function that implements this command : :ble_api:`HCI_EXT_PacketErrorRateCmd`.
+
+3. Using the API from Step 1, fill in the parameters and call the
+   command from the application.  In this specific case, this command should be
+   called after a connection has been formed. The first parameter is
+   a 2-byte connHandle, which is 0x0000 for this example. The second
+   parameter is a 1-byte command ( :ble_api:`HCI_EXT_PER_READ` ) to read the
+   counters. Therefore, use:
+
+  .. code-block:: c
+    :linenos:
+
+    HCI_EXT_PacketErrorRateCmd( 0, HCI_EXT_PER_READ );
+
+Receiving HCI Vendor-Specific Events
+""""""""""""""""""""""""""""""""""""
+
+1. Find the corresponding event in the `TI Vendor Specific HCI Guide`_
+
+   .. figure:: resources/hci_vendor_per_event.jpg
+        :align: center
+        :width: 75%
+
+        Packet Error Rate Event from HCI Vendor-Specific Commands Guide.
+
+2. As stated in the "Corresponding Events" section of the command API, this
+   command returns a Vendor Specific Command Complete Event ( :ble_api:`hciEvt_VSCmdComplete_t` )
+   Therefore, add this as a case in the processing of :ble_api:`HCI_GAP_EVENT_EVENT` processing.
+   This is further detailed below.
+
+   .. code-block:: c
+    :linenos:
+
+    static uint8_t SimpleBLEPeripheral_processStackMsg(ICall_Hdr* pMsg)
+    {
+       uint8_t safeToDealloc = TRUE;
+       switch (pMsg->event)
+       {
+          case HCI_GAP_EVENT_EVENT:
+          {
+             // Process HCI message
+             switch(pMsg->status)
+             {
+                // Process HCI Vendor Specific Command Complete Event
+                case HCI_VE_EVENT_CODE:
+                   {
+                      // Parse Command Complete Event for opcode and status
+                      hciEvt_VSCmdComplete_t* command_complete = (hciEvt_VSCmdComplete_t*)pMsg;
+
+                      // Find which command this command complete is for
+                      switch(command_complete->cmdOpcode)
+                      {
+                         case HCI_EXT_PER:
+                         {
+                            uint8_t status = command_complete->pEventParam[2];
+                            if (status == SUCCESS)
+                            {
+                               uint8_t cmdVal = command_complete->pEventParam[3];
+
+                               if (cmdVal == 1) //if we were reading packet error rate
+                               {
+                                  uint16_t numPkts = BUILD_UINT16(command_complete->pEventParam[5], command_complete->pEventParam[4]);
+                                  uint16_t numCrcErr = BUILD_UINT16(command_complete->pEventParam[7], command_complete->pEventParam[6]);
+                                  uint16_t numEvents = BUILD_UINT16(command_complete->pEventParam[9], command_complete->pEventParam[8]);
+                                  uint16_t numMissedEvents = BUILD_UINT16(command_complete->pEventParam[11], command_complete->pEventParam[10]);
+
+   First, the status of the stack message is checked to see what type
+   of HCI event it is. In this case, it is an :ble_api:`HCI_VE_EVENT_CODE`.
+
+   Next, the event returned from the stack as a message (pMsg) is cast
+   to an :ble_api:`hciEvt_VSCmdComplete_t`, which is defined as:
+
+   .. code-block:: c
+    :linenos:
+
+    typedef struct
+    {
+       osal_event_hdr_t hdr; uint8 length;
+       uint16 cmdOpcode; uint8* pEventParam;
+    } hciEvt_VSCmdComplete_t;
+
+   The opcode is checked by reading command\_complete->cmdOpcode, and
+   found that it matches :ble_api:`HCI_EXT_PER`.
+
+   Next, the \*pEventParam is parsed to extract the parameters defined
+   in the event API. The first two bytes (shown in red in :numref:`per_memory_map`)
+   are the event opcode (0x1404). The third byte is the Status. This is
+   the case for all vendor-specific events.
+
+   From the fourth byte of pEventParam on, the event API from the TI
+   BLE Vendor-Specific Guide is used for parsing, starting at the third
+   parameter. This is the case for all vendor-specific events. For this
+   example, the fourth byte of pEventParam corresponds to the cmdVal
+   parameter. This is shown in memory and explained further below.
+
+   .. _per_memory_map:
+
+   .. figure:: resources/hci_vendor_per_memory.jpg
+        :align: center
+        :width: 75%
+
+        RSSI Commend from the |CORESPEC|.
+
+   The status is checked by reading the third byte of the event
+   parameters (command\_complete->pEventParam[2]). This is shown in
+   yellow in :numref:`per_memory_map`.
+
+   Starting from the fourth byte of the event parameters
+   (command\_complete->pEventParam[3]), the event API states that the
+   next parameter is a one-byte cmdVal. This is checked to verify that
+   this event corresponds to a read of the PER counters. This is shown
+   in pink.
+
+   Continuing parsing using the event API, the next parameter is a
+   two-byte numPkts. This is found by building a uint16\_t out of the
+   fifth and sixth bytes of the event parameters. This is shown in
+   blue. In a similar fashion, numCrcErr is found from the seventh and
+   eight bytes of the event parameters (shown in green).
+
+   Next, numEvents is found from the ninth and tenth bytes of the event
+   parameters (shown in orange). Finally, numMissedEvents is found from
+   the eleventh and twelfth bytes of the event parameters (shown in
+   purple).

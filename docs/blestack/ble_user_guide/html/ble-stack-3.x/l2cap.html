@@ -1,0 +1,498 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Logical Link Control and Adaptation Layer Protocol (L2CAP) &mdash; BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation" href="../index.html"/>
+        <link rel="up" title="Developing a Bluetooth Low Energy Application" href="index.html"/>
+        <link rel="next" title="LE Data Length Extension (DLE)" href="data-length-extensions.html"/>
+        <link rel="prev" title="GAP Bond Manager and LE Secure Connections" href="gapbondmngr.html"/> 
+    <script language="JavaScript">
+        var tiPageName;
+        tiPageName = "sug ble-stack-3.x l2cap";
+
+        if (location.protocol == "file:"){
+            var ci_analytics_poc_load = true;
+        }
+    </script> 
+
+    <script src="http://www.ti.com/assets/js/headerfooter/analytics.js" type="text/javascript" charset="utf-8">     
+
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../ble-stack-3.x-guide/index.html" class="icon icon-home"> BLE-Stack User's Guide for Bluetooth 4.2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.01.01.00
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../cc2640/disclaimer.html">Disclaimer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/get-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cc2640/platform.html">The CC2640R2F SDK Platform</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Developing a Bluetooth Low Energy Application</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="the-application.html">The Application</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#the-stack">The Stack</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="gap.html">Generic Access Profile (GAP)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gaprole.html">GAPRole Task</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gatt.html">Generic Attribute Profile (GATT)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gatt.html#gap-gatt-service-ggs">GAP GATT Service (GGS)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gatt.html#generic-attribute-profile-service-gatt-service">Generic Attribute Profile Service (GATT Service)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gatt.html#gattservapp-module">GATTServApp Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gapbondmngr.html">GAP Bond Manager and LE Secure Connections</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gapbondmngr.html#le-privacy-1-2">LE Privacy 1.2</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Logical Link Control and Adaptation Layer Protocol (L2CAP)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#general-l2cap-terminology">General L2CAP Terminology</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#maximum-transmission-unit-mtu">Maximum Transmission Unit (MTU)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#configuring-for-larger-mtu-values">Configuring for Larger MTU Values</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#l2cap-channels">L2CAP Channels</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#l2cap-connection-oriented-channel-coc-example">L2CAP Connection-Oriented Channel (CoC) Example</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="data-length-extensions.html">LE Data Length Extension (DLE)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hci.html">Host Controller Interface (HCI)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#creating-a-custom-bluetooth-low-energy-application">Creating a Custom Bluetooth low energy Application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#running-the-sdk-on-custom-boards">Running the SDK on Custom Boards</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../u-stack/index.html">Micro BLE Stack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../oad-ble-stack-3.x/oad.html">Over the Air Download (OAD)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../voice/voice.html">Creating a Voice Enabled Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../secure-fw-3.x/index.html">Secure Firmware (SFW)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensor-controller/sensor-controller.html">Sensor Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../debugging/ble-index.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/migration.html">Migration Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/api-reference.html">API References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/reference.html">Terms and Definitions</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../ble-stack-3.x-guide/index.html">BLE-Stack User's Guide for Bluetooth 4.2</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../ble-stack-3.x-guide/index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">Developing a Bluetooth Low Energy Application</a> &raquo;</li>
+        
+      <li>Logical Link Control and Adaptation Layer Protocol (L2CAP)</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="logical-link-control-and-adaptation-layer-protocol-l2cap">
+<span id="sec-l2cap"></span><h1>Logical Link Control and Adaptation Layer Protocol (L2CAP)<a class="headerlink" href="#logical-link-control-and-adaptation-layer-protocol-l2cap" title="Permalink to this headline">¶</a></h1>
+<p>The L2CAP layer sits on top of the HCI layer on the host side and
+transfers data between the upper layers of the host (GAP, GATT,
+application) and the lower layer protocol stack. This layer is
+responsible for protocol multiplexing capability, segmentation, and
+reassembly operation for data exchanged between the host and the
+protocol stack. L2CAP permits higher-level protocols and
+applications to transmit and receive upper layer data packets (L2CAP
+service data units, SDU) up to 64KB long. See <a class="reference internal" href="#l2cap-architectural-blocks"><span class="std std-numref">Figure 64.</span></a> for more
+information.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The actual size is limited by the amount of memory available on the
+specific device being implemented. L2CAP also permits per-channel
+flow control and retransmission.</p>
+</div>
+<div class="figure align-center" id="id5">
+<span id="l2cap-architectural-blocks"></span><img alt="../_images/l2cap-architectural-blocks.jpg" src="../_images/l2cap-architectural-blocks.jpg" />
+<p class="caption"><span class="caption-number">Figure 64. </span><span class="caption-text">L2CAP Architectural blocks.</span></p>
+</div>
+<div class="section" id="general-l2cap-terminology">
+<h2>General L2CAP Terminology<a class="headerlink" href="#general-l2cap-terminology" title="Permalink to this headline">¶</a></h2>
+<span id="id2"></span><table border="1" class="docutils" id="id6">
+<caption><span class="caption-number">Table 12. </span><span class="caption-text">General L2CAP Terminology</span><a class="headerlink" href="#id6" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="41%" />
+<col width="59%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Term</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>L2CAP channel</td>
+<td>The logical connection between two endpoints in peer devices,
+characterized by their Channel Identifiers (CIDs)</td>
+</tr>
+<tr class="row-odd"><td>SDU or L2CAP SDU</td>
+<td>Service Data Unit: a packet of data that L2CAP exchanges with
+the upper layer and transports transparently over an L2CAP
+channel using the procedures specified in this document</td>
+</tr>
+<tr class="row-even"><td>PDU or L2CAP PDU</td>
+<td>Protocol Data Unit: a packet of data containing L2CAP protocol
+information fields, control information, and/or upper layer
+information data</td>
+</tr>
+<tr class="row-odd"><td>Maximum Transmission Unit (MTU)</td>
+<td>The maximum size of payload data, in octets, that the upper
+layer entity can accept (that is, the MTU corresponds to the
+maximum SDU size).</td>
+</tr>
+<tr class="row-even"><td>Maximum PDU Payload Size (MPS)</td>
+<td>The maximum size of payload data in octets that the L2CAP
+layer entity can accept (that is, the MPS corresponds to the
+maximum PDU payload size).</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="maximum-transmission-unit-mtu">
+<span id="id3"></span><h2>Maximum Transmission Unit (MTU)<a class="headerlink" href="#maximum-transmission-unit-mtu" title="Permalink to this headline">¶</a></h2>
+<p>The Bluetooth low energy stack supports fragmentation and
+recombination of L2CAP PDUs at the link layer. This fragmentation
+support allows L2CAP and higher-level protocols built on top of
+L2CAP, such as the attribute protocol (ATT), to use larger payload
+sizes, and reduce the overhead associated with larger data
+transactions. When fragmentation is used, larger packets are split
+into multiple link layer packets and reassembled by the link layer
+of the peer device. <a class="reference internal" href="#l2cap-packet-fragmentation"><span class="std std-numref">Figure 65.</span></a> shows this relationship.</p>
+<div class="figure align-center" id="id7">
+<span id="l2cap-packet-fragmentation"></span><img alt="../_images/l2cap-packet-fragmentation.jpg" src="../_images/l2cap-packet-fragmentation.jpg" />
+<p class="caption"><span class="caption-number">Figure 65. </span><span class="caption-text">L2CAP Packet Fragmentation.</span></p>
+</div>
+<p>The size of the L2CAP PDU also defines the size of the Attribute
+Protocol Maximum Transmission Unit (<code class="docutils literal"><span class="pre">ATT_MTU</span></code>). By default, LE
+devices assume the size of the L2CAP PDU is 27 bytes, which
+corresponds to the maximum size of the LE packet that can transmit
+in a single connection event packet. In this case, the L2CAP
+protocol header is 4 bytes, resulting in a default size for <code class="docutils literal"><span class="pre">ATT_MTU</span></code>
+of 23.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">When using the LE Data Length Extension feature, the
+length of the LE packet can be up to 251 bytes. See <a class="reference internal" href="data-length-extensions.html#le-data-length-extension"><span class="std std-ref">LE Data Length Extension (DLE)</span></a></p>
+</div>
+</div>
+<div class="section" id="configuring-for-larger-mtu-values">
+<span id="id4"></span><h2>Configuring for Larger MTU Values<a class="headerlink" href="#configuring-for-larger-mtu-values" title="Permalink to this headline">¶</a></h2>
+<p>A client device can request a larger <code class="docutils literal"><span class="pre">ATT_MTU</span></code> during a connection by
+using the <a class="reference external" href="../../doxygen/ble/html/group___a_t_t___g_a_t_t.html#ga58a47b344f83a98c94fbf551e6ae7355">GATT_ExchangeMTU()</a> command.
+During this procedure, the client informs the server of its maximum
+supported receive MTU size and the server responds with its maximum supported
+receive MTU size. Only the client can initiate this procedure. When
+the messages are exchanged, the <code class="docutils literal"><span class="pre">ATT_MTU</span></code> for the duration of the
+connection is the minimum of the client MTU and server MTU values.
+If the client indicates it can support an MTU of 200 bytes and the
+server responds with a maximum size of 150 bytes, the <code class="docutils literal"><span class="pre">ATT_MTU</span></code> size
+is 150 for that connection.</p>
+<p>For more information, see the MTU
+Exchange section of the <a class="reference external" href="https://www.bluetooth.com/specifications/adopted-specifications">Bluetooth Core Specification Version 4.2</a>.</p>
+<p>Take the following steps to configure the stack to support larger
+MTU values.</p>
+<ol class="arabic simple">
+<li>Set the <code class="docutils literal"><span class="pre">MAX_PDU_SIZE</span></code> preprocessor symbol in the application project
+to the desired value to the maximum desired
+size of the L2CAP PDU size. The maximum <code class="docutils literal"><span class="pre">ATT_MTU</span></code> size is always 4
+bytes less than the value of the <code class="docutils literal"><span class="pre">MAX_PDU_SIZE</span></code>.</li>
+<li>Call <a class="reference external" href="../../doxygen/ble/html/group___a_t_t___g_a_t_t.html#ga58a47b344f83a98c94fbf551e6ae7355">GATT_ExchangeMTU()</a> after a connection is formed (GATT client
+only). The MTU parameter passed into this function must be less
+than or equal to the definition from step 1.</li>
+<li>Receive the <code class="docutils literal"><span class="pre">ATT_MTU_UPDATED_EVENT</span></code> in the calling task to verify
+that the MTU was successfully updated. This update requires the
+calling task to have registered for GATT messages. See <a class="reference internal" href="gatt.html#registering-to-receive-additional-gatt-events-in-the-application"><span class="std std-ref">Registering to Receive Additional GATT Events in the Application</span></a> for more information.</li>
+</ol>
+<p>Though the stack can be configured to support a <code class="docutils literal"><span class="pre">MAX_PDU_SIZE</span></code> up to
+255 bytes, each Bluetooth low energy connection initially uses the
+default 27 bytes (<code class="docutils literal"><span class="pre">ATT_MTU</span></code> = 23 bytes) value until the exchange MTU
+procedure results in a larger MTU size. The exchange MTU procedure
+must be performed on each Bluetooth low energy connection and must
+be initiated by the client.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>If the Secure Connections BLE 4.2 Feature is enabled,
+the default MTU size will be 69 upon connection.</p>
+<p class="last">See <code class="docutils literal"><span class="pre">ble_user_config.h</span></code> for details.</p>
+</div>
+<p>Increasing the size of the <code class="docutils literal"><span class="pre">ATT_MTU</span></code> increases the amount of data
+that can be sent in a single ATT packet. The longest attribute that
+can be sent in a single packet is (<code class="docutils literal"><span class="pre">ATT_MTU</span></code>-1) bytes. Procedures,
+such as notifications, have additional length restrictions. If an
+attribute value has a length of 100 bytes, a read of this entire
+attribute requires a read request to obtain the first (<code class="docutils literal"><span class="pre">ATT_MTU</span></code>-1)
+bytes, followed by multiple read blob request to obtain the
+subsequent (<code class="docutils literal"><span class="pre">ATT_MTU</span></code>-1) bytes. To transfer the entire 100 bytes of
+payload data with the default <code class="docutils literal"><span class="pre">ATT_MTU</span></code> = 23 bytes, five request or
+response procedures are required, each returning 22 bytes. If the
+exchange MTU procedure was performed and an <code class="docutils literal"><span class="pre">ATT_MTU</span></code> was configured
+to 101 bytes (or greater), the entire 100 bytes could be read in a
+single read request or response procedure.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Due to memory and processing limitations, not all
+Bluetooth low energy systems support larger MTU sizes. Know the
+capabilities of expected peer devices when defining the behavior of
+the system. If the capability of peer devices is unknown, design the
+system to work with the default 27-byte L2CAP PDU/23-byte <code class="docutils literal"><span class="pre">ATT_MTU</span></code>
+size. For example, sending notifications with a length greater than
+20 bytes (<code class="docutils literal"><span class="pre">ATT_MTU</span></code>-3) bytes results in truncation of data on devices
+that do not support larger MTU sizes.</p>
+</div>
+</div>
+<div class="section" id="l2cap-channels">
+<h2>L2CAP Channels<a class="headerlink" href="#l2cap-channels" title="Permalink to this headline">¶</a></h2>
+<p>L2CAP is based around channels. Each endpoint of an L2CAP channel is
+referred to by a channel identifier (CID). See the Channel Identifiers section
+([Vol 3], Part A, Section 2.1) of the <a class="reference external" href="https://www.bluetooth.com/specifications/adopted-specifications">Bluetooth Core Specification Version 4.2</a> for more details on L2CAP Channel
+Identifiers. Channels can be divided into fixed and dynamic
+channels. For example, data exchanged over the GATT protocol uses
+channel 0x0004. A dynamically allocated CID is allocated to identify
+the logical link and the local endpoint. The local endpoint must be
+in the range from 0x0040 to 0xFFFF. This endpoint is used in the
+connection-orientated L2CAP channels described in the following
+section.</p>
+</div>
+<div class="section" id="l2cap-connection-oriented-channel-coc-example">
+<h2>L2CAP Connection-Oriented Channel (CoC) Example<a class="headerlink" href="#l2cap-connection-oriented-channel-coc-example" title="Permalink to this headline">¶</a></h2>
+<p>The Bluetooth low energy stack SDK provides APIs to create L2CAP CoC
+channels to transfer bidirectional data between two Bluetooth low
+energy devices supporting this feature. This feature is enabled by
+default in the protocol stack. <a class="reference internal" href="#sample-connection-master-slave"><span class="std std-numref">Figure 66.</span></a>
+shows a sample connection and data exchange process between master
+and slave device using a L2CAP connection-oriented channel in LE
+Credit Based Flow Control Mode.</p>
+<div class="figure align-center" id="id8">
+<span id="sample-connection-master-slave"></span><p class="plantuml">
+<img src="../_images/plantuml-58a1d1a982b1cfb72fac433f0d889c20172de75b.png" alt=" &#64;startuml
+  participant Master
+  participant Slave
+
+  rnote over Master
+  Resgister PSM
+  end note
+
+  rnote over Slave
+  Register PSM
+  end note
+
+  Master -&gt; Slave : GAPCentralRole_EstablishLink()
+  Master &lt;-&gt; Slave : L2CAP_ConnectReq()
+  Master &lt;-&gt; Slave : L2CAP_FlowCtrlCredit()
+  Master &lt;-&gt; Slave : L2CAP_SendSDU()
+
+  rnote over Master
+  App task process data
+  end note
+  rnote over Slave
+  App task process data
+  end note
+
+  Master &lt;-&gt; Slave : L2CAP_DisconnectReq()
+  Master &lt;-&gt; Slave : L2CAP_DeregisterPsm()
+&#64;enduml" />
+</p>
+<p class="caption"><span class="caption-number">Figure 66. </span><span class="caption-text">Sample Connection and Data Exchange Between a Master and Slave Device Using a L2CAP.</span><a class="headerlink" href="#id8" title="Permalink to this image">¶</a></p>
+</div>
+<div class="section" id="connection-oriented-channel-in-le-credit-based-flow-control-mode">
+<h3>Connection-Oriented Channel in LE Credit Based Flow Control Mode<a class="headerlink" href="#connection-oriented-channel-in-le-credit-based-flow-control-mode" title="Permalink to this headline">¶</a></h3>
+<p>Credit Based Flow Control mode is used by the L2CAP layer for Connection-Oriented Channels.</p>
+<p>For more information on these L2CAP APIs, refer to <a class="reference internal" href="../ble-stack-3.x-guide/api-reference.html#ble-api-reference"><span class="std std-ref">BLE Stack API Reference</span></a>.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="data-length-extensions.html" class="btn btn-neutral float-right" title="LE Data Length Extension (DLE)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="gapbondmngr.html" class="btn btn-neutral" title="GAP Bond Manager and LE Secure Connections" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Texas Instruments.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.01.01.00',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

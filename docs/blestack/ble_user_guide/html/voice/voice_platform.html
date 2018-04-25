@@ -1,0 +1,419 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>PDM Voice &mdash; BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation" href="../index.html"/>
+        <link rel="up" title="Creating a Voice Enabled Application" href="voice.html"/>
+        <link rel="next" title="Voice over BLE" href="ble_voice.html"/>
+        <link rel="prev" title="Creating a Voice Enabled Application" href="voice.html"/> 
+    <script language="JavaScript">
+        var tiPageName;
+        tiPageName = "sug voice voice_platform";
+
+        if (location.protocol == "file:"){
+            var ci_analytics_poc_load = true;
+        }
+    </script> 
+
+    <script src="http://www.ti.com/assets/js/headerfooter/analytics.js" type="text/javascript" charset="utf-8">     
+
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../ble-stack-3.x-guide/index.html" class="icon icon-home"> BLE-Stack User's Guide for Bluetooth 4.2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.01.01.00
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../cc2640/disclaimer.html">Disclaimer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/get-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cc2640/platform.html">The CC2640R2F SDK Platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x/index.html">Developing a Bluetooth Low Energy Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../u-stack/index.html">Micro BLE Stack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../oad-ble-stack-3.x/oad.html">Over the Air Download (OAD)</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="voice.html">Creating a Voice Enabled Application</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">PDM Voice</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#sampling">Sampling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pdm-driver">PDM Driver</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#i2s-peripheral-for-pdm">I2S Peripheral for PDM</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ima-adpcm-compression">IMA ADPCM Compression</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#driver-output">Driver Output</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#throughput-requirement">Throughput Requirement</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ble_voice.html">Voice over BLE</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../secure-fw-3.x/index.html">Secure Firmware (SFW)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensor-controller/sensor-controller.html">Sensor Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../debugging/ble-index.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/migration.html">Migration Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/api-reference.html">API References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/reference.html">Terms and Definitions</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../ble-stack-3.x-guide/index.html">BLE-Stack User's Guide for Bluetooth 4.2</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../ble-stack-3.x-guide/index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="voice.html">Creating a Voice Enabled Application</a> &raquo;</li>
+        
+      <li>PDM Voice</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="pdm-voice">
+<h1>PDM Voice<a class="headerlink" href="#pdm-voice" title="Permalink to this headline">¶</a></h1>
+<p>No external codec is required as the bit stream from a digital microphone can be
+read directly by the device, and the PDM stream can be processed in software.</p>
+<p>The figure below shows the components required to use the TI voice solution</p>
+<div class="figure align-center" id="id2">
+<span id="fig-pdm-voice-block-diagram"></span><img alt="../_images/pdm_voice_blk_diagram.png" src="../_images/pdm_voice_blk_diagram.png" />
+<p class="caption"><span class="caption-number">Figure 95. </span><span class="caption-text">PDM Voice Block Diagram</span></p>
+</div>
+<div class="section" id="sampling">
+<h2>Sampling<a class="headerlink" href="#sampling" title="Permalink to this headline">¶</a></h2>
+<p>The voice solution uses the following sampling parameters:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Sample rate: 16kHz</li>
+<li>Bit Depth: 16 bits</li>
+</ul>
+</div></blockquote>
+<p>Voice quality audio is a type of audio where all information can be obtained
+with a low sampling rate. Whereas the typical audible spectrum is up to 20kHz,
+8kHz is more than enough for voice. 16kHz sampling rate captures all information
+contained up to 8kHz.</p>
+<p>The voice quality of TI&#8217;s solution has been qualified by Nuance and is sufficient
+for voice recognition solutions.</p>
+</div>
+<div class="section" id="pdm-driver">
+<h2>PDM Driver<a class="headerlink" href="#pdm-driver" title="Permalink to this headline">¶</a></h2>
+<p>The PDM driver is responsible for sampling the microphone data and formatting it
+for the user application to use.</p>
+<ol class="arabic simple">
+<li>Collects PDM data from a PDM data microphone sampled at 1.021MHz</li>
+<li>Decimates the PDM input to a PCM data stream with a 16kHz sample rate and 16 bit resolution</li>
+<li>Encodes the PCM data using a software codec based on IMA ADPCM.</li>
+</ol>
+<p>More information on the PDM driver can be found at <a class="reference external" href="../../doxygen/_p_d_m_c_c26_x_x_8h.html">PDM Driver Doxygen</a></p>
+<div class="section" id="i2s-peripheral-for-pdm">
+<h3>I2S Peripheral for PDM<a class="headerlink" href="#i2s-peripheral-for-pdm" title="Permalink to this headline">¶</a></h3>
+<p>The PDM driver uses the I2S hardware module within the CC2640R2F to sample the
+PDM microphone. I2S was selected because it is a high performance peripheral
+capable of generating the waveforms required for PDM sampling.</p>
+<p>More information on the I2S peripheral can be found in the <a class="reference external" href="http://www.ti.com/lit/pdf/swcu117">CC26xx Technical Reference Manual</a>.</p>
+<p>The (PDM specific) I2S driver layer is implemented within the PDM Util layer.
+See the <a class="reference external" href="../../doxygen/_p_d_m_c_c26_x_x__util_8h.html">PDM Util Doxygen</a>
+for more information.</p>
+<p>A three wire interface is used to interface to the PDM mic.
+See <a class="reference internal" href="#fig-pdm-voice-block-diagram"><span class="std std-ref">PDM Voice Block Diagram</span></a> for more info.</p>
+<blockquote>
+<div><ul class="simple">
+<li>GPIO: Mic power</li>
+<li>BCLK: Audio clock signal</li>
+<li>ADx: PDM input stream from mic</li>
+</ul>
+</div></blockquote>
+<p>The settings for the I2S peripheral are initialzed in <span>PDMCC26XX_I2S_open</span>.
+The default I2S settings will work out of the box for PDM sampling.
+Advanced applications of the driver may require changes that are out of the scope
+of this document.</p>
+<p>The GPIO pin that powers the mic is set within by the <span>PDMCC26XX_HWAttrs</span>,
+this is generally set within the board file.</p>
+</div>
+<div class="section" id="ima-adpcm-compression">
+<h3>IMA ADPCM Compression<a class="headerlink" href="#ima-adpcm-compression" title="Permalink to this headline">¶</a></h3>
+<p>If <code class="docutils literal"><span class="pre">applyCompression</span></code> is enabled in the <span>PDMCC26XX_Params</span>
+then the PDM driver will use the IMA ADPCM codec implementation bundled with the
+driver.</p>
+<p>This sample implementation can be found within the <a class="reference external" href="../../doxygen/_codec1_8h.html">TI IMA ADPCM Codec Doxygen</a> files.
+Note that the TI codec includes implementation for the decode algorithms,
+which can be used on voice receiver devices.</p>
+<div class="section" id="pdm-driver-metadata">
+<span id="sect-pdm-driver-metadata"></span><h4>PDM Driver Metadata<a class="headerlink" href="#pdm-driver-metadata" title="Permalink to this headline">¶</a></h4>
+<p>When using the ADPCM codec the driver will append metadata to each frame
+before sending it to the application. This metadata is used to ensure data
+integrity.</p>
+<p>ADPCM is a differential compression format. This means that each sample depends
+on the previous. The metadata provides the information contained in the last
+sample of the previous frame. So, if a frame is lost then it will not affect the
+next frame. See <span>PDMCC26XX_metaData</span> for more information.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="32%" />
+<col width="68%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Type</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>uint8_t</td>
+<td>Sequence Number</td>
+</tr>
+<tr class="row-odd"><td>int8_t</td>
+<td>Step Index (SI)</td>
+</tr>
+<tr class="row-even"><td>int16_t</td>
+<td>Predicted Value (PV)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="driver-output">
+<h3>Driver Output<a class="headerlink" href="#driver-output" title="Permalink to this headline">¶</a></h3>
+<p>The driver outputs configurable length frames.</p>
+<p>Frame length can be modified to fit the chosen RF protocol. The driver defaults
+to 192 samples per frame.</p>
+<p>At default settings, the PDM driver produces frames that are <code class="docutils literal"><span class="pre">12ms</span></code> long.</p>
+<p><code class="docutils literal"><span class="pre">(192</span> <span class="pre">S)</span> <span class="pre">/</span> <span class="pre">(16</span> <span class="pre">kS/s)</span> <span class="pre">=</span> <span class="pre">12ms</span></code></p>
+</div>
+<div class="section" id="throughput-requirement">
+<span id="general-throughput-requirement"></span><h3>Throughput Requirement<a class="headerlink" href="#throughput-requirement" title="Permalink to this headline">¶</a></h3>
+<p>Now that we know what the driver output we can calculate the required throughput.
+By this we mean how many bits per second is produced by the driver.
+Let us use the typical configuration with 192 samples per frame.
+Recall that 192 samples per frame means a frame duration of 12ms.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="42%" />
+<col width="42%" />
+<col width="16%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Data</th>
+<th class="head">Calculation</th>
+<th class="head">rate</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Raw</td>
+<td>(16000 S / s) * (16 bits / S)</td>
+<td>256kbps</td>
+</tr>
+<tr class="row-odd"><td>Compressed</td>
+<td>256kbps / 4</td>
+<td>64kbps</td>
+</tr>
+<tr class="row-even"><td>Metadata</td>
+<td>4 B / 12ms</td>
+<td>2.67kbps</td>
+</tr>
+<tr class="row-odd"><td>Compressed frame with metadata</td>
+<td>64kbps + 2.667kbps</td>
+<td>66.67kpbs</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="ble_voice.html" class="btn btn-neutral float-right" title="Voice over BLE" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="voice.html" class="btn btn-neutral" title="Creating a Voice Enabled Application" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Texas Instruments.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.01.01.00',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

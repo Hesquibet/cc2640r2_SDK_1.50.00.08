@@ -1,0 +1,4 @@
+External Resources
+------------------
+
+* `Debugging common application problems with TI-RTOS <https://training.ti.com/debugging-common-application-issues-ti-rtos>`_ video presentation on training.ti.com.

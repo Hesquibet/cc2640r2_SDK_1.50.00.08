@@ -1,0 +1,5 @@
+<map id="OSCHF_TurnOnXosc" name="OSCHF_TurnOnXosc">
+<area shape="rect" id="node2" href="$group__osc__api.html#ga37a02687fbd8680396550f682a7f046f" title="Configure the oscillator input to the a source clock. " alt="" coords="237,5,381,32"/>
+<area shape="rect" id="node4" href="$group__aonrtc__api.html#ga1902a51367c543edbb07257e8ce9631a" title="Get the current value of the RTC counter in a format that matches RTC compare values. " alt="" coords="197,56,420,83"/>
+<area shape="rect" id="node3" href="$group__ddi__api.html#ga492326c095c70621a247fe02a2cb09e4" title="Write a bit field via the DDI using 16&#45;bit maskable write. " alt="" coords="468,5,595,32"/>
+</map>

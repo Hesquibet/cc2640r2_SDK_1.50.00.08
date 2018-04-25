@@ -1,0 +1,632 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Developing with IAR &mdash; BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation" href="../index.html"/>
+        <link rel="up" title="The CC2640R2F SDK Platform" href="platform.html"/>
+        <link rel="next" title="TI-RTOS Overview" href="rtos-overview.html"/>
+        <link rel="prev" title="Developing with CCS" href="developing_in_ccs.html"/> 
+    <script language="JavaScript">
+        var tiPageName;
+        tiPageName = "sug cc2640 developing_in_iar";
+
+        if (location.protocol == "file:"){
+            var ci_analytics_poc_load = true;
+        }
+    </script> 
+
+    <script src="http://www.ti.com/assets/js/headerfooter/analytics.js" type="text/javascript" charset="utf-8">     
+
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../ble-stack-3.x-guide/index.html" class="icon icon-home"> BLE-Stack User's Guide for Bluetooth 4.2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.01.01.00
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="disclaimer.html">Disclaimer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/get-started.html">Getting Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="platform.html">The CC2640R2F SDK Platform</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="architecture.html">Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="install_ble_stack.html">Installing BLE-Stack 3.01.01.00</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developing_in_ccs.html">Developing with CCS</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Developing with IAR</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#installing-iar">Installing IAR</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#opening-blestack-iar-projects">Opening BLE-Stack IAR Projects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#blestack-iar-project-build-configurations">BLE-Stack IAR project build configurations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#compile-and-download">Compile and Download</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#importing-ti-drivers-iar-projects">Importing TI Drivers IAR Projects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#accessing-preprocessor-symbols">Accessing Preprocessor Symbols</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#accessing-linker-symbols">Accessing Linker Symbols</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#resetting-the-device-in-iar">Resetting the CC2640R2F in IAR</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="rtos-overview.html">TI-RTOS Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="memory_management.html">Memory Management</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x/index.html">Developing a Bluetooth Low Energy Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../u-stack/index.html">Micro BLE Stack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../oad-ble-stack-3.x/oad.html">Over the Air Download (OAD)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../voice/voice.html">Creating a Voice Enabled Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../secure-fw-3.x/index.html">Secure Firmware (SFW)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensor-controller/sensor-controller.html">Sensor Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../debugging/ble-index.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/migration.html">Migration Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/api-reference.html">API References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/reference.html">Terms and Definitions</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../ble-stack-3.x-guide/index.html">BLE-Stack User's Guide for Bluetooth 4.2</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../ble-stack-3.x-guide/index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="platform.html">The CC2640R2F SDK Platform</a> &raquo;</li>
+        
+      <li>Developing with IAR</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="developing-with-iar">
+<span id="sec-developing-with-iar"></span><h1>Developing with IAR<a class="headerlink" href="#developing-with-iar" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="installing-iar">
+<h2>Installing IAR<a class="headerlink" href="#installing-iar" title="Permalink to this headline">¶</a></h2>
+<p>The IAR toolchain contains many features beyond the scope of this document.
+More information and documentation can be found at <a class="reference external" href="www.iar.com">IAR.com</a>.</p>
+<p>Check the BLE-Stack 3.01.01.00 release notes to see which IAR version to use and any
+required workarounds. Object code produced by IAR may differ in size and
+performance as compared to CCS produced object code.</p>
+<p>The following procedure describes installing and configuring the correct version
+of IAR and the necessary tools.</p>
+<ol class="arabic">
+<li><p class="first">Install IAR Embedded Workbench for ARM</p>
+<blockquote>
+<div><p><a class="reference external" href="https://www.iar.com/iar-embedded-workbench/partners/texas-instruments/ti-wireless/">Download and install IAR EW ARM</a></p>
+<p>To get IAR, choose one of the following methods:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Download the IAR Embedded Workbench 30-Day Evaluation Edition –
+This version of IAR is free, has full functionality, and
+includes all of the standard features. The size-limited
+Kickstart evaluation option is not compatible with this SDK.</li>
+<li>Purchase the full-featured version of IAR Embedded Workbench – For
+complete BLE application development using the CC2640R2F, TI
+recommends purchasing the complete version of IAR without any
+restrictions. You can find the information on purchasing the complete
+version of <a class="reference external" href="https://www.iar.com/buy">IAR</a>.</li>
+</ul>
+</div></blockquote>
+<div class="admonition attention">
+<p class="first admonition-title">Attention</p>
+<p class="last">The version required is stated in the release notes.
+Opening IAR project files with a previous version of IAR may cause
+project file corruption.</p>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">Show Build Messages</p>
+<blockquote>
+<div><p>TI recommends showing all the build output messages for full verbosity
+during building. To do this, go to <strong>Tools</strong> -&gt; <strong>Options</strong> and set
+<strong>Show Build Messages</strong> to <strong>All</strong>
+(see <a class="reference internal" href="#fig-show-all-build-messages"><span class="std std-numref">Figure 16.</span></a>)</p>
+<div class="figure align-center" id="id2">
+<span id="fig-show-all-build-messages"></span><img alt="../_images/image15.png" src="../_images/image15.png" />
+<p class="caption"><span class="caption-number">Figure 16. </span><span class="caption-text">Show All Build Messages in IAR</span></p>
+</div>
+</div></blockquote>
+</li>
+</ol>
+</div>
+<div class="section" id="opening-blestack-iar-projects">
+<h2>Opening BLE-Stack IAR Projects<a class="headerlink" href="#opening-blestack-iar-projects" title="Permalink to this headline">¶</a></h2>
+<p>This section describes how to open and build an existing project and references
+the simple_peripheral project. All of the BLE-Stack projects included in the
+development kit have a similar structure.</p>
+<div class="admonition error">
+<p class="first admonition-title">Error</p>
+<p class="last">If you have imported the global
+<code class="docutils literal"><span class="pre">&lt;SDK_INSTALL_DIR&gt;/tools/iar/SIMPLELINK_CC13XX_CC26XX_SDK.custom_argvars</span></code>
+as described in <a class="reference internal" href="#sec-importing-tidrivers-iar-projects"><span class="std std-ref">Importing TI Drivers IAR Projects</span></a>,
+then BLE-Stack examples will fail to build. For BLE-Stack examples,
+you must remove this custom_argvars file from your IAR global custom
+arguments.</p>
+</div>
+<ol class="arabic">
+<li><p class="first">Open the IAR Embedded Workbench IDE from the Start Menu.</p>
+</li>
+<li><p class="first">Open an IAR workspace project: <strong>File</strong> -&gt; <strong>Open</strong> -&gt; <strong>Workspace...</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>For this example, select
+<em>&lt;SDK_INSTALL_DIR&gt;\examples\rtos\CC2640R2_LAUNCHXL\ble5stack\simple_peripheral\tirtos\iar\ble5_simple_peripheral.eww</em></li>
+</ul>
+</div></blockquote>
+</li>
+</ol>
+<div class="sidebar">
+<p class="first sidebar-title">IAR Workspace Pane</p>
+<div class="last figure align-center" id="id3">
+<span id="fig-iar-workspace-pane"></span><a class="reference internal image-reference" href="../_images/iar_workspace_pane.png"><img alt="../_images/iar_workspace_pane.png" src="../_images/iar_workspace_pane.png" style="width: 75%;" /></a>
+<p class="caption"><span class="caption-number">Figure 17. </span><span class="caption-text">IAR Workspace Pane</span></p>
+</div>
+</div>
+<p>This workspace file is for the simple_peripheral project. When selected, the
+files associated with the workspace become visible in the Workspace pane on the
+left side of the screen. See <a class="reference internal" href="#fig-iar-workspace-pane"><span class="std std-numref">Figure 17.</span></a></p>
+<p>Select either project as the active project by clicking the respective tab at
+the bottom of the workspace pane. In <a class="reference internal" href="#fig-iar-workspace-pane"><span class="std std-numref">Figure 17.</span></a>, the
+Overview tab is selected. This tab displays the file structure for both projects
+simultaneously. In this case, use the drop-down menu at the top of the workspace
+pane to select the active project. Each of these projects produces a separate
+downloadable object. The simple_peripheral sample project is the primary
+reference target for the description of a generic application in this guide. The
+simple_peripheral project implements a basic BLE-Stack peripheral device
+including a GATT server with GATT services. This project can be a framework for
+developing peripheral-role applications.</p>
+</div>
+<div class="section" id="blestack-iar-project-build-configurations">
+<h2>BLE-Stack IAR project build configurations<a class="headerlink" href="#blestack-iar-project-build-configurations" title="Permalink to this headline">¶</a></h2>
+<p>This and all BLE-Stack project workspaces contain various projects and build
+configurations as shown in <a class="reference internal" href="#tbl-inc-developing-in-iar-build-configs"><span class="std std-numref">Table 7.</span></a>
+*_StackLibrary build configurations build the stack as a library as
+described in <a class="reference internal" href="architecture.html#sec-inc-architecture-stack-image-as-a-library"><span class="std std-ref">Stack Library Configuration (_stack_library)</span></a>.</p>
+<span id="tbl-inc-developing-in-iar-build-configs"></span><table border="1" class="docutils" id="id4">
+<caption><span class="caption-number">Table 7. </span><span class="caption-text">Available IAR project build configurations</span><a class="headerlink" href="#id4" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="18%" />
+<col width="41%" />
+<col width="42%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Project type</th>
+<th class="head">Project&#8217;s build configuration</th>
+<th class="head">Compatible project complement</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td rowspan="5">Application</td>
+<td>FlashROM</td>
+<td>Stack - FlashROM</td>
+</tr>
+<tr class="row-odd"><td>FlashROM_StackLibrary</td>
+<td>Stack - FlashROM_StackLibrary</td>
+</tr>
+<tr class="row-even"><td>FlashROM_StackLibrary_RCOSC</td>
+<td>Stack - FlashROM_StackLibrary</td>
+</tr>
+<tr class="row-odd"><td>FlashROM_OAD_ImgB</td>
+<td>Stack - FlashROM</td>
+</tr>
+<tr class="row-even"><td>FlashROM_OAD_Offchip</td>
+<td>Stack - FlashROM</td>
+</tr>
+<tr class="row-odd"><td rowspan="2">Stack</td>
+<td>FlashROM_Library</td>
+<td>Application - FlashROM_Library</td>
+</tr>
+<tr class="row-even"><td>FlashROM</td>
+<td>Application - FlashROM</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="compile-and-download">
+<h2>Compile and Download<a class="headerlink" href="#compile-and-download" title="Permalink to this headline">¶</a></h2>
+<p>For all build configurations, the stack project should always be built before
+the application project.</p>
+<p>For projects where the stack is built as a <strong>library</strong>:</p>
+<blockquote>
+<div><ol class="arabic">
+<li><p class="first">Build the stack library project.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Select the stack project.</li>
+<li>Select <strong>Project</strong> -&gt; <strong>Make</strong> to build the stack.</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">Build the application project.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Select the application project.</li>
+<li>Select <strong>Project</strong> -&gt; Make to build the application.</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">Load the whole application</p>
+<blockquote>
+<div><ul class="simple">
+<li>To download and debug: Select <strong>Project</strong> -&gt; <strong>Download and Debug</strong></li>
+<li>To download without debugging: Select <strong>Project</strong> -&gt; <strong>Download</strong> -&gt;
+<strong>Download Active Application</strong></li>
+</ul>
+</div></blockquote>
+</li>
+</ol>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Application project that consume the stack in a library form will not
+have hard defined image boundaries.</p>
+<p class="last">After the initial build, if the stack project is not modified, only the
+application project needs to be rebuilt.</p>
+</div>
+</div></blockquote>
+<p>For projects where the stack and application are <strong>split images</strong> (not a library):</p>
+<blockquote>
+<div><ol class="arabic">
+<li><p class="first">Build the stack project.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Select the stack project.</li>
+<li>Select <strong>Project</strong> -&gt; <strong>Make</strong> to build the stack.</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">Build the application project.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Select the application project.</li>
+<li>Select <strong>Project</strong> -&gt; Make to build the application.</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">Load the stack project.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Select <strong>Project</strong> -&gt; <strong>Download</strong> -&gt; <strong>Download Active Application</strong>
+to download the stack project.</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">Load the application project.</p>
+<blockquote>
+<div><ul class="simple">
+<li>To download and debug: Select <strong>Project</strong> -&gt; <strong>Download and Debug</strong></li>
+<li>To download without debugging: Select <strong>Project</strong> -&gt; <strong>Download</strong> -&gt;
+<strong>Download Active Application</strong></li>
+</ul>
+</div></blockquote>
+</li>
+</ol>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>The stack project defines the flash and RAM boundary parameters used by
+the application project. Any modifications to the stack project require
+a rebuild of the stack project, followed by a rebuild of the application
+project to use the new boundary settings. See <a class="reference internal" href="memory_management.html#sec-fontier-tool"><span class="std std-ref">Frontier Tool</span></a>.</p>
+<p>After the initial build, if the stack project is not modified, only the
+application project needs to be rebuilt.</p>
+<p class="last">When the application is downloaded (that is, flash memory programmed),
+you can debug without reflashing the device. Go to <strong>Project</strong> -&gt;
+<strong>Debug without Downloading</strong>.</p>
+</div>
+</div></blockquote>
+<div class="admonition caution">
+<p class="first admonition-title">Caution</p>
+<p class="last">Do not modify the CPU Variant in the project settings. All sample projects
+are configured with a CPU type, and changing this setting (that is, from
+CC2640R2F) may result in build errors.</p>
+</div>
+<p>Sample applications that implement the Over the Air Download (OAD) firmware
+update capability require the Boot Image Manager (BIM) project to be built.
+Refer to the <a class="reference internal" href="../oad-ble-stack-3.x/oad.html#sec-oad"><span class="std std-ref">Over the Air Download (OAD)</span></a> section for more details.</p>
+</div>
+<div class="section" id="importing-ti-drivers-iar-projects">
+<span id="sec-importing-tidrivers-iar-projects"></span><h2>Importing TI Drivers IAR Projects<a class="headerlink" href="#importing-ti-drivers-iar-projects" title="Permalink to this headline">¶</a></h2>
+<p>Unlike the IAR projects for the BLE-Stack, IAR projects for <code class="docutils literal"><span class="pre">TI</span> <span class="pre">Drivers</span></code> must
+be imported rather than opened. All TI Drivers project are created from the
+original sources in <code class="docutils literal"><span class="pre">&lt;SDK_INSTALL_DIR&gt;/source/ti/drivers</span></code>. Because of this
+difference, you <strong>must not</strong> open <code class="docutils literal"><span class="pre">TI</span> <span class="pre">Drivers</span></code> .eww IAR projects directly from
+within the SDK.</p>
+<p>Here are the steps on how to import a <cite>TI Drivers</cite> project.</p>
+<div class="admonition error">
+<p class="first admonition-title">Error</p>
+<p><strong>Do NOT try to open the .eww projects in</strong>
+<code class="docutils literal"><span class="pre">&lt;SDK_INSTALL_DIR&gt;/source/ti/drivers</span></code> <strong>directly in IAR!</strong></p>
+<p class="last">Doing so will cause IAR to generate project files directly in the example you
+opened. The result of this is a project that does not open the correct source
+files and if you try to import the project afterwards with the import
+procedures listed below, not all source files will be imported into the
+project!</p>
+</div>
+<ol class="arabic">
+<li><p class="first">Open the version of IAR that is stated in the release notes.</p>
+</li>
+<li><p class="first">Globally import the .custom_argvars file provided by the SimpleLink CC2640R2 SDK:</p>
+<ol class="arabic">
+<li><p class="first">Select <strong>Tools</strong> -&gt; <strong>Configure Custom Argument Variables</strong></p>
+<div class="figure" id="id5">
+<img alt="../_images/iar_global_custom_vars.png" src="../_images/iar_global_custom_vars.png" />
+<p class="caption"><span class="caption-number">Figure 18. </span><span class="caption-text">Configuring Custom Argument Variables</span></p>
+</div>
+</li>
+<li><p class="first">Select the <strong>Global Tab</strong> and click on the <strong>Import</strong> button</p>
+<div class="figure" id="id6">
+<img alt="../_images/iar_global_imports.png" src="../_images/iar_global_imports.png" />
+<p class="caption"><span class="caption-number">Figure 19. </span><span class="caption-text">Global Custom Variable Imports</span></p>
+</div>
+</li>
+<li><p class="first">Select <code class="docutils literal"><span class="pre">&lt;SDK_INSTALL_DIR&gt;/tools/iar/SIMPLELINK_CC13XX_CC26XX_SDK.custom_argvars</span></code></p>
+</li>
+</ol>
+</li>
+<li><p class="first">Now you can import <cite>TI Drivers</cite> examples</p>
+<ol class="arabic">
+<li><p class="first">Open <strong>Help</strong> -&gt; <strong>Information Center</strong>, and click on
+<strong>Integrates solutions</strong>.</p>
+</li>
+<li><p class="first">Go into the Texas Instruments Example projects.</p>
+<div class="figure" id="id7">
+<img alt="../_images/iar_ti_import_examples.png" src="../_images/iar_ti_import_examples.png" />
+<p class="caption"><span class="caption-number">Figure 20. </span><span class="caption-text">Texas Instruments Example projects</span></p>
+</div>
+</li>
+<li><p class="first">Click on <strong>example applications</strong></p>
+<div class="figure" id="id8">
+<img alt="../_images/iar_ti_list_examples.png" src="../_images/iar_ti_list_examples.png" />
+<p class="caption"><span class="caption-number">Figure 21. </span><span class="caption-text">To go to the list of available <code class="docutils literal"><span class="pre">TI</span> <span class="pre">Drivers</span></code> examples</span></p>
+</div>
+</li>
+<li><p class="first">Click on the <strong>TI-RTOS</strong> link for the <code class="docutils literal"><span class="pre">TI</span> <span class="pre">Drivers</span></code> example you want
+to import.</p>
+<div class="figure" id="id9">
+<img alt="../_images/iar_ti_import_project.png" src="../_images/iar_ti_import_project.png" />
+<p class="caption"><span class="caption-number">Figure 22. </span><span class="caption-text">Select the project you want to import and specify where you want to
+save it.</span></p>
+</div>
+</li>
+</ol>
+</li>
+<li><p class="first">At this stage, you have imported a new <code class="docutils literal"><span class="pre">TI</span> <span class="pre">Drivers</span></code> project.</p>
+</li>
+</ol>
+</div>
+<div class="section" id="accessing-preprocessor-symbols">
+<span id="sec-developing-with-iar-accessing-preprocessor-symbols"></span><h2>Accessing Preprocessor Symbols<a class="headerlink" href="#accessing-preprocessor-symbols" title="Permalink to this headline">¶</a></h2>
+<p>Various C preprocessor symbols may need to be set or adjusted at the project
+level. The following procedure describes how to access and modify preprocessor
+symbols.</p>
+<ol class="arabic simple">
+<li>Open the Project&#8217;s <strong>Options</strong> and select the <strong>C/C++ Compiler</strong> Category.</li>
+<li>Open the <strong>Preprocessor</strong> tab.</li>
+<li>View the <strong>Defined symbols</strong> box (see <a class="reference internal" href="#fig-iar-defines-box"><span class="std std-numref">Figure 23.</span></a>).</li>
+<li>Add or edit the preprocessor symbols.</li>
+</ol>
+<div class="figure align-center" id="id10">
+<span id="fig-iar-defines-box"></span><img alt="../_images/image38.jpeg" src="../_images/image38.jpeg" />
+<p class="caption"><span class="caption-number">Figure 23. </span><span class="caption-text">IAR Defined Symbols Box</span></p>
+</div>
+</div>
+<div class="section" id="accessing-linker-symbols">
+<span id="sec-developing-with-iar-accessing-linker-symbols"></span><h2>Accessing Linker Symbols<a class="headerlink" href="#accessing-linker-symbols" title="Permalink to this headline">¶</a></h2>
+<p>Linker symbols may need to be set or adjusted at the project level in order to
+control the memory layout of the generated image.
+The following procedure describes how to access and modify linker
+symbols.</p>
+<ol class="arabic simple">
+<li>Open the Project&#8217;s <strong>Options</strong> and select the <strong>Linker</strong> Category.</li>
+<li>Open the <strong>Config</strong> tab.</li>
+<li>View the <strong>Configuration File symbol definitions</strong> box (see <a class="reference internal" href="#fig-iar-linker-defines-box"><span class="std std-numref">Figure 24.</span></a>).</li>
+<li>Add or edit the preprocessor symbols.</li>
+</ol>
+<div class="figure align-center" id="id11">
+<span id="fig-iar-linker-defines-box"></span><img alt="../_images/iar_linker_opts.png" src="../_images/iar_linker_opts.png" />
+<p class="caption"><span class="caption-number">Figure 24. </span><span class="caption-text">IAR Defined Symbols Box</span></p>
+</div>
+</div>
+<div class="section" id="resetting-the-device-in-iar">
+<h2>Resetting the CC2640R2F in IAR<a class="headerlink" href="#resetting-the-device-in-iar" title="Permalink to this headline">¶</a></h2>
+<p>Select the <em>Board Reset</em> option from the following Reset (back arrow) Debug Menu
+drop-down box.</p>
+<div class="figure align-center" id="id12">
+<a class="reference internal image-reference" href="../_images/image182.jpeg"><img alt="../_images/image182.jpeg" src="../_images/image182.jpeg" style="width: 300px;" /></a>
+<p class="caption"><span class="caption-number">Figure 25. </span><span class="caption-text">IAR Board Reset</span></p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="rtos-overview.html" class="btn btn-neutral float-right" title="TI-RTOS Overview" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="developing_in_ccs.html" class="btn btn-neutral" title="Developing with CCS" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Texas Instruments.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.01.01.00',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

@@ -1,0 +1,1514 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Memory Management &mdash; BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation" href="../index.html"/>
+        <link rel="up" title="The CC2640R2F SDK Platform" href="platform.html"/>
+        <link rel="next" title="Developing a Bluetooth Low Energy Application" href="../ble-stack-3.x/index.html"/>
+        <link rel="prev" title="TI-RTOS Overview" href="rtos-overview.html"/> 
+    <script language="JavaScript">
+        var tiPageName;
+        tiPageName = "sug cc2640 memory_management";
+
+        if (location.protocol == "file:"){
+            var ci_analytics_poc_load = true;
+        }
+    </script> 
+
+    <script src="http://www.ti.com/assets/js/headerfooter/analytics.js" type="text/javascript" charset="utf-8">     
+
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../ble-stack-3.x-guide/index.html" class="icon icon-home"> BLE-Stack User's Guide for Bluetooth 4.2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.01.01.00
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="disclaimer.html">Disclaimer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/get-started.html">Getting Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="platform.html">The CC2640R2F SDK Platform</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="architecture.html">Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="install_ble_stack.html">Installing BLE-Stack 3.01.01.00</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developing_in_ccs.html">Developing with CCS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developing_in_iar.html">Developing with IAR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rtos-overview.html">TI-RTOS Overview</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Memory Management</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#flash">Flash</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#flash-vector-table">Flash Vector Table</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#application-and-stack-flash-boundary">Application and Stack Flash Boundary</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#using-simple-nv-for-flash-storage">Using Simple NV for Flash Storage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#customer-configuration-area">Customer Configuration Area</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#ram">RAM</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#ram-vector-table">RAM Vector Table</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#application-and-stack-ram-boundary">Application and Stack RAM Boundary</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#system-stack">System Stack</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dynamic-memory-allocation">Dynamic Memory Allocation</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#cache-gpram">Cache/GPRAM</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#using-the-cache-as-ram">Using the Cache as RAM</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#aux-ram">AUX RAM</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#using-the-aux-ram-as-ram">Using the AUX RAM as RAM</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#frontier-tool">Frontier Tool</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#frontier-tool-operation">Frontier Tool Operation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x/index.html">Developing a Bluetooth Low Energy Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../u-stack/index.html">Micro BLE Stack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../oad-ble-stack-3.x/oad.html">Over the Air Download (OAD)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../voice/voice.html">Creating a Voice Enabled Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../secure-fw-3.x/index.html">Secure Firmware (SFW)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensor-controller/sensor-controller.html">Sensor Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../debugging/ble-index.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/migration.html">Migration Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/api-reference.html">API References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/reference.html">Terms and Definitions</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../ble-stack-3.x-guide/index.html">BLE-Stack User's Guide for Bluetooth 4.2</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../ble-stack-3.x-guide/index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="platform.html">The CC2640R2F SDK Platform</a> &raquo;</li>
+        
+      <li>Memory Management</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="memory-management">
+<h1>Memory Management<a class="headerlink" href="#memory-management" title="Permalink to this headline">¶</a></h1>
+<p>The CC2640R2F contains serveral memory regions including RAM, ROM, Flash, Cache,
+and AUX/Peripheral. This section aims to show how these memory regions are
+utilized by the stack and user application.</p>
+<p>There are two memory conifurations supported; split image and
+stack as a library. These configurations mainly differ in their FLASH and RAM
+layouts. See <a class="reference internal" href="#fig-stacklib-mem-map"><span class="std std-numref">Figure 34.</span></a> and <a class="reference internal" href="#fig-splitimg-mem-map"><span class="std std-numref">Figure 35.</span></a>
+for a comparision.</p>
+<blockquote>
+<div><div class="figure align-center" id="id7" style="width: 722px">
+<span id="fig-stacklib-mem-map"></span><img alt="../_images/stacklib-mem-map.png" src="../_images/stacklib-mem-map.png" />
+<p class="caption"><span class="caption-number">Figure 34. </span><span class="caption-text">StackLibrary Memory Map</span></p>
+</div>
+</div></blockquote>
+<p>See <a class="reference internal" href="architecture.html#sec-inc-architecture-stack-image-as-a-library"><span class="std std-ref">Stack Library Configuration (_stack_library)</span></a> and
+<a class="reference internal" href="architecture.html#sec-inc-architecture-split-image-configuration"><span class="std std-ref">Split Image Configuration</span></a> for a reference on the
+differences between the two configurations and why they may be used.</p>
+<blockquote>
+<div><div class="figure align-center" id="id8" style="width: 722px">
+<span id="fig-splitimg-mem-map"></span><img alt="../_images/split-img-mem-map.png" src="../_images/split-img-mem-map.png" />
+<p class="caption"><span class="caption-number">Figure 35. </span><span class="caption-text">Split Image Memory Map</span></p>
+</div>
+</div></blockquote>
+<div class="section" id="flash">
+<span id="id2"></span><h2>Flash<a class="headerlink" href="#flash" title="Permalink to this headline">¶</a></h2>
+<p>The flash is split into erasable pages of 4kB. The various sections
+of flash and their associate linker files are as follows. The following sections
+are present in both split image and stack library configurations.</p>
+<ul class="simple">
+<li><strong>Flash Reset Vector Table</strong>: This table holds the first 16 reset vectors
+that are critical for booting up the device. These vectors are set at build
+time and cannot be dynamically changed. See <a class="reference internal" href="#sec-flash-vector-table"><span class="std std-ref">Flash Vector Table</span></a>
+below for more information.</li>
+<li><strong>TI-RTOS in ROM Jump Table</strong>: This table holds information required
+by the TI-RTOS kernel in ROM, the location of this table is fixed by the ROM
+image of the device and cannot be changed if using TI-RTOS in ROM, for a
+flash only kernel, this table is not required. This is also referred to the
+<a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-rcfg"><span class="xref std std-term">RCFG</span></a>.</li>
+<li><strong>Simple NV (SNV) Area</strong>: used for nonvolatile memory storage by the GAP
+Bond Manager and also available for use by the application. See
+<a class="reference internal" href="#using-simple-nv"><span class="std std-ref">Using Simple NV for Flash Storage</span></a> for configuring SNV. When configured, the SNV
+flash storage area is part of the stack image.</li>
+<li><strong>Customer Configuration Area</strong> (<a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-cca"><span class="xref std std-term">CCA</span></a>): the last sector of flash used
+to store customer-specific chip configuration (<a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-ccfg"><span class="xref std std-term">CCFG</span></a>) parameters. The
+unused space of the CCA sector is allocated to the application project.
+See <a class="reference internal" href="#cca"><span class="std std-ref">Customer Configuration Area</span></a>.</li>
+</ul>
+<p>For projects where the stack project builds a <strong>library</strong>:</p>
+<ul class="simple">
+<li><strong>Application and Stack Image Code Space</strong>: A single region that contains
+both application and stack code in flash.
+This image is configured in the linker configuration file of the application:
+cc26xx_app_and_stack.icf (IAR) and cc26xx_app.cmd (CCS). As opposed to split
+image projects, there is only one image.</li>
+</ul>
+<p>For projects where the stack project builds as a <strong>split image</strong>:</p>
+<ul class="simple">
+<li><strong>Application Image Code Space</strong>: used for the application project. This
+image is configured in the linker configuration file of the application:
+cc26xx_app.icf (IAR) and cc26xx_app.cmd (CCS).</li>
+<li><strong>Stack Image Code Space</strong>: use for the stack project. This image is
+configured in the linker configuration file of the stack:
+cc26xx_stack.icf (IAR) and cc26xx_ stack.cmd (CCS).</li>
+<li><strong>ICALL_STACK0_START</strong>: The flash boundary address between Application
+and stack code space as listed above. This boundary is the entry point into
+the stack image and is defined in the boundary file. See
+<a class="reference internal" href="#sec-fontier-tool"><span class="std std-ref">Frontier Tool</span></a> for more information on boundary files.</li>
+</ul>
+<div class="section" id="flash-vector-table">
+<span id="sec-flash-vector-table"></span><h3>Flash Vector Table<a class="headerlink" href="#flash-vector-table" title="Permalink to this headline">¶</a></h3>
+<p>This table contains the first 16 critical interrupt vectors required for the
+bootup process. The location of this table is controlled by
+<cite>m3Hwi.resetVectorAddress</cite> within the TI-RTOS config file (<cite>*.cfg</cite>), it defaults
+to address 0x00000000. At bootup time, the TI-RTOS kernel will run a first
+function to initialize the <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-hwi"><span class="xref std std-term">Hwi</span></a> module. At this time the flash vector
+table will be copied to the RAM location shown in <a class="reference internal" href="#fig-stacklib-mem-map"><span class="std std-numref">Figure 34.</span></a>
+and <a class="reference internal" href="#fig-splitimg-mem-map"><span class="std std-numref">Figure 35.</span></a> and the VTOR register will be moved to point
+to the RAM table. For more information about the vector table format,
+please refer to <a class="reference external" href="http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.dui0552a/BABIFJFG.html">Cortex-M3 Vector Table</a>.</p>
+<p>For more information on the kernel boot process and first functions, please see:
+<a class="reference external" href="http://processors.wiki.ti.com/index.php/SYS/BIOS_for_Stellaris_Devices">SYS/BIOS Boot Wiki</a>.</p>
+</div>
+<div class="section" id="application-and-stack-flash-boundary">
+<h3>Application and Stack Flash Boundary<a class="headerlink" href="#application-and-stack-flash-boundary" title="Permalink to this headline">¶</a></h3>
+<p>The application and stack code images are based on the common
+ICALL_STACK0_ADDR and ICALL_STACK0_START predefined symbols. These values
+define the hard-coded flash address of the entry function for the stack image: it
+is essentially the word-aligned flash address of the application-stack project
+boundary. To ensure proper linking, both the application and stack projects must
+use the same defined symbols. By default, the linker is configured to allocate
+unused flash to the application project but can be modified manually or
+automatically through the frontier tool. For information on using the frontier
+tool to configure the flash boundary address, see <a class="reference internal" href="#sec-fontier-tool"><span class="std std-ref">Frontier Tool</span></a>.</p>
+</div>
+<div class="section" id="using-simple-nv-for-flash-storage">
+<span id="using-simple-nv"></span><h3>Using Simple NV for Flash Storage<a class="headerlink" href="#using-simple-nv-for-flash-storage" title="Permalink to this headline">¶</a></h3>
+<p>The Simple NV (SNV) area of flash is used for storing persistent data, such as
+encryption keys from bonding or to store custom defined parameters. The protocol
+stack can be configured to reserve up to two 4kB flash pages for SNV, although
+valid data is only stored in one active flash page. To minimize the number of
+erase cycles on the flash, the SNV manager performs compaction on the flash
+sector (or sectors) when the sector has 80% invalidated data. A compaction is
+the copying of valid data to a temporary area followed by an erase of the sector
+where the data was previously stored. Depending on the OSAL_SNV value as
+described in <a class="reference internal" href="#osal-snv-values"><span class="std std-ref">OSAL_SNV Values</span></a>, this valid data is then either placed back
+in the newly erased sector or remains in a new sector. The number of flash
+sectors allocated to SNV can be configured by setting the OSAL_SNV preprocessor
+symbol in the stack project. <a class="reference internal" href="#osal-snv-values"><span class="std std-numref">Table 8.</span></a> lists the valid values
+that can be configured as well as the corresponding trade-offs.</p>
+<span id="osal-snv-values"></span><table border="1" class="docutils" id="id9">
+<caption><span class="caption-number">Table 8. </span><span class="caption-text">OSAL_SNV Values</span><a class="headerlink" href="#id9" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="18%" />
+<col width="82%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><strong>OSAL_SNV Value</strong></td>
+<td><strong>Description</strong></td>
+</tr>
+<tr class="row-even"><td>0</td>
+<td>SNV is disabled. Storing of bonding keys in NV is not possible. Maximizes code space for the
+application and/or stack project. GAP Bond Manager must be disabled. In the Stack project, set pre-
+processor symbol NO_OSAL_SNV and disable GAP Bond Manager. See <a class="reference internal" href="../ble-stack-3.x/stack-configuration.html#stack-features-configuration"><span class="std std-ref">Stack Configurations</span></a>
+for configuring Bluetooth low energy protocol stack features.</td>
+</tr>
+<tr class="row-odd"><td>1 (default)</td>
+<td>One flash sector is allocated to SNV. Bonding info is stored in NV. Flash compaction uses flash cache
+RAM for intermediate storage, thus a power-loss during compaction results in SNV data loss. Also,
+due to temporarily disabling the cache, a system performance degradation may occur during the
+compaction. Set preprocessor symbol OSAL_SNV=1 in the Stack project.</td>
+</tr>
+<tr class="row-even"><td>2</td>
+<td>Two flash sectors are allocated to SNV. Bonding information is stored in NV. SNV data is protected
+against power-loss during compaction.</td>
+</tr>
+</tbody>
+</table>
+<p>Other values for OSAL_SNV are invalid. Using less than the maximum value has
+the net effect of allocating more code space to the application or stack
+project. SNV can be read from or written to using the following APIs.</p>
+<p><strong>uint8 osal_snv_read( osalSnvId_t id, osalSnvLen_t len, void
+*pBuf)</strong></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="27%" />
+<col width="73%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&#160;</td>
+<td><strong>Read data from NV</strong></td>
+</tr>
+<tr class="row-even"><td><strong>Parameters</strong></td>
+<td><p class="first">id - valid NV item</p>
+<p>len - length of data to read</p>
+<p class="last">pBuf - pointer to buffer to store data read</p>
+</td>
+</tr>
+<tr class="row-odd"><td><strong>Returns</strong></td>
+<td><p class="first">SUCCESS: NV item read successfully</p>
+<p class="last">NV_OPER_FAILED: failure reading NV item</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p><strong>uint8 osal_snv_write( osalSnvId_t id, osalSnvLen_t len, void
+*pBuf)</strong></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="16%" />
+<col width="84%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&#160;</td>
+<td><strong>Write data to NV</strong></td>
+</tr>
+<tr class="row-even"><td><strong>Parameters</strong></td>
+<td><p class="first">id - valid NV item</p>
+<p>len - length of data to write</p>
+<p class="last">pBuf - pointer to buffer containing data to be written. All contents are updated at once.</p>
+</td>
+</tr>
+<tr class="row-odd"><td><strong>Returns</strong></td>
+<td><p class="first">SUCCESS: NV item write successfully</p>
+<p class="last">NV_OPER_FAILED: failure writing NV item</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Because SNV is shared with other modules in BLE-Stack such as the GAP Bond
+Manager, carefully manage the NV item IDs. By default, the IDs available to the
+customer are defined in bcomdef.h as shown in <a class="reference internal" href="#lst-inc-flash-snv"><span class="std std-numref">Listing 26.</span></a></p>
+<div class="literal-block-wrapper docutils container" id="id10">
+<span id="lst-inc-flash-snv"></span><div class="code-block-caption"><span class="caption-number">Listing 26. </span><span class="caption-text">Usable SNV IDs available to customers</span><a class="headerlink" href="#id10" title="Permalink to this code">¶</a></div>
+<div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1">// Device NV Items -    Range 0 - 0x1F</span>
+<span class="cp">#define BLE_NVID_IRK                    0x02  </span><span class="c1">//!&lt; The Device&#39;s IRK</span>
+<span class="cp">#define BLE_NVID_CSRK                   0x03  </span><span class="c1">//!&lt; The Device&#39;s CSRK</span>
+<span class="cp">#define BLE_NVID_SIGNCOUNTER            0x04  </span><span class="c1">//!&lt; The Device&#39;s Sign Counter</span>
+<span class="cp">#define BLE_LRU_BOND_LIST               0x05  </span><span class="c1">//!&lt; The Device&#39;s order of bond indexes in least recently used order</span>
+
+<span class="c1">// Bonding NV Items -   Range  0x20 - 0x5F    - This allows for 10 bondings</span>
+<span class="cp">#define BLE_NVID_GAP_BOND_START         0x20  </span><span class="c1">//!&lt; Start of the GAP Bond Manager&#39;s NV IDs</span>
+<span class="cp">#define BLE_NVID_GAP_BOND_END           0x5f  </span><span class="c1">//!&lt; End of the GAP Bond Manager&#39;s NV IDs Range</span>
+
+<span class="c1">// GATT Configuration NV Items - Range  0x70 - 0x79 - This must match the number of Bonding entries</span>
+<span class="cp">#define BLE_NVID_GATT_CFG_START         0x70  </span><span class="c1">//!&lt; Start of the GATT Configuration NV IDs</span>
+<span class="cp">#define BLE_NVID_GATT_CFG_END           0x79  </span><span class="c1">//!&lt; End of the GATT Configuration NV IDs</span>
+
+<span class="hll"><span class="c1">// Customer NV Items - Range  0x80 - 0x8F - This must match the number of Bonding entries</span>
+</span><span class="hll"><span class="cp">#define BLE_NVID_CUST_START             0x80  </span><span class="c1">//!&lt; Start of the Customer&#39;s NV IDs</span>
+</span><span class="hll"><span class="cp">#define BLE_NVID_CUST_END               0x8F  </span><span class="c1">//!&lt; End of the Customer&#39;s NV IDs</span>
+</span></pre></div>
+</td></tr></table></div>
+</div>
+<p><a class="reference internal" href="#lst-snv-api-usage"><span class="std std-numref">Listing 27.</span></a> shows how to read and write an array of bytes from
+SNV flash:</p>
+<div class="literal-block-wrapper docutils container" id="id11">
+<span id="lst-snv-api-usage"></span><div class="code-block-caption"><span class="caption-number">Listing 27. </span><span class="caption-text">Using SNV Example Code</span><a class="headerlink" href="#id11" title="Permalink to this code">¶</a></div>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="cm">/*********************************************************************</span>
+<span class="cm">* GLOBAL VARIABLES</span>
+<span class="cm">*/</span>
+<span class="cp">#define BUF_LEN 4</span>
+<span class="cp">#define SNV_ID_APP 0x80</span>
+<span class="n">uint8</span> <span class="n">buf</span><span class="p">[</span><span class="n">BUF_LEN</span><span class="p">]</span> <span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">,};</span>
+
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">SimpleBLEPeripheral_taskFxn</span><span class="p">(</span><span class="n">UArg</span> <span class="n">a0</span><span class="p">,</span> <span class="n">UArg</span> <span class="n">a1</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="c1">// Initialize application</span>
+  <span class="n">SimpleBLEPeripheral_init</span><span class="p">();</span>
+  <span class="n">uint8</span> <span class="n">status</span> <span class="o">=</span> <span class="n">SUCCESS</span><span class="p">;</span>
+
+<span class="hll">  <span class="n">status</span> <span class="o">=</span> <span class="n">osal_snv_read</span><span class="p">(</span><span class="n">SNV_ID_APP</span><span class="p">,</span> <span class="n">BUF_LEN</span><span class="p">,</span> <span class="p">(</span><span class="n">uint8</span> <span class="o">*</span><span class="p">)</span><span class="n">buf</span><span class="p">);</span>
+</span>  <span class="k">if</span><span class="p">(</span><span class="n">status</span> <span class="o">!=</span> <span class="n">SUCCESS</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="n">Display_print1</span><span class="p">(</span><span class="n">dispHandle</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&quot;SNV READ FAIL: %d&quot;</span><span class="p">,</span> <span class="n">status</span><span class="p">);</span>
+    <span class="c1">//Write first time to initialize SNV ID</span>
+<span class="hll">    <span class="n">osal_snv_write</span><span class="p">(</span><span class="n">SNV_ID_APP</span><span class="p">,</span> <span class="n">BUF_LEN</span><span class="p">,</span> <span class="p">(</span><span class="n">uint8</span> <span class="o">*</span><span class="p">)</span><span class="n">buf</span><span class="p">);</span>
+</span>  <span class="p">}</span>
+
+  <span class="c1">//Increment first element of array and write to SNV flash</span>
+  <span class="n">buf</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">++</span><span class="p">;</span>
+<span class="hll">  <span class="n">status</span> <span class="o">=</span> <span class="n">osal_snv_write</span><span class="p">(</span><span class="n">SNV_ID_APP</span><span class="p">,</span> <span class="n">BUF_LEN</span><span class="p">,</span> <span class="p">(</span><span class="n">uint8</span> <span class="o">*</span><span class="p">)</span><span class="n">buf</span><span class="p">);</span>
+</span>  <span class="k">if</span><span class="p">(</span><span class="n">status</span> <span class="o">!=</span> <span class="n">SUCCESS</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="n">Display_print1</span><span class="p">(</span><span class="n">dispHandle</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&quot;SNV WRITE FAIL: %d&quot;</span><span class="p">,</span> <span class="n">status</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="k">else</span>
+  <span class="p">{</span>
+    <span class="n">Display_print1</span><span class="p">(</span><span class="n">dispHandle</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&quot;Num of Resets: %d&quot;</span><span class="p">,</span> <span class="n">buf</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+  <span class="p">}</span>
+
+  <span class="c1">// Application main loop</span>
+  <span class="k">for</span> <span class="p">(;;)</span>
+  <span class="p">{</span>
+  <span class="c1">//...</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<p>No prior initialization of a NV item ID is required; the OSAL SNV manager
+initializes the NV ID when first accessed by a successful osal_snv_write()
+call.</p>
+<p>When reading or writing large amounts of data to SNV, TI recommends placing the
+read/write data in statically (linker) allocated arrays or buffers allocated
+from the heap. Placing large amounts of data in local arrays may result in a
+task stack overflow.</p>
+<p>By default, osalSnvId_t and osalSnvLen_t are type defined as uint8. To use
+uint16-type definitions, define the preprocessor symbol OSAL_SNV_UINT16_ID
+in both the application and stack projects.</p>
+<p>Using osal_snv_read and osal_snv_write is only permitted from within a task
+context. Calling this API is not possible from within Swis or Hwis.</p>
+</div>
+<div class="section" id="customer-configuration-area">
+<span id="cca"></span><h3>Customer Configuration Area<a class="headerlink" href="#customer-configuration-area" title="Permalink to this headline">¶</a></h3>
+<p>The Customer Configuration Area (CCA) occupies the last page of flash and lets a
+customer configure various chip and system parameters in the Customer
+Configuration (CCFG) table . The CCFG table is defined in ccfg_app_ble.c,
+which can be found in the Startup folder of the application project. The last
+88 (sizeof(ccfg_t)) bytes of the CCA sector are reserved by the system for the
+CCFG table. By default, the linker allocates the unused flash of the CCA sector
+to the application image for code and data use. The linker can be modified to
+reserve the entire sector for customer parameter data (for example, board serial
+number and other identity parameters).</p>
+<p>The CCA region is defined linker file of the application by the
+FLASH_LAST_PAGE symbol. Placement is based on the IDE:</p>
+<p>For CCS:</p>
+<blockquote>
+<div><div class="highlight-text"><div class="highlight"><pre><span></span>MEMORY
+{
+    ...
+<span class="hll">    // CCFG Page, contains .ccfg code section and some application code.
+</span><span class="hll">    FLASH_LAST_PAGE (RX) :  origin = FLASH_LAST_PAGE_START, length = FLASH_PAGE_LEN
+</span>    ...
+}
+
+SECTIONS
+{
+    ...
+<span class="hll">    .ccfg           :   &gt;  FLASH_LAST_PAGE (HIGH)
+</span>    ...
+}
+</pre></div>
+</div>
+</div></blockquote>
+<p>For IAR:</p>
+<blockquote>
+<div><div class="highlight-text"><div class="highlight"><pre><span></span>////////////////////////////////////////////////////////////////////////////////
+// Memory Regions
+////////////////////////////////////////////////////////////////////////////////
+...
+<span class="hll">define region FLASH_LAST_PAGE       = mem:[from(FLASH_SIZE - PAGE_SIZE) to FLASH_SIZE-1];
+</span>...
+////////////////////////////////////////////////////////////////////////////////
+...
+// CCFG
+<span class="hll">place at end of FLASH_LAST_PAGE { readonly section .ccfg };
+</span>keep { section .ccfg }
+</pre></div>
+</div>
+</div></blockquote>
+<p>See the <a class="reference external" href="http://www.ti.com/lit/pdf/swcu117">CC26xx Technical Reference Manual</a> for details on CCFG fields and related configuration options,
+including how to set the CCFG to disable access to internal flash memory
+contents.</p>
+</div>
+</div>
+<div class="section" id="ram">
+<span id="id3"></span><h2>RAM<a class="headerlink" href="#ram" title="Permalink to this headline">¶</a></h2>
+<p>There is 20kB of RAM availabe in the system. The various sections
+of RAM and their associated linker files are as follows. The following sections
+are present in both split image and stack library configurations.</p>
+<ul class="simple">
+<li><strong>CSTACK</strong>: This the system callstack used by the C main function and HWIs.
+See <a class="reference internal" href="#sec-memory-management-system-stack"><span class="std std-ref">System Stack</span></a> for more information</li>
+<li><strong>RAM Reset Vector Table</strong>: This table holds entries for all 50 supported
+reset vectors. It is initalzed from the flash reset vector table at boot
+time and is used to plug interrupt table entries at runtime. See
+<a class="reference internal" href="#sec-ram-vector-table"><span class="std std-ref">RAM Vector Table</span></a> for more information.</li>
+<li><strong>ROM Reserved RAM</strong>: When building an configuration that links to code in
+ROM certain sections of RAM must be reserved for the static allocations
+performed in ROM. This includes the <code class="docutils literal"><span class="pre">RTOS</span> <span class="pre">in</span> <span class="pre">ROM</span> <span class="pre">Reserved</span> <span class="pre">RAM</span></code> and the <code class="docutils literal"><span class="pre">ROM</span>
+<span class="pre">Reserved</span> <span class="pre">RAM</span></code> sections in <a class="reference internal" href="#fig-stacklib-mem-map"><span class="std std-numref">Figure 34.</span></a> and
+<a class="reference internal" href="#fig-splitimg-mem-map"><span class="std std-numref">Figure 35.</span></a>. If the active configuration doesn&#8217;t use ROM,
+these sections may be used for other purposes.</li>
+<li><strong>HEAP</strong>: All configurations require that a heap must be present for
+dynamic memory allocation. This heap is shared between the app and stack.
+There are multiple configurations of the heap that may be used, each has
+associated tradeoffs. See <a class="reference internal" href="#dynamic-memory-allocation"><span class="std std-ref">Dynamic Memory Allocation</span></a> for
+information about heaps. Additionally see <a class="reference internal" href="../debugging/ble-common_heap.html#sec-heap-debugging"><span class="std std-ref">Debugging Common Heap Issues</span></a> for more
+information on debugging common heap issues.</li>
+</ul>
+<p>For projects where the stack project builds a <strong>library</strong>:</p>
+<ul class="simple">
+<li><strong>Application and Stack statically allocated data</strong>: This includes any
+initialized and uninitialzed variables used by the application or stack.
+(.data,.bss)</li>
+</ul>
+<p>For projects where the stack project builds as a <strong>split image</strong>:</p>
+<ul class="simple">
+<li><strong>Application statically allocated data</strong>: This includes any
+initialized and uninitialzed variables used by the application. (.data,.bss)</li>
+<li><strong>Stack statically allocated data</strong>: This includes any
+initialized and uninitialzed variables used by the stack. (.data,.bss)</li>
+<li><strong>ICALL_RAM0_START</strong>: The RAM boundary address between Application  and
+stack data space as listed above. This boundary is the entry point into the
+stack image and is defined in the boundary file. See <a class="reference internal" href="#sec-fontier-tool"><span class="std std-ref">Frontier Tool</span></a>
+for more information. Note the RAM boundary includes <code class="docutils literal"><span class="pre">ROM</span> <span class="pre">Reserved</span> <span class="pre">RAM</span></code> used
+by the protocol stack as part of the stack image, but leaves
+<code class="docutils literal"><span class="pre">RTOS</span> <span class="pre">in</span> <span class="pre">ROM</span> <span class="pre">Reserved</span> <span class="pre">RAM</span></code> in the application space. The stack RAM grows down
+from the reserved area and its size may depend on the active stack
+configuration.</li>
+</ul>
+<div class="section" id="ram-vector-table">
+<span id="sec-ram-vector-table"></span><h3>RAM Vector Table<a class="headerlink" href="#ram-vector-table" title="Permalink to this headline">¶</a></h3>
+<p>As detailed in the <a class="reference internal" href="#sec-flash-vector-table"><span class="std std-ref">Flash Vector Table</span></a> section, this table is
+intiailzed at kernel boot time with the contents of of the flash vector table.
+The location of this table is controlled by <code class="docutils literal"><span class="pre">m3Hwi.vectorTableAddress</span></code> within
+the TI-RTOS config file (<cite>*.cfg</cite>), it defaults to address 0x20000000.
+The VTOR register will point to this table, which allows the creation of
+dynamic interrupts at runtime. This table will contain entries for all 50
+supported interrupts.</p>
+<p>For more information about the vector table format,
+please refer to <a class="reference external" href="http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.dui0552a/BABIFJFG.html">Cortex-M3 Vector Table</a>.</p>
+</div>
+<div class="section" id="application-and-stack-ram-boundary">
+<h3>Application and Stack RAM Boundary<a class="headerlink" href="#application-and-stack-ram-boundary" title="Permalink to this headline">¶</a></h3>
+<p>The application and stack RAM memory maps are based on the common
+ICALL_RAM0_START defined symbol. This value defines the hard-coded RAM boundary
+for the end of the RAM space of the application and the start of the image of
+the stack .BSS and .DATA sections. Unlike the flash boundary, elements of the
+stack project (such as task stacks and heaps) are allocated in the application
+project. To ensure proper linking, both the application and stack projects must
+use the same ICALL_RAM0_START value. By default, ICALL_RAM0_START is
+configured to allocate unused RAM to the application project through the
+frontier tool. For information on using the frontier tool to configure the RAM
+boundary address, see <a class="reference internal" href="#sec-fontier-tool"><span class="std std-ref">Frontier Tool</span></a>.</p>
+</div>
+<div class="section" id="system-stack">
+<span id="sec-memory-management-system-stack"></span><h3>System Stack<a class="headerlink" href="#system-stack" title="Permalink to this headline">¶</a></h3>
+<p>As described in <a class="reference internal" href="rtos-overview.html#sec-rtos-overview-tasks"><span class="std std-ref">Tasks</span></a>, each task has its own runtime
+stack for context switching. Another runtime stack is used by the RTOS for
+main(), HWIs, and SWIs. This system stack is allocated in the
+application linker file to be placed at the end of the RAM of the
+application.</p>
+<p>For IAR, this RTOS system stack is defined by the CSTACK symbol:</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="c1">////////////////////////////////////////////////////////////////////////////////</span>
+<span class="c1">// Stack</span>
+<span class="n">define</span> <span class="n">symbol</span> <span class="n">STACK_SIZE</span>            <span class="o">=</span> <span class="mh">0x400</span><span class="p">;</span>
+<span class="n">define</span> <span class="n">symbol</span> <span class="n">STACK_START</span>           <span class="o">=</span> <span class="n">RAM_END</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+<span class="n">define</span> <span class="n">symbol</span> <span class="n">STACK_END</span>             <span class="o">=</span> <span class="n">STACK_START</span> <span class="o">-</span> <span class="n">STACK_SIZE</span><span class="p">;</span>
+<span class="c1">//</span>
+<span class="n">define</span> <span class="n">symbol</span> <span class="n">STACK_TOP</span>             <span class="o">=</span> <span class="n">RAM_END</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+<span class="n">export</span> <span class="n">symbol</span> <span class="n">STACK_TOP</span><span class="p">;</span>
+
+<span class="c1">// Runtime Stack</span>
+<span class="n">define</span> <span class="n">block</span> <span class="n">CSTACK</span> <span class="n">with</span> <span class="n">alignment</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="n">STACK_SIZE</span> <span class="p">{</span> <span class="n">section</span> <span class="p">.</span><span class="n">stack</span> <span class="p">};</span>
+<span class="n">place</span> <span class="n">at</span> <span class="n">end</span> <span class="n">of</span> <span class="n">RAM</span> <span class="p">{</span> <span class="n">block</span> <span class="n">CSTACK</span> <span class="p">};</span>
+</pre></div>
+</div>
+<p>In IAR, to change the size of the CSTACK, adjust the STACK_SIZE symbol value in the linker file of the
+application.</p>
+<p>For CCS, the RTOS system stack is defined by the Program.stack
+parameter in the appBLE.cfg RTOS configuration file:</p>
+<div class="highlight-js"><div class="highlight"><pre><span></span><span class="cm">/* main() and Hwi, Swi stack size */</span>
+<span class="nx">Program</span><span class="p">.</span><span class="nx">stack</span> <span class="o">=</span> <span class="mi">1024</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>and placed by the linker in the RAM space of the application:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>/* Create global constant that points to top of stack */
+/* CCS: Change stack size under Project Properties */
+__STACK_TOP = __stack + __STACK_SIZE;
+</pre></div>
+</div>
+</div>
+<div class="section" id="dynamic-memory-allocation">
+<span id="id4"></span><h3>Dynamic Memory Allocation<a class="headerlink" href="#dynamic-memory-allocation" title="Permalink to this headline">¶</a></h3>
+<p>The system uses a single heap for dynamic memory allocation. This heap is shared
+between TI-RTOS, the protocl stack, and the application.</p>
+<p>The heap is configured with a small heap in the a <code class="docutils literal"><span class="pre">ble_stack_heap.cfg</span></code> RTOS
+configuration file:</p>
+<p>Using the RTOS configuration file above the heap can be configured in one of
+three ways. Regardless of the underlying heap implementation, the APIs to access
+the heap are common.</p>
+<blockquote>
+<div><ul class="simple">
+<li>OSAL Heap (legacy) - This is the legacy heap manager created to work with
+the stack. It is implemented by <code class="docutils literal"><span class="pre">rtos_heaposal.h</span></code>.
+The OSAL heap suppports creating variable sized blocks as well as freeing
+blocks.</li>
+<li>TI-RTOS HeapMem - The most flexible heap implementation offered by
+the TI-RTOS kernel. HeapMem suppports creating variable sized blocks as well
+as freeing blocks. It is implemented by <code class="docutils literal"><span class="pre">rtos_heapmem.h</span></code> when using RTOS in
+ROM and by direct calls when using RTOS in flash. See
+<a class="reference internal" href="#sec-heapmem-with-rtos-in-rom"><span class="std std-ref">HeapMem with TI-RTOS in ROM</span></a> for details on using the HeapMem
+module in ROM with the stack.</li>
+<li>TI-RTOS HeapMem with HeapTrack - The most flexible heap implementation
+offered by the TI-RTOS kernel. HeapMem suppports creating variable sized
+blocks as well as freeing blocks. It is implemented by <code class="docutils literal"><span class="pre">rtos_heaptrack.h</span></code>
+when using RTOS in ROM and by direct calls when using RTOS in flash.
+On top of the functionality offered by HeapMem, HeapTrack offers additional
+debugging capability, at the cost of runtime performance. See
+<a class="reference internal" href="#sec-heapmem-with-rtos-in-rom"><span class="std std-ref">HeapMem with TI-RTOS in ROM</span></a> for details on using the HeapMem module
+in ROM with the stack.</li>
+</ul>
+</div></blockquote>
+<div class="section" id="configuring-the-heap">
+<span id="sec-configuring-the-heap"></span><h4>Configuring the Heap<a class="headerlink" href="#configuring-the-heap" title="Permalink to this headline">¶</a></h4>
+<p>There active heap configuration is set via the <code class="docutils literal"><span class="pre">HEAPMGR_CONFIG</span></code> variable within
+<code class="docutils literal"><span class="pre">ble_stack_heap.cfg</span></code>. This size of the heap is controlled via <code class="docutils literal"><span class="pre">HEAPMGR_SIZE</span></code>, if
+auto heapsizing is not used.</p>
+<p>The system will default to using the OSAL heap with auto heap size. The table
+below shows the possible configurations of the heap along with their associated
+values of <code class="docutils literal"><span class="pre">HEAPMGR_CONFIG</span></code> and <code class="docutils literal"><span class="pre">HEAPMGR_SIZE</span></code>.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="20%" />
+<col width="43%" />
+<col width="37%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">HEAPMGR_CONFIG</span></code></td>
+<td>Active Heap Configuration</td>
+<td>Heap Size</td>
+</tr>
+<tr class="row-even"><td>0x0</td>
+<td>OSAL HeapMgr, automatic heap size</td>
+<td>Set by <code class="docutils literal"><span class="pre">HEAPMGR_SIZE</span></code></td>
+</tr>
+<tr class="row-odd"><td>0x80</td>
+<td>OSAL HeapMgr, static heap size</td>
+<td>Automatically determined by the
+amount of free space available at
+link time between heapStart and
+heapEnd symbols</td>
+</tr>
+<tr class="row-even"><td>0x01</td>
+<td>HeapMem, static heap size</td>
+<td>Set by <code class="docutils literal"><span class="pre">HEAPMGR_SIZE</span></code></td>
+</tr>
+<tr class="row-odd"><td>0x81</td>
+<td>HeapMem, automatic heap size</td>
+<td>Automatically determined by the
+amount of free space available at
+link time between heapStart and
+heapEnd symbols</td>
+</tr>
+<tr class="row-even"><td>0x02</td>
+<td>HeapMem + HeapTrack, static heap size</td>
+<td>Set by <code class="docutils literal"><span class="pre">HEAPMGR_SIZE</span></code></td>
+</tr>
+<tr class="row-odd"><td>0x82</td>
+<td>HeapMem + HeapTrack, automatic heap size</td>
+<td>Automatically determined by the
+amount of free space available at
+link time between heapStart and
+heapEnd symbols</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<div><div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p>If autoheap size is to be used, <code class="docutils literal"><span class="pre">heapStart</span></code> and <code class="docutils literal"><span class="pre">heapEnd</span></code> symbols must
+be defined in the linker file. See <a class="reference internal" href="#fig-stacklib-mem-map"><span class="std std-ref">StackLibrary Memory Map</span></a> and
+<a class="reference internal" href="#fig-splitimg-mem-map"><span class="std std-ref">Split Image Memory Map</span></a> for the location of these sections in the
+StackLibrary and split image configurations.</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">heapStart</span></code> &#8211; Placed at end of static allocation section</li>
+<li><code class="docutils literal"><span class="pre">heapEnd</span></code> &#8211; Placed right before beginning of CSTACK section</li>
+</ul>
+</div></blockquote>
+</div>
+</div></blockquote>
+<p>See the snippet below from <code class="docutils literal"><span class="pre">ble_stack_heap.cfg</span></code> to see how to change the
+active heap configuration. Change the variable in the highlighted line to one of
+the values supported in the table above.</p>
+<blockquote>
+<div><div class="highlight-js"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">Memory</span> <span class="o">=</span> <span class="nx">xdc</span><span class="p">.</span><span class="nx">useModule</span><span class="p">(</span><span class="s1">&#39;xdc.runtime.Memory&#39;</span><span class="p">);</span>
+<span class="hll"><span class="kd">var</span> <span class="nx">HEAPMGR_CONFIG</span> <span class="o">=</span> <span class="mh">0x81</span><span class="p">;</span>
+</span><span class="kd">var</span> <span class="nx">HEAPMGR_SIZE</span>   <span class="o">=</span> <span class="mh">0x00</span><span class="p">;</span>
+</pre></div>
+</td></tr></table></div>
+</div></blockquote>
+</div>
+<div class="section" id="heapmem-with-ti-rtos-in-rom">
+<span id="sec-heapmem-with-rtos-in-rom"></span><h4>HeapMem with TI-RTOS in ROM<a class="headerlink" href="#heapmem-with-ti-rtos-in-rom" title="Permalink to this headline">¶</a></h4>
+<p>When using any HeapMem based configuration combined with TI-RTOS in ROM, the
+heap will be implemented by HeapCallback module. HeapCallback will call
+a user defined function whenever a dynamic memory operation is required. The
+user defined functions are located in the following files.</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">rtos_heapmem.h</span></code> &#8211; HeapMem</li>
+<li><code class="docutils literal"><span class="pre">rtos_heaptrack.h</span></code> &#8211; HeapMem + HeapTrack</li>
+</ul>
+</div></blockquote>
+<p>This is required because the HeapMem implementation in ROM uses the GateMutex
+module, which prevents <code class="docutils literal"><span class="pre">malloc()</span></code> from being called in a <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-hwi"><span class="xref std std-term">hwi</span></a> or
+<a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-swi"><span class="xref std std-term">swi</span></a>. In order to allow safe use of the heap a GateHWI must be used. To
+work around this, the HeapCallback implementation will wrap any access to the
+heap in a HWI lock. See the following example from <code class="docutils literal"><span class="pre">rtos_heapmem.h</span></code>.</p>
+<blockquote>
+<div><div class="highlight-c"><div class="highlight"><pre><span></span><span class="cm">/* Protect since HeapMem_allocUnprotected does not */</span>
+<span class="n">hwikey</span> <span class="o">=</span> <span class="p">(</span><span class="kt">uint_least16_t</span><span class="p">)</span><span class="n">Hwi_disable</span><span class="p">();</span>
+
+<span class="cm">/* Using the default system heap for this example */</span>
+<span class="n">tmp</span> <span class="o">=</span> <span class="n">HeapMem_allocUnprotected</span><span class="p">(</span><span class="n">stackHeap</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">FORCED_ALIGNEMENT</span><span class="p">);</span>
+
+<span class="c1">// ..</span>
+
+<span class="cm">/* restore the hwi mutex */</span>
+<span class="n">Hwi_restore</span><span class="p">(</span><span class="n">hwikey</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Note that the legacy OSAL heap always protects heap operations with a HWI
+lock.</p>
+</div>
+</div></blockquote>
+<p>When using a flash based kernel, the HeapMem module is configured to use a
+GateHWI, see the following excerpt from <code class="docutils literal"><span class="pre">ble_stack_heap.cfg</span></code>.</p>
+<blockquote>
+<div><div class="highlight-js"><div class="highlight"><pre><span></span><span class="nx">Program</span><span class="p">.</span><span class="nx">global</span><span class="p">.</span><span class="nx">stackHeap</span> <span class="o">=</span> <span class="nx">HeapMem</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="nx">heapMemParams</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">GateHwi</span> <span class="o">=</span> <span class="nx">xdc</span><span class="p">.</span><span class="nx">useModule</span><span class="p">(</span><span class="s1">&#39;ti.sysbios.gates.GateHwi&#39;</span><span class="p">);</span>
+<span class="nx">HeapMem</span><span class="p">.</span><span class="nx">common$</span><span class="p">.</span><span class="nx">gate</span> <span class="o">=</span> <span class="nx">GateHwi</span><span class="p">.</span><span class="nx">create</span><span class="p">();</span>
+<span class="nx">Memory</span><span class="p">.</span><span class="nx">defaultHeapInstance</span> <span class="o">=</span> <span class="nx">Program</span><span class="p">.</span><span class="nx">global</span><span class="p">.</span><span class="nx">stackHeap</span><span class="p">;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="profiling-the-heap">
+<h4>Profiling the Heap<a class="headerlink" href="#profiling-the-heap" title="Permalink to this headline">¶</a></h4>
+<p>Refer to <a class="reference internal" href="../debugging/ble-common_heap.html#sect-icall-profiling"><span class="std std-ref">Debugging Common Heap Issues</span></a> for tips on debugging common heap issues.
+Each heap implementation has its benefits for debugging and some come with
+performance tradeoffs. Note the metrics function may be
+used by any supported heap configuration.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The auto heap size feature does not determine the amount
+of heap needed for the application. The system designer must ensure
+that the heap has the required space to meet the application&#8217;s
+runtime memory requirements.</p>
+</div>
+</div>
+<div class="section" id="heap-apis">
+<h4>Heap APIs<a class="headerlink" href="#heap-apis" title="Permalink to this headline">¶</a></h4>
+<p>Note that regardless of the heap imeplementation selected, the APIs are
+compatible across all supported heap implementations. The follwoing APIs may be
+used to access the heap:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">ICall_heapMalloc</span></code>    &#8211; Dynamically allocate a block of memory</li>
+<li><code class="docutils literal"><span class="pre">ICall_heapFree</span></code>      &#8211; Dynamically free a block of memory</li>
+<li><code class="docutils literal"><span class="pre">ICall_heapRealloc</span></code>   &#8211; Resize an existing heap block</li>
+<li><code class="docutils literal"><span class="pre">ICall_heapGetStats</span></code>  &#8211; Get information about the state of the heap</li>
+</ul>
+</div></blockquote>
+<p>The following is an example of dynamically allocating a variable
+length (n) array using the ICall heap:</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="c1">//define pointer</span>
+<span class="kt">uint8_t</span> <span class="o">*</span><span class="n">pArray</span><span class="p">;</span>
+<span class="c1">// Create dynamic pointer to array.</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">pArray</span> <span class="o">=</span> <span class="p">(</span><span class="kt">uint8_t</span><span class="o">*</span><span class="p">)</span><span class="n">ICall_malloc</span><span class="p">(</span><span class="n">n</span><span class="o">*</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">uint8_t</span><span class="p">)))</span>
+<span class="p">{</span>
+<span class="c1">//fill up array</span>
+<span class="p">}</span>
+<span class="k">else</span>
+<span class="p">{</span>
+<span class="c1">//not able to allocate</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The following is an example of freeing the previous array:</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="n">ICall_free</span><span class="p">(</span><span class="n">pMsg</span><span class="o">-&gt;</span><span class="n">payload</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="cache-gpram">
+<h2>Cache/GPRAM<a class="headerlink" href="#cache-gpram" title="Permalink to this headline">¶</a></h2>
+<p>The cache is an 8 KB section of the device&#8217;s RAM reserved for the processor. The
+cache module temporarily stores data that has been read from the Flash, so that
+frequently used data is not fetched from Flash on each access. This reduces the
+number of CPU wait-states and saves power. When the cache is not used, it is not
+powered. This is true for Standby and Idle states where the cache is not in use.</p>
+<div class="section" id="using-the-cache-as-ram">
+<span id="section-cache-as-ram"></span><h3>Using the Cache as RAM<a class="headerlink" href="#using-the-cache-as-ram" title="Permalink to this headline">¶</a></h3>
+<p>If your application needs more memory, or if you need more space in SRAM, the
+cache can be re-purposed as RAM. This will allow the linker to store parts of
+the compiled application in this section of the RAM. This section will be
+referred to as the general purpose RAM (<a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-gpram"><span class="xref std std-term">GPRAM</span></a>). This will cause the program to
+run at a slightly reduced speed, and it will increase the device
+power consumption in sleep. This is because the <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-gpram"><span class="xref std std-term">GPRAM</span></a>, contrary to a cache,
+will have to be powered even when the device is sleeping. The current consumption
+in standby mode with and without cache retained is listed in the CC2640R2F
+datasheet.</p>
+<p>With the cache re-purposed as RAM, the program will run at a slightly decreased
+speed. This will cause the device to spend more time when active,
+which again will give a higher power consumption. How this will affect the
+device power consumption will depend on application. For some applications the
+added power consumption will be very small, but for processing intensive
+application it will be slightly higher. Please verify your application current
+consumption by using the method described in the <a class="reference external" href="http://www.ti.com/lit/pdf/swra478">Measuring Bluetooth Low Energy
+Power Consumption Application Report (SWRA478)</a>.</p>
+<p>In order to enable using the cache as RAM, two things need to be done. Firstly, the
+program must be told to retain the cache/GPRAM when it&#8217;s being used. Secondly,
+the linker must be told to allocate the memory region used as cache to GPRAM,
+and what parts of code to store in the GPRAM. This is done in the linker
+command/configuration file. The syntax for the linker command/configuration
+file is slightly different in CCS and IAR. To read more about the CCS linker
+command file, see the wiki article <a class="reference external" href="http://processors.wiki.ti.com/index.php/Linker_Command_File_Primer">Linker Command File Primer</a>.
+To read more about the IAR linker, see <a class="reference external" href="http://ftp.iar.se/WWWfiles/arm/webic/doc/EWARM_DevelopmentGuide.ENU.pdf">IAR C/C++ Development Guide</a>.</p>
+<p>Some of the example projects found in BLE-Stack have a Build Configuration
+that allows using the cache as RAM. This is true for e.g. the multi_role project.
+In this case, cache as RAM can be enabled by choosing that build configuration.
+In CCS: Project -&gt; Build Configurations -&gt; Set Active -&gt; FlashROM-CacheAsRAM.
+In IAR: Project -&gt; Edit Configurations -&gt; FlashROM-CacheAsRAM.</p>
+<blockquote>
+<div><div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">When changing the build configuration of a project, the project properties/options
+may reset. Please make sure to make changes to the project predefines etc.,
+<strong>after</strong> changing the build configuration.</p>
+</div>
+</div></blockquote>
+<p><strong>If you want to use the cache as RAM in a project which does not have the
+CacheAsRAM build configuration, follow these steps:</strong></p>
+<blockquote>
+<div><div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The steps will be different for CCS users and IAR users. The steps will
+also differ depending on what example project your project is based on. For
+the example projects found in the BLE-Stack folder, only step 1-5 will be
+required.</p>
+</div>
+<p>1. In the ccfg file, (called <code class="docutils literal"><span class="pre">ccfg_app_ble.c</span></code> or <code class="docutils literal"><span class="pre">ccfg.c</span></code>), include the
+following <strong>before</strong>  <code class="docutils literal"><span class="pre">#include</span> <span class="pre">&lt;startup_files/ccfg.c&gt;</span></code>:</p>
+<blockquote>
+<div><div class="highlight-c"><div class="highlight"><pre><span></span><span class="cp">#ifdef CACHE_AS_RAM</span>
+  <span class="cp">#define SET_CCFG_SIZE_AND_DIS_FLAGS_DIS_GPRAM  0x0 </span><span class="cm">/* Enable GPRAM */</span><span class="cp"></span>
+<span class="cp">#endif </span><span class="c1">//CACHE_AS_RAM</span>
+
+<span class="cp">#include</span> <span class="cpf">&lt;startup_files/ccfg.c&gt;</span><span class="cp"></span>
+</pre></div>
+</div>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li>In <code class="docutils literal"><span class="pre">main()</span></code>, add the following code:</li>
+</ol>
+<blockquote>
+<div><div class="literal-block-wrapper docutils container" id="id12">
+<div class="code-block-caption"><span class="caption-number">Listing 28. </span><span class="caption-text">Retain cache in sleep.</span><a class="headerlink" href="#id12" title="Permalink to this code">¶</a></div>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="cp">#ifdef CACHE_AS_RAM</span>
+<span class="c1">// retain cache during standby</span>
+<span class="n">Power_setConstraint</span><span class="p">(</span><span class="n">PowerCC26XX_SB_VIMS_CACHE_RETAIN</span><span class="p">);</span>
+<span class="n">Power_setConstraint</span><span class="p">(</span><span class="n">PowerCC26XX_NEED_FLASH_IN_IDLE</span><span class="p">);</span>
+<span class="cp">#else</span>
+<span class="c1">// Enable iCache pre-fetching</span>
+<span class="n">VIMSConfigure</span><span class="p">(</span><span class="n">VIMS_BASE</span><span class="p">,</span> <span class="n">TRUE</span><span class="p">,</span> <span class="n">TRUE</span><span class="p">);</span>
+<span class="c1">// Enable cache</span>
+<span class="n">VIMSModeSet</span><span class="p">(</span><span class="n">VIMS_BASE</span><span class="p">,</span> <span class="n">VIMS_MODE_ENABLED</span><span class="p">);</span>
+<span class="cp">#endif </span><span class="c1">//CACHE_AS_RAM</span>
+</pre></div>
+</div>
+</div>
+</div></blockquote>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Please make sure your program is not using VIMS while using cache as RAM.</p>
+</div>
+<p>In the same file, include the following files: (In ble5stack projects,
+these are already included in main.c.)</p>
+<blockquote>
+<div><div class="highlight-c"><div class="highlight"><pre><span></span><span class="cm">/* Power Driver */</span>
+<span class="cp">#include</span> <span class="cpf">&lt;ti/drivers/Power.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;ti/drivers/power/PowerCC26XX.h&gt;</span><span class="cp"></span>
+<span class="cm">/* Header files required to enable instruction fetch cache */</span>
+<span class="cp">#include</span> <span class="cpf">&lt;ti/devices/cc26x0r2/inc/hw_memmap.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;ti/devices/cc26x0r2/driverlib/vims.h&gt;</span><span class="cp"></span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>3. Go to the <strong>compiler</strong> predefines and add <code class="docutils literal"><span class="pre">CACHE_AS_RAM</span></code>. For the
+example projects from the ble5stack folder, this define will bring changes
+to the executed code in the following files:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">ble_user_config.c</span></code></li>
+<li><code class="docutils literal"><span class="pre">main.c</span></code></li>
+<li><code class="docutils literal"><span class="pre">ble_user_config.h</span></code></li>
+</ul>
+</div></blockquote>
+<p>4. Go to the <strong>linker</strong> predefines and add <code class="docutils literal"><span class="pre">CACHE_AS_RAM=1</span></code>. This define will
+bring changes to the executed code in <code class="docutils literal"><span class="pre">cc26xx_app.cmd</span></code>/<code class="docutils literal"><span class="pre">cc26xx_app.icf</span></code>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>For more information on how to edit compiler and linker symbol settings
+please see the following sections:</p>
+<dl class="last docutils">
+<dt>CCS:</dt>
+<dd><ul class="first last simple">
+<li><a class="reference internal" href="developing_in_ccs.html#sec-developing-with-ccs-accessing-preprocessor-symbols"><span class="std std-ref">Accessing Preprocessor Symbols</span></a></li>
+<li><a class="reference internal" href="developing_in_ccs.html#sec-developing-with-ccs-accessing-linker-symbols"><span class="std std-ref">Accessing Linker Symbols</span></a></li>
+</ul>
+</dd>
+<dt>IAR:</dt>
+<dd><ul class="first last simple">
+<li><a class="reference internal" href="developing_in_iar.html#sec-developing-with-iar-accessing-preprocessor-symbols"><span class="std std-ref">Accessing Preprocessor Symbols</span></a></li>
+<li><a class="reference internal" href="developing_in_iar.html#sec-developing-with-iar-accessing-linker-symbols"><span class="std std-ref">Accessing Linker Symbols</span></a></li>
+</ul>
+</dd>
+</dl>
+</div>
+<p>5. If your project is based on a BLE-Stack project, this will move as much of
+the <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-bss"><span class="xref std std-term">.bss</span></a> section that the SRAM can fit, from SRAM to GPRAM. The
+exception is <code class="docutils literal"><span class="pre">ll.o</span></code> and, if you&#8217;re using the BLE5-Stack <code class="docutils literal"><span class="pre">ll_ae.o</span></code>. The RF
+driver requires <code class="docutils literal"><span class="pre">ll.o</span></code> (and if applicable <code class="docutils literal"><span class="pre">ll_ae.o</span></code>) to be placed in SRAM.
+Other objects in <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-bss"><span class="xref std std-term">.bss</span></a> can be moved as desired. See
+<a class="reference internal" href="#using-the-aux-as-ram"><span class="std std-ref">Using the AUX RAM as RAM</span></a> for an example of this. Rebuild and flash your app
+project. View the .map file to see what parts of the device memory is
+occupied. (Alternatively, in CCS: View -&gt; Memory Allocation.)</p>
+<p>6. If your project is not based on a BLE-Stack project, there are still
+changes that need to be made in order to use the cache as GPRAM. If your
+project is using the radio, add <code class="docutils literal"><span class="pre">0x00018063</span></code> to the radio overrides.</p>
+<p>7. The GPRAM memory area must be defined in the linker command file. This
+syntax is different for the CCS and IAR linker. IAR specific instructions
+will follow the CCS specific instructions.</p>
+<p>In CCS, the linker command file ends with <code class="docutils literal"><span class="pre">.cmd</span></code> (e.g.
+<code class="docutils literal"><span class="pre">cc26xx_app.cmd</span></code>).</p>
+<blockquote>
+<div><div class="literal-block-wrapper docutils container" id="id13">
+<div class="code-block-caption"><span class="caption-number">Listing 29. </span><span class="caption-text">Under <code class="docutils literal"><span class="pre">Memory</span> <span class="pre">Sizes</span></code>, add defines for GPRAM start and length.</span><a class="headerlink" href="#id13" title="Permalink to this code">¶</a></div>
+<div class="highlight-none"><div class="highlight"><pre><span></span>  /*******************************************************************************
+   * Memory Sizes
+   */
+  #define FLASH_BASE   0x00000000
+  #define GPRAM_BASE   0x11000000
+  #define RAM_BASE     0x20000000
+  #define ROM_BASE     0x10000000
+
+  #if defined(CC26X0ROM) || defined(CC26X0FLASH)
+  #define FLASH_SIZE 0x00020000
+  #define GPRAM_SIZE 0x00002000
+  #define RAM_SIZE   0x00005000
+  #define ROM_SIZE   0x0001C000
+  #endif /* CC26X0ROM || CC26X0FLASH */
+</pre></div>
+</div>
+</div>
+<div class="literal-block-wrapper docutils container" id="id14">
+<div class="code-block-caption"><span class="caption-number">Listing 30. </span><span class="caption-text">Add GPRAM under <code class="docutils literal"><span class="pre">Memory</span> <span class="pre">Definitions</span></code>.</span><a class="headerlink" href="#id14" title="Permalink to this code">¶</a></div>
+<div class="highlight-c"><div class="highlight"><pre><span></span>  <span class="cm">/*******************************************************************************</span>
+<span class="cm">   * GPRAM</span>
+<span class="cm">   */</span>
+
+  <span class="cp">#ifdef CACHE_AS_RAM</span>
+    <span class="cp">#define GPRAM_START GPRAM_BASE</span>
+    <span class="cp">#define GPRAM_END   (GPRAM_START + GPRAM_SIZE - 1)</span>
+  <span class="cp">#endif </span><span class="cm">/* CACHE_AS_RAM */</span><span class="cp"></span>
+</pre></div>
+</div>
+</div>
+<div class="literal-block-wrapper docutils container" id="id15">
+<div class="code-block-caption"><span class="caption-number">Listing 31. </span><span class="caption-text">In <code class="docutils literal"><span class="pre">MEMORY{}</span></code>, allocate room for GPRAM.</span><a class="headerlink" href="#id15" title="Permalink to this code">¶</a></div>
+<div class="highlight-none"><div class="highlight"><pre><span></span>  #ifdef CACHE_AS_RAM
+      GPRAM(RWX) : origin = GPRAM_APP_BASE, length = GPRAM_SIZE
+  #endif /* CACHE_AS_RAM */
+</pre></div>
+</div>
+</div>
+<div class="literal-block-wrapper docutils container" id="id16">
+<span id="mm-cacheasram-ccs-code"></span><div class="code-block-caption"><span class="caption-number">Listing 32. </span><span class="caption-text">In <code class="docutils literal"><span class="pre">SECTIONS{}</span></code>, move .bss from SRAM to GPRAM.</span><a class="headerlink" href="#id16" title="Permalink to this code">¶</a></div>
+<div class="highlight-none"><div class="highlight"><pre><span></span>  GROUP &gt; SRAM
+  {
+    .data
+    #ifndef CACHE_AS_RAM
+    .bss
+    #endif /* CACHE_AS_RAM */
+    .vtable
+    .vtable_ram
+    vtable_ram
+    .sysmem
+    .nonretenvar
+    /*This keeps ll.o objects out of GPRAM, if no ll.o would be placed here
+    the warning #10068 is supressed.*/
+    #ifdef CACHE_AS_RAM
+    ll_bss
+    {
+      --library=*ll_*.a&lt;ll.o&gt; (.bss)
+      --library=*ll_*.a&lt;ll_ae.o&gt; (.bss)
+    }
+    #endif /* CACHE_AS_RAM */
+  } LOAD_END(heapStart)
+
+  .stack            :   &gt;  SRAM (HIGH) LOAD_START(heapEnd)
+
+  #ifdef CACHE_AS_RAM
+  .bss :
+  {
+    *(.bss)
+  } &gt; GPRAM
+  #endif /* CACHE_AS_RAM */
+</pre></div>
+</div>
+</div>
+<p>Rebuild your application. This will move <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-bss"><span class="xref std std-term">.bss</span></a> from SRAM to GPRAM and place the
+auto-heap size start after.  Other objects can also be moved. See
+<a class="reference internal" href="#using-the-aux-as-ram"><span class="std std-ref">Using the AUX RAM as RAM</span></a> for an example of this.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If your project doesn&#8217;t contain a <code class="docutils literal"><span class="pre">ll.o</span></code> or <code class="docutils literal"><span class="pre">ll_ae.o</span></code> you will
+get a linker warning if you copy-paste <a class="reference internal" href="#mm-cacheasram-ccs-code"><span class="std std-numref">Listing 32.</span></a> into
+your linker command file. If this happens, just remove the mention of the
+relevant section from your linker command file.</p>
+</div>
+</div></blockquote>
+<p>8. In IAR, the linker configuration file ends witth <code class="docutils literal"><span class="pre">.icf</span></code> (e.g.
+<code class="docutils literal"><span class="pre">cc26xx_app.icf</span></code>).</p>
+<blockquote>
+<div><div class="literal-block-wrapper docutils container" id="id17">
+<div class="code-block-caption"><span class="caption-number">Listing 33. </span><span class="caption-text">Add defines for GPRAM start and length under <code class="docutils literal"><span class="pre">Memory</span> <span class="pre">Definitions</span></code>.</span><a class="headerlink" href="#id17" title="Permalink to this code">¶</a></div>
+<div class="highlight-none"><div class="highlight"><pre><span></span>  //////////////////////////////////////////////////////////////////////////////
+  // GPRAM
+  //
+  if ( isdefinedsymbol(CACHE_AS_RAM) )
+  {
+    define symbol GPRAM_START           = 0x11000000;
+    define symbol GPRAM_SIZE            = 8096;
+    define symbol GPRAM_END             = GPRAM_START + GPRAM_SIZE;
+  }
+</pre></div>
+</div>
+</div>
+<div class="literal-block-wrapper docutils container" id="id18">
+<div class="code-block-caption"><span class="caption-number">Listing 34. </span><span class="caption-text">Under <code class="docutils literal"><span class="pre">Memory</span> <span class="pre">Regions</span></code>, allocate room for GPRAM.</span><a class="headerlink" href="#id18" title="Permalink to this code">¶</a></div>
+<div class="highlight-none"><div class="highlight"><pre><span></span>  if ( isdefinedsymbol(CACHE_AS_RAM) )
+  {
+    define region GPRAM               = mem:[from GPRAM_START to GPRAM_END];
+  }
+</pre></div>
+</div>
+</div>
+<div class="literal-block-wrapper docutils container" id="id19">
+<span id="mm-cacheasram-iar-code"></span><div class="code-block-caption"><span class="caption-number">Listing 35. </span><span class="caption-text">Under <code class="docutils literal"><span class="pre">Memory</span> <span class="pre">Placement</span></code>, move .bss from SRAM to GPRAM.</span><a class="headerlink" href="#id19" title="Permalink to this code">¶</a></div>
+<div class="highlight-none"><div class="highlight"><pre><span></span>  if ( isdefinedsymbol(CACHE_AS_RAM) )
+  {
+    // GPRAM
+    define block GPDATA { section .bss };
+    place in GPRAM { block GPDATA }  except{ object ll.o, object ll_ae.o };
+  }
+</pre></div>
+</div>
+</div>
+<p>Rebuild your application. This will move <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-bss"><span class="xref std std-term">.bss</span></a> from SRAM to GPRAM. Other
+objects can also be moved. See <a class="reference internal" href="#using-the-aux-as-ram"><span class="std std-ref">Using the AUX RAM as RAM</span></a> for an example
+of this.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If your project doesn&#8217;t contain a <code class="docutils literal"><span class="pre">ll.o</span></code> or <code class="docutils literal"><span class="pre">ll_ae.o</span></code> your
+project will probably not work as intended if you copy-paste
+<a class="reference internal" href="#mm-cacheasram-iar-code"><span class="std std-numref">Listing 35.</span></a> into your linker command file. Please make
+sure you only mention objects that exist in your linker command file.</p>
+</div>
+</div></blockquote>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="aux-ram">
+<h2>AUX RAM<a class="headerlink" href="#aux-ram" title="Permalink to this headline">¶</a></h2>
+<p>The AUX RAM is a 2 KB memory area belonging to the <a class="reference internal" href="../sensor-controller/sensor-controller.html#sensor-controller"><span class="std std-ref">Sensor Controller</span></a>. If
+you application does not use the Sensor Controller, you can use this memory as
+RAM for your application. However, access to this memory is significantly slower
+than access to the SRAM. This may lead to increased power consumption and
+slower program execution.</p>
+<div class="section" id="using-the-aux-ram-as-ram">
+<span id="using-the-aux-as-ram"></span><h3>Using the AUX RAM as RAM<a class="headerlink" href="#using-the-aux-ram-as-ram" title="Permalink to this headline">¶</a></h3>
+<p><strong>In order to use the AUX RAM with you application, follow these
+steps (CCS is first described, then IAR).</strong></p>
+<p>1. Make a new define in the linker command file predefines: In CCS;
+Project -&gt; Properties -&gt; ARM Linker -&gt; Advanced Options -&gt; Command
+File Preprocessing. In IAR; Options -&gt; Linker -&gt; Config. Add
+<code class="docutils literal"><span class="pre">AUX_AS_RAM=1</span></code>.</p>
+<p>2. The linker command/configuration files are somewhat different
+from CCS to IAR. <strong>The instructions for altering the linker
+configuration file in IAR follows the CCS specific explanations</strong>.</p>
+<ul>
+<li><p class="first">In the linker command file <code class="docutils literal"><span class="pre">cc26xx_app.cmd</span></code>, define the AUX_RAM
+memory area:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>#ifdef AUX_AS_RAM
+#define AUX_RAM_BASE            0x400E0000
+#define AUX_RAM_SIZE            0x800
+#endif /* AUX_AS_RAM */
+</pre></div>
+</div>
+</li>
+<li><p class="first">Create a AUX_RAM memory section in <code class="docutils literal"><span class="pre">MEMORY{}</span></code></p>
+</li>
+</ul>
+<blockquote>
+<div><div class="highlight-none"><div class="highlight"><pre><span></span>#ifdef AUX_AS_RAM
+AUX_RAM (RWX) : origin = AUX_RAM_BASE, length = AUX_RAM_SIZE
+#endif /* AUX_AS_RAM */
+</pre></div>
+</div>
+</div></blockquote>
+<ul>
+<li><p class="first">Add sections of memory or code to AUX_RAM in <code class="docutils literal"><span class="pre">SECTIONS{}</span></code></p>
+<div class="literal-block-wrapper docutils container" id="id20">
+<div class="code-block-caption"><span class="caption-number">Listing 36. </span><span class="caption-text">Move object files into AUX_RAM. Example from simple_peripheral (<code class="docutils literal"><span class="pre">cc26xx_app.cmd</span></code>).</span><a class="headerlink" href="#id20" title="Permalink to this code">¶</a></div>
+<div class="highlight-none"><div class="highlight"><pre><span></span>#ifdef AUX_AS_RAM
+  reorganized_into_auxram
+  {
+    simple_peripheral.obj(.data)
+    devinfoservice.obj(.data)
+    simple_gatt_profile.obj(.data)
+    icall.obj(.data)
+    board.obj(.bss)
+    } &gt; AUX_RAM
+#endif/* AUX_AS_RAM */
+</pre></div>
+</div>
+</div>
+</li>
+</ul>
+<p>The .obj files are listed in the FlashROM folder of the app project.
+They are also listed with size in the .map file. A detailed
+description of the linker command file and memory sections is given
+in the wiki article <a class="reference external" href="http://processors.wiki.ti.com/index.php/Linker_Command_File_Primer">Linker Command File Primer</a>.</p>
+<p>If you want more control over what is stored in AUX_RAM, individual
+variables can be stored there with the <code class="docutils literal"><span class="pre">#pragma</span> <span class="pre">DATA_SECTION</span></code> command.
+Please note that this is only possible for global variables.</p>
+<blockquote>
+<div><div class="literal-block-wrapper docutils container" id="id21">
+<div class="code-block-caption"><span class="caption-number">Listing 37. </span><span class="caption-text">Move the global <em>display handle</em> variable into a new  AUX RAM section called <code class="docutils literal"><span class="pre">my_section</span></code>.</span><a class="headerlink" href="#id21" title="Permalink to this code">¶</a></div>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="c1">// Display Interface</span>
+<span class="cp">#pragma DATA_SECTION(dispHandle, &quot;my_section&quot;)</span>
+<span class="n">Display_Handle</span> <span class="n">dispHandle</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div></blockquote>
+<p>You can find <code class="docutils literal"><span class="pre">my_section</span></code> in the map-file. Here you will find the names of the
+objects included in <code class="docutils literal"><span class="pre">my_section</span></code>. In this case, the object is
+<code class="docutils literal"><span class="pre">simple_peripheral.obj</span> <span class="pre">(my_section)</span></code>.</p>
+<blockquote>
+<div><div class="literal-block-wrapper docutils container" id="id22">
+<div class="code-block-caption"><span class="caption-number">Listing 38. </span><span class="caption-text">In the linker command file (<code class="docutils literal"><span class="pre">cc26xx_app.cmd</span></code>), add the section to AUX_RAM.</span><a class="headerlink" href="#id22" title="Permalink to this code">¶</a></div>
+<div class="highlight-none"><div class="highlight"><pre><span></span>#ifdef AUX_AS_RAM
+  reorganized_into_auxram
+  {
+    simple_peripheral.obj(my_section)
+  } &gt; AUX_RAM
+#endif /* AUX_AS_RAM */
+</pre></div>
+</div>
+</div>
+</div></blockquote>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">When making alterations only to the linker command file, please make sure to
+press <em>Rebuild</em>, not just <em>Build</em>.
+(CCS will not recognize that you have made changes to the project before you
+press <em>Rebuild</em>.)</p>
+</div>
+<ol class="arabic simple" start="3">
+<li><strong>For IAR</strong>, open the linker configuration file <code class="docutils literal"><span class="pre">cc26xx_app.icf</span></code>. Under <code class="docutils literal"><span class="pre">Memory</span> <span class="pre">Definitions</span></code>, add</li>
+</ol>
+<blockquote>
+<div><div class="highlight-none"><div class="highlight"><pre><span></span>////////////////////////////////////////////////////////////////////////////////
+// AUX_RAM
+//
+if ( isdefinedsymbol(AUX_AS_RAM) )
+{
+  define symbol AUX_RAM_START        = 0x400E0000;
+  define symbol AUX_RAM_SIZE         = 0x800;
+  define symbol AUX_RAM_END          = AUX_RAM_START + AUX_RAM_SIZE;
+}
+</pre></div>
+</div>
+</div></blockquote>
+<ul>
+<li><p class="first">Under <code class="docutils literal"><span class="pre">Memory</span> <span class="pre">Regions</span></code>, add</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>if ( isdefinedsymbol(AUX_AS_RAM) )
+{
+  define region AUX_RAM               = mem:[from AUX_RAM_START to AUX_RAM_END];
+}
+</pre></div>
+</div>
+</li>
+<li><p class="first">Under <code class="docutils literal"><span class="pre">Memory</span> <span class="pre">Placement</span></code>, add</p>
+<div class="literal-block-wrapper docutils container" id="id23">
+<div class="code-block-caption"><span class="caption-number">Listing 39. </span><span class="caption-text">Move object files into AUX_RAM. Example from simple_peripheral (<code class="docutils literal"><span class="pre">cc26xx_app.icf</span></code>).</span><a class="headerlink" href="#id23" title="Permalink to this code">¶</a></div>
+<div class="highlight-none"><div class="highlight"><pre><span></span>if ( isdefinedsymbol(AUX_AS_RAM) )
+{
+  // AUX_RAM
+  define block AUXDATA { section .data object simple_peripheral.o,
+                         section .data object devinfoservice.o,
+                         section .data object simple_gatt_profile,
+                         section .data object icall.o,
+                         section .data object board.o};
+  place in AUX_RAM { block AUXDATA };
+}
+</pre></div>
+</div>
+</div>
+</li>
+</ul>
+<p>The .o-files are listed in the .map file. For more information on the linker
+configuration file, please see <a class="reference external" href="http://ftp.iar.se/WWWfiles/arm/webic/doc/EWARM_DevelopmentGuide.ENU.pdf">IAR C/C++ Development Guide</a>.</p>
+<p>If you want more control over what is stored in AUX_RAM, individual
+variables can be stored there with the <code class="docutils literal"><span class="pre">#pragma</span> <span class="pre">location</span></code> command.
+Please note that this is only possible for global variables.</p>
+<blockquote>
+<div><div class="literal-block-wrapper docutils container" id="id24">
+<div class="code-block-caption"><span class="caption-number">Listing 40. </span><span class="caption-text">Move the global <em>display handle</em> variable into a new Cache RAM section called <code class="docutils literal"><span class="pre">my_section</span></code>.</span><a class="headerlink" href="#id24" title="Permalink to this code">¶</a></div>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="c1">// Display Interface</span>
+<span class="cp">#pragma location=&quot;my_section&quot;</span>
+<span class="n">Display_Handle</span> <span class="n">dispHandle</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div></blockquote>
+<p>You can find <code class="docutils literal"><span class="pre">my_section</span></code> in the map-file. Here you will find the names of the
+objects included in <code class="docutils literal"><span class="pre">my_section</span></code>. In this case, the object is
+<code class="docutils literal"><span class="pre">simple_peripheral.o</span> <span class="pre">(my_section)</span></code>.</p>
+<blockquote>
+<div><div class="literal-block-wrapper docutils container" id="id25">
+<div class="code-block-caption"><span class="caption-number">Listing 41. </span><span class="caption-text">In the linker configuration file (<code class="docutils literal"><span class="pre">cc26xx_app.cmd</span></code>), add the section to AUX_RAM.</span><a class="headerlink" href="#id25" title="Permalink to this code">¶</a></div>
+<div class="highlight-none"><div class="highlight"><pre><span></span>if ( isdefinedsymbol(AUX_AS_RAM) )
+{
+  // AUX_RAM
+  define block AUXDATA { section my_section object simple_peripheral.o };
+  place in AUX_RAM { block AUXDATA };
+}
+</pre></div>
+</div>
+</div>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="frontier-tool">
+<span id="sec-fontier-tool"></span><h2>Frontier Tool<a class="headerlink" href="#frontier-tool" title="Permalink to this headline">¶</a></h2>
+<p>The frontier tool is a utility to automatically adjust the respective RAM and
+flash boundary address symbols shared between the application and stack
+projects built as <strong>split images</strong>. Project where the application consumes the
+stack as a library do not require the use of the Frontier Tool.</p>
+<p>Frontier runs as a post-build step of the stack project, and adjusts
+the respective RAM and flash boundaries based on analysis of the stack linker
+and map files. No project files are modified by the frontier tool. The frontier
+tool does not modify any source code or perform any compiler or linker
+optimization; the tool adjusts and updates the respective flash and RAM boundary
+addresses, located in the compiler and linker configuration files used by the
+application and stack projects.</p>
+<p>The frontier tool is installed to the following path within the SDK:
+<em>&lt;SDK_INSTALL_DIR&gt;\examples\rtos\CC2640R2_LAUNCHXL\ble5stack\tools\frontier\frontier.exe</em></p>
+<p>The python source for this tool is also included.</p>
+<p><a class="reference internal" href="#boundary-address-symbols-table"><span class="std std-numref">Table 9.</span></a> shows the boundary address symbols
+updated by the frontier tool.</p>
+<span id="boundary-address-symbols-table"></span><table border="1" class="docutils" id="id26">
+<caption><span class="caption-number">Table 9. </span><span class="caption-text">Boundary Address Symbols</span><a class="headerlink" href="#id26" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="36%" />
+<col width="64%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Boundary Address Symbol</th>
+<th class="head">Definition</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>ICALL_STACK0_START</td>
+<td>Boundary flash address between application and stack
+images. Represents the end of the application image and
+the beginning of the stack image.</td>
+</tr>
+<tr class="row-odd"><td>ICALL_STACK0_ADDR</td>
+<td>Stack entry address (flash)</td>
+</tr>
+<tr class="row-even"><td>ICALL_RAM0_START</td>
+<td>Boundary RAM address between application and stack
+images. Represents the end of the application RAM and
+the beginning of the stack RAM.</td>
+</tr>
+</tbody>
+</table>
+<p>All sample application projects are, by default, configured to use
+the frontier tool; thus, no user configuration of the frontier tool
+is required. The boundary files may be updated when the stack
+configuration is changed, or when any files are updated in the stack
+project that result in a change in the size of the stack image. It
+is therefore required to rebuild the application project anytime the
+stack project is built.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The frontier tool replaces the boundary tool used in earlier SDKs.</p>
+</div>
+<div class="section" id="frontier-tool-operation">
+<h3>Frontier Tool Operation<a class="headerlink" href="#frontier-tool-operation" title="Permalink to this headline">¶</a></h3>
+<p>The frontier tool (frontier.exe) is invoked as a CCS or IAR IDE
+post-build operation of the stack project. If an adjustment to the
+RAM or flash boundary is required, the frontier tool updates the
+boundary linker configuration and C definition files listed below.
+To incorporate the updated configuration values, perform a
+Project -&gt;  Rebuild All on the application project. The stack
+project must build and link correctly before the application can be
+rebuilt.</p>
+<p>Each project in the SDK has a set of configuration files that the
+linker and compiler of the IDE use to set or adjust the respective
+flash and RAM values. These configuration files are shared between
+the application and stack workspaces, and are stored at the
+following location:</p>
+<p><em>&lt;SDK_INSTALL_DIR&gt;\examples\rtos\&lt;EVAL_BOARD&gt;\ble5stack\&lt;PROJECT&gt;\tirtos\&lt;IDE&gt;\config</em></p>
+<p>Where &lt;EVAL_BOARD&gt; is the evaluation platform, &lt;PROJECT&gt; is the
+sample application (for example, simple_peripheral), and &lt;IDE&gt; is
+either IAR or CCS.</p>
+<p>For example, the simple_peripheral sample application running on the CC2640R2F
+LaunchPad, the boundary config files are located at the following
+paths:</p>
+<p>CCS:
+<em>&lt;SDK_INSTALL_DIR&gt;\examples\rtos\CC2640R2_LAUNCHXL\ble5stack\simple_peripheral\tirtos\ccs\config</em></p>
+<p>IAR:
+<em>&lt;SDK_INSTALL_DIR&gt;\examples\rtos\CC2640R2_LAUNCHXL\ble5stack\simple_peripheral\tirtos\iar\config</em></p>
+<p>The following are the boundary config files:</p>
+<ul class="simple">
+<li>Boundary linker configuration file: iar_boundary.xcl [IAR] or
+ccs_linker_defines.cmd [CCS]. Defines the boundary addresses
+for the linker. This file is in the TOOLS IDE folder and is
+updated by the frontier tool when an adjustment is required.</li>
+<li>Boundary C definition file: iar_boundary.bdef [IAR] or
+ccs_compiler_defines.bcfg [CCS]. Defines the boundary addresses
+for the compiler. This file is in the TOOLS IDE folder and is
+updated by the frontier tool when an adjustment is required.</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The values in the boundary linker configuration file and the boundary
+C definition file must match.</p>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../ble-stack-3.x/index.html" class="btn btn-neutral float-right" title="Developing a Bluetooth Low Energy Application" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="rtos-overview.html" class="btn btn-neutral" title="TI-RTOS Overview" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Texas Instruments.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.01.01.00',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

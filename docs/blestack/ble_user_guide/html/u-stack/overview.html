@@ -1,0 +1,405 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Overview &mdash; BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation" href="../index.html"/>
+        <link rel="up" title="Micro BLE Stack" href="index.html"/>
+        <link rel="next" title="System Architecture" href="system-architecture.html"/>
+        <link rel="prev" title="Micro BLE Stack" href="index.html"/> 
+    <script language="JavaScript">
+        var tiPageName;
+        tiPageName = "sug u-stack overview";
+
+        if (location.protocol == "file:"){
+            var ci_analytics_poc_load = true;
+        }
+    </script> 
+
+    <script src="http://www.ti.com/assets/js/headerfooter/analytics.js" type="text/javascript" charset="utf-8">     
+
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../ble-stack-3.x-guide/index.html" class="icon icon-home"> BLE-Stack User's Guide for Bluetooth 4.2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.01.01.00
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../cc2640/disclaimer.html">Disclaimer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/get-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cc2640/platform.html">The CC2640R2F SDK Platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x/index.html">Developing a Bluetooth Low Energy Application</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Micro BLE Stack</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Overview</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#constraints-and-requirements">Constraints and Requirements</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#connection-monitor-limitations">Connection Monitor Limitations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dual-mode-considerations">Dual Mode Considerations</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#functional-overview">Functional Overview</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="system-architecture.html">System Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="functional-description.html">Functional Description</a></li>
+<li class="toctree-l2"><a class="reference internal" href="external-interface.html">External Interface</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../oad-ble-stack-3.x/oad.html">Over the Air Download (OAD)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../voice/voice.html">Creating a Voice Enabled Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../secure-fw-3.x/index.html">Secure Firmware (SFW)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensor-controller/sensor-controller.html">Sensor Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../debugging/ble-index.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/migration.html">Migration Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/api-reference.html">API References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/reference.html">Terms and Definitions</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../ble-stack-3.x-guide/index.html">BLE-Stack User's Guide for Bluetooth 4.2</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../ble-stack-3.x-guide/index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">Micro BLE Stack</a> &raquo;</li>
+        
+      <li>Overview</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
+<p>This section describes the high level design and functionality of the Micro BLE Stack.
+The Micro BLE Stack enables applications on the CC2640R2F to advertise, scan, or behave
+as an connection monitor. The Micro BLE stack utilizes the MultiMode RF driver as well.
+The MultiMode RF Driver enables dual-mode applications where another communication protocol
+stack is integrated and utilized along side the Micro BLE Stack.</p>
+<div class="section" id="constraints-and-requirements">
+<h2>Constraints and Requirements<a class="headerlink" href="#constraints-and-requirements" title="Permalink to this headline">¶</a></h2>
+<p>The Micro BLE Stack has the following internal constraints and requirements:</p>
+<ul class="simple">
+<li>This design optionally depends on partial integration of ICall to save
+system resources if there already is an application using ICall in the
+dual-mode use case. In the case of using the ICall module, ICall&#8217;s system
+heap management and TI-RTOS service abstraction will be used.</li>
+<li>There is no HCI because there is no separation between the controller and the
+host.</li>
+<li>The privacy feature is not supported, but random address generation is
+supported</li>
+<li>To minimize the memory overhead and remove redundant context switching,
+the Micro BLE Stack doesn&#8217;t have a separate TI-RTOS task. It is instead
+integrated in the application task.</li>
+<li>Only configurations utilizing the multi-mode RF driver can be used with
+other RF driver stacks. Priority, time criticality, and scheduling
+need to be chosen carefully to ensure compatibility with other
+multi-mode RF driver utilizing stack, such as TI-15.4-Stack.</li>
+</ul>
+<div class="section" id="connection-monitor-limitations">
+<h3>Connection Monitor Limitations<a class="headerlink" href="#connection-monitor-limitations" title="Permalink to this headline">¶</a></h3>
+<p>Connection Monitor feature has the following limitations:
+-  monitoring connections utilizing LE Channel Selection Algorithm #1
+-  monitoring connections using LE 1M PHY
+-  monitoring connections on LE Data channels</p>
+</div>
+<div class="section" id="dual-mode-considerations">
+<h3>Dual Mode Considerations<a class="headerlink" href="#dual-mode-considerations" title="Permalink to this headline">¶</a></h3>
+<p>For operation of the Micro BLE Stack with other multi-mode RF driver utilizing
+stacks, Priority, time criticality, and scheduling is paramount to ensure
+compatibility.</p>
+<div class="section" id="priority">
+<h4>Priority<a class="headerlink" href="#priority" title="Permalink to this headline">¶</a></h4>
+<p>Micro BLE Stack has an overall stack priority that is applied to every issued radio command.
+The stack priority is intended to give Micro BLE Stack a relative priority against the other
+stacks. The stack priority is saved in RFPriority through ub_uble_setParam().
+RF_PRI_HIGH and RF_PRI_NORMAL are translated into RF_PriorityHigh and RF_PriorityNormal
+respectively when the Micro BLE Stack calls RF_scheduleCmd().</p>
+<p>If Micro BLE Stack&#8217;s priority is higher than another stack’s, every Micro BLE Stack’s radio
+command gets privileged unless the priority of other stack command which has been scheduled
+is RF_PriorityHighest.</p>
+<p>Note that the priority of strictly time-critical and crucial commands, such as CMD_PROP_RX_ADV
+for beacon reception in TI-15.4-Stack, tends to be set to RF_PriorityHighest regardless of the
+stack priority.</p>
+</div>
+<div class="section" id="time-critically">
+<h4>Time Critically<a class="headerlink" href="#time-critically" title="Permalink to this headline">¶</a></h4>
+<p>Time Criticality is how important a radio command being executed at an exact time is.
+Time Criticality is saved in RFTimeCriticality through ub_uble_setParam().
+For example, ff the accuracy of the Advertising interval is so important that missing advertising
+events not acceptable and delaying other stack’s higher-priority activities are completed;
+RFTimeCriticality should be set to RF_TIME_CRITICAL.
+Otherwise, RFTimeCriticality should be set to RF_TIME_RELAXED.</p>
+</div>
+<div class="section" id="scheduling">
+<h4>Scheduling<a class="headerlink" href="#scheduling" title="Permalink to this headline">¶</a></h4>
+<p>When the Micro BLE Stack schedules a command, Priority and Time Criticality
+are passed to RF_scheduleCmd(). These parameters are contained in the priority
+element of RF_ScheduleCmdParams and pastTrig field in startTrigger element of the
+RF driver command struct.</p>
+<p>If RFTimeCriticality is RF_TIME_CRITICAL so the command has to start at a designated
+time, a failure returned if the radio is unavailable to schedule the command at the moment
+requested. RF_scheduleCmd() rejects the command if any portion of the desired time period
+reserved by the same- or higher-priority operation of other stacks or the RF driver command
+queue is full.</p>
+<p>If RFTimeCriticality is RF_TIME_RELAXED so the command can be delayed if the radio is unavailable
+at moment requested; that command is scheduled with pastTrig=1. Once the command with pastTrig=1
+is scheduled successfully, it will start at the desired start time if the radio is available,
+or when the radio is available after the start time.</p>
+<p>The RF Event RF_EventRadioAvailable needs to be activated since it is used for rescheduling</p>
+</div>
+<div class="section" id="rf-event-processing">
+<h4>RF Event Processing<a class="headerlink" href="#rf-event-processing" title="Permalink to this headline">¶</a></h4>
+<p>The followings are the RF Events that will occurs, what they mean and how they are handled.</p>
+<ul>
+<li><p class="first">RF_EventLastCmdDone
+This case is treated as successful command completion. uLL schedules
+the next advertising event or scan if needed.</p>
+</li>
+<li><p class="first">RF_EventCmdCancelled
+If this RF Event comes together with RF_EventPreempted, uLL saves this
+state for RF_EventRadioAvailable processing.</p>
+</li>
+<li><p class="first">RF_EventCmdStopped or RF_EventCmdAborted
+If this RF Event comes together with RF_EventClientChange, uLL saves this
+state for RF_EventRadioAvailable processing and treats this case as an
+operation failure. uLL schedules the next advertising event or scan if needed.</p>
+</li>
+<li><p class="first">RF_EventRadioAvailable
+If this RF Event comes after RF_scheduleCmd() was rejected or after either an
+RF_EventCmdCancelled or RF_EventPreempted was received for the same associated
+command, the uLL compare the current time with the start time of the associated command.</p>
+<ul class="simple">
+<li>If the current time has already passed the start time and RFTimeCriticality
+is RF_TIME_CRITICAL, uLL handles this case as an operation failure and schedules
+the next advertising event or scan if needed.</li>
+<li>If the current time has not passed the start time or RFTimeCriticality
+is RF_TIME_CRITICAL, uLL retries the scheduling with the same start time.</li>
+</ul>
+<p>If this RF Event comes after either RF_EventCmdStopped or RF_EventCmdAborted was
+received with regards to the same associated command, uLL ignores this RF Event.</p>
+</li>
+</ul>
+<p>For more information regarding the RF driver see
+[<strong>RF Drive API</strong>](../../../../../docs/tidrivers/doxygen/html/_r_f_8h.html).</p>
+</div>
+</div>
+</div>
+<div class="section" id="functional-overview">
+<h2>Functional Overview<a class="headerlink" href="#functional-overview" title="Permalink to this headline">¶</a></h2>
+<p>The Micro BLE Stack consists of two layers: The Micro Link Layer (Micro LL or
+uLL) and Micro Generic Access Profile (Micro GAP or uGAP).</p>
+<p>Micro LL performs:</p>
+<ul class="simple">
+<li>Radio management</li>
+<li>Device state management between standby, advertising/scanning, and monitoring</li>
+</ul>
+<p>Micro GAP performs:</p>
+<ul class="simple">
+<li>Broadcaster role</li>
+<li>Connection Monitor feature</li>
+<li>Initialization and configuration of the Micro LL</li>
+<li>State Management within the role/feature</li>
+<li>Interfacing with the application</li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="system-architecture.html" class="btn btn-neutral float-right" title="System Architecture" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="Micro BLE Stack" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Texas Instruments.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.01.01.00',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

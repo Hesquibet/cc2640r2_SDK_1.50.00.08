@@ -1,0 +1,7 @@
+<map id="SysCtrlIdle" name="SysCtrlIdle">
+<area shape="rect" id="node2" href="$group__prcm__api.html#gafeee35bf77dd94cfcc01d272b52f9623" title="Enable CACHE RAM retention. " alt="" coords="139,5,331,32"/>
+<area shape="rect" id="node3" href="$group__prcm__api.html#ga04bc50902d188d77442027c96b971f06" title="Turn off a specific power domain. " alt="" coords="157,56,313,83"/>
+<area shape="rect" id="node4" href="$group__sysctrl__api.html#ga1d9c005051b674f9f254747c1705e3dc" title="Sync all accesses to the AON register interface. " alt="" coords="175,107,294,133"/>
+<area shape="rect" id="node5" href="$group__prcm__api.html#ga33c5410febc5f2af059a8a88e96b9736" title="Put the processor into deep&#45;sleep mode. " alt="" coords="173,157,296,184"/>
+<area shape="rect" id="node6" href="$group__cpu__api.html#ga28849d778ab8d1eb9dd29ad07fc7c845" title="Wait for interrupt. " alt="" coords="379,157,443,184"/>
+</map>

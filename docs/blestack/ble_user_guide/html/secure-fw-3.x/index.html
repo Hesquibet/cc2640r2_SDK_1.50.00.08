@@ -1,0 +1,718 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Secure Firmware (SFW) &mdash; BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation" href="../index.html"/>
+        <link rel="next" title="Sensor Controller" href="../sensor-controller/sensor-controller.html"/>
+        <link rel="prev" title="Voice over BLE" href="../voice/ble_voice.html"/> 
+    <script language="JavaScript">
+        var tiPageName;
+        tiPageName = "sug secure-fw-3.x index";
+
+        if (location.protocol == "file:"){
+            var ci_analytics_poc_load = true;
+        }
+    </script> 
+
+    <script src="http://www.ti.com/assets/js/headerfooter/analytics.js" type="text/javascript" charset="utf-8">     
+
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../ble-stack-3.x-guide/index.html" class="icon icon-home"> BLE-Stack User's Guide for Bluetooth 4.2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.01.01.00
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../cc2640/disclaimer.html">Disclaimer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/get-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cc2640/platform.html">The CC2640R2F SDK Platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x/index.html">Developing a Bluetooth Low Energy Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../u-stack/index.html">Micro BLE Stack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../oad-ble-stack-3.x/oad.html">Over the Air Download (OAD)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../voice/voice.html">Creating a Voice Enabled Application</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Secure Firmware (SFW)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#assumptions">Assumptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#constraints">Constraints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#functional-overview">Functional Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#system-architecture">System Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#functional-description">Functional Description</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#image-metadata">Image Metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#secure-firmware-configuration">Secure Firmware Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#secure-firmware-control-flow">Secure Firmware control flow</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#building-a-secure-firmware-application">Building a secure firmware application</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#adding-to-application-project">Adding to application project</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#integrating-secure-firmware-functionality">Integrating Secure Firmware functionality</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#miscellaneous">Miscellaneous</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#keys">Keys</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#magic-word">Magic word</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#parameters-in-secure-fw-tool-py-script">Parameters in secure_fw_tool.py script</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#viewing-failure-error-codes">Viewing failure error codes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../sensor-controller/sensor-controller.html">Sensor Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../debugging/ble-index.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/migration.html">Migration Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/api-reference.html">API References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/reference.html">Terms and Definitions</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../ble-stack-3.x-guide/index.html">BLE-Stack User's Guide for Bluetooth 4.2</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../ble-stack-3.x-guide/index.html">Docs</a> &raquo;</li>
+        
+      <li>Secure Firmware (SFW)</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="secure-firmware-sfw">
+<span id="sec-secure-fw"></span><h1>Secure Firmware (SFW)<a class="headerlink" href="#secure-firmware-sfw" title="Permalink to this headline">¶</a></h1>
+<p>This section serves as a guide to the Texas Instruments Secure Firmware
+(<a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-sfw"><span class="xref std std-term">SFW</span></a>) ecosystem including the custom authentication procedure, application
+architecture, and drivers. <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-sfw"><span class="xref std std-term">SFW</span></a> describes the process by which a developer
+can enable an application to successfully verify the image on a CC2640R2F device for improved
+integrity and security of the image.</p>
+<p>The guide will cover the principles of the <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-sfw"><span class="xref std std-term">SFW</span></a> process, the out of
+the box examples included in the SimpleLink CC2640R2 SDK, and the process for adding <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-sfw"><span class="xref std std-term">SFW</span></a>
+to an existing project.</p>
+<p>This <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-sfw"><span class="xref std std-term">SFW</span></a> guide will cover:</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-sfw"><span class="xref std std-term">SFW</span></a> theory of operation and architecture</li>
+<li>How to add <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-sfw"><span class="xref std std-term">SFW</span></a> to an existing sample application</li>
+</ul>
+</div></blockquote>
+<p>The readme for the secure_fw project (/examples/rtos/CC2640R2_LAUNCHXL/blestack/secure_fw) will cover:</p>
+<blockquote>
+<div><ul class="simple">
+<li>How to run the <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-sfw"><span class="xref std std-term">SFW</span></a> examples included in the SimpleLink CC2640R2 SDK</li>
+</ul>
+</div></blockquote>
+<p>The supported development kit for <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-sfw"><span class="xref std std-term">SFW</span></a> is the <a class="reference external" href="http://www.ti.com.cn/tool/launchxl-cc2640r2">CC2640R2 Launchpad</a>. To follow the
+procedures listed in this guide, one <a class="reference external" href="http://www.ti.com.cn/tool/launchxl-cc2640r2">CC2640R2 Launchpad</a> development kit is required.</p>
+<div class="section" id="assumptions">
+<h2>Assumptions<a class="headerlink" href="#assumptions" title="Permalink to this headline">¶</a></h2>
+<p>The following are assumed to be true for this implementation:</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-sfi"><span class="xref std std-term">SFI</span></a> includes the correct configuration items including the signing key</li>
+<li>Initial programming of the <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-sfb"><span class="xref std std-term">SFB</span></a> is done in a secure manner.</li>
+<li><a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-sfb"><span class="xref std std-term">SFB</span></a> can verify the new firmware but does not have recovery mechanism if it fails.</li>
+<li>The entire firmware image is contiguous.</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="constraints">
+<h2>Constraints<a class="headerlink" href="#constraints" title="Permalink to this headline">¶</a></h2>
+<p>The following are the limitations of this secure firmware implementation:</p>
+<blockquote>
+<div><ul class="simple">
+<li>We do not have a reliable method of marking an image as verified, hence this module
+needs to be run at each power-up.</li>
+<li>This module is compatible to run on CC2640R2 and future platforms.</li>
+<li>IAR or CCS can be used to build the project.</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="functional-overview">
+<h2>Functional Overview<a class="headerlink" href="#functional-overview" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-sfb"><span class="xref std std-term">SFB</span></a> does the following operations:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Verify self integrity (this feature is not supported currently)</li>
+<li>Verify image</li>
+<li>Handle the exception for image verification failure</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="system-architecture">
+<h2>System Architecture<a class="headerlink" href="#system-architecture" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-sfb"><span class="xref std std-term">SFB</span></a> resides in the last page of flash (Page 31). <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-sfb"><span class="xref std std-term">SFB</span></a> uses the metadata from the
+image header (starting at Flash Page 0) along with the parameters available in
+<a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-sfb"><span class="xref std std-term">SFB</span></a> configuration to verify the secure image before executing it. If the image verification
+fails and SECURE_FW_ERASE_FLASH is set to true, the existing image is erased,
+the error code is written at flash page 1 and the bootloader enters standby mode.</p>
+</div>
+<div class="section" id="functional-description">
+<h2>Functional Description<a class="headerlink" href="#functional-description" title="Permalink to this headline">¶</a></h2>
+<p>The flash layout for a secure firmware project is shown below. The main difference is that
+the image metadata is stored in flash page 0 and the Secure Firmware Bootloader (<a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-sfb"><span class="xref std std-term">SFB</span></a>)
+is stored at the beginning of flash page 31.</p>
+<div class="figure align-center" id="sfw-mem-layout">
+<img alt="../_images/SFW_flash_layout.png" src="../_images/SFW_flash_layout.png" />
+</div>
+<div class="section" id="image-metadata">
+<h3>Image Metadata<a class="headerlink" href="#image-metadata" title="Permalink to this headline">¶</a></h3>
+<p>Each &#8220;secure image&#8221; has an image header/metadata consisting of the following:</p>
+<blockquote>
+<div><ul class="simple">
+<li>64-bit Magic word</li>
+<li>64-bit space for version, length, etc.</li>
+<li>start and stop of firmware; program entry address</li>
+<li>possible <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-tlv"><span class="xref std std-term">TLV</span></a> &#8216;s include: signElement, certElement</li>
+</ul>
+</div></blockquote>
+<p>Image metadata includes version number, size, etc. The image is signed with
+root private key or a signer private key. In latter case, signer cert is part of the
+image metadata.</p>
+<table border="1" class="docutils" id="id2">
+<caption><span class="caption-number">Table 23. </span><span class="caption-text">Image Metadata</span><a class="headerlink" href="#id2" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="15%" />
+<col width="15%" />
+<col width="70%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Field
+name</th>
+<th class="head">Number of
+bytes</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Magic
+word</td>
+<td>8</td>
+<td>Unique identifier to indicate start of secure
+firmware image</td>
+</tr>
+<tr class="row-odd"><td>Properties</td>
+<td>8</td>
+<td><p class="first">This field contains the following fields:</p>
+<p>4 bytes -  firmware version</p>
+<p class="last">4 bytes - length of image</p>
+</td>
+</tr>
+<tr class="row-even"><td>Start
+address</td>
+<td>4</td>
+<td>Application startup entry address</td>
+</tr>
+<tr class="row-odd"><td>End
+address</td>
+<td>4</td>
+<td>End address of current image</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-tlv"><span class="xref std std-term">TLV</span></a></td>
+<td>x</td>
+<td>Sign element(s) as described in Table 2 below</td>
+</tr>
+</tbody>
+</table>
+<p>The signElement <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-tlv"><span class="xref std std-term">TLV</span></a> contains the signature value.</p>
+<table border="1" class="docutils" id="id3">
+<caption><span class="caption-number">Table 24. </span><span class="caption-text">Sign element structure</span><a class="headerlink" href="#id3" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="14%" />
+<col width="9%" />
+<col width="77%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Field
+name</th>
+<th class="head">No of
+bytes</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Type</td>
+<td>1</td>
+<td><p class="first">The following signatures are supported:</p>
+<p>1: ECDSA P-256 signature</p>
+<p>2: AES-128-CBC signature</p>
+<p class="last">3+: reserved</p>
+</td>
+</tr>
+<tr class="row-odd"><td>Timestamp/
+counter</td>
+<td>4</td>
+<td>Reserved for future use</td>
+</tr>
+<tr class="row-even"><td>Sign
+payload</td>
+<td>x</td>
+<td><p class="first">Type 1: signPayload = {8-byte signerInfo (SHA2 hash
+digest), 64-byte signature}</p>
+<p class="last">Type 2: signPayload = {16-byte AES-CBC-MAC value}</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="secure-firmware-configuration">
+<h3>Secure Firmware Configuration<a class="headerlink" href="#secure-firmware-configuration" title="Permalink to this headline">¶</a></h3>
+<p>The following table lists the configuration changes can be modified in the secure_fw project
+in secure_fw_config.h file:</p>
+<table border="1" class="docutils" id="id4">
+<caption><span class="caption-number">Table 25. </span><span class="caption-text">List of configuration parameters for Secure Firmware Bootloader</span><a class="headerlink" href="#id4" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="27%" />
+<col width="11%" />
+<col width="62%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Configuration
+parameter</th>
+<th class="head">Default
+value</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>SECURE_FW_SELF_CHECK</td>
+<td>False</td>
+<td>The status of this flag determines if self integrity
+check needs to be performed on SFB (This feature is not
+supported currently)</td>
+</tr>
+<tr class="row-odd"><td>SECURE_FW_VERIFY_ALWAYS</td>
+<td>1</td>
+<td>This value is used to determine whether SFB needs to run
+at every power reset, value one indicates SFB to be run
+at every power reset (This feature is not supported
+currently)</td>
+</tr>
+<tr class="row-even"><td>SECURE_FW_FW_ROLLBACK</td>
+<td>0</td>
+<td>Value of 0 indicates no rollback to previous firmware,
+value of 1 allows rollback to previous FW versions (This
+feature is not supported currently).</td>
+</tr>
+<tr class="row-odd"><td>SECURE_FW_SFW_MAGIC_WORD</td>
+<td>57:46:53
+20:4C:42
+53:0A</td>
+<td>Magic word for start of secure firmware image (ASCII for
+“SBL SFW” in little-endian format)</td>
+</tr>
+<tr class="row-even"><td>SECURE_FW_SIGN_TYPE</td>
+<td>1</td>
+<td><p class="first">Type of sign element:</p>
+<p>0x01: ECC</p>
+<p class="last">0x02: AES (AES is not supported currently)</p>
+</td>
+</tr>
+<tr class="row-odd"><td>SECURE_FW_LOCK</td>
+<td>True</td>
+<td>Locks page 31 if set to true</td>
+</tr>
+<tr class="row-even"><td>SECURE_FW_ERASE_FLASH</td>
+<td>False</td>
+<td>Erases flash on failure if set to true,
+does not erase when set to false</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils" id="id5">
+<caption><span class="caption-number">Table 26. </span><span class="caption-text">Cert element structure</span><a class="headerlink" href="#id5" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="11%" />
+<col width="18%" />
+<col width="71%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Field
+name</th>
+<th class="head">Num of bytes</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Type</td>
+<td>1</td>
+<td><p class="first">Type 1: ECC P-256 raw public key</p>
+<p>Type 2: Symmetric AES-128 key</p>
+<p class="last">Type 3: ECC P-256 self-signed public (not supported currently)</p>
+</td>
+</tr>
+<tr class="row-odd"><td>Length</td>
+<td>1</td>
+<td>Length of this structure</td>
+</tr>
+<tr class="row-even"><td>Options</td>
+<td>2</td>
+<td>Reserved for future use</td>
+</tr>
+<tr class="row-odd"><td>Cert
+Payload</td>
+<td>x</td>
+<td><p class="first">Type 1: certPayload = {8-byte signer info, 64-byte public key}</p>
+<p>Type 2: certPayload = {16-byte AES key}</p>
+<p class="last">Type 3: certPayload = {8-byte signer info, 64-byte public key,
+x-byte signElement} (not supported currently)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="secure-firmware-control-flow">
+<h3>Secure Firmware control flow<a class="headerlink" href="#secure-firmware-control-flow" title="Permalink to this headline">¶</a></h3>
+<p>Control to <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-sfb"><span class="xref std std-term">SFB</span></a> is passed on considering the use case where the ROM bootloader is
+used with <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-sfb"><span class="xref std std-term">SFB</span></a> for authentication. The ROM bootloader is used for programming the device.
+There are no checks prior to programming the device since the ROM bootloader cannot be modified.
+At every device reset, the <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-sfb"><span class="xref std std-term">SFB</span></a> executes first and verifies the firmware signature.</p>
+<div class="figure align-center" id="id6">
+<span id="sfw-system-flow"></span><img alt="../_images/system_flow.png" src="../_images/system_flow.png" />
+<p class="caption"><span class="caption-number">Figure 101. </span><span class="caption-text">Secure Firmware sequence</span></p>
+</div>
+<p>The <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-sfb"><span class="xref std std-term">SFB</span></a> works as follows:</p>
+<ol class="arabic">
+<li><p class="first">Verify self integrity if required by configuration (this feature is not supported currently).</p>
+</li>
+<li><p class="first">If the firmware version is greater than current one, it is considered valid,
+else an exception is raised (Firmware rollback feature is not supported currently).</p>
+</li>
+<li><p class="first">Verify image</p>
+<ol class="upperalpha">
+<li><p class="first">Read image header</p>
+<ol class="loweralpha simple">
+<li>Verify magic word</li>
+<li>Read version and check compatibility</li>
+<li>Read start and end address fields and sanity check address fields</li>
+<li>Parse for sign element. Find first sign element with type matching one of the supported sign.
+Check for supported cert element stored in flash.<ol class="arabic">
+<li>If none found, then raise exception</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p class="first">Verify image</p>
+<ol class="loweralpha">
+<li><p class="first">Sign type is ECC:</p>
+<ol class="arabic">
+<li><p class="first">Do ECC verify (ROM code) over the image using included signature and SHA2 hash (library).</p>
+<div class="figure align-center" id="id7">
+<span id="sfw-ecc-verify"></span><img alt="../_images/ECC_verify.png" src="../_images/ECC_verify.png" />
+<p class="caption"><span class="caption-number">Figure 102. </span><span class="caption-text">ECC Verify</span></p>
+</div>
+</li>
+</ol>
+</li>
+<li><p class="first">Sign type is AES:</p>
+<ol class="arabic">
+<li><p class="first">Compute aes_cbc_mac over image : Generate CBC MAC and authenticate generated
+MAC with included MAC (driverlib code).</p>
+<div class="figure align-center" id="id8">
+<span id="sfw-aes-cbc"></span><img alt="../_images/AES_CBC.png" src="../_images/AES_CBC.png" />
+<p class="caption"><span class="caption-number">Figure 103. </span><span class="caption-text">AES CBC verification</span></p>
+</div>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p class="first">If verification is successful, then execute new image.</p>
+</li>
+</ol>
+</li>
+<li><p class="first">When an exception is raised due to verification failure,
+the default action would be erase image and enter low power mode. The action in case of
+exception can be modified by the user to an action of their choice.
+The reason for failure is logged on flash page 1 as described in <a class="reference internal" href="#sec-sfw-error-code"><span class="std std-ref">Viewing failure error codes</span></a>.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="section" id="building-a-secure-firmware-application">
+<h2>Building a secure firmware application<a class="headerlink" href="#building-a-secure-firmware-application" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="adding-to-application-project">
+<h3>Adding to application project<a class="headerlink" href="#adding-to-application-project" title="Permalink to this headline">¶</a></h3>
+<p>The linker file used is cc26xx_app_secure_fw.icf or cc26xx_app_secure_fw.cmd depending on platform.
+The field indicating start of flash in the linker file needs to move from 0x0000 to 0x0070 (size of header).</p>
+<p>The position of reset vectors needs to be specified in the configuro tool arguments,
+currently we use the flag SECURE_FW_IMG as an argument to the configuro tool to point to
+the new location of reset vectors according to the platform used.</p>
+<p>The location of reset vectors can be configured in
+/source/ti/blestack/common/cc26xx/kernel/cc2640/cc2640_r2_csdk.cfg for CC2640R2 platform.</p>
+</div>
+<div class="section" id="integrating-secure-firmware-functionality">
+<h3>Integrating Secure Firmware functionality<a class="headerlink" href="#integrating-secure-firmware-functionality" title="Permalink to this headline">¶</a></h3>
+<p>To add the security verification capability, the ECC ROM symbols needs to imported.
+An example of this is shown in secure_fw_verifyImage_ecc() in secure_fw.c.</p>
+<p>The header file  &#8220;SHA2CC26XX.h&#8221; needs to be added to the project and reference to
+SHA2CC26XX.a library should be added to the linker settings.</p>
+<p>For a new private key, .pem file should be created and its path should be provided in the
+argument for secure_fw_tool.py. Also the public keys need to be updated in the location
+where they are stored (in this implementation they are stored in flash in reverse byte order,
+reference by the local variable in secure_fw.c)</p>
+</div>
+</div>
+<div class="section" id="miscellaneous">
+<h2>Miscellaneous<a class="headerlink" href="#miscellaneous" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="keys">
+<h3>Keys<a class="headerlink" href="#keys" title="Permalink to this headline">¶</a></h3>
+<p>&#8220;private.pem&#8221;  is the name of the default private key file used by secure_fw_tool.py.
+While generating a new key pair, the content of this file must be replaced.</p>
+<p>To change public keys, build secure_fw project with SECURE_FW_LOCK set to false.
+The 64 byte public key pair is stored from address 0x0001FF4C to 0x0001FF8C in flash for IAR,
+and it is stored in address 0x0001FF59 to 0x0001FFA5 for CCS secure_fw image.
+The values can be edited using SmartRF Flash Programmer 2 or they can be changed in the
+local variables section of secure_fw.c. Note that the keys are stored in reverse byte order (little-endian).</p>
+</div>
+<div class="section" id="magic-word">
+<h3>Magic word<a class="headerlink" href="#magic-word" title="Permalink to this headline">¶</a></h3>
+<p>The magic word is configurable by updating the SECURE_FW_SFW_MAGIC_WORD field in secure_fw_config.h file.</p>
+</div>
+<div class="section" id="parameters-in-secure-fw-tool-py-script">
+<h3>Parameters in secure_fw_tool.py script<a class="headerlink" href="#parameters-in-secure-fw-tool-py-script" title="Permalink to this headline">¶</a></h3>
+<p>A python script is provided to create a secure image from a nonsecured image.</p>
+<p>Use the &#8220;python secure_fw_tool.py -h&#8221; command for the correct usage of this script.
+See the readme for the secure firmware example project for more details:
+/examples/rtos/CC2640R2_LAUNCHXL/blestack/simple_peripheral_secure_fw/README.html</p>
+</div>
+<div class="section" id="viewing-failure-error-codes">
+<span id="sec-sfw-error-code"></span><h3>Viewing failure error codes<a class="headerlink" href="#viewing-failure-error-codes" title="Permalink to this headline">¶</a></h3>
+<p>If SECURE_FW_ERASE_FLASH is set to TRUE in secure_fw project, upon failure to verify secure header,
+the entire image firmware is erased and the error is written to the beginning of page 1
+at address 0x00001000.</p>
+<p>The description of the error codes is listed below:</p>
+<table border="1" class="docutils" id="id9">
+<caption><span class="caption-number">Table 27. </span><span class="caption-text">Error code for secure firmware failure</span><a class="headerlink" href="#id9" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Code</th>
+<th class="head">Error reason</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>0x01</td>
+<td>Invalid magic word</td>
+</tr>
+<tr class="row-odd"><td>0x02</td>
+<td>Invalid firmware version</td>
+</tr>
+<tr class="row-even"><td>0x03</td>
+<td>Invalid start/end address</td>
+</tr>
+<tr class="row-odd"><td>0x04</td>
+<td>Invalid length</td>
+</tr>
+<tr class="row-even"><td>0x05</td>
+<td>Cert element not found</td>
+</tr>
+<tr class="row-odd"><td>0x06</td>
+<td>Verification failed</td>
+</tr>
+<tr class="row-even"><td>0x07</td>
+<td>Self-verification failed (This feature is not supported currently)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../sensor-controller/sensor-controller.html" class="btn btn-neutral float-right" title="Sensor Controller" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../voice/ble_voice.html" class="btn btn-neutral" title="Voice over BLE" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Texas Instruments.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.01.01.00',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

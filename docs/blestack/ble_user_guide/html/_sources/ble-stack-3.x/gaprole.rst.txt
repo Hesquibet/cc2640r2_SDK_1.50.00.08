@@ -1,0 +1,345 @@
+.. _sec-gaprole-gaproletask:
+
+GAPRole Task
+------------
+
+The GAPRole task is a separate task which offloads handling most
+of the GAP layer functionality from the application. This task is
+enabled and configured by the application during initialization.
+Based on this configuration, many Bluetooth low energy protocol
+stack events are handled directly by the GAPRole task and never
+passed to the application. Callbacks exist that the application can
+register with the GAPRole task so that the application task can be
+notified of certain events and proceed accordingly.
+
+Based on the configuration of the device, the GAP layer always
+operates in one of four roles:
+
+-  Broadcaster - The device is an advertiser that is non connectable.
+
+-  Observer - The device scans for advertisements but cannot initiate
+   connections.
+
+-  Peripheral - The device is an advertiser that is connectable and operates as
+   slave in a single link-layer connection.
+
+-  Central - The device scans for advertisements and initiates
+   connections and operates as a master in a single or multiple
+   link-layer connections. The Bluetooth low energy central protocol
+   stack supports up to three simultaneous connections.
+
+The |CORESPEC| allows for certain
+combinations of multiple-roles, which are supported by the Bluetooth
+low energy protocol stack. For configuration of the Bluetooth low
+energy stack features, see :ref:`creating_custom_ble_app`
+
+For supported GAPRole API, see :ref:`ble_api_reference`.
+
+.. _gaprole_peripheral_role:
+
+Peripheral Role
+^^^^^^^^^^^^^^^
+
+The peripheral GAPRole task is defined in peripheral.c and
+peripheral.h. See the :ref:`ble_api_reference` for the full API Peripheral Role
+API including commands, configurable parameters, events, and callbacks. The
+steps to use this module are as follows:
+
+1. Initialize the GAPRole parameters. This
+   initialization should occur in the application initialization
+   function. (for example ``simple_peripheral_init`` shown in
+   :numref:`gaprole_init`).
+
+.. _gaprole_init:
+
+.. code-block:: c
+  :caption: Setup of GAP Peripheral Role
+  :linenos:
+
+   // Setup the GAP Peripheral Role Profile
+
+   {
+
+      uint8_t initialAdvertEnable = TRUE;
+
+      uint16_t advertOffTime = 0;
+
+      uint8_t enableUpdateRequest = DEFAULT_ENABLE_UPDATE_REQUEST;
+      uint16_t desiredMinInterval = DEFAULT_DESIRED_MIN_CONN_INTERVAL;
+      uint16_t desiredMaxInterval = DEFAULT_DESIRED_MAX_CONN_INTERVAL;
+      uint16_t desiredSlaveLatency = DEFAULT_DESIRED_SLAVE_LATENCY;
+      uint16_t desiredConnTimeout = DEFAULT_DESIRED_CONN_TIMEOUT;
+
+      // Set the GAP Role Parameters
+
+      GAPRole_setParameter(GAPROLE_ADVERT_ENABLED, sizeof(uint8_t),
+      &initialAdvertEnable);
+      GAPRole_setParameter(GAPROLE_ADVERT_OFF_TIME, sizeof(uint16_t),
+      &advertOffTime); GAPRole_setParameter(GAPROLE_SCAN_RSP_DATA,
+      sizeof(scanRspData), scanRspData);
+      GAPRole_setParameter(GAPROLE_ADVERT_DATA, sizeof(advertData),
+      advertData); GAPRole_setParameter(GAPROLE_PARAM_UPDATE_ENABLE,
+      sizeof(uint8_t), &enableUpdateRequest);
+      GAPRole_setParameter(GAPROLE_MIN_CONN_INTERVAL,
+      sizeof(uint16_t), &desiredMinInterval);
+      GAPRole_setParameter(GAPROLE_MAX_CONN_INTERVAL,
+      sizeof(uint16_t), &desiredMaxInterval);
+      GAPRole_setParameter(GAPROLE_SLAVE_LATENCY, sizeof(uint16_t),
+      &desiredSlaveLatency);
+      GAPRole_setParameter(GAPROLE_TIMEOUT_MULTIPLIER,
+      sizeof(uint16_t), &desiredConnTimeout);
+   }
+
+2. Initialize the GAPRole task and pass application callback functions
+   to GAPRole. This should also occur in the
+   application initialization function.
+
+.. code-block:: c
+  :caption: Registering Callbacks and Initialization.
+  :linenos:
+
+   // Start the Device
+   VOID GAPRole_StartDevice(&SimpleBLEPeripheral_gapRoleCBs);
+
+3. Send GAPRole commands from the application. :numref:`cd_gaprole_term` is an
+   example of the application using :ble_api:`GAPRole_TerminateConnection`.
+
+.. code-block:: c
+  :caption: Terminating Connection
+  :linenos:
+
+   GAPRole_TerminateConnection();
+
+.. _cd_gaprole_term:
+
+.. uml::
+    :caption: Context Diagram of Application using GAPRole_TerminateConnection().
+    :align: center
+
+    @startuml
+    participant Application
+    participant "GAPRole (peripheral.c)" as GAPRole
+    participant "BLE Stack"
+
+
+      Application -> GAPRole : GAPRole_TerminateConnection()
+
+    group Device not connected
+      GAPRole -> Application : return(bleIncorrectMode)
+    end
+
+    group Connected to a device
+
+      GAPRole -> "BLE Stack" : GAP_TerminateLinkReq()
+
+      rnote over "BLE Stack"
+       BLE stack attempts to
+       terminate the connection
+      end note
+
+      "BLE Stack" -> GAPRole : return(status)
+      GAPRole -> Application : return(status)
+
+
+    group status==SUCCESS
+    ...
+    ...Link is terminated by the BLE Stack...
+    ...
+    "BLE Stack" -> GAPRole: Message {LINK_TERMINATED}
+    "BLE Stack" -> GAPRole: gapRole_processStackMsg
+    GAPRole->GAPRole : gapRole_processGAPMsg
+
+      rnote over "GAPRole"
+      GAP_LINK_TERMINATED_EVENT
+      end note
+
+    GAPRole-> Application : SimpleBLEPeripheral_stateChangeCB
+
+    Application-> Application : SimpleBLEPeripheral_processAppMsg
+      rnote over "Application"
+      SBP_STATE_CHANGE_EVT
+      end note
+
+    Application-> Application : SimpleBLEPeripheral_processStateChangeEvt
+      rnote over "Application"
+      GAPROLE_WAITING
+      end note
+    end
+
+    end
+
+    @enduml
+
+
+.. note::
+   The return value only indicates whether the attempt to
+   terminate the connection initiated successfully. The actual
+   termination of connection event is returned asynchronously and is
+   passed to the application through a callback.
+
+4. The GAPRole task processes most of the GAP-related events passed to
+   it from the Bluetooth low energy protocol stack. The GAPRole task
+   also forwards some events to the application. When a link is
+   terminated, the GAPRole automatically restarts advertising.
+   The following code snippet can be found in peripheral.c
+
+.. code-block:: c
+  :caption: Advertising restart upon disconnect
+  :emphasize-lines: 26
+  :linenos:
+
+    case GAP_LINK_TERMINATED_EVENT:
+      {
+        //.......
+        //.......
+        //.......
+
+        // If device was advertising when connection dropped
+        if (gapRole_AdvNonConnEnabled)
+        {
+          // Continue advertising.
+          gapRole_state = GAPROLE_ADVERTISING_NONCONN;
+        }
+        // Else go to WAITING state.
+        else
+        {
+          if(pPkt->reason == LL_SUPERVISION_TIMEOUT_TERM)
+          {
+            gapRole_state = GAPROLE_WAITING_AFTER_TIMEOUT;
+          }
+          else
+          {
+            gapRole_state = GAPROLE_WAITING;
+          }
+
+          // Start advertising, if enabled.
+          gapRole_setEvent(START_ADVERTISING_EVT);
+        }
+      }
+      break;
+
+Central Role
+^^^^^^^^^^^^
+
+The central GAPRole task is defined in central.c and central.h.
+See the :ref:`ble_api_reference` for the full Central Role API including
+commands, configurable parameters, events, and callbacks. See the
+simple\_central example project for an example of implementing the central
+GAPRole. The steps to use this module are as follows.
+
+1. Initialize the GAPRole parameters.
+   This initialization should occur in the application
+   initialization function (for example in ``SimpleBLECentral_init``).
+   GAP parameters can also be set in this initialization function.
+
+.. code-block:: c
+
+  // Setup Central Profile
+  {
+     uint8_t scanRes = DEFAULT_MAX_SCAN_RES;
+
+     GAPCentralRole_SetParameter(GAPCENTRALROLE_MAX_SCAN_RES,
+     sizeof(uint8_t), &scanRes);
+  }
+
+2. Start the GAPRole task. This involves passing function pointers to
+   application callback function to the central GAPRole. This should also
+   occur in the application initialization function.
+
+.. code-block:: c
+
+  VOID GAPCentralRole_StartDevice(&SimpleBLECentral_roleCB);
+
+3. Send GAPRole commands from the application. :numref:`cd_gap_dev_disc` is
+   an example of the application using :ble_api:`GAPCentralRole_StartDiscovery`.
+
+
+The return status from the protocol stack indicates only whether or
+not the attempt to perform device discovery was initiated. The
+actual device discovered is returned asynchronously as a
+:ble_api:`GAP_DEVICE_INFO_EVENT` forwarded through the central
+GAPRole callbacks as described below.
+
+4. The GAPRole task performs some processing on the GAP events it
+   receives from the protocol stack. The task also forwards some events
+   to the application. :numref:`cd_gap_dev_disc` also shows how the
+   :ble_api:`GAP_DEVICE_INFO_EVENT` is processed from the protocol stack to the
+   application.
+
+.. _cd_gap_dev_disc:
+.. uml::
+    :caption: Context Diagram of Application using GAPCentralRole_StartDiscovery().
+    :align: center
+
+    @startuml
+    participant Application
+    participant "GAPRole (central.c)" as GAPRole
+    participant "BLE Stack"
+
+
+      Application -> GAPRole : GAPCentralRole_StartDiscovery\n(MODE, ACTIVE_SCAN, WHITE_LIST)
+
+    group scanning || ! (central or observer)
+      GAPRole -> Application : return(bleIncorrectMode)
+    end
+
+    group !scanning && (central or observer)
+
+      GAPRole -> "BLE Stack" : GAP_DeviceDiscoveryRequest()
+
+      rnote over "BLE Stack"
+       BLE stack attempts to
+       start device discovery
+      end note
+
+      "BLE Stack" -> GAPRole : return(status)
+      GAPRole -> Application : return(status)
+
+
+    group status==SUCCESS
+    ...
+    ... BLE Stack does device discovery ...
+    ...
+    "BLE Stack" -> GAPRole: Message {DISCOVERY_DONE}
+    "BLE Stack" -> GAPRole: gapCentralRole_processStackMsg
+    GAPRole->GAPRole : gapCentralRole_ProcessGAPMsg
+    GAPRole->Application: SimpleBLECentral_eventCB
+    Application ->Application: SimpleBLECentral_processStackMsg
+    Application ->Application: SimpleBLECentral_processRoleEvent
+
+      rnote over "Application"
+      GAP_DEVICE_DISCOVERY_EVENT
+      end note
+    end
+
+    end
+
+    @enduml
+
+Note that during scanning, as defined by the |CORESPEC|, individual
+advertisements / scan responses are returned as :ble_api:`GAP_DEVICE_INFO_EVENT`.
+By default, duplicate reports are filtered such that only one event is returned
+to the application per unique address and data pair. This can be configured via
+the :ble_api:`TGAP_FILTER_ADV_REPORTS`
+GAP parameter.  After the scan has completed, a summary of discovered reports
+will be returned to the application as a :ble_api:`GAP_DEVICE_DISCOVERY_EVENT`.
+
+The maximum amount of scan responses that can be discovered during one scan can
+be set with the :ble_api:`GAPCENTRALROLE_MAX_SCAN_RES` parameter.
+In an environment saturated with advertisements / scan responses, this can have
+a drastic impact on heap usage to the point of potentially breaking the stack.
+Therefore, it is essential to profile your application for the worst-case
+scenario where the maximum amount of scan responses are discovered during a scan.
+
+In the worst-case scenario where the maximum number of advertisements / scan
+responses ( n ) is found during a scan, all with the maximum data size, in which
+the application is consistently processing such that it does not process any of
+the stack's messages, the heap could grow by: ( 8 + 87 * n bytes ).  For example, if
+:ble_api:`GAPCENTRALROLE_MAX_SCAN_RES` is set to 10, there must be at least 878
+bytes available for allocation from the heap.  This includes
+a completely filled :ble_api:`GAP_DEVICE_DISCOVERY_EVENT`. If this allocation
+fails, a :ble_api:`GAP_DEVICE_DISCOVERY_EVENT` with error status will attempt to
+be allocated instead which is only 8 bytes.  Therefore, in order for
+the system to keep running in the scenario described above, the heap must have
+space to allocate at least ( 8 + 79 * n bytes ). See the :ref:`sec-debugging`
+chapter for steps to profile the heap.

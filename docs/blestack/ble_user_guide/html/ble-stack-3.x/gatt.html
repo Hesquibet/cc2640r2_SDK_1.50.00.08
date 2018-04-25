@@ -1,0 +1,1824 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Generic Attribute Profile (GATT) &mdash; BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation" href="../index.html"/>
+        <link rel="up" title="Developing a Bluetooth Low Energy Application" href="index.html"/>
+        <link rel="next" title="GAP Bond Manager and LE Secure Connections" href="gapbondmngr.html"/>
+        <link rel="prev" title="GAPRole Task" href="gaprole.html"/> 
+    <script language="JavaScript">
+        var tiPageName;
+        tiPageName = "sug ble-stack-3.x gatt";
+
+        if (location.protocol == "file:"){
+            var ci_analytics_poc_load = true;
+        }
+    </script> 
+
+    <script src="http://www.ti.com/assets/js/headerfooter/analytics.js" type="text/javascript" charset="utf-8">     
+
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../ble-stack-3.x-guide/index.html" class="icon icon-home"> BLE-Stack User's Guide for Bluetooth 4.2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.01.01.00
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../cc2640/disclaimer.html">Disclaimer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/get-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cc2640/platform.html">The CC2640R2F SDK Platform</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Developing a Bluetooth Low Energy Application</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="the-application.html">The Application</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#the-stack">The Stack</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="gap.html">Generic Access Profile (GAP)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gaprole.html">GAPRole Task</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Generic Attribute Profile (GATT)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#gatt-characteristics-and-attributes">GATT Characteristics and Attributes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gatt-client-abstraction">GATT Client Abstraction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gatt-server-abstraction">GATT Server Abstraction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gatt-services-and-profile">GATT Services and Profile</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gatt-security">GATT Security</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#using-the-gatt-layer-directly">Using the GATT Layer Directly</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#gap-gatt-service-ggs">GAP GATT Service (GGS)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#using-the-ggs">Using the GGS</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#generic-attribute-profile-service-gatt-service">Generic Attribute Profile Service (GATT Service)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#using-the-gatt-service">Using the GATT Service</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#gattservapp-module">GATTServApp Module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#building-up-the-attribute-table">Building up the Attribute Table</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#implementing-profiles-in-attributes-table">Implementing Profiles in Attributes Table</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#add-service-function">Add Service Function</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#register-application-callback-function">Register Application Callback Function</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#read-and-write-callback-functions">Read and Write Callback Functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#read-request-from-client">Read Request from Client</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#write-request-from-client">Write Request from Client</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#get-and-set-functions">Get and Set Functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#queued-writes">Queued Writes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#allocating-memory-for-gatt-procedures">Allocating Memory for GATT Procedures</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#registering-to-receive-additional-gatt-events-in-the-application">Registering to Receive Additional GATT Events in the Application</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="gapbondmngr.html">GAP Bond Manager and LE Secure Connections</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gapbondmngr.html#le-privacy-1-2">LE Privacy 1.2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="l2cap.html">Logical Link Control and Adaptation Layer Protocol (L2CAP)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="data-length-extensions.html">LE Data Length Extension (DLE)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hci.html">Host Controller Interface (HCI)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#creating-a-custom-bluetooth-low-energy-application">Creating a Custom Bluetooth low energy Application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#running-the-sdk-on-custom-boards">Running the SDK on Custom Boards</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../u-stack/index.html">Micro BLE Stack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../oad-ble-stack-3.x/oad.html">Over the Air Download (OAD)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../voice/voice.html">Creating a Voice Enabled Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../secure-fw-3.x/index.html">Secure Firmware (SFW)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensor-controller/sensor-controller.html">Sensor Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../debugging/ble-index.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/migration.html">Migration Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/api-reference.html">API References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/reference.html">Terms and Definitions</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../ble-stack-3.x-guide/index.html">BLE-Stack User's Guide for Bluetooth 4.2</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../ble-stack-3.x-guide/index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">Developing a Bluetooth Low Energy Application</a> &raquo;</li>
+        
+      <li>Generic Attribute Profile (GATT)</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="generic-attribute-profile-gatt">
+<span id="gatt"></span><h1>Generic Attribute Profile (GATT)<a class="headerlink" href="#generic-attribute-profile-gatt" title="Permalink to this headline">¶</a></h1>
+<p>Just as the GAP layer handles most connection-related functionality,
+the GATT layer of the Bluetooth low energy protocol stack is used by
+the application for data communication between two connected
+devices. Data is passed and stored in the form of characteristics
+which are stored in memory on the Bluetooth low energy device. From
+a GATT standpoint, when two devices are connected they are each in
+one of two roles.</p>
+<ul class="simple">
+<li><dl class="first docutils">
+<dt>The <strong>GATT server</strong></dt>
+<dd>the device containing the characteristic
+database that is being read or written by a GATT client.</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>The <strong>GATT client</strong></dt>
+<dd>the device that is reading or writing data
+from or to the GATT server.</dd>
+</dl>
+</li>
+</ul>
+<p><a class="reference internal" href="#gatt-client-server"><span class="std std-numref">Figure 45.</span></a> shows this relationship in a sample Bluetooth low
+energy connection where the peripheral device (that is, a <a class="reference external" href="http://www.ti.com.cn/tool/launchxl-cc2640r2">CC2640R2 Launchpad</a>)
+is the GATT server and the central device (that is, a smart phone) is the GATT
+client.</p>
+<div class="figure align-center" id="id11">
+<span id="gatt-client-server"></span><img alt="../_images/gatt_client_server.png" src="../_images/gatt_client_server.png" />
+<p class="caption"><span class="caption-number">Figure 45. </span><span class="caption-text">GATT Client and Server Interaction Overview</span></p>
+</div>
+<p>The GATT roles of client and server are independent from the GAP
+roles of peripheral and central. A peripheral can be either a GATT
+client or a GATT server, and a central can be either a GATT client
+or a GATT server. A peripheral can act as both a GATT client and a
+GATT server. For a hands-on review of GATT services and
+characteristics, see <a class="reference external" href="http://dev.ti.com/tirex/#/?link=Software%2FSimpleLink%20CC2640R2%20SDK%2FSimpleLink%20Academy%2FOverview">SimpleLink Academy</a>.</p>
+<div class="section" id="gatt-characteristics-and-attributes">
+<h2>GATT Characteristics and Attributes<a class="headerlink" href="#gatt-characteristics-and-attributes" title="Permalink to this headline">¶</a></h2>
+<p>While characteristics and attributes are sometimes used
+interchangeably when referring to Bluetooth low energy, consider
+characteristics as groups of information called attributes.
+Attributes are the information actually transferred between devices.
+Characteristics organize and use attributes as data values,
+properties, and configuration information. A typical characteristic
+is composed of the following attributes.</p>
+<ul class="simple">
+<li><dl class="first docutils">
+<dt>Characteristic Value</dt>
+<dd>data value of the characteristic</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Characteristic Declaration</dt>
+<dd>descriptor storing the properties,
+location, and type of the characteristic value</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Client Characteristic Configuration</dt>
+<dd>a configuration that allows the GATT server to
+configure the characteristic to be notified (send message
+asynchronously) or indicated (send message asynchronously
+with acknowledgment)</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Characteristic User Description</dt>
+<dd>an ASCII string describing the characteristic</dd>
+</dl>
+</li>
+</ul>
+<p>These attributes are stored in the GATT server in an attribute
+table. In addition to the value, the following properties are
+associated with each attribute.</p>
+<ul class="simple">
+<li><dl class="first docutils">
+<dt>Handle</dt>
+<dd>the index of the attribute in the table (Every attribute has
+a unique handle.)</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Type</dt>
+<dd>indicates what the attribute data represents (referred to as a
+UUID [universal unique identifier]. Some of these are Bluetooth
+SIG-defined and some are custom.)</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Permissions</dt>
+<dd>enforces if and how a GATT client device can access the
+value of an attribute</dd>
+</dl>
+</li>
+</ul>
+</div>
+<div class="section" id="gatt-client-abstraction">
+<h2>GATT Client Abstraction<a class="headerlink" href="#gatt-client-abstraction" title="Permalink to this headline">¶</a></h2>
+<p>Like the GAP layer, the GATT layer is also abstracted. This
+abstraction depends on whether the device is acting as a GATT client
+or a GATT server. As defined by the <a class="reference external" href="https://www.bluetooth.com/specifications/adopted-specifications">Bluetooth Core Specification Version 4.2</a>, the
+GATT layer is an abstraction of the ATT layer.</p>
+<p>GATT clients do not have attribute tables or profiles as they are
+gathering, not serving, information. Most of the interfacing with
+the GATT layer occurs directly from the application.</p>
+<div class="figure align-center" id="id12">
+<img alt="../_images/gatt_client_abstract.jpg" src="../_images/gatt_client_abstract.jpg" />
+<p class="caption"><span class="caption-number">Figure 46. </span><span class="caption-text">Visualization of GATT Client Abstraction.</span></p>
+</div>
+</div>
+<div class="section" id="gatt-server-abstraction">
+<span id="id2"></span><h2>GATT Server Abstraction<a class="headerlink" href="#gatt-server-abstraction" title="Permalink to this headline">¶</a></h2>
+<p>As a GATT server, most of the GATT functionality is handled by the
+individual GATT profiles. These profiles use the
+GATTServApp ( see <a class="reference internal" href="../ble-stack-3.x-guide/api-reference.html#ble-api-reference"><span class="std std-ref">BLE Stack API Reference</span></a>, GATTServApp Section) (a
+configurable module that stores and manages the attribute table).
+<a class="reference internal" href="#gatt-server-abstract"><span class="std std-numref">Figure 47.</span></a> shows this abstraction hierarchy.</p>
+<div class="figure align-center" id="id13">
+<span id="gatt-server-abstract"></span><img alt="../_images/gatt_server_abstract.jpg" src="../_images/gatt_server_abstract.jpg" />
+<p class="caption"><span class="caption-number">Figure 47. </span><span class="caption-text">Visualization of GATT Server abstraction.</span></p>
+</div>
+<p>The design process involves creating GATT profiles that configure
+the GATTServApp module and use its API to interface with the GATT
+layer. In this case of a GATT server, direct calls to GATT layer
+functions are unnecessary. The application then interfaces with the
+profiles.</p>
+</div>
+<div class="section" id="gatt-services-and-profile">
+<span id="id3"></span><h2>GATT Services and Profile<a class="headerlink" href="#gatt-services-and-profile" title="Permalink to this headline">¶</a></h2>
+<p>A GATT service is a collection of characteristics. For example, the
+heart rate service contains a heart rate measurement characteristic
+and a body location characteristic, among others. Multiple services
+can be grouped together to form a profile. Many profiles only
+implement one service so the two terms are sometimes used
+interchangeably.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">TI intends this section as an introduction to the attribute
+table by using simple_peripheral as an example. For information on how this
+profile is implemented within the stack, see <a class="reference internal" href="#gatt-server-abstraction"><span class="std std-ref">GATT Server Abstraction</span></a>.</p>
+</div>
+<p>There are four GATT profiles defined in the simple_peripheral example
+application project.</p>
+<ul>
+<li><dl class="first docutils">
+<dt><a class="reference internal" href="#gap-gatt-service"><span class="std std-ref">GAP GATT Service (GGS)</span></a></dt>
+<dd><p class="first">This service contains device and access information
+such as the device name, vendor identification, and product
+identification.</p>
+<p>The following characteristics are defined for this service:</p>
+<ul class="simple">
+<li>Device name</li>
+<li>Appearance</li>
+<li>Peripheral preferred connection parameters</li>
+</ul>
+<div class="last admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">See the Gap Service and Characteristics for GATT Server section
+([Vol. 3], Part C, Section 12) of the
+<a class="reference external" href="https://www.bluetooth.com/specifications/adopted-specifications">Bluetooth Core Specification Version 4.2</a> for more information on these characteristics.</p>
+</div>
+</dd>
+</dl>
+</li>
+<li><p class="first">Generic Attribute Service</p>
+<blockquote>
+<div><p>This service contains information about
+the GATT server, is a part of the Bluetooth low energy protocol
+stack, and is required for every GATT server device as per the
+<a class="reference external" href="https://www.bluetooth.com/specifications/adopted-specifications">Bluetooth Core Specification Version 4.2</a>.</p>
+</div></blockquote>
+</li>
+<li><p class="first">Device Info Service</p>
+<blockquote>
+<div><p>This service exposes information about the
+device such as the hardware, software version, firmware version,
+regulatory information, compliance information, and manufacturer
+name. The Device Info Service is part of the Bluetooth low energy
+protocol stack and configured by the application.</p>
+</div></blockquote>
+</li>
+<li><p class="first">simple_gatt_profile Service</p>
+<blockquote>
+<div><p>This service is a sample profile for
+testing and for demonstration. The full source code is provided
+in the simple_gatt_profile.c and simple_gatt_profile.h files.</p>
+</div></blockquote>
+</li>
+</ul>
+<p><a class="reference internal" href="#sbp-attr-table"><span class="std std-numref">Figure 48.</span></a> shows the attribute table in the
+simple_peripheral project.</p>
+<div class="figure align-center" id="id14">
+<span id="sbp-attr-table"></span><img alt="../_images/sbp_attr_table.jpg" src="../_images/sbp_attr_table.jpg" />
+<p class="caption"><span class="caption-number">Figure 48. </span><span class="caption-text">Simple GATT Profile Characteristic Table taken with BTool. Red indicates
+a Profile declaration, Yellow indicates character declaration, and White
+indicates Attributes related to a particular characteristic declaration.</span></p>
+</div>
+<p>The simple_gatt_profile contains the following characteristics:</p>
+<ul class="simple">
+<li><dl class="first docutils">
+<dt>SIMPLEPROFILE_CHAR1</dt>
+<dd>1-byte value that can be read or written from a GATT client device</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>SIMPLEPROFILE_CHAR2</dt>
+<dd>1-byte value that can be read from a GATT client device but cannot be
+written</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>SIMPLEPROFILE_CHAR3</dt>
+<dd>1-byte value that can be written from a GATT client device but cannot be
+read</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>SIMPLEPROFILE_CHAR4</dt>
+<dd>1-byte value that cannot be directly read or written from a GATT client
+device (This value is notifiable: This value can be configured for
+notifications to be sent to a GATT client device.)</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>SIMPLEPROFILE_CHAR5</dt>
+<dd>5-byte value that can be read (but not written) from a GATT client device</dd>
+</dl>
+</li>
+</ul>
+<p>The following is a line-by-line description of the simple profile attribute
+table, referenced by the following handle.</p>
+<ul>
+<li><dl class="first docutils">
+<dt>0x001C is the <strong>simple_gatt_profile service declaration</strong>.</dt>
+<dd><p class="first last">This declaration has a UUID of 0x2800 (Bluetooth-defined
+<code class="docutils literal"><span class="pre">GATT_PRIMARY_SERVICE_UUID</span></code>). The value of this declaration is
+the UUID of the simple_gatt_profile (custom-defined).</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>0x001D is the <strong>SimpleProfileChar1 characteristic declaration</strong>.</dt>
+<dd><p class="first">This declaration can be thought of as a pointer to the
+SimpleProfileChar1 value. The declaration has a UUID of 0x2803
+(Bluetooth-defined <code class="docutils literal"><span class="pre">GATT_CHARACTER_UUID</span></code>). The value of the
+declaration characteristic, as well as all other characteristic
+declarations, is a 5-byte value explained here (from MSB to LSB):</p>
+<ul class="simple">
+<li>Byte 0 is the properties of the SimpleProfileChar1 as defined in the
+<a class="reference external" href="https://www.bluetooth.com/specifications/adopted-specifications">Bluetooth Core Specification Version 4.2</a> (The following are some of the relevant
+properties.)<ul>
+<li>0x02: permits reads of the characteristic value</li>
+<li>0x04: permits writes of the characteristic value (without a response)</li>
+<li>0x08: permits writes of the characteristic value (with a response)</li>
+<li>0x10: permits of notifications of the characteristic value (without
+acknowledgment)</li>
+<li>0x20: permits notifications of the characteristic value (with
+acknowledgment)</li>
+</ul>
+</li>
+</ul>
+<p>The value of 0x0A means the characteristic is readable (0x02) and
+writeable (0x08).</p>
+<ul class="last simple">
+<li>Bytes 1-2: the byte-reversed handle where the SimpleProfileChar1&#8217;s
+value is (handle 0x001E)</li>
+<li>Bytes 3-4: the UUID of the SimpleProfileChar1 value (custom-defined
+0xFFF1)</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>0x001E is the SimpleProfileChar1 Characteristic Value</dt>
+<dd><p class="first last">This value has a UUID of
+0xFFF1 (custom-defined). This value is the actual payload data of
+the characteristic. As indicated by its characteristic
+declaration (handle 0x01D), this value is readable and
+writable.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>0x001F is the SimpleProfileChar1 Characteristic User Description</dt>
+<dd><p class="first last">This description has a UUID of 0x2901 (Bluetooth-defined). The value of
+this description is a user-readable string describing the characteristic.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>0x0020 - 0x002C</dt>
+<dd><p class="first">are attributes that follow the same structure as the simpleProfileChar1
+described previously with regard to the remaining four characteristics.
+The only different attribute, handle 0x0028, is described as follows.</p>
+<p class="last"><strong>0x0028 is the SimpleProfileChar4 Client Characteristic Configuration</strong>.
+This configuration has a UUID of 0x2902 (Bluetooth-defined). By
+writing to this attribute, a GATT server can configure the
+SimpleProfileChar4 for notifications (writing 0x0001) or
+indications (writing 0x0002). Writing 0x0000 to this attribute
+disable notifications and indications.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+<div class="section" id="gatt-security">
+<h2>GATT Security<a class="headerlink" href="#gatt-security" title="Permalink to this headline">¶</a></h2>
+<p>As described in <a class="reference internal" href="#gatt-server-abstraction"><span class="std std-ref">GATT Server Abstraction</span></a>, the GATT server may define
+permissions independently for each characteristic. The server may
+allow some characteristics to be accessed by any client, while
+limiting access to other characteristics to only authenticated or
+authorized clients. These permissions are usually defined as part of
+a higher level profile specification. For custom profiles, the user
+may select the permissions as they see fit. For more information
+about the GATT Security, refer to the Security Considerations section
+([Vol 3], Part G, Section 8) of the <a class="reference external" href="https://www.bluetooth.com/specifications/adopted-specifications">Bluetooth Core Specification Version 4.2</a>.</p>
+<div class="section" id="authentication">
+<h3>Authentication<a class="headerlink" href="#authentication" title="Permalink to this headline">¶</a></h3>
+<p>Characteristics that require authentication cannot be accessed until
+the client has gone through an authenticated pairing method. This
+verification is performed within the stack, with no processing
+required by the application. The only requirement is for the
+characteristic to be registered properly with the GATT server.</p>
+<p>For example, characteristic 5 of the simple_gatt_profile allows on
+authenticated reads.</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="c1">// Characteristic Value 5</span>
+<span class="p">{</span>
+   <span class="p">{</span> <span class="n">ATT_BT_UUID_SIZE</span><span class="p">,</span> <span class="n">simpleProfilechar5UUID</span> <span class="p">},</span>
+   <span class="n">GATT_PERMIT_AUTHEN_READ</span><span class="p">,</span>
+   <span class="mi">0</span><span class="p">,</span>
+   <span class="n">simpleProfileChar5</span>
+<span class="p">},</span>
+</pre></div>
+</div>
+<p>When an un-authenticated client attempts to read this value, the GATT
+server automatically rejects it with <code class="docutils literal"><span class="pre">ERROR_INSUFFICIENT_AUTHEN</span> <span class="pre">(0x41)</span></code>,
+without invoking the simpleProfile_ReadAttrCB(). See an example of this
+in <a class="reference internal" href="#gatt-sniffer-capture"><span class="std std-ref">Sniffer Capture Example</span></a>.</p>
+<div class="figure align-center" id="id15">
+<span id="gatt-sniffer-capture"></span><img alt="../_images/image134.jpeg" src="../_images/image134.jpeg" />
+<p class="caption"><span class="caption-number">Figure 49. </span><span class="caption-text">Sniffer Capture Example</span></p>
+</div>
+<p>After the client has successfully authenticated, read/write requests
+are forwarded to the profiles read/write callback. See the code
+below for a simple_gatt_profile example:</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="nl">SIMPLEPROFILE_CHAR5_UUID</span><span class="p">:</span>
+<span class="o">*</span><span class="n">pLen</span> <span class="o">=</span> <span class="n">SIMPLEPROFILE_CHAR5_LEN</span><span class="p">;</span>
+<span class="n">VOID</span> <span class="nf">memcpy</span><span class="p">(</span> <span class="n">pValue</span><span class="p">,</span> <span class="n">pAttr</span><span class="o">-&gt;</span><span class="n">pValue</span><span class="p">,</span> <span class="n">SIMPLEPROFILE_CHAR5_LEN</span> <span class="p">);</span>
+<span class="k">break</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="authorization">
+<h3>Authorization<a class="headerlink" href="#authorization" title="Permalink to this headline">¶</a></h3>
+<p>Authorization is a layer of security provided in addition to what
+BLE already implements. Because applications are required to define
+their own requirements for authorization, the stack forwards
+read/write requests on these characteristics to the application
+layer of the profile.</p>
+<p>For the profile to register for authorization information from the
+GATT server, it must define an authorization callback with the
+stack. The simple_gatt_profile does not do this by default, but
+below is an example of how it could be modified to do this.</p>
+<ol class="arabic simple">
+<li>Register profile level authorization callback.</li>
+</ol>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="n">CONST</span> <span class="n">gattServiceCBs_t</span> <span class="n">simpleProfileCBs</span> <span class="o">=</span>
+<span class="p">{</span>
+   <span class="n">simpleProfile_ReadAttrCB</span><span class="p">,</span>      <span class="c1">// Read callback function pointer</span>
+   <span class="n">simpleProfile_WriteAttrCB</span><span class="p">,</span>     <span class="c1">// Write callback function pointer</span>
+   <span class="n">simpleProfile_authorizationCB</span>  <span class="c1">// Authorization callback function pointer</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li>Implement authorization callback code.</li>
+</ol>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="k">static</span> <span class="n">bStatus_t</span> <span class="nf">simpleProfile_authorizationCB</span><span class="p">(</span> <span class="n">uint16</span> <span class="n">connHandle</span><span class="p">,</span> <span class="n">gattAttribute_t</span> <span class="o">*</span><span class="n">pAttr</span><span class="p">,</span> <span class="n">uint8</span> <span class="n">opcode</span> <span class="p">)</span>
+<span class="p">{</span>
+   <span class="c1">//This is just an example implementation, normal use cases would require</span>
+   <span class="c1">//more complex logic to determine that the device is authorized</span>
+
+   <span class="k">if</span><span class="p">(</span><span class="n">clientIsAuthorized</span><span class="p">)</span>
+      <span class="k">return</span> <span class="n">SUCCESS</span><span class="p">;</span>
+   <span class="k">else</span>
+      <span class="k">return</span> <span class="n">ATT_ERR_INSUFFICIENT_AUTHOR</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The authorization callback executes in the stack context, thus
+intensive processing should not be performed in this function. The
+implementation is left up to the developer; the above callback
+should be treated as a shell. The return value should be either
+<code class="docutils literal"><span class="pre">SUCCESS</span></code> if the client is authorized to access the characteristic, or
+<code class="docutils literal"><span class="pre">ATT_ERR_INSUFFICIENT_AUTHOR</span></code> if they have not yet obtained proper
+authorization. Authorization requires the connection to be authenticated
+beforehand, or <code class="docutils literal"><span class="pre">ATT_ERR_INSUFFICIENT_AUTHEN</span></code> will be sent as an error
+response.</p>
+<p>If a characteristic that requires authorization is registered with
+the GATT server, but no application level authorization callback is
+defined, the stack will return <code class="docutils literal"><span class="pre">ATT_ERR_UNLIKELY</span></code>. Because this
+error can be cryptic, TI recommends using an authorization callback.</p>
+</div>
+</div>
+<div class="section" id="using-the-gatt-layer-directly">
+<span id="id4"></span><h2>Using the GATT Layer Directly<a class="headerlink" href="#using-the-gatt-layer-directly" title="Permalink to this headline">¶</a></h2>
+<p>This section describes how to use the GATT layer in an application.
+The functionality of the GATT layer is implemented in the library
+but header functions can be found in the gatt.h file.
+The <a class="reference internal" href="../ble-stack-3.x-guide/api-reference.html#ble-api-reference"><span class="std std-ref">BLE Stack API Reference</span></a> within the ATT/GATT section has
+the complete API for the GATT layer. The <a class="reference external" href="https://www.bluetooth.com/specifications/adopted-specifications">Bluetooth Core Specification Version 4.2</a>
+provides more information on the functionality of these commands. These
+functions are used primarily for GATT client applications. A few server-specific
+functions are described in the API. Most of the GATT functions
+returns ATT events to the application, review <a class="reference internal" href="../ble-stack-3.x-guide/api-reference.html#ble-api-reference"><span class="std std-ref">BLE Stack API Reference</span></a> for details.</p>
+<p>The general procedure to use the GATT layer when functioning as a GATT client
+(in the simple_central project) is as follows:</p>
+<div class="figure align-center" id="id16">
+<span id="cd-gatt-att-write-rsp-event"></span><p class="plantuml">
+<img src="../_images/plantuml-ada0cbad39b48766d38823f2244c5f4673ed41fe.png" alt="&#64;startuml
+participant &quot;Application \n(simple_central.c)&quot; as App
+participant ICALL
+participant &quot;BLE Stack&quot;
+
+
+App-&gt;ICALL: VOID GATT_InitClient(); \nInitialize Client
+App-&gt;ICALL: GATT_RegisterForInd(selfEntity); \nRegister to receive incoming \nATT Indications or Notification
+
+App-&gt;ICALL: GATT_WriteCharValue(connHandle,\n&amp;req, selfEntity);
+
+activate ICALL
+
+  rnote over &quot;ICALL&quot;
+  Translate into ATT function
+  and send it to the BLE stack
+  end note
+
+ICALL-&gt;&quot;BLE Stack&quot; : ATT_WriteReq
+Deactivate &quot;ICALL&quot;
+
+group Invalid Write Req
+  &quot;BLE Stack&quot;-&gt; ICALL : return(INVALIDPARAMETER)
+  ICALL-&gt; App : return(INVALIDPARAMETER)
+end
+
+group Valid Write Req
+  &quot;BLE Stack&quot;--&gt;]: Send ATT_WRITE_REQ
+
+  &quot;BLE Stack&quot;--&gt;ICALL : return(SUCCESS)
+  ICALL--&gt;App : return(SUCCESS)
+  ...
+  ... Wait for the server to respond ...
+  ...
+  &quot;BLE Stack&quot;&lt;--]: Receive ATT_WRITE_RSP\nor ATT_ERROR_RSP
+
+&quot;BLE Stack&quot;-&gt;ICALL: Parse the msg
+
+activate ICALL
+
+  rnote over &quot;ICALL&quot;
+  Send GATT_MSG_EVENT
+  to the application layer
+  end note
+
+ICALL-&gt;App : Notify application
+deactivate &quot;ICALL&quot;
+
+App-&gt;App: SimpleBLECentral_processStackMsg
+
+rnote over &quot;App&quot;
+GATT_MSG_EVENT
+end note
+
+App-&gt;App: SimpleBLECentral_processGATTMsg
+
+rnote over &quot;App&quot;
+ATT_WRITE_RSP
+ATT_ERROR_RSP
+end note
+end
+
+&#64;enduml" />
+</p>
+<p class="caption"><span class="caption-number">Figure 50. </span><span class="caption-text">Context Diagram of Application using GATT layer.</span><a class="headerlink" href="#id16" title="Permalink to this image">¶</a></p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Even though the event sent to the application is an ATT
+event, it is sent as a GATT protocol stack message
+(<code class="docutils literal"><span class="pre">GATT_MSG_EVENT</span></code>).</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">In addition to receiving responses to its own commands, a GATT client may
+also receive asynchronous data from the GATT server as indications or
+notifications. Use (<code class="docutils literal"><span class="pre">GATT_RegisterForInd(selfEntity)</span></code>) to receive these
+ATT notifications and indications. These notifications and indications are
+also sent as ATT events (<code class="docutils literal"><span class="pre">ATT_HANDLE_VALUE_NOTI</span></code> &amp;
+<code class="docutils literal"><span class="pre">ATT_HANDLE_VALUE_IND</span></code>) in GATT messages to the application. These events
+must be handled as described in <a class="reference internal" href="#gatt-services-and-profile"><span class="std std-ref">GATT Services and Profile</span></a>.</p>
+</div>
+</div>
+</div>
+<div class="section" id="gap-gatt-service-ggs">
+<span id="gap-gatt-service"></span><h1>GAP GATT Service (GGS)<a class="headerlink" href="#gap-gatt-service-ggs" title="Permalink to this headline">¶</a></h1>
+<p>The GAP GATT Service (GGS) is required for low-energy devices that
+implement the <strong>central</strong> or <strong>peripheral</strong> role. Multirole devices that
+implement either of these roles <strong>must</strong> also contain the GGS. The
+purpose of the GGS is to aide in the device discovery and connection
+initiation process.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">For more information about the GGS, refer to the GAP Service and
+and Characteristics for GATT Server section ([Vol 3], Part C, Section 12)
+of the <a class="reference external" href="https://www.bluetooth.com/specifications/adopted-specifications">Bluetooth Core Specification Version 4.2</a>.</p>
+</div>
+<div class="section" id="using-the-ggs">
+<h2>Using the GGS<a class="headerlink" href="#using-the-ggs" title="Permalink to this headline">¶</a></h2>
+<p>This section describes what the application must do to configure,
+start, and use the GAP Gatt Service. The GGS is implemented as part
+of the Bluetooth Low Energy library code, the API can be found in
+GATTServApp. ATT/GATT describes the full API,
+including commands, configurable parameters, events, and callbacks.</p>
+<p>To review the above mentioned APIs, please see their respective sections in
+<a class="reference internal" href="../ble-stack-3.x-guide/api-reference.html#ble-api-reference"><span class="std std-ref">BLE Stack API Reference</span></a>.</p>
+<ol class="arabic simple">
+<li>Include header</li>
+</ol>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;gapgattserver.h&quot;</span><span class="cp"></span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li>Initialize GGS parameters.</li>
+</ol>
+<div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1">// GAP GATT Attributes</span>
+<span class="k">static</span> <span class="kt">uint8_t</span> <span class="n">attDeviceName</span><span class="p">[</span><span class="n">GAP_DEVICE_NAME_LEN</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;Simple BLE Peripheral&quot;</span><span class="p">;</span>
+
+<span class="n">GGS_SetParameter</span><span class="p">(</span><span class="n">GGS_DEVICE_NAME_ATT</span><span class="p">,</span> <span class="n">GAP_DEVICE_NAME_LEN</span><span class="p">,</span> <span class="n">attDeviceName</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+<ol class="arabic simple" start="3">
+<li>Initialize application callbacks with GGS (optional). This notifies the
+application when any of the characteristics in the GGS have changed.</li>
+</ol>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="n">GGS_RegisterAppCBs</span><span class="p">(</span><span class="o">&amp;</span><span class="n">appGGSCBs</span><span class="p">);</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="4">
+<li>Add the GGS to the GATT server.</li>
+</ol>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="n">bStatus_t</span> <span class="nf">GGS_AddService</span><span class="p">(</span><span class="n">GATT_ALL_SERVICES</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="generic-attribute-profile-service-gatt-service">
+<h1>Generic Attribute Profile Service (GATT Service)<a class="headerlink" href="#generic-attribute-profile-service-gatt-service" title="Permalink to this headline">¶</a></h1>
+<p>The Generic Attribute Profile (GATT) Service provides information
+about the GATT services registered with a device.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">For more information on the GATT Service, refer to the Defined Generic
+Attribute Profile Service section ([Vol 3], Part G, Section 7) of the
+<a class="reference external" href="https://www.bluetooth.com/specifications/adopted-specifications">Bluetooth Core Specification Version 4.2</a>.</p>
+</div>
+<p>The service changed characteristic is used to inform bonded devices
+that services have changed on the server upon reconnection. Service
+changed updates are sent in the form of GATT indications, and the
+service changed characteristic is not writeable or readable. In the
+TI Bluetooth low energy stack, the service changed characteristic is
+implemented as part of the gattservapp, which is part of library
+code.</p>
+<p>Per the <a class="reference external" href="https://www.bluetooth.com/specifications/adopted-specifications">Bluetooth Core Specification Version 4.2</a>, it is safe for server
+devices whose characteristic tables do not change over their
+lifetime to exclude the service changed characteristic. Support for
+indications from this characteristic must be supported on GATT
+client devices.</p>
+<div class="section" id="using-the-gatt-service">
+<h2>Using the GATT Service<a class="headerlink" href="#using-the-gatt-service" title="Permalink to this headline">¶</a></h2>
+<p>This section describes what the user must do to enable the GATT
+service changed feature in the Bluetooth low energy stack. Once the
+service changed feature is enabled, the GAPBondMgr will handle
+sending the service changed indication to clients who have enabled
+it using the CCCD.</p>
+<ol class="arabic">
+<li><p class="first">Use a supported build config for the stack; only stack libraries with
+v4.1 features and L2CAP connection-oriented channels will support
+the service changed characteristic.</p>
+<p>Enable this feature with the project&#8217;s build_config.opt file, by
+uncommenting the following line:</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="o">-</span><span class="n">DBLE_V41_FEATURES</span><span class="o">=</span><span class="n">L2CAP_COC_CFG</span><span class="o">+</span><span class="n">V41_CTRL_CFG</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">From this point, the GAPBondMgr handles sending an indication to
+connected clients when the service has changed and the CCCD is
+enabled. If the feature is enabled, the peripheral role invokes
+the necessary APIs to send the indication through the GAPBondMgr.</p>
+</li>
+<li><p class="first">On the client side, service changed indications can be registered
+using the same method as registering for other indications.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="section" id="gattservapp-module">
+<span id="id5"></span><h1>GATTServApp Module<a class="headerlink" href="#gattservapp-module" title="Permalink to this headline">¶</a></h1>
+<p>The GATT Server Application (GATTServApp) stores and manages the application-wide attribute
+table. Various profiles use this module to add their characteristics
+to the attribute table. The Bluetooth low energy stack uses this
+module to respond to discovery requests from a GATT client. For
+example, a GATT client may send a <strong>Discover all Primary
+Characteristics</strong> message. The Bluetooth low energy stack on the GATT
+server side receives this message and uses the GATTServApp to find and
+send over-the-air all of the primary characteristics stored in the
+attribute table. This type of functionality is beyond the scope of
+this document and is implemented in the library code. The
+GATTServApp functions accessible from the profiles are defined in
+&#8216;&#8217;gattservapp_util.c&#8217;&#8217; and the API described in <a class="reference internal" href="../ble-stack-3.x-guide/api-reference.html#ble-api-reference"><span class="std std-ref">BLE Stack API Reference</span></a>
+(GATTServApp section).
+These functions include finding specific attributes and reading or modifying
+client characteristic configurations. See <a class="reference internal" href="#gatt-att-table-init"><span class="std std-numref">Figure 51.</span></a> for an
+example of how GATTServApp functions in an application.</p>
+<div class="figure align-center" id="id17">
+<span id="gatt-att-table-init"></span><p class="plantuml">
+<img src="../_images/plantuml-0e111b0f5d8022f9c4e3e9f3cb6576de02205f83.png" alt="&#64;startuml
+
+participant App.c
+participant &quot;Profile A&quot;
+participant &quot;Profile B&quot;
+participant GATTServApp
+participant &quot;GATT Server&quot;
+
+rnote over &quot;Profile A&quot;, &quot;Profile B&quot;
+  Service A and Service B
+  Table initialization
+end note
+
+App.c -&gt; &quot;GATT Server&quot; : GGS_AddService()
+
+note right
+  GAP Service
+end note
+
+group Add GATTServApp to attribute table
+    App.c -&gt; GATTServApp : GATTServApp_AddService()
+    GATTServApp -&gt; &quot;GATT Server&quot; : RegisterService
+
+    note right
+      GAP Service
+      GATT Service
+    end note
+end
+
+App.c -&gt; &quot;Profile A&quot; : ProfileA_AddService()
+&quot;Profile A&quot; -&gt; GATTServApp : RegisterService(A)
+
+
+GATTServApp -&gt; &quot;GATT Server&quot; : RegisterService
+
+note right
+  GAP Service
+  GATT Service
+  Service A
+end note
+
+deactivate GATTServApp
+deactivate &quot;Profile A&quot;
+
+
+== Profile B ==
+
+
+App.c -&gt; &quot;Profile B&quot; : ProfileB_AddService()
+&quot;Profile B&quot; -&gt; GATTServApp : RegisterService(B)
+GATTServApp -&gt; &quot;GATT Server&quot; : RegisterService
+
+
+note right
+  GAP Service
+  GATT Service
+  Service A
+  Service B
+end note
+&#64;enduml" />
+</p>
+<p class="caption"><span class="caption-number">Figure 51. </span><span class="caption-text">Attribute Table Initialization Diagram.</span><a class="headerlink" href="#id17" title="Permalink to this image">¶</a></p>
+</div>
+<div class="section" id="building-up-the-attribute-table">
+<h2>Building up the Attribute Table<a class="headerlink" href="#building-up-the-attribute-table" title="Permalink to this headline">¶</a></h2>
+<p>Upon power-on or reset, the application builds the GATT table by
+using the GATTServApp to add services. Each service consists of a
+list of attributes with UUIDs, values, permissions, and read and
+write call-backs. As <a class="reference internal" href="#gatt-att-table-init"><span class="std std-numref">Figure 51.</span></a> shows, all of this
+information is passed through the GATTServApp to GATT and stored in the stack.</p>
+<p>Attribute table initialization must occur in the application
+initialization function, that is, simple_peripheral_init().</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="c1">// Initialize GATT attributes</span>
+<span class="n">GGS_AddService</span><span class="p">(</span><span class="n">GATT_ALL_SERVICES</span><span class="p">);</span>         <span class="c1">// GAP</span>
+<span class="n">GATTServApp_AddService</span><span class="p">(</span><span class="n">GATT_ALL_SERVICES</span><span class="p">);</span> <span class="c1">// GATT attributes</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="implementing-profiles-in-attributes-table">
+<h2>Implementing Profiles in Attributes Table<a class="headerlink" href="#implementing-profiles-in-attributes-table" title="Permalink to this headline">¶</a></h2>
+<p>This section describes the general architecture for implementing profiles and
+provides specific functional examples in relation to the
+simple_gatt_profile in the simple_peripheral project. See
+<a class="reference internal" href="#gatt-services-and-profile"><span class="std std-ref">GATT Services and Profile</span></a> for an overview of the simple_gatt_profile.</p>
+<div class="section" id="attribute-table-definition">
+<h3>Attribute Table Definition<a class="headerlink" href="#attribute-table-definition" title="Permalink to this headline">¶</a></h3>
+<p>Each service or group of GATT attributes must define a fixed size
+attribute table that gets passed into GATT. This table in
+simple_gatt_profile.c is defined as the following.</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="k">static</span> <span class="n">gattAttribute_t</span> <span class="n">simpleProfileAttrTbl</span><span class="p">[</span><span class="n">SERVAPP_NUM_ATTR_SUPPORTED</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Each attribute in this table is of the following type.</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="k">typedef</span> <span class="k">struct</span> <span class="n">attAttribute_t</span>
+<span class="p">{</span>
+   <span class="n">gattAttrType_t</span> <span class="n">type</span><span class="p">;</span> <span class="c1">//!&lt; Attribute type (2 or 16 octet UUIDs)</span>
+   <span class="n">uint8</span> <span class="n">permissions</span><span class="p">;</span> <span class="c1">//!&lt; Attribute permissions</span>
+
+   <span class="n">uint16</span> <span class="n">handle</span><span class="p">;</span> <span class="c1">//!&lt; Attribute handle - assigned internally by attribute server</span>
+
+   <span class="n">uint8</span><span class="o">*</span> <span class="k">const</span> <span class="n">pValue</span><span class="p">;</span> <span class="c1">//!&lt; Attribute value - encoding of the octet array is defined in</span>
+                        <span class="c1">//!&lt; the applicable profile. The maximum length of an attribute</span>
+                        <span class="c1">//!&lt; value shall be 512 octets.</span>
+<span class="p">}</span> <span class="n">gattAttribute_t</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>When utilizing gattAttribute_t, the various fields have specific meanings.</p>
+<ul>
+<li><dl class="first docutils">
+<dt>gattAttrType_t type</dt>
+<dd><p class="first">type is the UUID associated with the attribute being placed into the table. gattAttrType_t itself is defined as:</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="k">typedef</span> <span class="k">struct</span>
+<span class="p">{</span>
+   <span class="n">uint8</span> <span class="n">len</span><span class="p">;</span>         <span class="c1">//!&lt; Length of UUID (2 or 16)</span>
+   <span class="k">const</span> <span class="n">uint8</span> <span class="o">*</span><span class="n">uuid</span><span class="p">;</span> <span class="c1">//!&lt;Pointer to UUID</span>
+<span class="p">}</span> <span class="n">gattAttrType_t</span><span class="p">;</span>
+</pre></div>
+</div>
+<p class="last">Where length can be either <code class="docutils literal"><span class="pre">ATT_BT_UUID_SIZE</span></code> (2 bytes), or
+<code class="docutils literal"><span class="pre">ATT_UUID_SIZE</span></code> (16 bytes). The *uuid is a pointer to a number either
+reserved by Bluetooth SIG (defined in gatt_uuid.c) or a custom UUID
+defined in the profile.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>uint8 permissions</dt>
+<dd><p class="first">enforces how and if a GATT client device can access the
+value of the attribute. Possible permissions are defined in
+gatt.h as follows:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="43%" />
+<col width="13%" />
+<col width="45%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>#define GATT_PERMIT_READ</td>
+<td>0x01</td>
+<td>//!&lt; Attribute is Readable</td>
+</tr>
+<tr class="row-even"><td>#define GATT_PERMIT_WRITE</td>
+<td>0x02</td>
+<td>//!&lt; Attribute is Writable</td>
+</tr>
+<tr class="row-odd"><td>#define GATT_PERMIT_AUTHEN_READ</td>
+<td>0x04</td>
+<td>//!&lt; Read requires Authentication</td>
+</tr>
+<tr class="row-even"><td>#define GATT_PERMIT_AUTHEN_WRITE</td>
+<td>0x08</td>
+<td>//!&lt; Write requires Authentication</td>
+</tr>
+<tr class="row-odd"><td>#define GATT_PERMIT_AUTHOR_READ</td>
+<td>0x10</td>
+<td>//!&lt; Read requires Authorization</td>
+</tr>
+<tr class="row-even"><td>#define GATT_PERMIT_AUTHOR_WRITE</td>
+<td>0x20</td>
+<td>//!&lt; Write requires Authorization</td>
+</tr>
+<tr class="row-odd"><td>#define GATT_PERMIT_ENCRYPT_READ</td>
+<td>0x40</td>
+<td>//!&lt; Read requires Encryption</td>
+</tr>
+<tr class="row-even"><td>#define GATT_PERMIT_ENCRYPT_WRITE</td>
+<td>0x80</td>
+<td>//!&lt; Write requires Encryption</td>
+</tr>
+</tbody>
+</table>
+<p class="last"><a class="reference internal" href="#allocating-memory-for-gatt-procedures"><span class="std std-ref">Allocating Memory for GATT Procedures</span></a> further describes authentication, authorization, and encryption.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>uint16 handle</dt>
+<dd><p class="first last">handle is a placeholder in the table where GATTServApp assigns a
+handle. This placeholder is not customizable. Handles are
+assigned sequentially.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>uint8* const pValue</dt>
+<dd><p class="first last">pValue is a pointer to the attribute value. The size is unable to
+change after initialization. The maximum size is 512 octets.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+<div class="section" id="service-declaration">
+<h3>Service Declaration<a class="headerlink" href="#service-declaration" title="Permalink to this headline">¶</a></h3>
+<p>Consider the following simple_gatt_profile service declaration
+attribute:</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="c1">// Simple Profile Service</span>
+<span class="p">{</span>
+   <span class="p">{</span> <span class="n">ATT_BT_UUID_SIZE</span><span class="p">,</span> <span class="n">primaryServiceUUID</span> <span class="p">},</span>    <span class="c1">// type</span>
+   <span class="n">GATT_PERMIT_READ</span><span class="p">,</span>                            <span class="c1">// permissions</span>
+   <span class="mi">0</span><span class="p">,</span>                                           <span class="c1">// handle</span>
+   <span class="p">(</span><span class="n">uint8</span> <span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">simpleProfileService</span>               <span class="c1">// pValue</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The type is set to the Bluetooth SIG-defined primary service UUID
+(0x2800). A GATT client is permitted to read this service with the permission
+is set to <code class="docutils literal"><span class="pre">GATT_PERMIT_READ</span></code>. The pValue is a pointer to the UUID of
+the service, custom-defined as 0xFFF0. SimpleProfileService itself is defined to
+reference the profile&#8217;s UUID.</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="c1">// Simple Profile Service attribute</span>
+<span class="k">static</span> <span class="n">CONST</span> <span class="n">gattAttrType_t</span> <span class="n">simpleProfileService</span> <span class="o">=</span>
+   <span class="p">{</span>
+      <span class="n">ATT_BT_UUID_SIZE</span><span class="p">,</span>
+      <span class="n">simpleProfileServUUID</span>
+   <span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="characteristic-declaration">
+<h3>Characteristic Declaration<a class="headerlink" href="#characteristic-declaration" title="Permalink to this headline">¶</a></h3>
+<p>Consider the following simple_gatt_profile
+simpleProfileCharacteristic1 declaration.</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="c1">// Characteristic 1 Declaration</span>
+<span class="p">{</span>
+   <span class="p">{</span> <span class="n">ATT_BT_UUID_SIZE</span><span class="p">,</span> <span class="n">characterUUID</span> <span class="p">},</span>
+   <span class="n">GATT_PERMIT_READ</span><span class="p">,</span>
+   <span class="mi">0</span><span class="p">,</span>
+   <span class="o">&amp;</span><span class="n">simpleProfileChar1Props</span>
+<span class="p">},</span>
+</pre></div>
+</div>
+<p>The type is set to the Bluetooth SIG-defined characteristic UUID
+(0x2803). This makes simpleProfileCharacteristic1 read only to the GATT client
+with the permissions set to <code class="docutils literal"><span class="pre">GATT_PERMIT_READ</span></code>.</p>
+<p>For functional purposes, the only information required to be passed
+to the GATTServApp in pValue is a pointer to the properties of the
+characteristic value. The GATTServApp adds the UUID and the handle
+of the value. These properties are defined to allow this particular
+characteristic in this service to be read and written to.</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="c1">// Simple Profile Characteristic 1 Properties</span>
+<span class="k">static</span> <span class="n">uint8</span> <span class="n">simpleProfileChar1Props</span> <span class="o">=</span> <span class="n">GATT_PROP_READ</span> <span class="o">|</span> <span class="n">GATT_PROP_WRITE</span><span class="p">;</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">An important distinction exists between these properties
+and the GATT permissions of the characteristic value. These
+properties are visible to the GATT client stating the properties of
+the characteristic value. The GATT permissions of the characteristic
+value affect its functionality in the protocol stack. These
+properties must match that of the GATT permissions of the
+characteristic value.</p>
+</div>
+</div>
+<div class="section" id="characteristic-value">
+<h3>Characteristic Value<a class="headerlink" href="#characteristic-value" title="Permalink to this headline">¶</a></h3>
+<p>Consider the simple_gatt_profile simpleProfileCharacteristic1
+value.</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="c1">// Characteristic Value 1</span>
+<span class="p">{</span>
+<span class="p">{</span> <span class="n">ATT_BT_UUID_SIZE</span><span class="p">,</span> <span class="n">simpleProfilechar1UUID</span> <span class="p">},</span>
+  <span class="n">GATT_PERMIT_READ</span> <span class="o">|</span> <span class="n">GATT_PERMIT_WRITE</span><span class="p">,</span>
+  <span class="mi">0</span><span class="p">,</span>
+  <span class="o">&amp;</span><span class="n">simpleProfileChar1</span>
+<span class="p">},</span>
+</pre></div>
+</div>
+<p>The type is set to the custom-defined simpleProfilechar1 UUID
+(0xFFF1). The properties of the characteristic value in the attribute
+table must match the properties from the characteristic value
+declaration. The pValue is a pointer to the location of the actual
+value, statically defined in the profile as follows.</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="c1">// Characteristic 1 Value</span>
+<span class="k">static</span> <span class="n">uint8</span> <span class="n">simpleProfileChar1</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="client-characteristic-configuration">
+<span id="id6"></span><h3>Client Characteristic Configuration<a class="headerlink" href="#client-characteristic-configuration" title="Permalink to this headline">¶</a></h3>
+<p>Consider the simple_gatt_profile simpleProfileCharacteristic4
+configuration.</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="c1">// Characteristic 4 configuration</span>
+<span class="p">{</span>
+<span class="p">{</span> <span class="n">ATT_BT_UUID_SIZE</span><span class="p">,</span> <span class="n">clientCharCfgUuID</span> <span class="p">},</span>
+  <span class="n">GATT_PERMIT_READ</span> <span class="o">|</span> <span class="n">GATT_PERMIT_WRITE</span><span class="p">,</span>
+  <span class="mi">0</span><span class="p">,</span>
+  <span class="p">(</span><span class="n">uint8</span> <span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">simpleProfileChar4Config</span>
+ <span class="p">},</span>
+</pre></div>
+</div>
+<p>The type is set to the Bluetooth SIG-defined client characteristic
+configuration UUID (0x2902) GATT clients must read and write to this
+attribute so the GATT permissions are set to readable and writable.
+The pValue is a pointer to the location of the client characteristic
+configuration array, defined in the profile as follows.</p>
+<div class="literal-block-wrapper docutils container" id="id18">
+<span id="sgp-characteristic-4-pvalue"></span><div class="code-block-caption"><span class="caption-number">Listing 62. </span><span class="caption-text">simple_gatt_profile characteristic 4 pValue pointer define.</span><a class="headerlink" href="#id18" title="Permalink to this code">¶</a></div>
+<div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">static</span> <span class="n">gattCharCfg_t</span> <span class="o">*</span><span class="n">simpleProfileChar4Config</span><span class="p">;</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Client characteristic configuration is represented as an
+array because this value must be cached for each connection. The
+catching of the client characteristic configuration is described in
+more detail in <a class="reference internal" href="#gatt-add-service-function"><span class="std std-ref">Add Service Function</span></a>.</p>
+</div>
+</div>
+</div>
+<div class="section" id="add-service-function">
+<span id="gatt-add-service-function"></span><h2>Add Service Function<a class="headerlink" href="#add-service-function" title="Permalink to this headline">¶</a></h2>
+<p>As described in <a class="reference internal" href="#gattservapp-module"><span class="std std-ref">GATTServApp Module</span></a>, when an application starts up it
+requires adding the GATT services it supports. Each profile needs a
+global AddService function that can be called from the application.
+Some of these services are defined in the protocol stack, such as
+GAP GATT Service and GATT Service. User-defined services must expose
+their own AddService function that the application can call for
+profile initialization. Using SimpleProfile_AddService() as an
+example, these functions should do as follows.</p>
+<ul>
+<li><p class="first">Allocate space for the client characteristic configuration (CCC)
+arrays. As an example, a pointer to one of these arrays was
+initialized in the profile as described in
+ref:<cite>client_characteristic_configuration</cite>.</p>
+<p>In the AddService function, the supported connections is declared and memory
+is allocated for each array. Only one CCC is defined in the
+imple_gatt_profile but there can be multiple CCCs.</p>
+</li>
+</ul>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="c1">// Allocate Client Characteristic Configuration table</span>
+<span class="n">simpleProfileChar4Config</span> <span class="o">=</span> <span class="p">(</span><span class="n">gattCharCfg_t</span> <span class="o">*</span><span class="p">)</span><span class="n">ICall_malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">gattCharCfg_t</span><span class="p">)</span> <span class="o">*</span> <span class="n">linkDBNumConns</span> <span class="p">);</span>
+
+<span class="k">if</span> <span class="p">(</span> <span class="n">simpleProfileChar4Config</span> <span class="o">==</span> <span class="nb">NULL</span> <span class="p">)</span>
+<span class="p">{</span>
+<span class="k">return</span> <span class="p">(</span> <span class="n">bleMemAllocError</span> <span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>Initialize the CCC arrays. CCC values are persistent between power
+downs and between bonded device connections. For each CCC in the
+profile, the <a class="reference external" href="../../doxygen/ble/html/group___g_a_t_t_serv_app.html#gaa547859c48b173ca305804106db58a5c">GATTServApp_InitCharCfg()</a> function must be called.
+This function tries to initialize the CCCs with information from
+a previously bonded connection and set the initial values to
+default values if not found.</li>
+</ul>
+<div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">GATTServApp_InitCharCfg</span><span class="p">(</span> <span class="n">INVALID_CONHANDLE</span><span class="p">,</span> <span class="n">simpleProfileChar4Config</span> <span class="p">);</span>
+</pre></div>
+</td></tr></table></div>
+<ul class="simple">
+<li>Register the profile with the GATTServApp. This function passes the
+attribute table of the profile to the GATTServApp so that the
+attributes of the profile are added to the application-wide
+attribute table managed by the protocol stack and handles are
+assigned for each attribute. This also passes pointers to the
+callbacks of the profile to the stack to initiate communication
+between the GATTServApp and the profile.</li>
+</ul>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="c1">// Register GATT attribute list and CBs with GATT Server App</span>
+<span class="n">status</span> <span class="o">=</span> <span class="n">GATTServApp_RegisterService</span><span class="p">(</span> <span class="n">simpleProfileAttrTbl</span><span class="p">,</span>
+                                      <span class="n">GATT_NUM_ATTRS</span><span class="p">(</span> <span class="n">simpleProfileAttrTbl</span> <span class="p">),</span>
+                                      <span class="n">GATT_MAX_ENCRYPT_KEY_SIZE</span><span class="p">,</span>
+                                      <span class="o">&amp;</span><span class="n">simpleProfileCBs</span> <span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="register-application-callback-function">
+<h2>Register Application Callback Function<a class="headerlink" href="#register-application-callback-function" title="Permalink to this headline">¶</a></h2>
+<p>Profiles can relay messages to the application using callbacks. In
+the simple_peripheral project, the simple_gatt_profile calls an
+application callback whenever the GATT client writes a
+characteristic value. For these application callbacks to be used,
+the profile must define a Register Application Callback function
+that the application uses to set up callbacks during its
+initialization. The register application callback function for the
+simple_gatt_profile is the following:</p>
+<div class="literal-block-wrapper docutils container" id="id19">
+<span id="sgp-client-configuration-register-app-cb"></span><div class="code-block-caption"><span class="caption-number">Listing 63. </span><span class="caption-text">Register application callbacks.</span><a class="headerlink" href="#id19" title="Permalink to this code">¶</a></div>
+<div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">bStatus_t</span> <span class="nf">SimpleProfile_RegisterAppCBs</span><span class="p">(</span> <span class="n">simpleProfileCBs_t</span> <span class="o">*</span><span class="n">appCallbacks</span> <span class="p">)</span>
+<span class="p">{</span>
+   <span class="k">if</span> <span class="p">(</span> <span class="n">appCallbacks</span> <span class="p">)</span>
+   <span class="p">{</span>
+      <span class="n">simpleProfile_AppCBs</span> <span class="o">=</span> <span class="n">appCallbacks</span><span class="p">;</span>
+      <span class="k">return</span> <span class="p">(</span> <span class="n">SUCCESS</span> <span class="p">);</span>
+   <span class="p">}</span>
+
+   <span class="k">else</span>
+   <span class="p">{</span>
+      <span class="k">return</span> <span class="p">(</span> <span class="n">bleAlreadyInRequestedMode</span> <span class="p">);</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<p>Where the callback typedef is defined as the following.</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="k">typedef</span> <span class="k">struct</span>
+<span class="p">{</span>
+   <span class="n">simpleProfileChange_t</span> <span class="n">pfnSimpleProfileChange</span><span class="p">;</span> <span class="c1">// Called when characteristic value changes</span>
+<span class="p">}</span> <span class="n">simpleProfileCBs_t</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>The application must then define a callback of this type and pass it
+to the simple_gatt_profile with the
+SimpleProfile_RegisterAppCBs() function. This occurs in
+simple_peripheral.c as follows.</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="c1">//Simple GATT Profile Callbacks</span>
+<span class="cp">#ifndef FEATURE_OAD_ONCHIP</span>
+<span class="k">static</span> <span class="n">simpleProfileCBs_t</span> <span class="n">SimpleBLEPeripheral_simpleProfileCBs</span> <span class="o">=</span>
+<span class="p">{</span>
+   <span class="n">SimpleBLEPeripheral_charValueChangeCB</span> <span class="c1">// Characteristic value change callback</span>
+<span class="p">};</span>
+<span class="cp">#endif </span><span class="c1">//!FEATURE_OAD_ONCHIP</span>
+
+<span class="c1">//...</span>
+
+<span class="c1">//Register callback with SimpleGATTprofile</span>
+<span class="n">SimpleProfile_RegisterAppCBs</span><span class="p">(</span><span class="o">&amp;</span><span class="n">SimpleBLEPeripheral_simpleProfileCBs</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>See <a class="reference internal" href="#read-and-write-callback-functions"><span class="std std-ref">Read and Write Callback Functions</span></a> for further information on how this
+callback is used.</p>
+</div>
+<div class="section" id="read-and-write-callback-functions">
+<span id="id7"></span><h2>Read and Write Callback Functions<a class="headerlink" href="#read-and-write-callback-functions" title="Permalink to this headline">¶</a></h2>
+<p>The profile must define Read and Write callback functions which the
+protocol stack calls when one of the attributes of the profile are
+written to or read from. The callbacks must be registered with
+GATTServApp as mentioned in <a class="reference internal" href="#gatt-add-service-function"><span class="std std-ref">Add Service Function</span></a>. These callbacks
+perform the characteristic read or write and other processing (possibly calling
+an application callback) as defined by the specific profile.</p>
+</div>
+<div class="section" id="read-request-from-client">
+<h2>Read Request from Client<a class="headerlink" href="#read-request-from-client" title="Permalink to this headline">¶</a></h2>
+<p>When a read request from a GATT Client is received for a given
+attribute, the protocol stack checks the permissions of the
+attribute and, if the attribute is readable, calls the read call-back
+profile. The profile copies in the value, performs any
+profile-specific processing, and notifies the application if
+desired. This procedure is illustrated in <a class="reference internal" href="#gatt-read-cb-flow-fig"><span class="std std-numref">Figure 52.</span></a> for a read
+of simpleprofileChar1 in the simple_gatt_profile.</p>
+<div class="figure align-center" id="id20">
+<span id="gatt-read-cb-flow-fig"></span><p class="plantuml">
+<img src="../_images/plantuml-8a140491996f7ec58a5b5beb5fc2e75f6f1e1f08.png" alt=" &#64;startuml
+  participant &quot;Service CB \n(simple_gatt_profile.c)&quot; as App
+  participant GATTServApp
+  participant &quot;BLE Stack&quot;  as BLE
+
+  BLE &lt;--]: Receive Attribute Read Request
+
+  BLE -&gt; GATTServApp : GATT_MSG_EVENT
+
+  Activate &quot;GATTServApp&quot;
+   GATTServApp -&gt; GATTServApp : Process Event
+   GATTServApp -&gt; GATTServApp : Process Msg &quot;ATT Read Req&quot;
+
+  group status != SUCCESS
+    GATTServApp -&gt; BLE : ATT_ErrorRsp
+    Deactivate &quot;GATTServApp&quot;
+    BLE --&gt;] : Send ATT_ERROR_RSP
+  end
+
+
+  group status == SUCCESS
+    GATTServApp -&gt; App : Find Attribute CB
+    App -&gt; App : simpleProfile_ReadAttrCB
+    rnote over &quot;App&quot;
+      Copy the values
+    end note
+    App -&gt; GATTServApp
+    GATTServApp -&gt; BLE : ATT_ReadRsp
+    BLE --&gt;] : ATT_READ_RSP
+  end
+
+ &#64;enduml" />
+</p>
+<p class="caption"><span class="caption-number">Figure 52. </span><span class="caption-text">Read Request illustration</span><a class="headerlink" href="#id20" title="Permalink to this image">¶</a></p>
+</div>
+<p>The processing is in the context of the protocol stack. If any
+intensive profile-related processing that must be done in the case
+of an attribute read, this should be split up and done in the
+context of the Application task. See the <a class="reference internal" href="#write-request-from-client"><span class="std std-ref">Write Request from Client</span></a> for
+more information.</p>
+</div>
+<div class="section" id="write-request-from-client">
+<span id="id8"></span><h2>Write Request from Client<a class="headerlink" href="#write-request-from-client" title="Permalink to this headline">¶</a></h2>
+<p>When a write request from a GATT client is received for a given
+attribute, the protocol stack checks the permissions of the
+attribute and, if the attribute is write-permitted, calls the write callback of
+the profile. The profile stores the value to be written, performs
+any profile-specific processing, and notifies the application if
+desired. <a class="reference internal" href="#gatt-write-cb-flow-fig"><span class="std std-numref">Figure 53.</span></a> shows this procedure for a write
+of simpleprofileChar3 in the simple_gatt_profile.</p>
+<div class="figure align-center" id="id21">
+<span id="gatt-write-cb-flow-fig"></span><p class="plantuml">
+<img src="../_images/plantuml-233721adf16674b25d4066b950cf37bd540aabed.png" alt=" &#64;startuml
+  participant &quot;User Define Post Processing&quot; as User
+  participant &quot;Service CB \n(simple_gatt_profile.c)&quot; as App
+  participant GATTServApp
+  participant &quot;BLE Stack&quot;  as BLE
+
+  BLE &lt;--]: Receive Attribute Write Request
+
+  BLE -&gt; GATTServApp : GATT_MSG_EVENT
+
+  Activate &quot;GATTServApp&quot;
+   GATTServApp -&gt; GATTServApp : Process Event
+   GATTServApp -&gt; GATTServApp : Process Msg &quot;ATT Write Req&quot;
+
+  group status != SUCCESS
+    GATTServApp -&gt; BLE : ATT_ErrorRsp
+    Deactivate &quot;GATTServApp&quot;
+    BLE --&gt;] : Send ATT_ERROR_RSP
+  end
+
+
+  group status == SUCCESS
+    GATTServApp -&gt; App : Find Attribute CB
+    App -&gt; App : simpleProfile_WriteAttrCB
+    rnote over &quot;App&quot;
+                       update the value
+                                   &amp;
+      find user defined application callback
+    end note
+
+    GATTServApp -&gt; BLE : ATT_WriteRsp
+    BLE --&gt;] : ATT_Write_RSP
+
+    App -&gt; User : SimpleBLEPeripheral_\ncharValueChangeCB()
+
+    User-&gt; User : SimpleBLEPeripheral_\nenqueueMsg()
+    rnote over &quot;User&quot;
+      SBP_CHAR_CHANGE_EVT
+    end note
+
+    User-&gt; User : SimpleBLEPeripheral_\nprocessCharValueChangeEvt()
+
+    rnote over &quot;User&quot;
+      Get the new value and
+      do whatever you want with it
+    end note
+
+  end
+
+
+
+ &#64;enduml" />
+</p>
+<p class="caption"><span class="caption-number">Figure 53. </span><span class="caption-text">Write Request illustration</span><a class="headerlink" href="#id21" title="Permalink to this image">¶</a></p>
+</div>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">Minimizing the processing in protocol stack context is
+important. In this example, additional processing beyond storing the
+attribute write value in the profile occurs in the application context by enqueuing a message in the
+queue of the application.</p>
+</div>
+</div>
+<div class="section" id="get-and-set-functions">
+<span id="gatt-get-and-set-functions"></span><h2>Get and Set Functions<a class="headerlink" href="#get-and-set-functions" title="Permalink to this headline">¶</a></h2>
+<p>The profile containing the characteristics shall provide set and get
+abstraction functions for the application to read and write a
+characteristic of the profile. The set parameter function also
+includes logic to check for and implement notifications and
+indications if the relevant characteristic has notify or indicate
+properties. <a class="reference internal" href="#gatt-get-set-pp"><span class="std std-numref">Figure 54.</span></a> and the following code show this example
+for setting simpleProfileChacteristic4 in the simple_gatt_profile.</p>
+<div class="figure align-center" id="id22">
+<span id="gatt-get-set-pp"></span><p class="plantuml">
+<img src="../_images/plantuml-21cb3ade9630b4bc00e37eeeb4803be586127381.png" alt=" &#64;startuml
+  participant App
+  participant &quot;Profile \n(simple_gatt_profile.c)&quot; as profile
+  participant GATTServApp
+  participant &quot;BLE Stack&quot;  as BLE
+
+  App -&gt; profile : SetParameter(param, len, value)
+
+  group Invalid operation
+    profile -&gt; App : return(bleInvalidRange|\nINVALIDPARAMETER)
+  end note
+
+
+  group Valid operation (correct len etc)
+
+  rnote over &quot;profile&quot;
+    Copy and update the values
+  end note
+  profile -&gt; GATTServApp : GATTServApp_ProcessCharCfg()
+
+  rnote over &quot;GATTServApp&quot;
+    Check if the notification has
+    already been enabled
+  end note
+
+  group Notification is not enabled
+    GATTServApp -&gt; profile : return(SUCCESS)
+    profile -&gt; App : return(SUCCESS)
+  end
+
+
+  group Notification is enabled
+    GATTServApp -&gt; BLE : GATT_Notification()
+    BLE --&gt;]: Send notification to client
+    BLE-&gt;GATTServApp : return(status)
+    GATTServApp -&gt; profile : return(status)
+    profile -&gt; App : return(SUCCESS)
+  end
+
+  end note
+
+
+ &#64;enduml" />
+</p>
+<p class="caption"><span class="caption-number">Figure 54. </span><span class="caption-text">Set Profile Parameter</span><a class="headerlink" href="#id22" title="Permalink to this image">¶</a></p>
+</div>
+<p>For example, the application initializes
+simpleProfileCharacteristic4 to 0 in simple_peripheral.c through
+the following.</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="kt">uint8_t</span> <span class="n">charValue4</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="n">SimpleProfile_SetParameter</span><span class="p">(</span><span class="n">SIMPLEPROFILE_CHAR4</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">uint8_t</span><span class="p">),</span> <span class="o">&amp;</span><span class="n">charValue4</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The code for this function is displayed in the following code
+snippet (from simple_gatt_profile.c). Besides setting the value of
+the static simpleProfileChar4, this function also calls
+<a class="reference external" href="../../doxygen/ble/html/group___g_a_t_t_serv_app.html#ga31c5d5e203f7fabc8d43cad1960edf83">GATTServApp_ProcessCharCfg()</a> because it has notify properties. This
+action forces GATTServApp to check if notifications have been
+enabled by the GATT Client. If so, the GATTServApp sends a
+notification of this attribute to the GATT Client.</p>
+<div class="literal-block-wrapper docutils container" id="id23">
+<span id="simpleprofilecharacteristic4-setparameter"></span><div class="code-block-caption"><span class="caption-number">Listing 64. </span><span class="caption-text">Set characteristic 4 in SimpleProfile_SetParameter().</span><a class="headerlink" href="#id23" title="Permalink to this code">¶</a></div>
+<div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">bStatus_t</span> <span class="nf">SimpleProfile_SetParameter</span><span class="p">(</span> <span class="n">uint8</span> <span class="n">param</span><span class="p">,</span> <span class="n">uint8</span> <span class="n">len</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">value</span> <span class="p">)</span>
+<span class="p">{</span>
+<span class="n">bStatus_t</span> <span class="n">ret</span> <span class="o">=</span> <span class="n">SUCCESS</span> <span class="k">switch</span> <span class="p">(</span> <span class="n">param</span> <span class="p">)</span>
+<span class="p">{</span>
+<span class="k">case</span> <span class="nl">SIMPLEPROFILE_CHAR4</span><span class="p">:</span>
+  <span class="k">if</span> <span class="p">(</span> <span class="n">len</span> <span class="o">==</span> <span class="k">sizeof</span> <span class="p">(</span> <span class="n">uint8</span> <span class="p">)</span> <span class="p">)</span>
+  <span class="p">{</span>
+    <span class="n">simpleProfileChar4</span> <span class="o">=</span> <span class="o">*</span><span class="p">((</span><span class="n">uint8</span><span class="o">*</span><span class="p">)</span><span class="n">value</span><span class="p">);</span>
+
+    <span class="c1">// See if Notification has been enabled</span>
+    <span class="n">GATTServApp_ProcessCharCfg</span><span class="p">(</span> <span class="n">simpleProfileChar4Config</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">simpleProfileChar4</span><span class="p">,</span> <span class="n">FALSE</span><span class="p">,</span>
+                                <span class="n">simpleProfileAttrTbl</span><span class="p">,</span> <span class="n">GATT_NUM_ATTRS</span><span class="p">(</span> <span class="n">simpleProfileAttrTbl</span> <span class="p">),</span>
+                                <span class="n">INVALID_TASK_ID</span><span class="p">,</span> <span class="n">simpleProfile_ReadAttrCB</span> <span class="p">);</span>
+  <span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+</div>
+<div class="section" id="queued-writes">
+<h2>Queued Writes<a class="headerlink" href="#queued-writes" title="Permalink to this headline">¶</a></h2>
+<p>Prepare Write commands allows a GATT server to send more payload
+data by queuing up multiple write requests. The default queue size
+is 5. With a default MTU of 23 and payload of 18 bytes, up to 90
+bytes of payload can be sent. For more information on queued writes, refer to
+the Queued Writes section ([Vol 3], Part F, Section 3.4.6) of the <a class="reference external" href="https://www.bluetooth.com/specifications/adopted-specifications">Bluetooth Core Specification Version 4.2</a>.</p>
+<p>Adjust the Prepare Write queue with <a class="reference external" href="../../doxygen/ble/html/group___g_a_t_t_serv_app.html#gaf2aa76d834234b792d90115154789302">GATTServApp_SetParameter()</a> with
+parameter <code class="docutils literal"><span class="pre">GATT_PARAM_NUM_PREPARE_WRITES</span></code>. There is no specified
+limit, but it is bounded by the available HEAPMGR space.</p>
+</div>
+<div class="section" id="allocating-memory-for-gatt-procedures">
+<span id="id9"></span><h2>Allocating Memory for GATT Procedures<a class="headerlink" href="#allocating-memory-for-gatt-procedures" title="Permalink to this headline">¶</a></h2>
+<p>To support fragmentation, GATT and ATT payload structures must be
+dynamically allocated for commands sent wirelessly. For example, a
+buffer must be allocated when sending a GATT_Notification. The
+stack does this allocation if the preferred method to send a GATT
+notification or indication is used: calling a SetParameter function
+of the profile (that is, SimpleProfile_SetParameter()) and calling
+<a class="reference external" href="../../doxygen/ble/html/group___g_a_t_t_serv_app.html#ga31c5d5e203f7fabc8d43cad1960edf83">GATTServApp_ProcessCharCfg()</a> as described in
+<a class="reference internal" href="#gatt-get-and-set-functions"><span class="std std-ref">Get and Set Functions</span></a>.</p>
+<p>If using <a class="reference external" href="../../doxygen/ble/html/group___a_t_t___g_a_t_t.html#gac61599736be6b39a5b18d3ef6eb7a45a">GATT_Notification()</a> or <a class="reference external" href="../../doxygen/ble/html/group___a_t_t___g_a_t_t.html#gadaadba59a7d29ede06abc3b30bec89ad">GATT_Indication()</a> directly,
+memory management must be added as follows.</p>
+<ol class="arabic simple">
+<li>Try to allocate memory for the notification or indication payload
+using <a class="reference external" href="../../doxygen/ble/html/group___a_t_t___g_a_t_t.html#gaaf21b84a128832b1f4b5ef0638580d9b">GATT_bm_alloc()</a>.</li>
+<li>Send notification or indication using <a class="reference external" href="../../doxygen/ble/html/group___a_t_t___g_a_t_t.html#gac61599736be6b39a5b18d3ef6eb7a45a">GATT_Notification()</a> or
+<a class="reference external" href="../../doxygen/ble/html/group___a_t_t___g_a_t_t.html#gadaadba59a7d29ede06abc3b30bec89ad">GATT_Indication()</a> if the allocation succeeds.</li>
+</ol>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If the return value of the notification or indication is
+<code class="docutils literal"><span class="pre">SUCCESS</span> <span class="pre">(0x00)</span></code>, the stack freed the memory.</p>
+</div>
+<ol class="arabic" start="3">
+<li><p class="first">Use <a class="reference external" href="../../doxygen/ble/html/group___a_t_t___g_a_t_t.html#ga2aa77ddaedaf91c5bea41697716586eb">GATT_bm_free()</a> to free the memory if the return value is
+something other than <code class="docutils literal"><span class="pre">SUCCESS</span></code> (for example, <code class="docutils literal"><span class="pre">blePending</span></code>).</p>
+<p>The following is an example of this in the <code class="docutils literal"><span class="pre">GATTServApp_SendNotiInd</span></code>
+function in the gattservapp_util.c file.</p>
+</li>
+</ol>
+<div class="literal-block-wrapper docutils container" id="id24">
+<span id="gattservapp-mem-alloc"></span><div class="code-block-caption"><span class="caption-number">Listing 65. </span><span class="caption-text">gattServApp_SendNotiInd().</span><a class="headerlink" href="#id24" title="Permalink to this code">¶</a></div>
+<div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">noti</span><span class="p">.</span><span class="n">pValue</span> <span class="o">=</span> <span class="p">(</span><span class="n">uint8</span> <span class="o">*</span><span class="p">)</span><span class="n">GATT_bm_alloc</span><span class="p">(</span> <span class="n">connHandle</span><span class="p">,</span> <span class="n">ATT_HANDLE_VALUE_NOTI</span><span class="p">,</span> <span class="n">GATT_MAX_MTU</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">len</span> <span class="p">);</span>
+
+<span class="k">if</span> <span class="p">(</span> <span class="n">noti</span><span class="p">.</span><span class="n">pValue</span> <span class="o">!=</span> <span class="nb">NULL</span> <span class="p">)</span>
+<span class="p">{</span>
+   <span class="n">status</span> <span class="o">=</span> <span class="p">(</span><span class="o">*</span><span class="n">pfnReadAttrCB</span><span class="p">)(</span> <span class="n">connHandle</span><span class="p">,</span> <span class="n">pAttr</span><span class="p">,</span> <span class="n">noti</span><span class="p">.</span><span class="n">pValue</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">noti</span><span class="p">.</span><span class="n">len</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">len</span><span class="p">,</span> <span class="n">GATT_LOCAL_READ</span> <span class="p">);</span>
+
+   <span class="k">if</span> <span class="p">(</span> <span class="n">status</span> <span class="o">==</span> <span class="n">SUCCESS</span> <span class="p">)</span>
+   <span class="p">{</span>
+      <span class="n">noti</span><span class="p">.</span><span class="n">handle</span> <span class="o">=</span> <span class="n">pAttr</span><span class="o">-&gt;</span><span class="n">handle</span><span class="p">;</span>
+
+      <span class="k">if</span> <span class="p">(</span> <span class="n">cccValue</span> <span class="o">&amp;</span> <span class="n">GATT_CLIENT_CFG_NOTIFY</span> <span class="p">)</span>
+      <span class="p">{</span>
+         <span class="n">status</span> <span class="o">=</span> <span class="n">GATT_Notification</span><span class="p">(</span> <span class="n">connHandle</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">noti</span><span class="p">,</span> <span class="n">authenticated</span> <span class="p">);</span>
+      <span class="p">}</span>
+
+      <span class="k">else</span> <span class="c1">// GATT_CLIENT_CFG_INDICATE</span>
+      <span class="p">{</span>
+         <span class="n">status</span> <span class="o">=</span> <span class="n">GATT_Indication</span><span class="p">(</span> <span class="n">connHandle</span><span class="p">,</span> <span class="p">(</span><span class="n">attHandleValueInd_t</span> <span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">noti</span><span class="p">,</span> <span class="n">authenticated</span><span class="p">,</span> <span class="n">taskId</span> <span class="p">);</span>
+      <span class="p">}</span>
+   <span class="p">}</span>
+
+   <span class="k">if</span> <span class="p">(</span> <span class="n">status</span> <span class="o">!=</span> <span class="n">SUCCESS</span> <span class="p">)</span>
+   <span class="p">{</span>
+      <span class="n">GATT_bm_free</span><span class="p">(</span> <span class="p">(</span><span class="n">gattMsg_t</span> <span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">noti</span><span class="p">,</span> <span class="n">ATT_HANDLE_VALUE_NOTI</span> <span class="p">);</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">else</span>
+<span class="p">{</span>
+   <span class="n">status</span> <span class="o">=</span> <span class="n">bleNoResources</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<p>For other GATT procedures, take similar steps as noted in
+<a class="reference internal" href="../ble-stack-3.x-guide/api-reference.html#ble-api-reference"><span class="std std-ref">BLE Stack API Reference</span></a> (specifically ATT/GATT section).</p>
+</div>
+<div class="section" id="registering-to-receive-additional-gatt-events-in-the-application">
+<span id="id10"></span><h2>Registering to Receive Additional GATT Events in the Application<a class="headerlink" href="#registering-to-receive-additional-gatt-events-in-the-application" title="Permalink to this headline">¶</a></h2>
+<p>Using <a class="reference external" href="../../doxygen/ble/html/group___a_t_t___g_a_t_t.html#ga8866d184372ade2b19bc4f4684dc95b0">GATT_RegisterForMsgs()</a>, receiving additional
+GATT messages to handle certain corner cases is possible. This
+possibility can be seen in simple_peripheral_processGATTMsg(). The
+following three cases are currently handled.</p>
+<ul class="simple">
+<li>GATT server in the stack was unable to send an ATT response (due to
+lack of available HCI buffers): Attempt to transmit on the next
+connection interval. Additionally, a status of <code class="docutils literal"><span class="pre">bleTimeout</span></code> is sent
+if the ATT transaction is not completed within 30 seconds, as
+specified in the <a class="reference external" href="https://www.bluetooth.com/specifications/adopted-specifications">Bluetooth Core Specification Version 4.2</a>.</li>
+</ul>
+<div class="literal-block-wrapper docutils container" id="id25">
+<span id="gattservapp-unble-to-send"></span><div class="code-block-caption"><span class="caption-number">Listing 66. </span><span class="caption-text">See if GATT server was unable to transmit an ATT response.</span><a class="headerlink" href="#id25" title="Permalink to this code">¶</a></div>
+<div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1">// See if GATT server was unable to transmit an ATT response</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">pMsg</span><span class="o">-&gt;</span><span class="n">hdr</span><span class="p">.</span><span class="n">status</span> <span class="o">==</span> <span class="n">blePending</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="c1">//No HCI buffer was available. Let&#39;s try to retransmit the response</span>
+<span class="c1">//on the next connection event.</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="n">HCI_EXT_ConnEventNoticeCmd</span><span class="p">(</span><span class="n">pMsg</span><span class="o">-&gt;</span><span class="n">connHandle</span><span class="p">,</span> <span class="n">selfEntity</span><span class="p">,</span> <span class="n">SBP_CONN_EVT_END_EVT</span><span class="p">)</span> <span class="o">==</span> <span class="n">SUCCESS</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="c1">//First free any pending response</span>
+ <span class="n">SimpleBLEPeripheral_freeAttRsp</span><span class="p">(</span><span class="n">FAILURE</span><span class="p">);</span>
+
+ <span class="c1">//Hold on to the response message for retransmission</span>
+ <span class="n">pAttRsp</span> <span class="o">=</span> <span class="n">pMsg</span><span class="p">;</span>
+
+ <span class="c1">//Don&#39;t free the response message yet</span>
+ <span class="k">return</span> <span class="p">(</span><span class="n">FALSE</span><span class="p">);</span>
+ <span class="p">}</span>
+ <span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<ul>
+<li><p class="first">An ATT flow control violation: The application is notified that the
+connected device has violated the ATT flow control specification,
+such as sending a Read Request before an Indication Confirm is
+sent.</p>
+<p>No more ATT requests or indications can be sent wirelessly during the
+connection. The application may want to terminate the connection due to this
+violation. As an example in simple_peripheral, the LCD is updated.</p>
+</li>
+</ul>
+<div class="literal-block-wrapper docutils container" id="id26">
+<span id="gattservapp-flow-ctrl-violated"></span><div class="code-block-caption"><span class="caption-number">Listing 67. </span><span class="caption-text">ATT flow control violation.</span><a class="headerlink" href="#id26" title="Permalink to this code">¶</a></div>
+<div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">pMsg</span><span class="o">-&gt;</span><span class="n">method</span> <span class="o">==</span> <span class="n">ATT_FLOW_CTRL_VIOLATED_EVENT</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="c1">//ATT request-response or indication-confirmation flow control is</span>
+  <span class="c1">//violated. All subsequent ATT requests or indications will be dropped.</span>
+  <span class="c1">//The app is informed in case it wants to drop the connection.</span>
+
+  <span class="c1">//Display the opcode of the message that caused the violation.</span>
+  <span class="n">DISPLAY_WRITE_STRING_VALUE</span><span class="p">(</span><span class="s">&quot;FC Violated: %d&quot;</span><span class="p">,</span> <span class="n">pMsg</span><span class="o">-&gt;</span><span class="n">msg</span><span class="p">.</span><span class="n">flowCtrlEvt</span><span class="p">.</span><span class="n">opcode</span><span class="p">,</span> <span class="n">LCD_PAGE5</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<ul class="simple">
+<li>An ATT MTU size is updated: The application is notified in case this
+affects its processing in any way. See <a class="reference internal" href="l2cap.html#maximum-transmission-unit-mtu"><span class="std std-ref">Maximum Transmission Unit (MTU)</span></a>
+for more information on the MTU. As an example in simple_peripheral, the LCD
+is updated.</li>
+</ul>
+<div class="literal-block-wrapper docutils container" id="id27">
+<span id="gattservapp-mtu-updated"></span><div class="code-block-caption"><span class="caption-number">Listing 68. </span><span class="caption-text">MTU updated.</span><a class="headerlink" href="#id27" title="Permalink to this code">¶</a></div>
+<div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">pMsg</span><span class="o">-&gt;</span><span class="n">method</span> <span class="o">==</span> <span class="n">ATT_MTU_UPDATED_EVENT</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// MTU size updated</span>
+    <span class="n">DISPLAY_WRITE_STRING_VALUE</span><span class="p">(</span><span class="s">&quot;MTU Size: $d&quot;</span><span class="p">,</span> <span class="n">pMsg</span><span class="o">-&gt;</span><span class="n">msg</span><span class="p">.</span><span class="n">mtuEvt</span><span class="p">.</span><span class="n">MTU</span><span class="p">,</span> <span class="n">LCD_PAGE5</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="gapbondmngr.html" class="btn btn-neutral float-right" title="GAP Bond Manager and LE Secure Connections" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="gaprole.html" class="btn btn-neutral" title="GAPRole Task" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Texas Instruments.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.01.01.00',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

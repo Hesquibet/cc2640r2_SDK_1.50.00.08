@@ -1,0 +1,23 @@
+[
+   {
+      "name" : "na",
+      "files" : [
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/sysbios/error/error.c -> error.c",
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/sysbios/error/CC2640R2_LAUNCHXL.c -> CC2640R2_LAUNCHXL.c",
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/sysbios/error/ccfg.c -> ccfg.c",
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/sysbios/error/tirtos/iar/CC2640R2_LAUNCHXL_TIRTOS.icf -> error_CC2640R2_LAUNCHXL_TIRTOS.icf",
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/sysbios/error/Board.h -> Board.h",
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/sysbios/error/CC2640R2_LAUNCHXL.h -> CC2640R2_LAUNCHXL.h",
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/sysbios/error/tirtos/error.cfg -> error.cfg",
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/sysbios/error/README.md -> README.md",
+         "+../../../../../../../../../../../../examples/rtos/CC2640R2_LAUNCHXL/sysbios/error/README.html -> README.html"
+      ],
+      "compiler" : {
+         "effective" : "na",
+         "location" : "na",
+         "specified" : "na"
+      },
+      "default" : "na",
+      "packages" : []
+   }
+]

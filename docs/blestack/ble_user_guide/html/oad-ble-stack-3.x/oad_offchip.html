@@ -1,0 +1,665 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Off-Chip OAD &mdash; BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation" href="../index.html"/>
+        <link rel="up" title="Over the Air Download (OAD)" href="oad.html"/>
+        <link rel="next" title="On-Chip OAD" href="oad_onchip.html"/>
+        <link rel="prev" title="OAD Profile" href="oad_profile.html"/> 
+    <script language="JavaScript">
+        var tiPageName;
+        tiPageName = "sug oad-ble-stack-3.x oad_offchip";
+
+        if (location.protocol == "file:"){
+            var ci_analytics_poc_load = true;
+        }
+    </script> 
+
+    <script src="http://www.ti.com/assets/js/headerfooter/analytics.js" type="text/javascript" charset="utf-8">     
+
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../ble-stack-3.x-guide/index.html" class="icon icon-home"> BLE-Stack User's Guide for Bluetooth 4.2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.01.01.00
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../cc2640/disclaimer.html">Disclaimer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/get-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cc2640/platform.html">The CC2640R2F SDK Platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x/index.html">Developing a Bluetooth Low Energy Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../u-stack/index.html">Micro BLE Stack</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="oad.html">Over the Air Download (OAD)</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="oad_concepts.html">OAD Concept Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="oad_profile.html">OAD Profile</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Off-Chip OAD</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#supported-stack-image-types">Supported Stack Image Types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#constraints-and-requirements-for-off-chip-oad">Constraints and Requirements for Off-chip OAD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#off-chip-oad-memory-layout">Off-chip OAD Memory layout</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#external-flash-metadata">External Flash Metadata</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id2">External Flash Metadata</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#bim-for-off-chip-oad">BIM for Off-chip OAD</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#finding-the-last-flash-page-containing-flash-metadata">Finding the last flash page containing flash metadata</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#forced-image-copy">Forced Image Copy</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#out-of-the-box-demo-off-chip-app-only-oad">Out of the Box Demo (Off-Chip App Only OAD)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#using-ccs">Using CCS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#using-iar">Using IAR</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="oad_onchip.html">On-Chip OAD</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../voice/voice.html">Creating a Voice Enabled Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../secure-fw-3.x/index.html">Secure Firmware (SFW)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensor-controller/sensor-controller.html">Sensor Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../debugging/ble-index.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/migration.html">Migration Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/api-reference.html">API References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/reference.html">Terms and Definitions</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../ble-stack-3.x-guide/index.html">BLE-Stack User's Guide for Bluetooth 4.2</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../ble-stack-3.x-guide/index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="oad.html">Over the Air Download (OAD)</a> &raquo;</li>
+        
+      <li>Off-Chip OAD</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="off-chip-oad">
+<span id="sect-off-chip-oad"></span><h1>Off-Chip OAD<a class="headerlink" href="#off-chip-oad" title="Permalink to this headline">¶</a></h1>
+<p>This section describes the TI Off-chip OAD implementation.
+Off-chip OAD utilizes an external memory component (Flash) to store the new
+image during download and image selection/update.</p>
+<p>The following procedures are unique to Off-chip OAD:</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference internal" href="#sect-off-chip-limitations"><span class="std std-ref">Constraints and Requirements for Off-chip OAD</span></a></li>
+<li><a class="reference internal" href="#sect-off-chip-bim-memory-layout"><span class="std std-ref">Off-chip OAD Memory layout</span></a></li>
+<li><a class="reference internal" href="#sect-bim-for-off-chip-oad"><span class="std std-ref">BIM for Off-chip OAD</span></a></li>
+<li><a class="reference internal" href="#sect-off-chip-demo"><span class="std std-ref">Out of the Box Demo (Off-Chip App Only OAD)</span></a></li>
+<li><span class="xref std std-ref">sect-off-chip-add-to-proj</span></li>
+</ul>
+</div></blockquote>
+<p>For information about the OAD profile and image header, please see
+<a class="reference internal" href="oad_concepts.html#sec-oad-concepts"><span class="std std-ref">OAD Concept Overview</span></a>.</p>
+<p>For information about the TI OAD Sample Applications that showcase On-Chip OAD,
+see <a class="reference internal" href="oad_concepts.html#oad-projects-overview"><span class="std std-ref">OAD Projects Overview.</span></a>.</p>
+<div class="section" id="supported-stack-image-types">
+<span id="sec-library-off-chip-oad"></span><h2>Supported Stack Image Types<a class="headerlink" href="#supported-stack-image-types" title="Permalink to this headline">¶</a></h2>
+<p>Off-chip OAD supports the split image build configuration. Stack library image
+types can be upgraded through Off-chip OAD but that is outside the scope of this
+document.</p>
+<p>Off-chip OAD supports Application Only, Stack Only, or App + Stack Merged OADs.
+This means that the user can update both the application and stack during
+the same OAD session.</p>
+<blockquote>
+<div></div></blockquote>
+</div>
+<div class="section" id="constraints-and-requirements-for-off-chip-oad">
+<span id="sect-off-chip-limitations"></span><h2>Constraints and Requirements for Off-chip OAD<a class="headerlink" href="#constraints-and-requirements-for-off-chip-oad" title="Permalink to this headline">¶</a></h2>
+<p>In order to perform an Off-chip OAD the target system must contain have:</p>
+<blockquote>
+<div><ul class="simple">
+<li>An off-chip flash storage of at least 124kB and space for storing external
+flash image header block is required for a full flash update. One flash page
+(4Kb) is occupied by BIM. A serial connection (SPI) is used to communicate
+with the off-chip flash component.</li>
+<li>Free GPIO pins to interface to the external memory (i.e. 4 wires for SPI)</li>
+<li>Enough free code space to reserve the entire contents of pg 31 (4kB) for
+<a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-46"><span class="xref std std-term">BIM</span></a></li>
+<li>The OAD Image to be downloaded to the off-chip flash memory can be an
+application image, a stack image, a combined application plus stack, an
+image intended for the upgrade of a network processor, or any type of image
+as far as it is supposed to eventually replace any part of the on-chip 120kB
+area between the first page and the penultimate page. More than one image
+can be downloaded before the system reset followed by BIM’s copying the
+downloaded images from the off-chip flash memory to the on-chip flash memory.</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="off-chip-oad-memory-layout">
+<span id="sect-off-chip-bim-memory-layout"></span><h2>Off-chip OAD Memory layout<a class="headerlink" href="#off-chip-oad-memory-layout" title="Permalink to this headline">¶</a></h2>
+<p>The memory maps for both internal and external flash are detailed below.</p>
+<div class="figure align-center" id="id3">
+<span id="fig-off-chip-oad-target-memory-partition"></span><img alt="../_images/offchip_oad_mem_layout.png" src="../_images/offchip_oad_mem_layout.png" />
+<p class="caption"><span class="caption-number">Figure 89. </span><span class="caption-text">Off-Chip OAD Memory Layout</span></p>
+</div>
+<p>Off-chip OAD applications use the both internal flash memory and an off-chip
+flash memory device. The internal flash memory contains the Interrupt Vectors
+(part of the User Application space),
+the Application where OAD Profile is embedded, the BLE stack image,
+the NV Storage Area, the <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-46"><span class="xref std std-term">BIM</span></a> and the <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-ccfg"><span class="xref std std-term">CCFG</span></a>.</p>
+<p>The off-chip flash memory on the <a class="reference external" href="http://www.ti.com.cn/tool/launchxl-cc2640r2">CC2640R2 Launchpad</a> contains up to 3 OAD Images and up to 3
+metadata vectors corresponding to the OAD Images. The memory map layout of the
+external flash part is defined in <code class="code docutils literal"><span class="pre">ext_flash_layout.h</span></code>. The size of each
+OAD Image placeholder is 128kB. The memory partition of the application for
+Off-chip OAD is depicted in <a class="reference internal" href="#fig-off-chip-oad-target-memory-partition"><span class="std std-numref">Figure 89.</span></a>.
+Each OAD image, either App only or App+Stack, must support OAD Profile so that
+further OAD is enabled after it is downloaded to the off-chip memory, copied to
+the on-chip memory, and executed.</p>
+<p>The sectors in <a class="reference internal" href="#fig-off-chip-oad-target-memory-partition"><span class="std std-numref">Figure 89.</span></a> in red are
+designed to be permanently resident on the device. The BIM and CCFG are not
+intended to be upgraded via OAD. The OAD design was selected this way so that
+a failure during the OAD process does not yield a bricked device.</p>
+<div class="section" id="external-flash-metadata">
+<h3>External Flash Metadata<a class="headerlink" href="#external-flash-metadata" title="Permalink to this headline">¶</a></h3>
+<p>The external flash metadata is an array of structures containing OAD
+downloadable information. Each structure will be stored at the start of
+a separate flash page to aid easy modification of an individual structure while
+retaining rest of the structures intact. The metadata header
+fields are identical to the image header with the following modifications:.</p>
+<blockquote>
+<div><ul class="simple">
+<li>OAD Image Identification Value is a different unique number than in the image
+header. BIM uses this number to find the flash page containing external flash
+metadata. This document will refer to this value as External Flash Image
+Identification Value</li>
+<li>Instead of Boundary Information and Contiguous Image information, the header
+length field is followed by the to the flash address where the actual OAD
+image is stored on the external flash.
+Note: The OAD client will calculate the storage address, by reading valid
+external image metadata from the image metadata array, and finding the next
+available storage area.</li>
+</ul>
+</div></blockquote>
+<p>After storing the image on the external flash, the
+OAD application will set the Image Copy status to 0xFE if it needs to be copied
+to the on-chip flash. To identify the latest image to be downloaded on the
+on-chip flash, BIM will read the ‘Image copy status’ field of the metadata array.
+There should be only one image with a value of 0xFE as BIM will copy the first
+image with metadata status to be copied. The BIM will modify the state to 0xFC
+when it is done copying image to on-chip flash.</p>
+</div>
+<div class="section" id="id2">
+<h3>External Flash Metadata<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p>The external flash metadata pages and the image storage will grow in opposite
+directions. To make the implementation more generic, each external
+flash metadata will store the 8 byte External Flash Image Identification Value at
+the beginning of the external flash metadata. If a BLE factory image is stored at
+first flash pages then, metadata storage would start at flash page next to the
+end of the image. The external flash metadata’ storage location are not fixed
+and BIM can find their location by reading the first eight bytes of every
+external flash page. For efficient BIM implementation, the OAD external flash
+metadata will be stored from flash page 0 onwards.</p>
+<p>It would be application’s responsibility to find the available free storage for
+storing the newly downloaded image on the external flash.
+The image metadata area will contain the image header information for the stored
+OAD images with the modifications specified above.</p>
+<p>Factory programmed BLE and other images will have OAD download capability but
+will not be replaceable by over the air upgrade. The user application can choose
+to switch to factory image. The length and location of the user defined area is
+configurable and will have the image metadata header like any other image.</p>
+<p>The OAD target application gathers part of the external flash metadata
+information from image header and stores on the available metadata
+page except for the &#8216;CRC Status&#8217; byte. The &#8216;CRC Status&#8217; byte is updated at the
+last when all the image payload is stored on the flash and
+calculated CRC matched with the one embedded in the image header.</p>
+<p>The rest of the available space can be used in two possible ways:</p>
+<blockquote>
+<div><ul class="simple">
+<li>By allocating the dedicated memory area between OAD images types</li>
+<li>Using area to store multiple images of variable length.</li>
+</ul>
+</div></blockquote>
+<p>The second approach is more efficient in term of memory space usage. It
+requires the OAD client application to read the metadata information to figure
+out the length and location of available memory space. The number of co-existing
+OAD images will depend on individual image size and available area on the
+external flash.</p>
+<p>If there is no space left for the new image, OAD client/target
+application can re-use the oldest image storage area to replace with new one.
+This can result in fragmentation. This requires time stamping the images,
+which can be done by simply by incorporating the counter in external flash
+metadata header and incrementing it every time the image is
+downloaded.</p>
+<p>If application stores multiple images on the external flash, it can choose to
+enable a specific one of them by issuing the ‘enable’ command
+at OAD control point of by specifying the respective parameters
+(‘Image type’, &#8216;image number&#8217;, etc.) it wishes to activate. The active
+application can read the existing metadata to identify the correct image by
+reading the Image ID, and updating the status to 0xFE.</p>
+<p>The application can reuse the used metadata and actual image storage flash pages
+by erasing it to support downloading and storage of
+multiple images without having a dedicated storage area for each image type.</p>
+</div>
+</div>
+<div class="section" id="bim-for-off-chip-oad">
+<span id="sect-bim-for-off-chip-oad"></span><h2>BIM for Off-chip OAD<a class="headerlink" href="#bim-for-off-chip-oad" title="Permalink to this headline">¶</a></h2>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-46"><span class="xref std std-term">BIM</span></a> will link the resident <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-ccfg"><span class="xref std std-term">CCFG</span></a> sector. Furthermore,
+this is a custom CCFG, with the <code class="code docutils literal"><span class="pre">IMAGE_VALID_CONF</span></code> field set to
+0x1F000. This means that the boot ROM of the device will automatically
+execute <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-46"><span class="xref std std-term">BIM</span></a> code instead of application code at startup. <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-46"><span class="xref std std-term">BIM</span></a>
+will handle starting the application. OAD applications will not need to
+include a <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-ccfg"><span class="xref std std-term">CCFG</span></a>. This is a feature of CC2640R2F, and not compatible
+with CC2650 devices.</p>
+</div>
+<p>The OAD solution requires that permanently resident boot code, the <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-46"><span class="xref std std-term">BIM</span></a>,
+exists in order to provide a fail-safe mechanism for determining whether
+to run the existing application image or to copy a new image or images
+from off-chip flash to internal flash (code) memory. It is assumed that a valid
+image exists either in off-chip flash ready to be copied or already placed in
+on-chip flash at any given time. Given this assumption, the initial
+image placed in internal flash which does not exist in external flash
+will have invalid external image metadata, and so the <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-46"><span class="xref std std-term">BIM</span></a> will
+choose to jump to the existing image’s entry point.</p>
+<p>At startup, BIM finds the location of image metadata header flash page by
+iterating through each page of external flash starting from page 0, by reading
+the first 8 bytes to find the valid External Flash Image Identification value.
+After locating the image metadata information, it verifies the
+compatibility of BIM and metadata versions. Then it checks if the &#8216;Image copy
+status&#8217; is set to be copied to the on-chip flash(0xFE) and has a valid
+CRC (CRC status=0xFE). If it is, copies the image to on-chip flash, as per the
+image copy procedure. If any other status value is found the image will
+not be verified or copied to internal flash.</p>
+<p>If it finds status &#8216;CRC not calculated&#8217;(CRC Status = 0xFF), it calculates the
+CRC and updates the CRC status byte accordingly. If it finds the valid
+CRC status, it copies the image to on-chip flash starting at the address pointed
+by &#8216;Start Address&#8217; in image header of the image payload. On
+finding the invalid CRC it moves on to read the next image metadata. If BIM
+reaches the end of metadata without finding a valid image, then it will try to
+find an on-chip image and execute it. BIM will put the device to low power
+mode if it fails to find a valid application image.</p>
+<p>An image is considered bad/invalid if it&#8217;s calculated CRC32 does not match with
+the image&#8217;s CRC bytes embedded in the image header.</p>
+<div class="figure align-center" id="id4">
+<span id="functional-overview-of-offchip-bim"></span><img alt="../_images/offchip_oad_bim.png" src="../_images/offchip_oad_bim.png" />
+<p class="caption"><span class="caption-number">Figure 90. </span><span class="caption-text">Functional Overview of Off-chip BIM</span></p>
+</div>
+<div class="section" id="finding-the-last-flash-page-containing-flash-metadata">
+<h3>Finding the last flash page containing flash metadata<a class="headerlink" href="#finding-the-last-flash-page-containing-flash-metadata" title="Permalink to this headline">¶</a></h3>
+<p>In the normal condition when there are empty flash pages, the OAD client
+application will write the image metadata to the very first available flash
+page sequentially starting from flash page 0 as shown in the external flash
+layout. It is recommended that the application leaves least one empty
+flash page between metadata pages and stored image at any point in time. If the
+application encounters such a condition that no empty flash
+page is left in between the stored image pages and image metadata page, it should
+reuse the flash metadata pages by erasing one metadata page
+at a time and writing the new one. If all metadata pages are used
+or there would only one be empty page between the metadata pages and the image
+payload then the older metadata pages should be erased and reused.</p>
+</div>
+<div class="section" id="forced-image-copy">
+<h3>Forced Image Copy<a class="headerlink" href="#forced-image-copy" title="Permalink to this headline">¶</a></h3>
+<p>BIM will implement this optional feature based on the hardware capability, to
+forcibly copy a designated image from external flash to on-chip
+flash(using button combinations). It would help recover the target in case an
+invalid image has been copied on onchip flash which left the device
+unresponsive. This feature is disabled by default as this
+can pose a security risk.</p>
+</div>
+</div>
+<div class="section" id="out-of-the-box-demo-off-chip-app-only-oad">
+<span id="sect-off-chip-demo"></span><h2>Out of the Box Demo (Off-Chip App Only OAD)<a class="headerlink" href="#out-of-the-box-demo-off-chip-app-only-oad" title="Permalink to this headline">¶</a></h2>
+<p>The SimpleLink CC2640R2 SDK includes demo projects that are setup to use OAD in advance. These
+build configurations may be flashed onto the device out of the box. All out of
+the box demos use BTool as the <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-oad-downloader"><span class="xref std std-term">OAD Downloader</span></a>. Please see
+<a class="reference internal" href="oad_concepts.html#sec-oad-topology"><span class="std std-ref">OAD Topology Overview</span></a> for more information. Ensure that BTool is setup
+correctly first. See <a class="reference internal" href="oad_appendix.html#sec-oad-btool-setup"><span class="std std-ref">BTool Setup</span></a> for steps on how to do so.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">There are two BTool version shipped with the SimpleLink CC2640R2 SDK. For these steps, use
+the BTool version located at <code class="code docutils literal"><span class="pre">tools/blestack/btool</span></code>.</p>
+</div>
+<p>The steps listed below assume that
+a <a class="reference external" href="http://www.ti.com.cn/tool/launchxl-cc2640r2">CC2640R2 Launchpad</a> is being used. Additional steps may be required for custom hardware.</p>
+<p>Furthermore, the steps in this section are referring to the
+<a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-oad-target"><span class="xref std std-term">OAD Target</span></a> device, the images referenced below should be flashed onto
+that device.</p>
+<div class="section" id="using-ccs">
+<h3>Using CCS<a class="headerlink" href="#using-ccs" title="Permalink to this headline">¶</a></h3>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">If both the <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-oad-target"><span class="xref std std-term">OAD Target</span></a> and the <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-oad-downloader"><span class="xref std std-term">OAD Downloader</span></a> are connected
+at the same time, CCS may load the image to the wrong device. This is because
+CCS will select the first XDS110 it finds. This behavior can be avoided by
+unplugging the <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-oad-target"><span class="xref std std-term">OAD Target</span></a> device, or by setting a multi emulator
+debug session using CCS.
+See the wiki <a class="reference external" href="http://processors.wiki.ti.com/index.php/Multi-Emulator_Debug_with_CCS">Debug with Multiple Emulators</a>
+for more information.</p>
+</div>
+<p>The steps below will describe how to run the out of the box demo for OAD on CCS.</p>
+<ol class="arabic">
+<li><p class="first">Import the bim_oad_offchip, stack, and app projects into the workspace. This
+can be done by importing the <code class="code docutils literal"><span class="pre">simple_peripheral_cc2640r2lp_oad_offchip_app</span></code>
+project. It will automatically pull in the other projects it needs.</p>
+<blockquote>
+<div><div class="figure align-center" id="id5">
+<span id="fig-offchip-oad-ccs-workspace"></span><img alt="../_images/offchip_oad_workspace_ccs.png" src="../_images/offchip_oad_workspace_ccs.png" />
+<p class="caption"><span class="caption-number">Figure 91. </span><span class="caption-text">Offchip OAD CCS Workspace</span></p>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">Build and load the <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-46"><span class="xref std std-term">BIM</span></a> project onto the <a class="reference external" href="http://www.ti.com.cn/tool/launchxl-cc2640r2">CC2640R2 Launchpad</a></p>
+</li>
+<li><p class="first">Build and load the <code class="code docutils literal"><span class="pre">simple_peripheral_cc2640r2lp_stack_oad_offchip</span></code>
+project onto the <a class="reference external" href="http://www.ti.com.cn/tool/launchxl-cc2640r2">CC2640R2 Launchpad</a></p>
+<blockquote>
+<div><ul class="simple">
+<li>Note that a special post build step will run and generate a new image
+file called <code class="code docutils literal"><span class="pre">simple_peripheral_cc2640r2lp_oad_offchip_stack_FlashROM_oad.bin</span></code>.
+This is the file can be provided to BTool and sent over the air.</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">Build the <code class="code docutils literal"><span class="pre">simple_peripheral_cc2640r2lp_app_oad_offchip</span></code> project</p>
+<blockquote>
+<div><ul class="simple">
+<li>Note that a special post build step will run and generate three new image
+files called <code class="code docutils literal"><span class="pre">simple_peripheral_cc2640r2lp_oad_offchip_app_FlashROM_oad.bin</span></code>,
+<code class="code docutils literal"><span class="pre">simple_peripheral_cc2640r2lp_oad_offchip_app_FlashROM_oad_merged.bin</span></code>,
+and <code class="code docutils literal"><span class="pre">simple_peripheral_cc2640r2lp_oad_offchip_app_FlashROM_oad_merged.hex</span></code>.
+The bin files can provided to BTool and sent over the air.</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">Open SmartRF Flash Programmer 2 to flash the application bin file. Make sure
+the &#8220;Pages in image&#8221; option is selected in the Erase settings. Make sure to use
+either the <code class="code docutils literal"><span class="pre">simple_peripheral_cc2640r2lp_oad_offchip_app_FlashROM_oad.bin</span></code>
+file (app only) or the <code class="code docutils literal"><span class="pre">simple_peripheral_cc2640r2lp_oad_offchip_app_FlashROM_oad_merged.bin</span></code>
+file (app + stack merged). By default, these images are located at <code class="code docutils literal"><span class="pre">\workspace_v7\&lt;PROJECT_NAME&gt;\FlashOnly</span></code>.
+The start address should be given as 0x00000000.</p>
+</li>
+<li><p class="first">You should now be able to observe that the device is advertising using BTool.</p>
+<blockquote>
+<div><ul class="simple">
+<li>See <a class="reference internal" href="oad_appendix.html#sec-oad-btool-verify-adv"><span class="std std-ref">BTool OAD Verify Advertising</span></a> for steps.</li>
+</ul>
+</div></blockquote>
+<p>If your device is not advertising, make sure it is disconnected from
+SmartRF Flash Programmer 2.</p>
+</li>
+<li><p class="first">Make your application level changes that are intended for OAD update.
+Follow steps in <a class="reference internal" href="oad_appendix.html#sec-oad-adv-change"><span class="std std-ref">Changing Application Data to Verify an OAD</span></a> for a trivial way to change app to
+verify the OAD. Build the application with changes.</p>
+</li>
+<li><p class="first">Use BTool to OAD your modified application file following the steps detailed in
+<a class="reference internal" href="oad_appendix.html#sec-oad-btool-procedure"><span class="std std-ref">BTool OAD Procedure</span></a></p>
+<blockquote>
+<div><ul class="simple">
+<li>Make sure you are using the <code class="code docutils literal"><span class="pre">simple_peripheral_cc2640r2lp_oad_offchip_app_FlashROM_oad.bin</span></code>
+or the <code class="code docutils literal"><span class="pre">simple_peripheral_cc2640r2lp_oad_offchip_app_FlashROM_oad_merged.bin</span></code>
+file with BTool as this file contains the image header.</li>
+</ul>
+</div></blockquote>
+</li>
+</ol>
+<div class="admonition attention">
+<p class="first admonition-title">Attention</p>
+<p class="last">After a successful OAD, you may need to re-start your CC2640R2F in order for
+it to advertise again. This is because the XDS110 driver may be still
+attached from previous debug sessions.</p>
+</div>
+</div>
+<div class="section" id="using-iar">
+<h3>Using IAR<a class="headerlink" href="#using-iar" title="Permalink to this headline">¶</a></h3>
+<p>The steps below will describe how to run the out of the box demo for OAD on IAR.</p>
+<ol class="arabic">
+<li><p class="first">Open the <code class="code docutils literal"><span class="pre">simple_peripheral_oad_offchip</span></code> workspace from the
+simple_peripheral_oad_offchip folder within the BLE-stack examples. This will
+import the BIM, stack, and application projects.</p>
+</li>
+<li><p class="first">Build and load the <code class="code docutils literal"><span class="pre">cc2640r2lp_bim_offchip</span></code> project onto the <a class="reference external" href="http://www.ti.com.cn/tool/launchxl-cc2640r2">CC2640R2 Launchpad</a></p>
+</li>
+<li><p class="first">Build and load the <code class="code docutils literal"><span class="pre">cc2640r2lp_stack</span></code> project onto the <a class="reference external" href="http://www.ti.com.cn/tool/launchxl-cc2640r2">CC2640R2 Launchpad</a>.</p>
+</li>
+<li><p class="first">Build the <code class="code docutils literal"><span class="pre">cc2640r2lp_app</span></code> project.</p>
+</li>
+<li><p class="first">Open SmartRF Flash Programmer 2 to flash the application bin file. Make sure
+the &#8220;Pages in image&#8221; option is selected in the Erase settings. Make sure to use
+either the <code class="code docutils literal"><span class="pre">sp_oad_offchip_cc2640r2lp_app_FlashROM_oad.bin</span></code>
+file (app only image)or the
+<code class="code docutils literal"><span class="pre">sp_oad_offchip_cc2640r2lp_app_FlashROM_oad_merged.bin</span></code>
+file (app + stack merged image). By default, these images are located at
+<code class="code docutils literal"><span class="pre">\examples\rtos\CC2640R2_LAUNCHXL\blestack\simple_peripheral_oad_offchip\tirtos\iar\app\FlashROM\Exe</span></code>
+The start address should be given as 0x00000000.</p>
+</li>
+<li><p class="first">You should now be able to observe that the device is advertising via BTool.</p>
+<blockquote>
+<div><ul class="simple">
+<li>See <a class="reference internal" href="oad_appendix.html#sec-oad-btool-verify-adv"><span class="std std-ref">BTool OAD Verify Advertising</span></a> for steps.</li>
+</ul>
+<p>If your device is not advertising, make sure it is disconnected from
+SmartRF Flash Programmer 2.</p>
+</div></blockquote>
+</li>
+<li><p class="first">Make your application level changes that are intended for OAD update.
+Follow steps in <a class="reference internal" href="oad_appendix.html#sec-oad-adv-change"><span class="std std-ref">Changing Application Data to Verify an OAD</span></a> for a trivial way to change app to
+verify the OAD. Build the application with changes.</p>
+</li>
+<li><p class="first">Use BTool to OAD your modified application file following the steps detailed in
+<a class="reference internal" href="oad_appendix.html#sec-oad-btool-procedure"><span class="std std-ref">BTool OAD Procedure</span></a></p>
+<blockquote>
+<div><ul class="simple">
+<li>Make sure you are using the <code class="code docutils literal"><span class="pre">simple_peripheral_cc2640r2lp_oad_offchip_app_FlashROM_oad.bin</span></code>
+or the <code class="code docutils literal"><span class="pre">simple_peripheral_cc2640r2lp_oad_offchip_app_FlashROM_oad_merged.bin</span></code>
+file with BTool as this file contains the image header.</li>
+</ul>
+</div></blockquote>
+</li>
+</ol>
+<div class="admonition attention">
+<p class="first admonition-title">Attention</p>
+<p class="last">After a successful OAD, you may need to re-start your CC2640R2F in order for
+it to advertise again. This is because the XDS110 driver may be still
+attached from previous debug sessions.</p>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="oad_onchip.html" class="btn btn-neutral float-right" title="On-Chip OAD" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="oad_profile.html" class="btn btn-neutral" title="OAD Profile" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Texas Instruments.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.01.01.00',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

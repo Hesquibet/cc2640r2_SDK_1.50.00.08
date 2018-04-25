@@ -1,0 +1,448 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Stack Configurations &mdash; BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation" href="../index.html"/>
+        <link rel="up" title="Developing a Bluetooth Low Energy Application" href="index.html"/>
+        <link rel="next" title="TI Provided Board Files" href="custom-hardware.html"/>
+        <link rel="prev" title="Defining Application Behavior" href="creating-a-custom-bluetooth-low-energy-application.html"/> 
+    <script language="JavaScript">
+        var tiPageName;
+        tiPageName = "sug ble-stack-3.x stack-configuration";
+
+        if (location.protocol == "file:"){
+            var ci_analytics_poc_load = true;
+        }
+    </script> 
+
+    <script src="http://www.ti.com/assets/js/headerfooter/analytics.js" type="text/javascript" charset="utf-8">     
+
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../ble-stack-3.x-guide/index.html" class="icon icon-home"> BLE-Stack User's Guide for Bluetooth 4.2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.01.01.00
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../cc2640/disclaimer.html">Disclaimer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/get-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cc2640/platform.html">The CC2640R2F SDK Platform</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Developing a Bluetooth Low Energy Application</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="the-application.html">The Application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#the-stack">The Stack</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#creating-a-custom-bluetooth-low-energy-application">Creating a Custom Bluetooth low energy Application</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="creating-a-custom-bluetooth-low-energy-application.html">Defining Application Behavior</a></li>
+<li class="toctree-l3"><a class="reference internal" href="creating-a-custom-bluetooth-low-energy-application.html#compiler-options">Compiler Options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="creating-a-custom-bluetooth-low-energy-application.html#creating-additional-icall-enabled-tasks">Creating Additional ICall Enabled Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="creating-a-custom-bluetooth-low-energy-application.html#using-production-test-mode-ptm">Using Production Test Mode (PTM)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="creating-a-custom-bluetooth-low-energy-application.html#optimizing-bluetooth-low-energy-stack-memory-usage">Optimizing Bluetooth low energy Stack Memory Usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="creating-a-custom-bluetooth-low-energy-application.html#defining-bluetooth-low-energy-behavior">Defining Bluetooth Low Energy Behavior</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Stack Configurations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#configuring-bluetooth-low-energy-protocol-stack-features">Configuring Bluetooth low energy Protocol Stack Features</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#run-time-bluetooth-low-energy-protocol-stack-configuration">Run-Time Bluetooth low energy Protocol Stack Configuration</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#running-the-sdk-on-custom-boards">Running the SDK on Custom Boards</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../u-stack/index.html">Micro BLE Stack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../oad-ble-stack-3.x/oad.html">Over the Air Download (OAD)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../voice/voice.html">Creating a Voice Enabled Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../secure-fw-3.x/index.html">Secure Firmware (SFW)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensor-controller/sensor-controller.html">Sensor Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../debugging/ble-index.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/migration.html">Migration Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/api-reference.html">API References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/reference.html">Terms and Definitions</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../ble-stack-3.x-guide/index.html">BLE-Stack User's Guide for Bluetooth 4.2</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../ble-stack-3.x-guide/index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">Developing a Bluetooth Low Energy Application</a> &raquo;</li>
+        
+      <li>Stack Configurations</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="stack-configurations">
+<span id="stack-features-configuration"></span><h1>Stack Configurations<a class="headerlink" href="#stack-configurations" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="configuring-bluetooth-low-energy-protocol-stack-features">
+<h2>Configuring Bluetooth low energy Protocol Stack Features<a class="headerlink" href="#configuring-bluetooth-low-energy-protocol-stack-features" title="Permalink to this headline">¶</a></h2>
+<p>The Bluetooth low energy protocol stack can be configured to include
+or exclude certain Bluetooth Low Energy features by changing the
+library configuration in the stack project. The available Bluetooth
+low energy features are defined in the <code class="docutils literal"><span class="pre">build_config.opt</span></code> file in
+the Tools folder of the stack project within the IDE. Based on the
+features selected in the <code class="docutils literal"><span class="pre">build_config.opt</span></code> file, the <code class="docutils literal"><span class="pre">lib_search.exe</span></code> tool
+selects the respective precompiled library during the build process of the
+stack project.</p>
+<p><a class="reference internal" href="#configurable-features"><span class="std std-numref">Table 15.</span></a> lists a summary of configurable features. See
+the <code class="docutils literal"><span class="pre">build_config.opt</span></code> file for additional details and supported
+configurations. Some features in the BLE-Stack 3.01.01.00 cannot be removed and are
+always enabled, these features are:</p>
+<blockquote>
+<div><ul class="simple">
+<li>V41_CTRL_CFG</li>
+<li>EXT_DATA_LEN_CFG</li>
+<li>PRIVACY_1_2_CFG</li>
+</ul>
+</div></blockquote>
+<span id="configurable-features"></span><table border="1" class="docutils" id="id2">
+<caption><span class="caption-number">Table 15. </span><span class="caption-text">Summary of TI Bluetooth Low Energy Protocol Stack Features.</span><a class="headerlink" href="#id2" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="21%" />
+<col width="79%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Feature</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>HOST_CONFIG</td>
+<td><div class="first last line-block">
+<div class="line">This option configures the stack&#8217;s host layer based on its targeted GAP role.</div>
+<div class="line">These combo roles are supported:</div>
+<div class="line">- PERIPHERAL_CFG+OBSERVER_CFG</div>
+<div class="line">- CENTRAL_CFG+BROADCASTER_CFG</div>
+<div class="line">- PERIPHERAL_CFG+CENTRAL_CFG</div>
+<div class="line">- BROADCASTER_CFG+OBSERVER_CFG</div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>BLE_V41_FEATURES</td>
+<td><div class="first last line-block">
+<div class="line">Features supported from the Bluetooth Core Specification Version 4.1.</div>
+<div class="line">These features include:</div>
+<div class="line">- Ping (V41_CTRL_CFG)</div>
+<div class="line">- Slave feature exchange (V41_CTRL_CFG)</div>
+<div class="line">- Connection parameter update request (V41_CTRL_CFG)</div>
+<div class="line">- Multirole connections (V41_CTRL_CFG)</div>
+<div class="line">- L2CAP Connection Oriented Channels (L2CAP_COC_CFG)</div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>BLE_V42_FEATURES</td>
+<td><div class="first last line-block">
+<div class="line">Features supported from the Bluetooth Core Specification Version 4.2.</div>
+<div class="line">These include:</div>
+<div class="line">- Data Length Extension (EXT_DATA_LEN_CFG)</div>
+<div class="line">- Secure Connections (SECURE_CONNS_CFG)</div>
+<div class="line">- Privacy 1.2 (PRIVACY_1_2_CFG)</div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>HCI_TL_xxxx</td>
+<td>Include HCI Transport Layer (FULL, PTM or NONE).</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Selecting the correct stack configuration is essential in
+optimizing the amount of flash memory available to the application.
+To conserve memory, exclude certain Bluetooth Low Energy protocol
+stack features that may not be required.</p>
+</div>
+</div>
+<div class="section" id="run-time-bluetooth-low-energy-protocol-stack-configuration">
+<h2>Run-Time Bluetooth low energy Protocol Stack Configuration<a class="headerlink" href="#run-time-bluetooth-low-energy-protocol-stack-configuration" title="Permalink to this headline">¶</a></h2>
+<p>The Bluetooth low energy protocol stack can be configured with
+various parameters that control its runtime behavior and RF antenna
+layout. The available configuration parameters are described in the
+<code class="docutils literal"><span class="pre">ble_user_config.h</span></code> file in the ICallBLE IDE folder of the
+application. During initialization, these parameters are supplied to
+the Bluetooth Low Energy protocol stack by the user0Cfg structure,
+declared in main.c.</p>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;ble_user_config.h&quot;</span><span class="cp"></span>
+
+<span class="c1">// BLE user defined configuration</span>
+<span class="n">bleUserCfg_t</span> <span class="n">user0Cfg</span> <span class="o">=</span> <span class="n">BLE_USER_CFG</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Because the <code class="docutils literal"><span class="pre">ble_user_config.h</span></code> file is shared with projects within
+the SDK, TI recommends defining the configuration parameters in the
+preprocessor symbols of the application when using a non default
+value. For example, to change the maximum PDU size from the default
+27 to 162, set the preprocessor symbol <code class="docutils literal"><span class="pre">MAX_PDU_SIZE=162</span></code> in the
+preprocessor symbols for the application project. Increasing certain
+parameters may increase heap memory use by the protocol stack;
+adjust the <code class="docutils literal"><span class="pre">HEAPMGR_SIZE</span></code> as required (if not using auto sized heap). <a class="reference internal" href="#stackconfigurablefeatures"><span class="std std-numref">Table 16.</span></a> lists the available configuration parameters.</p>
+<span id="stackconfigurablefeatures"></span><table border="1" class="docutils" id="id3">
+<caption><span class="caption-number">Table 16. </span><span class="caption-text">Bluetooth Low Energy Stack Configuration Parameters</span><a class="headerlink" href="#id3" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="36%" />
+<col width="64%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Parameter</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>MAX_NUM_BLE_CONNS</td>
+<td>Maximum number of simultaneous Bluetooth low energy
+connections. Default is 1 for Peripheral and Central roles.
+Maximum value is based on GAPRole.</td>
+</tr>
+<tr class="row-odd"><td>MAX_NUM_PDU</td>
+<td>Maximum number of Bluetooth low energy HCI PDUs. Default is
+5. If the maximum number of connections is set to 0, then this
+number should also be set to 0.</td>
+</tr>
+<tr class="row-even"><td>MAX_PDU_SIZE</td>
+<td>Maximum size in bytes of the Bluetooth low energy HCI PDU.
+Default is 27. Valid range is 27 to 255. The maximum ATT_MTU
+is MAX_PDU_SIZE - 4. See <a class="reference internal" href="l2cap.html#configuring-for-larger-mtu-values"><span class="std std-ref">Configuring for Larger MTU Values</span></a>.</td>
+</tr>
+<tr class="row-odd"><td>L2CAP_NUM_PSM</td>
+<td>Maximum number of L2CAP Protocol/Service Multiplexers
+(PSM). Default is 3.</td>
+</tr>
+<tr class="row-even"><td>L2CAP_NUM_CO_CHANNELS</td>
+<td>Maximum number of L2CAP Connection-Oriented (CO)
+Channels. Default is 3.</td>
+</tr>
+<tr class="row-odd"><td>PM_STARTUP_MARGIN</td>
+<td>Defines time in microseconds (us) the system will wake up
+before the start of the connection event. Default is 300. This
+value is optimized for the example projects.</td>
+</tr>
+<tr class="row-even"><td>RF_FE_MODE_AND_BIAS</td>
+<td>Defines the RF antenna front end and bias configuration. Set
+this value to match the actual hardware antenna layout. This
+value can be set directly, or through <code class="docutils literal"><span class="pre">Board.h</span></code>. For more
+information see
+<a class="reference internal" href="custom-hardware.html#sec-creating-a-custom-ble-app-rf-front-end-and-antennas"><span class="std std-ref">Configuring the RF Front-End for Custom Hardware</span></a></td>
+</tr>
+<tr class="row-odd"><td>ICALL_MAX_NUM_TASKS (App)
+OSAL_MAX_NUM_PROXY_TASKS (Stack)</td>
+<td>Defines the max number of ICall enabled tasks. These defines,
+although on different sides, (app and stack), must be the same.
+OSAL_MAX_NUM_PROXY_TASKS defaults to 2.
+ICALL_MAX_NUM_Tasks defaults to 2.</td>
+</tr>
+<tr class="row-even"><td>ICALL_MAX_NUM_ENTITIES (App)</td>
+<td>This Maximum number of entities that use ICall, including
+service entities and application entities.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">TI Recommends limiting the number of ICall enabled tasks due to resource usage.
+For more information on creating ICall enabled tasks, see
+<a class="reference external" href="http://processors.wiki.ti.com/index.php/Adding_Custom_RTOS_Task">Adding ICall RTOS Tasks</a></p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="custom-hardware.html" class="btn btn-neutral float-right" title="TI Provided Board Files" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="creating-a-custom-bluetooth-low-energy-application.html" class="btn btn-neutral" title="Defining Application Behavior" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Texas Instruments.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.01.01.00',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

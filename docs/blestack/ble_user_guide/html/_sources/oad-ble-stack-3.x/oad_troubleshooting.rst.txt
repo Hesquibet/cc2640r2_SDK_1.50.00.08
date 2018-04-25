@@ -1,0 +1,112 @@
+.. _sec-oad-troubleshooting:
+
+Troubleshooting Guide
+---------------------
+
+This guide seeks to address many of the common issues encountered during OAD.
+
+General Troubleshooting Guide Prior to :term:`BIM`
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+There are various places where OAD can fail; use the following steps to
+determine where the issue is occurring during the interaction:
+
+-  Use a BLE Packet Sniffer and Record the OAD Transaction
+
+   This will verify that the profile is implemented correctly and a
+   valid image was transferred over the air.
+
+      -  Look for a OAD Initiation
+
+         Notifications from OAD Image Notify should be requested – and the
+         appropriate response from the :term:`OAD Target` after a GATT Write of
+         the Candidate metadata.
+
+      -  Look for OAD Image Status Characteristic
+
+         This will contain the status of the image prior to :term:`BIM` launching
+         the image.
+
+-  Read external/internal flash to ensure CRC Shadow is valid and
+   matches CRC field
+
+   - This will verify that the image was received fully without errors by
+     the OAD Target
+
+      -  For Internal, various tools can be used. SmartRF Programmer 2 or
+         using a jtag debugger and connecting to running target and
+         utilizing a memory viewer are possible options.
+
+      -  For External, interface another MCU or another serial device to
+         dump out the Flash.
+
+Downloaded OAD Image Isn’t Starting
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+If the application doesn’t start running the downloaded firmware after a
+successful download, it’s a :term:`BIM` issue.
+
+Depending on OAD type, on-chip or off-chip, refer to sections
+:ref:`sect-bim-for-on-chip-oad` or :ref:`sect-bim-for-off-chip-oad`
+respectively. Utilize how :term:`BIM` operates and a debugger to find where the
+issue is occurring.
+
+Should External Flash be Used During OAD?
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+No, External flash should not be utilized while OAD Profile is active;
+the Profile is designed to have uninterrupted exclusive access to Flash, in
+Off-Chip configurations.
+
+Building Super Hex Files
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+To build merged hexfiles, there are various methods to do this. One
+option is to utilize the TI OAD Image Tool (Python). See
+:ref:`sec-generating-production-image` for more information.
+Hex files can be converted to binary using any tool that supports the Intel
+extended hex format.
+
+Using Cache as RAM with OAD
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+For genereal directions on using the cache as RAM, see :any:`section-cache-as-ram`.
+
+To use the cache as RAM, the BIM project linker command file (``cc26xx_bim_r2.cmd`` or
+``cc26xx_bim_r2.icf``) must be configured. Follow the instructions in
+:ref:`section-cache-as-ram`.
+
+Mobile Application Can’t Perform OAD
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Ensure the latest version of the Application is downloaded from your
+Phone’s Application Store and try again.
+
+If problem persists, please post your Phone’s Model and OS Version
+number along with details to reproduce your setup on our Support Forums.
+Utilize BTool and verify that the OAD works correctly.
+
+OAD Target device doesn't reset after successful OAD
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+IThis usually occurs when the JTAG debugger (e.g., XDS110) is connected.
+Disconnect and remove the debugger prior to performing OAD.
+
+This issue should not be appearing in field devices, or devices
+that are powered through a battery or other means.
+
+Can't connect via BTool After successful OAD
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Try resetting the :code:`host_test` device attached to BTool.
+- Close and re-open BTool.
+- Verify target is advertising using a mobile app.
+
+:term:`OAD Target` App Doesn't Advertise out of the Box
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Likely the image metadata is not embedded in the image, or there is a corrupted
+image that is causing problems.
+
+- Perform a forced mass erase using Smart RF Flash Programmer 2
+- Follow the steps at :ref:`sect-on-chip-demo`, particularly
+  :ref:`sec-generating-production-image`

@@ -1,0 +1,132 @@
+.. _sect_debug_optim:
+
+Optimizations
+-------------
+
+While debugging, turn off or lower optimizations to ease
+single-stepping through code. Optimization level can be configured at the
+*project*, *file* and *function* levels.
+
+
+Project-Wide Optimizations
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+For debugging, ideally, the project-wide settings for optimization should be as
+low as possible. There may not be enough available space on the target to do this,
+but lowering just a couple of levels can be helpful.
+
+
+**In IAR**
+
+Project Options --> C/C++ Compiler --> Optimizations
+
+.. figure:: resources/iar_optim_level_project.png
+    :align: center
+
+    Project-level optimization setting in IAR
+
+**In CCS**
+
+Project Properties --> CCS Build --> ARM Compiler --> Optimization
+
+.. figure:: resources/ccs_optim_level_project.png
+    :align: center
+
+    Project-level optimization setting in CCS
+
+
+Single-File Optimizations
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. note::
+   Do single-file optimizations with care because this also
+   overrides the project-wide preprocessor symbols.
+
+**In IAR**
+
+1. Right-click on the file in the Workspace pane.
+2. Choose Options.
+3. Check Override inherited Settings.
+4. Choose the optimization level.
+
+
+**In CCS**
+
+1. Right-click on the file in the Workspace pane.
+2. Choose Properties.
+3. Change the optimization level of the file using the same menu in the
+   CCS project-wide optimization menu.
+
+
+Single-Function Optimizations
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Using compiler directives, you can control the optimization level of
+a single function.
+
+**In IAR**
+
+Use #pragma optimize=none before the function definition to
+deoptimize the entire function, that is, as follows.
+
+.. code-block:: c
+   :caption: Function-level optimization setting in IAR
+   :emphasize-lines: 1
+
+   #pragma optimize=none
+   static void myFunction(int number)
+   {
+     // ...
+     return yourFunction(other_number);
+   }
+
+
+**In CCS**
+
+.. code-block:: c
+   :caption: Function-level optimization setting in CCS
+   :emphasize-lines: 1
+
+   #pragma FUNCTION_OPTIONS(myFunction, "--opt_level=0")
+   static void myFunction(int number)
+   {
+     // ...
+     return yourFunction(other_number);
+   }
+
+
+Loading TI-RTOS in ROM Symbols
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Some of the TI-RTOS kernel modules are included in ROM, and executed from ROM
+in order to save Flash space for the application. This can lead to some
+confusion, when only addresses are shown in the disassembly view and the
+call-stack view.
+
+All TI-RTOS kernel code in ROM starts with address ``0x1001xxxx``. In order to
+make sense of the ROM'ed code, you need to include the symbol files in your
+debug session.
+
+**In IAR**
+
+.. figure:: resources/rtos_symbols_add_iar.png
+    :align: center
+
+    Adding symbol information for the BIOS kernel in ROM
+
+* In the project options, go to ``Debugger`` and ``Images``, then add the image
+* ``<SDK_INSTALL_DIR>\kernel\tirtos\packages\ti\sysbios\rom\cortexm\cc26xx\r2\golden\CC26xx\rtos_rom.xem3``
+* Check the box for 'Debug info only', and use Offset = 0.
+
+
+**In CCS**
+
+.. figure:: resources/rtos_symbols_add_ccs.png
+    :align: center
+
+    Adding symbol information for the BIOS kernel in ROM, via Add Symbols.
+
+* While in debug mode, click the drop-down button next to the Load Program icon
+* Select Add Symbols..
+* Select Browse.. and find
+* ``<SDK_INSTALL_DIR>\kernel\tirtos\packages\ti\sysbios\rom\cortexm\cc26xx\r2\golden\CC26xx\rtos_rom.xem3``

@@ -1,0 +1,350 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Troubleshooting Guide &mdash; BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation" href="../index.html"/> 
+    <script language="JavaScript">
+        var tiPageName;
+        tiPageName = "sug oad-ble-stack-3.x oad_troubleshooting";
+
+        if (location.protocol == "file:"){
+            var ci_analytics_poc_load = true;
+        }
+    </script> 
+
+    <script src="http://www.ti.com/assets/js/headerfooter/analytics.js" type="text/javascript" charset="utf-8">     
+
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../ble-stack-3.x-guide/index.html" class="icon icon-home"> BLE-Stack User's Guide for Bluetooth 4.2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.01.01.00
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../cc2640/disclaimer.html">Disclaimer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/get-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cc2640/platform.html">The CC2640R2F SDK Platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x/index.html">Developing a Bluetooth Low Energy Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../u-stack/index.html">Micro BLE Stack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oad.html">Over the Air Download (OAD)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../voice/voice.html">Creating a Voice Enabled Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../secure-fw-3.x/index.html">Secure Firmware (SFW)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensor-controller/sensor-controller.html">Sensor Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../debugging/ble-index.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/migration.html">Migration Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/api-reference.html">API References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/reference.html">Terms and Definitions</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../ble-stack-3.x-guide/index.html">BLE-Stack User's Guide for Bluetooth 4.2</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../ble-stack-3.x-guide/index.html">Docs</a> &raquo;</li>
+        
+      <li>Troubleshooting Guide</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="troubleshooting-guide">
+<span id="sec-oad-troubleshooting"></span><h1>Troubleshooting Guide<a class="headerlink" href="#troubleshooting-guide" title="Permalink to this headline">¶</a></h1>
+<p>This guide seeks to address many of the common issues encountered during OAD.</p>
+<div class="section" id="general-troubleshooting-guide-prior-to-bim">
+<h2>General Troubleshooting Guide Prior to <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-46"><span class="xref std std-term">BIM</span></a><a class="headerlink" href="#general-troubleshooting-guide-prior-to-bim" title="Permalink to this headline">¶</a></h2>
+<p>There are various places where OAD can fail; use the following steps to
+determine where the issue is occurring during the interaction:</p>
+<ul>
+<li><p class="first">Use a BLE Packet Sniffer and Record the OAD Transaction</p>
+<p>This will verify that the profile is implemented correctly and a
+valid image was transferred over the air.</p>
+<blockquote>
+<div><ul>
+<li><p class="first">Look for a OAD Initiation</p>
+<p>Notifications from OAD Image Notify should be requested – and the
+appropriate response from the <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-oad-target"><span class="xref std std-term">OAD Target</span></a> after a GATT Write of
+the Candidate metadata.</p>
+</li>
+<li><p class="first">Look for OAD Image Status Characteristic</p>
+<p>This will contain the status of the image prior to <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-46"><span class="xref std std-term">BIM</span></a> launching
+the image.</p>
+</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">Read external/internal flash to ensure CRC Shadow is valid and
+matches CRC field</p>
+<ul>
+<li><p class="first">This will verify that the image was received fully without errors by
+the OAD Target</p>
+<blockquote>
+<div><ul class="simple">
+<li>For Internal, various tools can be used. SmartRF Programmer 2 or
+using a jtag debugger and connecting to running target and
+utilizing a memory viewer are possible options.</li>
+<li>For External, interface another MCU or another serial device to
+dump out the Flash.</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="downloaded-oad-image-isnt-starting">
+<h2>Downloaded OAD Image Isn’t Starting<a class="headerlink" href="#downloaded-oad-image-isnt-starting" title="Permalink to this headline">¶</a></h2>
+<p>If the application doesn’t start running the downloaded firmware after a
+successful download, it’s a <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-46"><span class="xref std std-term">BIM</span></a> issue.</p>
+<p>Depending on OAD type, on-chip or off-chip, refer to sections
+<a class="reference internal" href="oad_onchip.html#sect-bim-for-on-chip-oad"><span class="std std-ref">BIM for On-chip OAD</span></a> or <a class="reference internal" href="oad_offchip.html#sect-bim-for-off-chip-oad"><span class="std std-ref">BIM for Off-chip OAD</span></a>
+respectively. Utilize how <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-46"><span class="xref std std-term">BIM</span></a> operates and a debugger to find where the
+issue is occurring.</p>
+</div>
+<div class="section" id="should-external-flash-be-used-during-oad">
+<h2>Should External Flash be Used During OAD?<a class="headerlink" href="#should-external-flash-be-used-during-oad" title="Permalink to this headline">¶</a></h2>
+<p>No, External flash should not be utilized while OAD Profile is active;
+the Profile is designed to have uninterrupted exclusive access to Flash, in
+Off-Chip configurations.</p>
+</div>
+<div class="section" id="building-super-hex-files">
+<h2>Building Super Hex Files<a class="headerlink" href="#building-super-hex-files" title="Permalink to this headline">¶</a></h2>
+<p>To build merged hexfiles, there are various methods to do this. One
+option is to utilize the TI OAD Image Tool (Python). See
+<a class="reference internal" href="oad_appendix.html#sec-generating-production-image"><span class="std std-ref">Generating a Production Image for OAD</span></a> for more information.
+Hex files can be converted to binary using any tool that supports the Intel
+extended hex format.</p>
+</div>
+<div class="section" id="using-cache-as-ram-with-oad">
+<h2>Using Cache as RAM with OAD<a class="headerlink" href="#using-cache-as-ram-with-oad" title="Permalink to this headline">¶</a></h2>
+<p>For genereal directions on using the cache as RAM, see <a class="reference internal" href="../cc2640/memory_management.html#section-cache-as-ram"><span class="std std-ref">Using the Cache as RAM</span></a>.</p>
+<p>To use the cache as RAM, the BIM project linker command file (<code class="docutils literal"><span class="pre">cc26xx_bim_r2.cmd</span></code> or
+<code class="docutils literal"><span class="pre">cc26xx_bim_r2.icf</span></code>) must be configured. Follow the instructions in
+<a class="reference internal" href="../cc2640/memory_management.html#section-cache-as-ram"><span class="std std-ref">Using the Cache as RAM</span></a>.</p>
+</div>
+<div class="section" id="mobile-application-cant-perform-oad">
+<h2>Mobile Application Can’t Perform OAD<a class="headerlink" href="#mobile-application-cant-perform-oad" title="Permalink to this headline">¶</a></h2>
+<p>Ensure the latest version of the Application is downloaded from your
+Phone’s Application Store and try again.</p>
+<p>If problem persists, please post your Phone’s Model and OS Version
+number along with details to reproduce your setup on our Support Forums.
+Utilize BTool and verify that the OAD works correctly.</p>
+</div>
+<div class="section" id="oad-target-device-doesn-t-reset-after-successful-oad">
+<h2>OAD Target device doesn&#8217;t reset after successful OAD<a class="headerlink" href="#oad-target-device-doesn-t-reset-after-successful-oad" title="Permalink to this headline">¶</a></h2>
+<p>IThis usually occurs when the JTAG debugger (e.g., XDS110) is connected.
+Disconnect and remove the debugger prior to performing OAD.</p>
+<p>This issue should not be appearing in field devices, or devices
+that are powered through a battery or other means.</p>
+</div>
+<div class="section" id="can-t-connect-via-btool-after-successful-oad">
+<h2>Can&#8217;t connect via BTool After successful OAD<a class="headerlink" href="#can-t-connect-via-btool-after-successful-oad" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Try resetting the <code class="code docutils literal"><span class="pre">host_test</span></code> device attached to BTool.</li>
+<li>Close and re-open BTool.</li>
+<li>Verify target is advertising using a mobile app.</li>
+</ul>
+</div>
+<div class="section" id="oad-target-app-doesn-t-advertise-out-of-the-box">
+<h2><a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-oad-target"><span class="xref std std-term">OAD Target</span></a> App Doesn&#8217;t Advertise out of the Box<a class="headerlink" href="#oad-target-app-doesn-t-advertise-out-of-the-box" title="Permalink to this headline">¶</a></h2>
+<p>Likely the image metadata is not embedded in the image, or there is a corrupted
+image that is causing problems.</p>
+<ul class="simple">
+<li>Perform a forced mass erase using Smart RF Flash Programmer 2</li>
+<li>Follow the steps at <a class="reference internal" href="oad_onchip.html#sect-on-chip-demo"><span class="std std-ref">Out of the Box Demo (On-Chip OAD)</span></a>, particularly
+<a class="reference internal" href="oad_appendix.html#sec-generating-production-image"><span class="std std-ref">Generating a Production Image for OAD</span></a></li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Texas Instruments.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.01.01.00',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

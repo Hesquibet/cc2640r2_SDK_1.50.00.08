@@ -1,0 +1,10 @@
+/*
+** Stack Frontier Generator 1.1.0 (2017-06-22 07:57:55.883000)
+**
+** WARNING - Auto-generated file. Modifications could be lost!
+*/
+
+--config_def OAD_TGT_RAM0_START=0x20000408
+--config_def OAD_TGT_FLASH_START=0x00015000
+--config_def OAD_TGT_ENTRY_ADDR=0x0001efc0
+

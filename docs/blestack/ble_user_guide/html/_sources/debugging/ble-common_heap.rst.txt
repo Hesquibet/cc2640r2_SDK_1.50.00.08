@@ -1,0 +1,301 @@
+.. _sect_icall_profiling:
+.. _sec-heap-debugging:
+
+Debugging Common Heap Issues
+----------------------------
+
+.. warning::
+
+  When using an auto sized heap, ROV Classic may report errors. Please see the
+  :ref:`sec-rov` section for a workaround and more information.
+
+As described in :ref:`dynamic_memory_allocation`, the Heap Manager and its
+heap are used to allocate messages between the Bluetooth low energy stack
+task and the application task and as dynamic memory allocations in
+the tasks, as well as in TI-RTOS.
+
+Profiling functionality is provided for the heap but is not
+enabled by default. Therefore, it must be compiled in by adding
+``HEAPMGR_METRICS`` to the defined preprocessor symbols. This
+functionality is useful for finding potential sources for
+unexplained behavior and to optimize the size of the heap. When
+``HEAPMGR_METRICS`` is defined, the variables and functions listed as
+follows become available. Global variables:
+
+heapmgrBlkMax
+   The maximum amount of simultaneous allocated blocks
+
+heapmgrBlkCnt
+   The current amount of allocated blocks
+
+heapmgrBlkFree
+   The current amount of free blocks
+
+heapmgrMemAlo
+   The current total memory allocated in bytes
+
+heapmgrMemMax
+   The maximum amount of simultaneous allocated memory in
+   blocks (this value must not exceed the size of the heap)
+
+heapmgrMemUB
+   The furthest memory location of an allocated block,
+   measured as an offset from the start of the heap
+
+heapmgrMemFail
+   The amount of memory allocation failure (instances
+   where ``ICall_malloc()`` has returned NULL)
+
+Furthermore when using a TI-RTOS based heap such as HeapMem or HeapTrack, there
+is additional debugging capability that can be used.
+
+Functions
+^^^^^^^^^
+
+Note the below functions are enabled only for the legacy OSAL heap, TI-RTOS
+based heap implementations offer native support for their functionality.
+
+:samp:`void {ICall_heapGetMetrics}(u16 *pBlkMax, u16 *pBlkCnt, u16 *pBlkFree, u16 *pMemAlo, u16 *pMemMax, u16 *pMemUb)`
+   Returns the previously described variables in the pointers passed in as parameters
+
+:samp:`int heapmgrSanityCheck(void)`
+   Returns 0 if the heap is ok; otherwise, returns a nonzero (that is, an array access has overwritten a header in the heap)
+
+However, the get stats function is available to all three supported heap
+configurations.
+
+:samp:`ICall_getHeapStats(ICall_heapStats_t)`
+    Returns a pointer to the Heap statics structure.
+
+The heap stats structure, is defined as below:
+
+  .. code-block:: c
+
+    typedef struct
+    {
+      uint32_t totalSize;
+      uint32_t totalFreeSize;
+      uint32_t largestFreeSize;
+    }ICall_heapStats_t;
+
+
+Determining the Auto Heap Size
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The following procedure can be used to view the size of the heap when the auto
+heap size feature is enabled.
+
+The auto heap size feature takes advantage of linker file symbols to
+determine the optimal heap size, the user can determine the size of the auto
+heap via the generated map file using the procedure below:
+
+The size of the heap is the difference between the address of
+the last item in the .bss section and the start address of the
+system stack (CSTACK). For example, the
+
+.. code-block:: text
+   :caption: The gap between heapStart end and heapEnd start.
+
+   20003f48  heapEnd
+   20001cc1  heapStart
+
+The size of the heap in this example is defined as:
+``0x20003f48 - 0x20001cc1 = 0x2287`` or ``8839 bytes`` for the heap.
+
+.. note::
+    The above procedure will work for any active heap implementation
+
+Determining the auto heap size is slightly dependent on the heap implementation
+that is active, see the sections below to see how to determine the size of an
+auto sized heap at runtime.
+
+*OSAL HEAP*
+
+  - Open the variable watch window and view ``HEAPMGR_SIZE``, it will report the
+    heap size.
+
+*HeapMem or HeapMem + HeapTrack*
+
+  - Using ROV, open the ``HeapMem.Detailed`` view, the heap's size is reported
+    in the totalSize field. See :ref:`sec-rov` for more information on ROV and
+    how to use it.
+
+
+Programatically Accessing the Heap Configuration
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The heap configuration variables can be accessed software to determine the
+active heap configuration and size at runtime. The code snippet below will print
+out the active heap config and the heap's size.
+
+
+.. code-block:: c
+    :linenos:
+    :caption: Printing the Heap Configuration and Size
+
+    #include <xdc/cfg/global.h> // This is included to access cfg file variables
+
+    //...
+
+    // Get the HeapSize
+    ICall_heapStats_t stats;
+    ICall_getHeapStats(&stats);
+
+    if((HEAPMGR_CONFIG & 0x03) == 0x00)
+    {
+        Display_print0(dispHandle, 6,0, "Using Heap: OSAL");
+    }
+    else if ((HEAPMGR_CONFIG & 0x03) == 0x01)
+    {
+        Display_print0(dispHandle, 6,0, "Using Heap: HeapMem");
+    }
+    else if((HEAPMGR_CONFIG & 0x03) == 0x02)
+    {
+        Display_print0(dispHandle, 6,0, "Using Heap: HeapMem + HeapTrack");
+    }
+
+    Display_print1(dispHandle, 7,0, "Heap Size: %d", stats.totalSize);
+
+
+
+Troubleshooting Heap Problems
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Issues with dynamic allocated memory can be notoriously hard to track down and
+debug; this section aims to give tips on how to debug the most common issues
+with dynamic memory.
+
+In general, HeapMem and HeapMem + HeapTrack offer more debuggability than the
+OSAL heap through the ROV tools, but have associated tradeoffs such as speed and
+overhead. If you suspect that there are heap issues, enable a more verbose heap
+implementation to help debug and root cause the issue.
+
+ - HeapTrack is a module built above the HeapMem module used to debug heaps, it
+   offers the most debugging capability.
+
+ - HeapMem offers ROV support and has the ability to detect if the internal
+   structure of the heap has become corrupted.
+
+ - OSAL heap offers APIs for logging heap metrics and stats
+
+Reference the Heaps section of the BIOS User's Guide for more information on the
+TI-RTOS provided heap implementations.
+
+
+**Writing to already freed memory**
+
+Pointers to memory which have already been freed using  ``ICall_free()`` should
+no longer be used. A common practice is to set pointers to NULL after they have
+been freed, and check them for NULL before using them.
+
+.. code-block:: c
+  :linenos:
+
+    // Allocate Memory
+    uint32_t *myPtr = ICall_malloc(500);
+
+    //..
+
+    // Later free the pointer, set it to NULL
+    ICall_free(myPtr);
+    myPtr = NULL;
+
+    // This check will protect against writing to already freed memory
+    if( NULL != myPtr)
+    {
+      *myPtr = 42;
+    }
+
+When accessing memory that has already been freed, there is a risk that the
+internal structure of the heap will become corrupted. Let's assume some code
+didn't follow the above convention, and wrote to a free'd pointer.
+
+The figure below shows how the user can use HeapMem to detect heap corruption
+with ROV, notice the dramatic change in freeSize.
+
+.. figure:: resources/writing-to-freed-mem.png
+    :align: center
+
+    Writing to freed memory
+
+
+**Freeing Already freed Memory**
+
+The cause of this bug is the same as the one from the previous section, double
+frees will corrupt the internal structure of the heap.
+
+
+
+.. code-block:: c
+  :linenos:
+
+    // Allocate Memory
+    uint32_t *myPtr = ICall_malloc(500);
+
+    //..
+
+    ICall_free(myPtr);
+    ICall_free(myPtr);
+
+**Starving the system/Memory Leak**
+
+.. warning::
+
+  Asserting during a heap failure may be considered dangerous in production
+  code, however this section seeks to showcase its use in debugging.
+
+If the protocol stack relies on dynamic allocation to pass messages between its
+internal layers and the application, starving the stack of memory may result in
+unexpected behavior. This can also negatively affect other application processes
+that require dynamic memory such as voice streaming.
+
+The stack can be setup to assert when allocations fail by following the steps
+below:
+
+ 1. Include ``hal_assert.c`` in the user application project
+ 2. Define ``EXT_HAL_ASSERT`` and ``MEM_ALLOC_ASSERT``
+ 3. Plug a handler function in ``main.c``, see ``multi_role``'s main function
+    for an example
+
+The code below will force this condition by mallocing without freeing.
+
+.. code-block:: c
+  :linenos:
+
+    uint8_t i  = 0;
+    while(i < 500)
+    {
+      ICall_malloc(500);
+    }
+
+This condition can be caused by an application that calls ``malloc()`` during an
+operation without a call to ``free()`` later in the code. Thus the code will keep
+requiring more memory every time the operation runs without ever freeing any
+memory. The above code snippet is an exaggerated example of this.
+
+At the time of a failed allocation, a full call-stack is provided:
+
+.. figure:: resources/malloc-fail-callstack.png
+    :align: center
+
+    Alloc failed callstack
+
+**Checking the return value of malloc**
+
+When allocating memory on the heap using malloc, it is import to check it's
+return value. Otherwise, this will often result in dereferncing a null pointer,
+which will result in an exception.
+
+.. code-block:: c
+  :linenos:
+
+  uint8_t *myPtr = ICall_malloc(75);
+
+  if(NULL == myPtr)
+  {
+    // Error handling here
+  }
+
+
+There are many more tips for debugging heap issues available in this
+`TI-RTOS Debugging Workshop <https://training.ti.com/debugging-common-application-issues-ti-rtos>`_

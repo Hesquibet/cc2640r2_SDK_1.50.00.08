@@ -1,0 +1,5 @@
+<map id="poly1305_finish" name="poly1305_finish">
+<area shape="rect" id="node2" href="$sw__poly1305-donna-32_8h.html#ac7361bb48c3b88fe1fe4c8758aa3ed26" title="poly1305_blocks" alt="" coords="164,5,283,32"/>
+<area shape="rect" id="node4" href="$sw__poly1305-donna-32_8h.html#abb488326a7651204669fd11e027196f4" title="U32TO8" alt="" coords="189,56,258,83"/>
+<area shape="rect" id="node3" href="$sw__poly1305-donna-32_8h.html#a89e4bb3dfbddaf6ff1ca16e36168c4f6" title="U8TO32" alt="" coords="331,5,400,32"/>
+</map>

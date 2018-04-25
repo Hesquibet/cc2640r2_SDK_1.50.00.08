@@ -1,0 +1,348 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>System Architecture &mdash; BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation" href="../index.html"/>
+        <link rel="up" title="Micro BLE Stack" href="index.html"/>
+        <link rel="next" title="Functional Description" href="functional-description.html"/>
+        <link rel="prev" title="Overview" href="overview.html"/> 
+    <script language="JavaScript">
+        var tiPageName;
+        tiPageName = "sug u-stack system-architecture";
+
+        if (location.protocol == "file:"){
+            var ci_analytics_poc_load = true;
+        }
+    </script> 
+
+    <script src="http://www.ti.com/assets/js/headerfooter/analytics.js" type="text/javascript" charset="utf-8">     
+
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../ble-stack-3.x-guide/index.html" class="icon icon-home"> BLE-Stack User's Guide for Bluetooth 4.2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.01.01.00
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../cc2640/disclaimer.html">Disclaimer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/get-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cc2640/platform.html">The CC2640R2F SDK Platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x/index.html">Developing a Bluetooth Low Energy Application</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Micro BLE Stack</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">System Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="functional-description.html">Functional Description</a></li>
+<li class="toctree-l2"><a class="reference internal" href="external-interface.html">External Interface</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../oad-ble-stack-3.x/oad.html">Over the Air Download (OAD)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../voice/voice.html">Creating a Voice Enabled Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../secure-fw-3.x/index.html">Secure Firmware (SFW)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensor-controller/sensor-controller.html">Sensor Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../debugging/ble-index.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/migration.html">Migration Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/api-reference.html">API References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/reference.html">Terms and Definitions</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../ble-stack-3.x-guide/index.html">BLE-Stack User's Guide for Bluetooth 4.2</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../ble-stack-3.x-guide/index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">Micro BLE Stack</a> &raquo;</li>
+        
+      <li>System Architecture</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="system-architecture">
+<span id="id2"></span><h1>System Architecture<a class="headerlink" href="#system-architecture" title="Permalink to this headline">¶</a></h1>
+<p>The Micro BLE Stack consists of the Micro Link Layer (Micro LL or
+uLL), Micro Generic Access Profile (Micro GAP or uGAP), and
+a Micro Radio Interface (Micro RFI or uRFI).</p>
+<p>The uLL is mainly responsible for maintaining the device state and scheduling
+radio commands to perform advertising operations. The pre- and
+post-processing for each radio command execution are also done by the uLL. The
+uLL directly invokes the RF Driver and will utilize the MicroRFI to initialize
+the radio for the  Micro BLE Stack features being exercised.</p>
+<p>The uGAP sits between the uLL and the application and is mainly responsible for
+controlling the uLL to set up and run a profile role. The application can
+indirectly configure the uLL through uGAP and be notified of events from uLL
+through uGAP callbacks. uGAP needs TI-RTOS because the clock/timer service is
+used.</p>
+<p>The uRFI is primarily used to initialize the Radio and allow Radio
+commands to be sent. Depending on the features enabled the uRFI will define
+the proper parameter structures which the uLL will externally reference
+to utilize the RF driver.</p>
+<p>Micro BLE Stack is not designed to run as a separate TI-RTOS task, in order
+to save memory that would otherwise be required to maintain an additional task.
+Instead, it is integrated in the application, from TI-RTOS context’s point of
+view, so that all the application callbacks that are originated from RF and
+Clock SWIs in the Micro BLE Stack and might have lengthy operations such as
+command completion post processing and error handling are called in the
+application task context. How the Micro BLE Stack is integrated context-wise in
+the application is illustrated in <a class="reference internal" href="#system-context-diagram"><span class="std std-numref">Figure 79.</span></a> Note that
+only the subcomponents directly relevant to the Micro BLE Stack in the
+application and the RF driver are depicted.</p>
+<div class="figure align-center" id="id3">
+<span id="system-context-diagram"></span><img alt="alternate text" src="../_images/system_context_diagram.jpg" />
+<p class="caption"><span class="caption-number">Figure 79. </span><span class="caption-text">System Context Diagram</span></p>
+</div>
+<p>For that integration a message queue associated with the events is managed by
+the Micro BLE Stack internally. The message and loop code will look like
+the following:</p>
+<div class="highlight-c" id="callback-and-event-loop-code"><div class="highlight"><pre><span></span> <span class="kt">void</span> <span class="nf">uBLEStack_eventProxy</span><span class="p">()</span>
+ <span class="p">{</span>
+   <span class="n">MicroEddystoneBeacon_enqueueMsg</span><span class="p">(</span><span class="n">UEB_EVT_MICROBLESTACK</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+ <span class="p">}</span>
+
+ <span class="k">static</span> <span class="kt">void</span> <span class="nf">MicroEddystoneBeacon_taskFxn</span><span class="p">(</span><span class="n">UArg</span> <span class="n">a0</span><span class="p">,</span> <span class="n">UArg</span> <span class="n">a1</span><span class="p">)</span>
+ <span class="p">{</span>
+   <span class="c1">// Initialize application</span>
+   <span class="n">MicroEddystoneBeacon_init</span><span class="p">();</span>
+
+   <span class="k">for</span> <span class="p">(;;)</span>
+   <span class="p">{</span>
+     <span class="n">uint32</span> <span class="n">events</span><span class="p">;</span>
+
+     <span class="c1">// Waits for an event to be posted associated with the calling thread.</span>
+     <span class="c1">// Note that an event associated with a thread is posted when a</span>
+     <span class="c1">// message is queued to the message receive queue of the thread</span>
+ <span class="cp">#ifdef USE_ICALL</span>
+     <span class="n">events</span> <span class="o">=</span> <span class="n">Event_pend</span><span class="p">(</span><span class="n">syncEvent</span><span class="p">,</span> <span class="n">Event_Id_NONE</span><span class="p">,</span> <span class="n">UEB_ALL_EVENTS</span><span class="p">,</span>
+                        <span class="n">ICALL_TIMEOUT_FOREVER</span><span class="p">);</span>
+ <span class="cp">#else </span><span class="cm">/* !USE_ICALL */</span><span class="cp"></span>
+     <span class="n">events</span> <span class="o">=</span> <span class="n">Event_pend</span><span class="p">(</span><span class="n">syncEvent</span><span class="p">,</span> <span class="n">Event_Id_NONE</span><span class="p">,</span> <span class="n">UEB_ALL_EVENTS</span><span class="p">,</span>
+                        <span class="n">BIOS_WAIT_FOREVER</span><span class="p">);</span>
+ <span class="cp">#endif </span><span class="cm">/* USE_ICALL */</span><span class="cp"></span>
+
+     <span class="k">if</span> <span class="p">(</span><span class="n">events</span> <span class="o">|</span> <span class="n">UEB_QUEUE_EVT</span><span class="p">)</span>
+     <span class="p">{</span>
+       <span class="c1">// If RTOS queue is not empty, process app message.</span>
+       <span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">Queue_empty</span><span class="p">(</span><span class="n">appMsgQueue</span><span class="p">))</span>
+       <span class="p">{</span>
+         <span class="n">uebEvt_t</span> <span class="o">*</span><span class="n">pMsg</span> <span class="o">=</span> <span class="p">(</span><span class="n">uebEvt_t</span> <span class="o">*</span><span class="p">)</span> <span class="n">Util_dequeueMsg</span><span class="p">(</span><span class="n">appMsgQueue</span><span class="p">);</span>
+         <span class="k">if</span> <span class="p">(</span><span class="n">pMsg</span><span class="p">)</span>
+         <span class="p">{</span>
+           <span class="c1">// Process message.</span>
+           <span class="n">MicroEddystoneBeacon_processAppMsg</span><span class="p">(</span><span class="n">pMsg</span><span class="p">);</span>
+
+           <span class="c1">// Free the space from the message.</span>
+ <span class="cp">#ifdef USE_ICALL</span>
+           <span class="n">ICall_free</span><span class="p">(</span><span class="n">pMsg</span><span class="p">);</span>
+ <span class="cp">#else </span><span class="cm">/* USE_ICALL */</span><span class="cp"></span>
+           <span class="n">free</span><span class="p">(</span><span class="n">pMsg</span><span class="p">);</span>
+ <span class="cp">#endif </span><span class="cm">/* USE_ICALL */</span><span class="cp"></span>
+         <span class="p">}</span>
+       <span class="p">}</span>
+     <span class="p">}</span>
+   <span class="p">}</span>
+ <span class="p">}</span>
+</pre></div>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="functional-description.html" class="btn btn-neutral float-right" title="Functional Description" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="overview.html" class="btn btn-neutral" title="Overview" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Texas Instruments.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.01.01.00',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

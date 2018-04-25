@@ -1,0 +1,5 @@
+<map id="ADI16BitsSet" name="ADI16BitsSet">
+<area shape="rect" id="node2" href="$group__ddi__api.html#ga06d6b1eee2c8757b8431eb6e1ab98f68" title="Safely write to AUX ADI/DDI interfaces using a semaphore. " alt="" coords="153,31,293,57"/>
+<area shape="rect" id="node3" href="$group__cpu__api.html#ga491d851c4f7fff1f9f66aa778b0671b0" title="Disable all external interrupts. " alt="" coords="341,5,421,32"/>
+<area shape="rect" id="node4" href="$group__cpu__api.html#ga6922d401cbc951632f495ffcf2e71dfc" title="Enable all external interrupts. " alt="" coords="341,56,421,83"/>
+</map>

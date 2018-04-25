@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<projectSpec>
+    <import spec="simple_peripheral_cc2640r2lp_oad_offchip_stack.projectspec"/>
+    <import spec="bim_oad_offchip_cc2640r2lp_app.projectspec"/>
+    <project
+        name="simple_peripheral_cc2640r2lp_oad_offchip_app"
+        device="CC2640R2F"
+        cgtVersion="16.9"
+        connection="common/targetdb/connections/TIXDS110_Connection.xml"
+        toolChain="TI"
+        linkerCommandFile="cc26xx_app_oad_offchip.cmd"
+        preBuildStep=""
+        postBuildStep="
+        ${CG_TOOL_HEX} -order MS --memwidth=8 --romwidth=8 --intel
+        -o ${ProjName}_${ConfigName}.hex ${ProjName}_${ConfigName}.out;
+        ${TOOLS_BLE_DIR}/oad/oad_image_tool
+        ccs ${PROJECT_LOC} 1
+        FlashROM/${ProjName}_${ConfigName}.hex
+        ${WORKSPACE_LOC}/simple_peripheral_cc2640r2lp_oad_offchip_stack/TOOLS/ccs_compiler_defines.bcfg
+        ${WORKSPACE_LOC}/simple_peripheral_cc2640r2lp_oad_offchip_stack/FlashROM/simple_peripheral_cc2640r2lp_oad_offchip_stack_FlashROM.hex
+        -o ${WORKSPACE_LOC}/simple_peripheral_cc2640r2lp_oad_offchip_app/FlashROM/${ProjName}_${ConfigName}_oad
+        "
+        description=""
+        launchWizard="false"
+        references="simple_peripheral_cc2640r2lp_oad_offchip_stack"
+    >
+
+        <!-- Project properties -->
+        <property name="type" value="rtsc"/>
+        <property name="products" value=""/>
+        <property name="xdcToolsVersion" value="3.50.03.33"/>
+        <property name="target" value="ti.targets.arm.elf.M3"/>
+        <property name="platform" value="ti.platforms.simplelink:CC2640R2F"/>
+        <property name="buildProfile" value="release"/>
+        <property name="isHybrid" value="true"/>
+        <property name="configuroOptions" value="--compileOptions ${COMPILER_FLAGS} --xdcpath ${SRC_BLE_DIR}/../../../source;${SRC_BLE_DIR}/../../../kernel/tirtos/packages;${SRC_BLE_DIR} --cfgArgs {NO_ROM:0, OAD_IMG_E:1}"/>
+
+        <configuration
+            name="FlashROM"
+            compilerBuildOptions="
+            --cmd_file=${SRC_BLE_DIR}/config/build_components.opt
+            --cmd_file=${SRC_BLE_DIR}/config/factory_config.opt
+            --cmd_file=${WORKSPACE_LOC}/simple_peripheral_cc2640r2lp_oad_offchip_stack/TOOLS/build_config.opt
+            --cmd_file=${WORKSPACE_LOC}/simple_peripheral_cc2640r2lp_oad_offchip_stack/TOOLS/ccs_compiler_defines.bcfg
+            -mv7M3 -O4 --opt_for_speed=0 --code_state=16 --abi=eabi -me -g --c99 --gcc --gen_func_subsections=on --display_error_number
+            --diag_wrap=off
+            -DDeviceFamily_CC26X0R2
+            -DBOARD_DISPLAY_USE_LCD=0
+            -DBOARD_DISPLAY_USE_UART=1
+            -DBOARD_DISPLAY_USE_UART_ANSI=1
+            -DCC2640R2_LAUNCHXL
+            -DEXT_HAL_ASSERT
+            -DCC26XX
+            -DLED_DEBUG
+            -DMAX_PDU_SIZE=251
+            -DxOAD_BLE_SECURITY
+            -DHAL_IMAGE_E
+            -DCC26XX_R2
+            -DICALL_EVENTS
+            -DICALL_JT
+            -DICALL_LITE
+            -DICALL_MAX_NUM_ENTITIES=6
+            -DICALL_MAX_NUM_TASKS=3
+            -DPOWER_SAVING
+            -DRF_SINGLEMODE
+            -DUSE_ICALL
+            -DTBM_ACTIVE_ITEMS_ONLY
+            -Dxdc_runtime_Assert_DISABLE_ALL
+            -Dxdc_runtime_Log_DISABLE_ALL
+            -I${SRC_BLE_DIR}/boards/CC2640R2_LAUNCHXL/
+            -I${PROJECT_LOC}/Application
+            -I${PROJECT_LOC}/Startup
+            -I${PROJECT_LOC}/PROFILES
+            -I${PROJECT_LOC}/OAD
+            -I${PROJECT_LOC}/Include
+            -I${CG_TOOL_ROOT}/include
+            -I${SRC_BLE_DIR}/controller/cc26xx_r2/inc
+            -I${SRC_BLE_DIR}/inc
+            -I${SRC_BLE_DIR}/rom
+            -I${SRC_BLE_DIR}/common/cc26xx
+            -I${EXAMPLE_BLE_ROOT}/src/app
+            -I${SRC_BLE_DIR}/icall/inc
+            -I${SRC_BLE_DIR}/inc
+            -I${SRC_BLE_DIR}/profiles/dev_info
+            -I${SRC_BLE_DIR}/profiles/roles/cc26xx
+            -I${SRC_BLE_DIR}/profiles/roles
+            -I${SRC_BLE_DIR}/profiles/simple_profile/cc26xx
+            -I${SRC_BLE_DIR}/profiles/simple_profile
+            -I${SRC_BLE_DIR}/target
+            -I${SRC_BLE_DIR}/hal/src/target/_common
+            -I${SRC_BLE_DIR}/hal/src/target/_common/cc26xx
+            -I${SRC_BLE_DIR}/hal/src/inc
+            -I${SRC_BLE_DIR}/heapmgr
+            -I${SRC_BLE_DIR}/icall/src/inc
+            -I${SRC_BLE_DIR}/osal/src/inc
+            -I${SRC_BLE_DIR}/services/src/saddr
+            -I${SRC_BLE_DIR}/services/src/sdata
+            -I${SRC_BLE_DIR}/../../../source/ti/devices/cc26x0r2"
+            linkerBuildOptions="
+            -l${SRC_BLE_DIR}/rom/ble_rom_releases/cc26xx_r2/Final_Release/common_r2.symbols
+            -l${SRC_BLE_DIR}/../../../source/ti/devices/cc26x0r2/driverlib/bin/ccs/driverlib.lib
+            -l${SRC_BLE_DIR}/../../../kernel/tirtos/packages/ti/dpl/lib/dpl_cc26x0r2.aem3
+            -l${SRC_BLE_DIR}/../../../source/ti/drivers/lib/drivers_cc26x0r2.aem3
+            -l${SRC_BLE_DIR}/../../../source/ti/display/lib/display.aem3
+            -l${SRC_BLE_DIR}/../../../source/ti/grlib/lib/grlib.aem3
+            -l${SRC_BLE_DIR}/../../../source/ti/mw/lcd/lib/lcd.aem3
+            -l${SRC_BLE_DIR}/../../../kernel/tirtos/packages/ti/dpl/lib/dpl_cc26x0r2.aem3
+            -l${WORKSPACE_LOC}/simple_peripheral_cc2640r2lp_oad_offchip_stack/TOOLS/ccs_linker_defines.cmd
+            -l${SRC_BLE_DIR}/common/cc26xx/ccs/cc26xx_app_oad.cmd
+            -x
+            --define=CC26X0ROM=2
+            --define=OAD_IMG_E=1
+            --diag_suppress=16002-D
+            --diag_suppress=10247-D
+            --diag_suppress=10325-D
+            --diag_suppress=10229-D
+            --diag_suppress=16032-D
+            --map_file=${ProjName}_${ConfigName}.map
+            --output_file=${ProjName}_${ConfigName}.out
+            --xml_link_info=${ProjName}_${ConfigName}_linkInfo.xml"
+        />
+
+        <pathVariable name="EXAMPLE_BLE_ROOT" path="../.." scope="project"/>
+        <pathVariable name="SRC_BLE_DIR" path="../../../../../../../source/ti/blestack" scope="project"/>
+        <pathVariable name="TOOLS_BLE_DIR" path="${SRC_BLE_DIR}/../../../tools/blestack" scope="project"/>
+
+        <!-- Application Folder -->
+        <file path="EXAMPLE_BLE_ROOT/src/app/simple_peripheral_oad_offchip.c" openOnCreation="" excludeFromBuild="false" action="copy" targetDirectory="Application" createVirtualFolders="true" applicableConfigurations="FlashROM"/>
+        <file path="EXAMPLE_BLE_ROOT/src/app/simple_peripheral_oad_offchip.h" openOnCreation="" excludeFromBuild="false" action="copy" targetDirectory="Application" createVirtualFolders="true" applicableConfigurations="FlashROM"/>
+        <file path="SRC_BLE_DIR/common/cc26xx/util.c" openOnCreation="" excludeFromBuild="false" action="copy" targetDirectory="Application" createVirtualFolders="true" applicableConfigurations="FlashROM"/>
+        <file path="SRC_BLE_DIR/common/cc26xx/util.h" openOnCreation="" excludeFromBuild="false" action="copy" targetDirectory="Application" createVirtualFolders="true" applicableConfigurations="FlashROM"/>
+        <file path="EXAMPLE_BLE_ROOT/src/app/simple_peripheral_oad_offchip_menu.h" openOnCreation="" excludeFromBuild="false" action="copy" targetDirectory="Application" createVirtualFolders="true" applicableConfigurations="FlashROM"/>
+        <file path="EXAMPLE_BLE_ROOT/src/app/simple_peripheral_oad_offchip_menu.c" openOnCreation="" excludeFromBuild="false" action="copy" targetDirectory="Application" createVirtualFolders="true" applicableConfigurations="FlashROM"/>
+        <file path="SRC_BLE_DIR/common/cc26xx/menu/two_btn_menu.c" openOnCreation="" excludeFromBuild="false" action="copy" targetDirectory="Application" createVirtualFolders="true" applicableConfigurations="FlashROM"/>
+        <file path="SRC_BLE_DIR/common/cc26xx/menu/two_btn_menu.h" openOnCreation="" excludeFromBuild="false" action="copy" targetDirectory="Application" createVirtualFolders="true" applicableConfigurations="FlashROM"/>
+        <file path="SRC_BLE_DIR/common/cc26xx/bim/bim_util.c" openOnCreation="" excludeFromBuild="false" action="copy" targetDirectory="Application" createVirtualFolders="true" applicableConfigurations="FlashROM"/>
+        <file path="SRC_BLE_DIR/common/cc26xx/bim/bim_util.h" openOnCreation="" excludeFromBuild="false" action="copy" targetDirectory="Application" createVirtualFolders="true" applicableConfigurations="FlashROM"/>
+        <file path="SRC_BLE_DIR/hal/src/common/hal_assert.c" openOnCreation="" excludeFromBuild="false" action="copy" targetDirectory="Application" createVirtualFolders="true" applicableConfigurations="FlashROM"/>
+        <file path="SRC_BLE_DIR/common/cc26xx/board_key.c" openOnCreation="" excludeFromBuild="false" action="copy" targetDirectory="Application" createVirtualFolders="true" applicableConfigurations="FlashROM"/>
+        <file path="SRC_BLE_DIR/common/cc26xx/board_key.h" openOnCreation="" excludeFromBuild="false" action="copy" targetDirectory="Application" createVirtualFolders="true" applicableConfigurations="FlashROM"/>
+
+        <!-- Drivers/ECC Folder -->
+        <file path="SRC_BLE_DIR/common/cc26xx/ecc/ECCROMCC26XX.c" openOnCreation="" excludeFromBuild="false" action="link" targetDirectory="Drivers/ECC" createVirtualFolders="true" applicableConfigurations="FlashROM"/>
+        <file path="SRC_BLE_DIR/common/cc26xx/ecc/ECCROMCC26XX.h" openOnCreation="" excludeFromBuild="false" action="link" targetDirectory="Drivers/ECC" createVirtualFolders="true" applicableConfigurations="FlashROM"/>
+
+        <!-- Drivers/RF Folder -->
+        <file path="SRC_BLE_DIR/../../../source/ti/drivers/rf/RF.h" openOnCreation="" excludeFromBuild="false" action="link" targetDirectory="Drivers/RF" createVirtualFolders="true" applicableConfigurations="FlashROM"/>
+        <file path="SRC_BLE_DIR/../../../source/ti/drivers/rf/RFCC26XX_singleMode.c" openOnCreation="" excludeFromBuild="false" action="link" targetDirectory="Drivers/RF" createVirtualFolders="true" applicableConfigurations="FlashROM"/>
+
+        <!-- Drivers/TRNG Folder -->
+        <file path="SRC_BLE_DIR/hal/src/target/_common/TRNGCC26XX.c" openOnCreation="" excludeFromBuild="false" action="link" targetDirectory="Drivers/TRNG" createVirtualFolders="true" applicableConfigurations="FlashROM"/>
+        <file path="SRC_BLE_DIR/hal/src/target/_common/TRNGCC26XX.h" openOnCreation="" excludeFromBuild="false" action="link" targetDirectory="Drivers/TRNG" createVirtualFolders="true" applicableConfigurations="FlashROM"/>
+
+        <!-- Middleware/extflash Folder -->
+        <file path="SRC_BLE_DIR/../../../source/ti/mw/extflash/ExtFlash.c" openOnCreation="" excludeFromBuild="false" action="link" targetDirectory="Middleware/extflash" createVirtualFolders="true" applicableConfigurations="FlashROM"/>
+        <file path="SRC_BLE_DIR/../../../source/ti/mw/extflash/ExtFlash.h" openOnCreation="" excludeFromBuild="false" action="link" targetDirectory="Middleware/extflash" createVirtualFolders="true" applicableConfigurations="FlashROM"/>
+
+        <!-- ICall Folder -->
+        <file path="SRC_BLE_DIR/icall/src/icall.c" openOnCreation="" excludeFromBuild="false" action="link" targetDirectory="ICall" createVirtualFolders="true" applicableConfigurations="FlashROM"/>
+        <file path="SRC_BLE_DIR/icall/src/inc/icall.h" openOnCreation="" excludeFromBuild="false" action="link" targetDirectory="ICall" createVirtualFolders="true" applicableConfigurations="FlashROM"/>
+        <file path="SRC_BLE_DIR/icall/inc/icall_addrs.h" openOnCreation="" excludeFromBuild="false" action="link" targetDirectory="ICall" createVirtualFolders="true" applicableConfigurations="FlashROM"/>
+        <file path="SRC_BLE_DIR/icall/src/icall_cc2650.c" openOnCreation="" excludeFromBuild="false" action="link" targetDirectory="ICall" createVirtualFolders="true" applicableConfigurations="FlashROM"/>
+        <file path="SRC_BLE_DIR/icall/src/icall_platform.h" openOnCreation="" excludeFromBuild="false" action="link" targetDirectory="ICall" createVirtualFolders="true" applicableConfigurations="FlashROM"/>
+        <file path="SRC_BLE_DIR/icall/src/icall_user_config.c" openOnCreation="" excludeFromBuild="false" action="link" targetDirectory="ICall" createVirtualFolders="true" applicableConfigurations="FlashROM"/>
+
+        <!-- ICallBLE Folder -->
+        <file path="SRC_BLE_DIR/icall/app/ble_user_config.c" openOnCreation="" excludeFromBuild="false" action="link" targetDirectory="ICallBLE" createVirtualFolders="true" applicableConfigurations="FlashROM"/>
+        <file path="SRC_BLE_DIR/icall/inc/ble_user_config.h" openOnCreation="" excludeFromBuild="false" action="link" targetDirectory="ICallBLE" createVirtualFolders="true" applicableConfigurations="FlashROM"/>
+        <file path="SRC_BLE_DIR/icall/app/icall_api_lite.c" openOnCreation="" excludeFromBuild="false" action="link" targetDirectory="ICallBLE" createVirtualFolders="true" applicableConfigurations="FlashROM"/>
+        <file path="SRC_BLE_DIR/icall/inc/icall_ble_apimsg.h" openOnCreation="" excludeFromBuild="false" action="link" targetDirectory="ICallBLE" createVirtualFolders="true" applicableConfigurations="FlashROM"/>
+
+        <!-- Include Folder -->
+        <file path="SRC_BLE_DIR/inc/gap.h" openOnCreation="" excludeFromBuild="false" action="link" targetDirectory="Include" createVirtualFolders="true" applicableConfigurations="FlashROM"/>
+        <file path="SRC_BLE_DIR/profiles/roles/gapbondmgr.h" openOnCreation="" excludeFromBuild="false" action="copy" targetDirectory="Include" createVirtualFolders="true" applicableConfigurations="FlashROM"/>
+        <file path="SRC_BLE_DIR/inc/gapgattserver.h" openOnCreation="" excludeFromBuild="false" action="link" targetDirectory="Include" createVirtualFolders="true" applicableConfigurations="FlashROM"/>
+        <file path="SRC_BLE_DIR/inc/gatt.h" openOnCreation="" excludeFromBuild="false" action="link" targetDirectory="Include" createVirtualFolders="true" applicableConfigurations="FlashROM"/>
+        <file path="SRC_BLE_DIR/inc/hci.h" openOnCreation="" excludeFromBuild="false" action="link" targetDirectory="Include" createVirtualFolders="true" applicableConfigurations="FlashROM"/>
+        <file path="SRC_BLE_DIR/osal/src/inc/osal_snv.h" openOnCreation="" excludeFromBuild="false" action="link" targetDirectory="Include" createVirtualFolders="true" applicableConfigurations="FlashROM"/>
+
+        <!-- PROFILES Folder -->
+        <file path="SRC_BLE_DIR/profiles/dev_info/cc26xx/devinfoservice.c" openOnCreation="" excludeFromBuild="false" action="link" targetDirectory="PROFILES" createVirtualFolders="true" applicableConfigurations="FlashROM"/>
+        <file path="SRC_BLE_DIR/profiles/dev_info/devinfoservice.h" openOnCreation="" excludeFromBuild="false" action="link" targetDirectory="PROFILES" createVirtualFolders="true" applicableConfigurations="FlashROM"/>
+        <file path="SRC_BLE_DIR/inc/gatt_profile_uuid.h" openOnCreation="" excludeFromBuild="false" action="copy" targetDirectory="PROFILES" createVirtualFolders="true" applicableConfigurations="FlashROM"/>
+        <file path="SRC_BLE_DIR/host/gatt_uuid.c" openOnCreation="" excludeFromBuild="false" action="copy" targetDirectory="PROFILES" createVirtualFolders="true" applicableConfigurations="FlashROM"/>
+        <file path="SRC_BLE_DIR/inc/gatt_uuid.h" openOnCreation="" excludeFromBuild="false" action="copy" targetDirectory="PROFILES" createVirtualFolders="true" applicableConfigurations="FlashROM"/>
+        <file path="SRC_BLE_DIR/host/gattservapp_util.c" openOnCreation="" excludeFromBuild="false" action="copy" targetDirectory="PROFILES" createVirtualFolders="true" applicableConfigurations="FlashROM"/>
+        <file path="SRC_BLE_DIR/profiles/roles/cc26xx/peripheral.c" openOnCreation="" excludeFromBuild="false" action="copy" targetDirectory="PROFILES" createVirtualFolders="true" applicableConfigurations="FlashROM"/>
+        <file path="SRC_BLE_DIR/profiles/roles/cc26xx/peripheral.h" openOnCreation="" excludeFromBuild="false" action="copy" targetDirectory="PROFILES" createVirtualFolders="true" applicableConfigurations="FlashROM"/>
+        <file path="SRC_BLE_DIR/profiles/simple_profile/cc26xx/simple_gatt_profile.c" openOnCreation="" excludeFromBuild="false" action="copy" targetDirectory="PROFILES" createVirtualFolders="true" applicableConfigurations="FlashROM"/>
+        <file path="SRC_BLE_DIR/profiles/simple_profile/simple_gatt_profile.h" openOnCreation="" excludeFromBuild="false" action="copy" targetDirectory="PROFILES" createVirtualFolders="true" applicableConfigurations="FlashROM"/>
+
+        <!-- OAD Folder -->
+        <file path="SRC_BLE_DIR/profiles/oad/cc26xx/oad.c" openOnCreation="" excludeFromBuild="false" action="copy" targetDirectory="OAD" createVirtualFolders="true" applicableConfigurations="FlashROM"/>
+        <file path="SRC_BLE_DIR/profiles/oad/cc26xx/oad.h" openOnCreation="" excludeFromBuild="false" action="copy" targetDirectory="OAD" createVirtualFolders="true" applicableConfigurations="FlashROM"/>
+        <file path="SRC_BLE_DIR/profiles/oad/cc26xx/oad_image_header_app.c" openOnCreation="" excludeFromBuild="false" action="copy" targetDirectory="OAD" createVirtualFolders="true" applicableConfigurations="FlashROM"/>
+        <file path="SRC_BLE_DIR/profiles/oad/cc26xx/oad_image_header.h" openOnCreation="" excludeFromBuild="false" action="copy" targetDirectory="OAD" createVirtualFolders="true" applicableConfigurations="FlashROM"/>
+        <file path="SRC_BLE_DIR/common/cc26xx/crc/crc32.h" openOnCreation="" excludeFromBuild="false" action="copy" targetDirectory="OAD" createVirtualFolders="true" applicableConfigurations="FlashROM"/>
+        <file path="SRC_BLE_DIR/common/cc26xx/crc/crc32.c" openOnCreation="" excludeFromBuild="false" action="copy" targetDirectory="OAD" createVirtualFolders="true" applicableConfigurations="FlashROM"/>
+        <file path="SRC_BLE_DIR/common/cc26xx/flash_interface/flash_interface.h" openOnCreation="" excludeFromBuild="false" action="copy" targetDirectory="OAD" createVirtualFolders="true" applicableConfigurations="FlashROM"/>
+        <file path="SRC_BLE_DIR/common/cc26xx/flash_interface/external/flash_interface_ext_rtos.c" openOnCreation="" excludeFromBuild="false" action="copy" targetDirectory="OAD" createVirtualFolders="true" applicableConfigurations="FlashROM"/>
+
+        <!-- Startup Folder -->
+        <file path="SRC_BLE_DIR/target/board.c" openOnCreation="" excludeFromBuild="false" action="link" targetDirectory="Startup" createVirtualFolders="true" applicableConfigurations="FlashROM"/>
+        <file path="EXAMPLE_BLE_ROOT/src/app/main.c" openOnCreation="" excludeFromBuild="false" action="copy" targetDirectory="Startup" createVirtualFolders="true" applicableConfigurations="FlashROM"/>
+        <file path="SRC_BLE_DIR/profiles/oad/cc26xx/find_stack_entry.h" openOnCreation="" excludeFromBuild="false" action="copy" targetDirectory="Startup" createVirtualFolders="true" applicableConfigurations="FlashROM"/>
+        <file path="SRC_BLE_DIR/profiles/oad/cc26xx/find_stack_entry.c" openOnCreation="" excludeFromBuild="false" action="copy" targetDirectory="Startup" createVirtualFolders="true" applicableConfigurations="FlashROM"/>
+
+        <!-- TOOLS Folder -->
+        <file path="EXAMPLE_BLE_ROOT/tirtos/app_ble.cfg" openOnCreation="" excludeFromBuild="false" action="copy" targetDirectory="TOOLS" createVirtualFolders="true" applicableConfigurations="FlashROM"/>
+        <file path="SRC_BLE_DIR/common/cc26xx/ccs/cc26xx_app_oad.cmd" openOnCreation="" excludeFromBuild="true" action="link" targetDirectory="TOOLS" createVirtualFolders="true" applicableConfigurations="FlashROM"/>
+    </project>
+</projectSpec>

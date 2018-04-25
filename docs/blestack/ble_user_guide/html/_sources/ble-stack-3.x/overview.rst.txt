@@ -1,0 +1,120 @@
+.. _TI Vendor Specific HCI Guide: ..\/..\/..\/TI_BLE_Vendor_Specific_HCI_Guide.pdf
+
+.. _sec-ble-stack-overview:
+
+Overview
+========
+
+This section describes the functionality of the Bluetooth low energy protocol
+stack and provides a list of APIs to interface with the protocol stack. The
+stack project and its associated files serve to implement the Bluetooth low
+energy protocol stack task. This is the highest priority task in the system
+and it implements the Bluetooth low energy protocol stack as shown in
+:numref:`stack_architecture`
+
+Most of the Bluetooth low energy protocol stack is object code in a single
+library file (TI does not provide the protocol stack source code as a matter
+of policy). A developer must understand the functionality of the various
+protocol stack layers and how they interact with the application and profiles.
+This section explains these layers.
+
+Introduction
+------------
+
+|CORESPEC| allows for two systems of wireless
+technology: Basic Rate (BR: BR/EDR for Basic Rate/Enhanced Data Rate) and
+Bluetooth low energy. The Bluetooth low energy system was created to transmit
+small packets of data, while consuming significantly less power than BR/EDR
+devices.
+
+The TI BLE Protocol stack supports the following |CORESPEC| features:
+
+-  LE Secure Connections
+
+-  LE Data Length extension
+
+-  LE Privacy 1.2
+
+-  LE L2CAP Connection-Oriented Channel Support
+
+-  LE Link Layer Topology
+
+-  LE Ping
+
+-  Slave Feature Exchange
+
+-  Connection Parameter Request
+
+Optional features can be selectively enabled at build time. See :ref:`optimizing-ble-memory-usage`.
+
+Bluetooth low energy Protocol Stack Basics
+------------------------------------------
+
+.. _stack_architecture:
+
+.. figure:: resources/image4.jpeg
+    :align: center
+
+    Bluetooth low energy Protocol Stack.
+
+:numref:`stack_architecture` shows the Bluetooth low energy protocol stack architecture.
+
+The Bluetooth low energy protocol stack (or protocol stack) consists
+of the controller and the host. This separation of controller and
+host derives from the implementation of classic Bluetooth BR/EDR
+devices, where the two sections are implemented separately. Any
+profiles and applications sit on top of the GAP and GATT layers of
+the protocol stack.
+
+The physical layer (PHY) is a 1-Mbps adaptive frequency-hopping GFSK
+(Gaussian frequency-shift keying) radio operating in the unlicensed
+2.4-GHz ISM (industrial, scientific, and medical) band.
+
+The :ref:`gap` controls the RF state of the device, with the device in one of
+five states:
+
+-  Standby
+
+-  Advertising
+
+-  Scanning
+
+-  Initiating
+
+-  Connected
+
+Advertisers transmit data without connecting, while scanners scan
+for advertisers. An initiator is a device that responds to an
+advertiser with a request to connect. If the advertiser accepts the
+connection request, both the advertiser and initiator enter a
+connected state. When a device is connected, it connects as either
+master or slave. The device initiating the connection becomes the
+master and the device accepting the request becomes the slave.
+
+See the :ref:`ble_api_reference` for HCI layer API. The HCI layer
+provides communication between the host and controller through a standardized
+interface. This layer can be implemented either through a software API or by a
+hardware interface such as UART, SPI, or USB (See :ref:`sec-using-production-test-mode`
+for example).
+The |CORESPEC| describes Standard HCI commands and events.
+TI's proprietary commands and events are specified in the
+`TI Vendor Specific HCI Guide`_.
+
+The :ref:`sec-l2cap` layer provides data encapsulation services to the upper
+layers, allowing for logical end-to-end communication of data.
+
+The Security Manager layer defines the methods for pairing and
+key distribution, and provides functions for the other layers of
+the protocol stack to securely connect and exchange data with another device.
+
+The :ref:`gap` layer directly interfaces with the
+application and/or profiles, to handle device discovery and
+connection-related services for the device. GAP handles the
+initiation of security features.
+
+The ATT layer allows a device to expose certain pieces of data
+or *attributes*, to another device. The :ref:`gatt` layer is a service
+framework that defines the sub-procedures for using ATT. Data
+communications that occur between two devices in a Bluetooth low energy
+connection are handled through GATT sub-procedures. The application
+and/or profiles will directly use GATT.

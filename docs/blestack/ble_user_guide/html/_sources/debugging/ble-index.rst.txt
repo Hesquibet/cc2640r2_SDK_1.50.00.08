@@ -1,0 +1,22 @@
+.. _sec-debugging:
+
+*********
+Debugging
+*********
+
+.. rubric:: Table of contents
+
+.. toctree::
+    :maxdepth: 2
+
+    external_resources
+    debug_interfaces
+    breakpoints
+    watches
+    rtos_object_view
+    memory_browser
+    ble-common_heap
+    optimizations
+    cpu_exceptions
+    ble-memory_problems
+    ble-debugging

@@ -1,0 +1,4 @@
+<map id="ChipInfo_GetChipType" name="ChipInfo_GetChipType">
+<area shape="rect" id="node2" href="$group___chip_info.html#gaca76b9c316d9123a5b337fa715811ccc" title="Returns chip family member. " alt="" coords="203,5,364,32"/>
+<area shape="rect" id="node3" href="$group___chip_info.html#gacfee7f11b6d733795e07796903fd065a" title="Returns the 32 bits USER_ID field. " alt="" coords="217,56,350,83"/>
+</map>

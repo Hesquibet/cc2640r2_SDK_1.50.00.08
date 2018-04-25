@@ -1,0 +1,1079 @@
+.. _Util: ..\/..\/doxygen\/group___util.html
+.. _TI-RTOS Kernel User Guide: ..\/..\/..\/..\/tirtos\/sysbios\/docs\/Bios_User_Guide.pdf
+
+.. _sec-tirtos-overview:
+
+TI-RTOS Overview
+================
+TI-RTOS is the operating environment for Bluetooth low energy projects on
+|DEVICE| devices. The TI-RTOS kernel is a tailored version of the legacy
+SYS/BIOS kernel and operates as a real-time, preemptive, multi-threaded
+operating system with drivers, tools for synchronization and scheduling.
+
+Threading Modules
+-----------------
+The TI-RTOS kernel manages four distinct context levels of thread execution as
+shown in :numref:`tirtos_threads` The list of thread modules are shown below in
+a descending order in terms of priority.
+
+    *   A :term:`Hwi` or Hardware interrupt.
+    *   A :term:`Swi` or Software interrupt.
+    *   Tasks
+    *   The :term:`Idle Task` for background idle functions.
+
+.. _tirtos_threads:
+.. figure:: resources/image45.jpeg
+    :align: center
+
+    TI-RTOS Execution Threads
+
+This section describes these four execution threads and various structures used
+throughout the TI-RTOS for messaging and synchronization. In most cases, the
+underlying TI-RTOS functions have been abstracted to higher-level functions in
+util.c (`Util`_). The lower-level TI-RTOS functions are described in the
+TI-RTOS Kernel API Guide found here `TI-RTOS Kernel User Guide`_. This document
+also defines the packages and modules included with the TI-RTOS.
+
+Hardware Interrupts (Hwi)
+^^^^^^^^^^^^^^^^^^^^^^^^^
+Hwi threads (also called Interrupt Service Routines or ISRs) are the threads
+with the highest priority in a TI-RTOS application. Hwi threads are used to
+perform time critical tasks that are subject to hard deadlines. They are
+triggered in response to external asynchronous events (interrupts) that occur in
+the real-time environment. Hwi threads always run to completion but can be
+preempted temporarily by Hwi threads triggered by other interrupts, if enabled.
+Specific information on the nesting, vectoring, and functionality of interrupts
+can be found in the |TRM|.
+
+Generally, interrupt service routines are kept short as not to affect the
+hard real-time system requirements. Also, as Hwis must run to completion, no
+blocking APIs may be called from within this context.
+
+TI-RTOS drivers that require interrupts will initialize the required interrupts
+for the assigned peripheral. See :ref:`tirtos-drivers` for more information.
+
+.. note::
+
+    :ref:`sec-debugging` provides an example of using GPIOs and Hwis.
+    While the SDK includes a peripheral driver library to abstract hardware
+    register access, it is suggested to use the thread-safe TI-RTOS drivers as
+    described in :ref:`tirtos-drivers`.
+
+The Hwi module for the |DEVICE| also supports :term:`Zero-latency interrupts`.
+These interrupts do not go through the TI-RTOS Hwi dispatcher and therefore are
+more responsive than standard interrupts, however this feature prohibits its
+interrupt service routine from invoking any TI-RTOS kernel APIs directly. It
+is up to the ISR to preserve its own context to prevent it from interfering with
+the kernel's scheduler.
+
+.. only:: sdk_includes_ble
+
+    For the Bluetooth low energy protocol stack to meet RF time-critical
+    requirements, all application-defined Hwis execute at the lowest priority.
+    TI does not recommend modifying the default Hwi priority when adding new
+    Hwis to the system. No application-defined critical sections should exist to
+    prevent breaking TI-RTOS or time-critical sections of the Bluetooth low
+    energy protocol stack. Code executing in a critical section prevents
+    processing of real-time interrupt-related events.
+
+Software Interrupts (Swi)
+^^^^^^^^^^^^^^^^^^^^^^^^^
+Patterned after hardware interrupts (:term:`Hwi`), software interrupt threads
+provide additional priority levels between Hwi threads and Task threads. Unlike
+Hwis, which are triggered by hardware interrupts, Swis are triggered
+programmatically by calling certain Swi module APIs. Swis handle threads subject
+to time constraints that preclude them from being run as tasks, but whose
+deadlines are not as severe as those of hardware ISRs. Like Hwis, Swi threads
+always run to completion. Swis allow Hwis to defer less critical processing to a
+lower-priority thread, minimizing the time the CPU spends inside an interrupt
+service routine, where other Hwis can be disabled. Swis require only enough
+space to save the context for each Swi interrupt priority level, while Tasks use
+a separate stack for each thread.
+
+Similar with Hwis, Swis should be kept to short and may not include any blocking
+API calls. This allows high priority tasks such as the wireless protocol
+stack to execute as needed. It is suggested to ``_post()`` some TI-RTOS
+synchronization primitive to allow for further post processing from within a
+Task context. See :numref:`fig-preemption-scenario` to illustrate such a
+use-case.
+
+.. _fig-preemption-scenario:
+.. figure:: resources/image56.jpeg
+    :align: center
+
+    Preemption Scenario
+
+The commonly used Clock module operates from within a Swi context. It is
+important that functions called by a Clock object do not invoke blocking APIs
+and are rather short in execution.
+
+Task
+^^^^
+Task threads have higher priority than the background (Idle) thread and lower
+priority than software interrupts. Tasks differ from software interrupts in that
+they can wait (block) during execution until necessary resources are available.
+Tasks require a separate stack for each thread. TI-RTOS provides a number of
+mechanisms that can be used for inter-task communication and synchronization.
+These include Semaphores, Event, Message queues, and Mailboxes.
+
+See :ref:`sec-rtos-overview-tasks` for more details.
+
+Idle Task
+^^^^^^^^^
+Idle threads execute at the lowest priority in a TI-RTOS application and are
+executed one after another in a continuous loop (the Idle Loop). After main
+returns, a TI-RTOS application calls the startup routine for each TI-RTOS module
+and then falls into the Idle Loop. Each thread must wait for all others to
+finish executing before it is called again. The Idle Loop runs continuously
+except when it is preempted by higher-priority threads. Only functions that do
+not have hard deadlines should be executed in the Idle Loop.
+
+For |DEVICE| devices, the Idle Task allows the Power Policy Manager to enter
+the lowest allowable power savings.
+
+Kernel Configuration
+--------------------
+A TI-RTOS application configures the TI-RTOS kernel using a configuration
+(``.cfg`` file) that is found within the project. In :term:`IAR` and :term:`CCS`
+projects, this file is found in the application project workspace under the
+``TOOLS`` folder.
+
+The configuration is accomplished by selectively including or *using*
+:term:`RTSC` modules available to the kernel. To *use* a module, the ``.cfg``
+calls ``xdc.useModule()`` after which it can set various options as defined
+in the `TI-RTOS Kernel User Guide`_.
+
+.. only:: sdk_includes_ble
+
+    .. note::
+        Projects in the |BLESTACK| (such as simple\_peripheral) typically will
+        contain an ``app_ble.cfg`` configuration file.
+
+Some of the option that can be configured in the ``.cfg`` file include but are
+not limited to:
+
+    - Boot options
+    - Number of Hwi, Swi, and Task priorities
+    - Exception and Error handling
+    - The duration of a System tick (the most fundamental *unit* of time in the
+      TI-RTOS kernel).
+    - Defining the application's entry point and interrupt vector
+    - TI-RTOS heaps and stacks
+    - Including pre-compiled kernel and TI-RTOS driver libraries
+    - System provides (for ``System_printf()``)
+
+Whenever a change in the ``.cfg`` file is made, you will rerun the XDCTools'
+``configuro`` tool. This step is already handled for you as a pre-build step in
+the provided :term:`IAR` and :term:`CCS` examples.
+
+.. note::
+    The name of the .cfg doesn't really matter. A project should however only
+    include one ``.cfg`` file.
+
+For the |DEVICE|, a TI-RTOS kernel exists in :term:`ROM`.
+Typically for flash footprint savings, the ``.cfg`` will include the kernel's
+:term:`ROM` module as shown in :numref:`rom-listing`
+
+.. _rom-listing:
+.. code-block:: js
+    :caption: How to include the TI-RTOS kernel in ROM
+    :emphasize-lines: 7,9,12
+
+    /* ================ ROM configuration ================ */
+    /*
+     * To use BIOS in flash, comment out the code block below.
+     */
+    if (typeof NO_ROM == 'undefined' || (typeof NO_ROM != 'undefined' && NO_ROM == 0))
+    {
+      var ROM = xdc.useModule('ti.sysbios.rom.ROM');
+      if (Program.cpu.deviceName.match(/CC26/)) {
+          ROM.romName = ROM.CC2640R2F;
+      }
+      else if (Program.cpu.deviceName.match(/CC13/)) {
+          ROM.romName = ROM.CC1350;
+      }
+    }
+
+The TI-RTOS kernel in :term:`ROM` is optimized for performance. If additional
+instrumentation is required in your application (typically for debugging), you
+must include the TI-RTOS kernel in flash which will increase flash memory
+consumption. Shown below is a short list of requirements to use the TI-RTOS
+kernel in :term:`ROM`.
+
+    - ``BIOS.assertsEnabled`` **must** be set to ``false``
+    - ``BIOS.logsEnabled`` **must** be set to ``false``
+    - ``BIOS.taskEnabled`` **must** be set to ``true``
+    - ``BIOS.swiEnabled`` **must** be set to ``true``
+    - ``BIOS.runtimeCreatesEnabled`` **must** be set to ``true``
+    - BIOS **must** use the ``ti.sysbios.gates.GateMutex`` module
+    - ``Clock.tickSource`` **must** be set to ``Clock.TickSource_TIMER``
+    - ``Semaphore.supportsPriority`` **must** be ``false``
+    - Swi, Task, and Hwi hooks are **not** permitted
+    - Swi, Task, and Hwi name instances are **not** permitted
+    - Task stack checking is **disabled**
+    - ``Hwi.disablePriority`` **must** be set to ``0x20``
+    - ``Hwi.dispatcherAutoNestingSupport`` **must** be set to true
+
+For additional documentation in regards to the list described above, see the
+`TI-RTOS Kernel User Guide`_.
+
+.. _create_vs_construct:
+
+Creating vs. Constructing
+-------------------------
+Most TI-RTOS modules commonly have ``_create()`` and ``_construct()`` APIs to
+initialize primitive instances. The main **runtime** differences between the two
+APIs are memory allocation and error handling.
+
+**Create** APIs perform a memory allocation from the default TI-RTOS heap before
+initialization. As a result, the application *must* check the return value for a
+valid handle before continuing.
+
+.. _create-example-listing:
+.. code-block:: c
+    :linenos:
+    :caption: Creating a Semaphore
+    :emphasize-lines: 5, 7
+
+    Semaphore_Handle sem;
+    Semaphore_Params semParams;
+
+    Semaphore_Params_init(&semParams);
+    sem = Semaphore_create(0, &semParams, NULL); /* Memory allocated in here */
+
+    if (sem == NULL) /* Check if the handle is valid */
+    {
+      System_abort("Semaphore could not be created");
+    }
+
+**Construct** APIs are given a data structure with which to store the instance's
+variables. As the memory has been pre-allocated for the instance, error checking
+may not be required after constructing.
+
+.. _construct-example-listing:
+.. code-block:: c
+    :linenos:
+    :caption: Constructing a Semaphore
+    :emphasize-lines: 3, 6
+
+    Semaphore_Handle sem;
+    Semaphore_Params semParams;
+    Semaphore_Struct structSem; /* Memory allocated at build time */
+
+    Semaphore_Params_init(&semParams);
+    Semaphore_construct(&structSem, 0, &semParams);
+
+    /* It's optional to store the handle */
+    sem = Semaphore_handle(&structSem);
+
+Thread Synchronization
+----------------------
+The TI-RTOS kernel provides several modules for synchronizing tasks such as
+Semaphore, Event, and Queue. The following sections discuss these common
+TI-RTOS primitives.
+
+
+Semaphores
+^^^^^^^^^^
+Semaphores are commonly used for task synchronization and mutual exclusions
+throughout TI-RTOS applications. :numref:`fig_semaphore` shows the semaphore
+functionality. Semaphores can be counting semaphores or binary semaphores.
+Counting semaphores keep track of the number of times the semaphore is posted
+with ``Semaphore_post()``. When a group of resources are shared between tasks,
+this function is useful. Such tasks might call ``Semaphore_pend()`` to see if a
+resource is available before using one. Binary semaphores can have only two
+states: available (count = 1) and unavailable (count = 0). Binary semaphores
+can be used to share a single resource between tasks or for a basic-signaling
+mechanism where the semaphore can be posted multiple times. Binary semaphores do
+not keep track of the count; they track only whether the semaphore has been
+posted.
+
+.. _fig_semaphore:
+.. figure:: resources/image47.jpeg
+    :align: center
+
+    Semaphore Functionality
+
+
+Initializing a Semaphore
+""""""""""""""""""""""""
+The following code depicts how a semaphore is initialized in TI-RTOS. Semaphores
+can be *created* and *constructed* as explained in :ref:`create_vs_construct`.
+
+See :numref:`create-example-listing` on how to create a Semaphore.
+
+See :numref:`construct-example-listing` on how to construct a Semaphore.
+
+Pending on a Semaphore
+""""""""""""""""""""""
+``Semaphore_pend()`` is a blocking function call. This call may only be called
+from within a Task context. A task calling this function will allow lower
+priority tasks to execute, if they are ready to run. A task calling
+``Semaphore_pend()`` will block if its counter is 0, otherwise it will decrement
+the counter by one. The task will remain blocked until another thread calls
+``Semaphore_post()`` or if the supplied system tick timeout has occurred;
+whichever comes first. By reading the return value of ``Semaphore_pend()`` it is
+possible to distinguish if a semaphore was posted or if it timed out.
+
+.. _pending-semaphore-listing:
+.. code-block:: c
+    :linenos:
+    :caption: Pending on a Semaphore
+    :emphasize-lines: 5
+
+    bool isSuccessful;
+    uint32_t timeout = 1000 * (1000/Clock_tickPeriod);
+
+    /* Pend (approximately) up to 1 second */
+    isSuccessful = Semaphore_pend(sem, timeoutInTicks);
+
+    if (isSuccessful)
+    {
+        System_printf("Semaphore was posted");
+    }
+    else
+    {
+        System_printf("Semaphore timed out");
+    }
+
+.. note::
+
+    The default TI-RTOS system tick period is 1 millisecond. This default is
+    reconfigured to 10 microseconds for CC26xx and CC13xx devices by setting
+    ``Clock.tickPeriod = 10`` in the ``.cfg`` file.
+
+    Given a system tick of 10 microseconds, ``timeout`` in
+    :numref:`pending-semaphore-listing` will be approximately 1 second.
+
+
+Posting a Semaphore
+"""""""""""""""""""
+Posting a semaphore is accomplished via a call to ``Semaphore_post()``. A task
+that is pending on a posted semaphore will transition from a *blocked* state to
+a *ready* state. If no higher priority thread is *ready* to run, it will allow
+the previously pending task to execute. If no task is pending on the semaphore,
+a call to ``Semaphore_post()`` will increment its counter. Binary semaphores
+have a maximum count of 1.
+
+.. _posting-semaphore-listing:
+.. code-block:: c
+    :linenos:
+    :caption: Posting a Semaphore
+    :emphasize-lines: 1
+
+    Semaphore_post(sem);
+
+.. _sec-rtos-overview-event:
+
+Event
+^^^^^
+Semaphores themselves provide rudimentary synchronization between threads. There
+are cases just the Semaphore itself is enough to understand on what process
+needs to be triggered. Often however, a specific causes for the synchronization
+need to be passed across threads as well. To help accomplish this, one can
+utilize the TI-RTOS **Event** module.
+Events are similar to Semaphores in a sense that each instance of an Event
+object actually contains a Semaphore. The added advantage of using Events lie in
+the fact that tasks can be notified of specific events in a thread-safe manner.
+
+
+Initializing an Event
+"""""""""""""""""""""
+*Creating* and *constructing* Events follow the same guidelines as explained in
+:ref:`create_vs_construct`. Shown in :numref:`event-initialize-listing` is an
+example on how to *construct* an Event instance.
+
+.. _event-initialize-listing:
+.. code-block:: c
+    :linenos:
+    :caption: Constructing an Event
+    :emphasize-lines: 6
+
+    Event_Handle event;
+    Event_Params eventParams;
+    Event_Struct structEvent; /* Memory allocated at build time */
+
+    Event_Params_init(&eventParams);
+    Event_construct(&structEvent, 0, &eventParams);
+
+    /* It's optional to store the handle */
+    event = Event_handle(&structEvent);
+
+Pending on an Event
+"""""""""""""""""""
+Similar to ``Semaphore_pend()``, a Task thread would typically block on an
+``Event_pend()`` until an event is posted via an ``Event_post()`` or if the
+specified timeout expired. Shown in :numref:`pending-event-listing` is a snippet
+of a task pending on *any* of the 3 sample event IDs shown below.
+``BIOS_WAIT_FOREVER`` is used to prevent a timeout from occurring. As a result,
+``Event_pend()`` will have one or more events posted in the returned bit-masked
+value.
+
+Each event returned from ``Event_pend()`` has been automatically cleared within
+the event instance in a thread-safe manner. Therefore, it is only necessary to
+keep a local copy of posted events. For full details on how to use
+``Event_pend()``, see the `TI-RTOS Kernel User Guide`_.
+
+.. _pending-event-listing:
+.. code-block:: c
+    :linenos:
+    :caption: Pending on an Event
+    :emphasize-lines: 8, 13-18
+
+    #define START_ADVERTISING_EVT         Event_Id_00
+    #define START_CONN_UPDATE_EVT         Event_Id_01
+    #define CONN_PARAM_TIMEOUT_EVT        Event_Id_02
+
+    void TaskFxn(..)
+    {
+        /* Local copy of events that have been posted */
+        uint32_t events;
+
+        while(1)
+        {
+            /* Wait for an event to be posted */
+            events = Event_pend(event,
+                                Event_Id_NONE,
+                                START_ADVERTISING_EVT |
+                                START_CONN_UPDATE_EVT |
+                                CONN_PARAM_TIMEOUT_EVT,
+                                BIOS_WAIT_FOREVER);
+
+            if (events & START_ADVERTISING_EVT)
+            {
+                /* Process this event */
+            }
+
+            if (events & START_CONN_UPDATE_EVT)
+            {
+                /* Process this event */
+            }
+
+            if (events & CONN_PARAM_TIMEOUT_EVT)
+            {
+                /* Process this event */
+            }
+        }
+    }
+
+.. note::
+
+    The default TI-RTOS system tick period is 1 millisecond. This default is
+    reconfigured to 10 microseconds for CC26xx and CC13xx devices by setting
+    ``Clock.tickPeriod = 10`` in the ``.cfg`` file.
+
+    Given a system tick of 10 microseconds, ``timeout`` in
+    :numref:`pending-semaphore-listing` will be approximately 1 second.
+
+Posting an Event
+""""""""""""""""
+Events may be posted from any TI-RTOS kernel contexts and is simply done by
+calling ``Event_post()`` of the Event instance and the Event ID.
+:numref:`posting-event-listing` shows how a high priority thread such as a Swi
+could post a specific event.
+
+.. _posting-event-listing:
+.. code-block:: c
+    :linenos:
+    :caption: Posting an Event
+    :emphasize-lines: 7
+
+    #define START_ADVERTISING_EVT         Event_Id_00
+    #define START_CONN_UPDATE_EVT         Event_Id_01
+    #define CONN_PARAM_TIMEOUT_EVT        Event_Id_02
+
+    void SwiFxn(UArg arg)
+    {
+        Event_post(event, START_ADVERTISING_EVT);
+    }
+
+Queues
+^^^^^^
+The TI-RTOS Queue module provides a thread-safe unidirectional message passing
+module operating in a first in, first out (FIFO) basis. Queues are commonly
+used to allow high priority threads to pass messages to lower priority tasks
+for deferred processing; therefore allowing low priority tasks to block until
+necessary to run.
+
+In :numref:`fig-queue-messaging-process` a queue is configured for
+unidirectional communication from task A to task B. Task A "puts" messages into
+the queue and task B "gets" messages from the queue.
+
+.. _fig-queue-messaging-process:
+.. figure:: resources/image51.jpeg
+    :align: center
+
+    Queue Messaging Process
+
+
+.. only:: sdk_includes_ble
+
+    In |BLESTACK|, TI-RTOS Queue functions have been abstracted into functions
+    in ``util.c`` See the Queue module documentation in the
+    `TI-RTOS Kernel User Guide`_ for the underlying functions. The functions in
+    ``util.c`` combine a queue from the Queue module with an event from the
+    Event module to pass messages between threads.
+
+In |DEVICE| software, ICall uses queues and events from their respective
+modules to pass messages between the application and stack tasks.
+An example of this can be seen in ``SimpleBLECentral_enqueueMsg()``. A high
+priority Task, Swi, or Hwi queues a message to the application task. The
+application task will then process this message in its own context when no
+other high priority threads are running.
+
+The ``util`` module contains a set of abstracted TI-RTOS Queue functions as
+shown here:
+
+*   :ble_api:`Util_constructQueue` creates a queue.
+*   :ble_api:`Util_enqueueMsg` puts items into the queue.
+*   :ble_api:`Util_dequeueMsg` gets items from the queue.
+
+
+Functional Example
+""""""""""""""""""
+:numref:`fig-enqueue-message` and :numref:`fig-dequeue-message` illustrate
+how a queue is used to enqueue a button press message from a Hwi (to a Swi in
+the Board Key module) to be post-processed within a task context. This example
+is taken from the from the simple\_central project in |BLESTACK|.
+
+.. _fig-enqueue-message:
+.. uml::
+    :caption: Sequence diagram for enqueuing a message
+    :align: center
+
+    @startuml
+    hide footbox
+
+    box "Swi context"
+        participant "Board Key module" as A
+        participant simple_central.c as B
+        database appMsgQueue as C
+    end box
+
+    -[#red]> A : Key press interrupt
+    <[#red]-- A
+
+    activate A
+
+    autonumber
+    A -> B : SimpleBLECentral_keyChangeHandler();
+    activate B
+
+    note right: Add SBC_KEY_CHANGE_EVT into the queue
+    B -> B : SimpleBLECentral_enqueueMsg();
+    activate B
+    autonumber stop
+    B -> : ICall_malloc();
+    B -> C: Util_enqueueMsg();
+    activate C
+    C --> B:
+    deactivate C
+    B -> : Event_post();
+    deactivate B
+    B --> A
+    deactivate B
+    deactivate A
+
+    @enduml
+
+
+With interrupts enabled, a pin interrupt can occur asynchronously within a
+:term:`Hwi` context. To keep interrupts as short as possible, the work
+associated to the interrupt is deferred to tasks for processing. In the
+simple\_central example found in |BLESTACK|, pin interrupts are abstracted
+via the *Board Key module*. This module notifies registered functions via a
+:term:`Swi` callback. In this case, ``SimpleBLECentral_keyChangeHandler``
+is the registered callback function.
+
+**Step 1** in :numref:`fig-enqueue-message` shows the callback to
+``SimpleBLECentral_keyChangeHandler`` when a key is pressed. This event is
+placed into the application's queue for processing.
+
+.. _board-key-change-handler-listing:
+.. code-block:: c
+    :linenos:
+    :caption: Defining SimpleBLECentral_keyChangeHandler()
+    :emphasize-lines: 3
+
+    void SimpleBLECentral_keyChangeHandler(uint8 keys)
+    {
+      SimpleBLECentral_enqueueMsg(SBC_KEY_CHANGE_EVT, keys, NULL);
+    }
+
+
+**Step 2** in :numref:`fig-enqueue-message` shows how this key press is enqueued
+for simple\_central task. Here, memory is allocated via :ble_api:`ICall_malloc`
+so the message can be added to the queue. Once added, :ble_api:`Util_enqueueMsg`
+will generate a :c:macro:`UTIL_QUEUE_EVENT_ID` event to signal the application
+for processing.
+
+.. code-block:: c
+    :linenos:
+    :caption: Defining SimpleBLECentral_enqueueMsg()
+    :emphasize-lines: 3,13
+
+    static uint8_t SimpleBLECentral_enqueueMsg(uint8_t event, uint8_t state, uint8_t *pData)
+    {
+      sbcEvt_t *pMsg = ICall_malloc(sizeof(sbcEvt_t));
+
+      // Create dynamic pointer to message.
+      if (pMsg)
+      {
+        pMsg->hdr.event = event;
+        pMsg->hdr.state = state;
+        pMsg->pData = pData;
+
+        // Enqueue the message.
+        return Util_enqueueMsg(appMsgQueue, sem, (uint8_t *)pMsg);
+      }
+
+      return FALSE;
+    }
+
+
+.. _fig-dequeue-message:
+.. uml::
+    :caption: Sequence diagram for dequeuing a message
+    :align: center
+
+    @startuml
+    hide footbox
+
+    box "Task context"
+        participant simple_central.c as A
+        database appMsgQueue as B
+    end box
+
+    activate A
+    A -> : Event_pend()
+    note right: Task called Event_pend() and gets blocked
+    deactivate A
+
+    ...
+
+    -> A : Posted event
+    activate A
+    autonumber 3
+    A -> A : while (!Queue_empty())
+    activate A
+    autonumber stop
+    note right: Queue_empty() checks if queue is not empty
+    A -> B
+    activate B
+    A <-- B
+    deactivate B
+
+    autonumber resume
+    A -> B : pMsg = Util_dequeueMsg(appMsgQueue)
+    activate B
+    autonumber stop
+    B --> A
+    deactivate B
+
+    A -> : SipmleBLECentral_proccessAppMsg(pMsg);
+    note right: SipmleBLECentral_proccessAppMsg \n{\n\tcase (SBC_KEY_CHANGE_EVT):\n\t\tSimpleBLECentral_handleKeys()\n};
+    autonumber resume
+    A -> : ICall_free(pMsg)
+
+    autonumber stop
+    note right: Repeat while there are more messages\nin the queue
+    deactivate A
+
+    @enduml
+
+
+**Step 3** in :numref:`fig-dequeue-message`, the simple\_central application is
+unblocked by the posted :c:macro:`UTIL_QUEUE_EVENT_ID` event where it proceeds
+to check if messages have been placed in the queue for processing.
+
+
+.. code-block:: c
+    :linenos:
+    :caption: Processing application messages
+    :emphasize-lines: 2,4,8,11
+
+    // If TI-RTOS queue is not empty, process app message
+    while (!Queue_empty(appMsgQueue))
+    {
+      sbcEvt_t *pMsg = (sbcEvt_t *)Util_dequeueMsg(appMsgQueue);
+      if (pMsg)
+      {
+        // Process message
+        SimpleBLECentral_processAppMsg(pMsg);
+
+        // Free the space from the message
+        ICall_free(pMsg);
+      }
+    }
+
+**Step 4** in :numref:`fig-dequeue-message`, the simple\_central application
+takes the dequeued message and processes it.
+
+.. code-block:: c
+    :linenos:
+    :caption: Processing key interrupt message
+    :emphasize-lines: 6
+
+    static void SimpleBLECentral_processAppMsg(sbcEvt_t *pMsg)
+    {
+      switch (pMsg->hdr.event)
+      {
+        case SBC_KEY_CHANGE_EVT:
+          SimpleBLECentral_handleKeys(0, pMsg->hdr.state);
+          break;
+        //...
+      }
+    }
+
+
+**Step 5** in :numref:`fig-dequeue-message`, the simple\_central application
+can now free the memory allocated in **Step 2**.
+
+.. _sec-rtos-overview-tasks:
+
+Tasks
+-----
+TI-RTOS *Tasks* are equivalent to independent threads that conceptually execute
+functions in parallel within a single C program. In reality, switching the
+processor from one task to another helps achieve concurrency. Each Task is
+always in one of the following modes of execution:
+
+-  **Running**: task is currently running
+-  **Ready**: task is scheduled for execution
+-  **Blocked**: task is suspended from execution
+-  **Terminated**: task is terminated from execution
+-  **Inactive**: task is on inactive list
+
+One (and only one) task is always running, even if it is only the Idle Task (see
+:numref:`tirtos_threads`). The current running task can be blocked from
+execution by calling certain Task module functions, as well as functions
+provided by other modules like Semaphores. The current task can also terminate
+itself. In either case, the processor is switched to the highest priority task
+that is ready to run. See the Task module in the package ti.sysbios.knl section
+of the `TI-RTOS Kernel User Guide`_ for more information on these functions.
+
+Numeric priorities are assigned to tasks, and multiple tasks can have the same
+priority. Tasks are readied to execute by highest to lowest priority level;
+tasks of the same priority are scheduled in order of arrival. The priority of
+the currently running task is never lower than the priority of any ready task.
+The running task is preempted and rescheduled to execute when there is a ready
+task of higher priority.
+
+.. only:: sdk_includes_ble
+
+    In the simple\_peripheral application, the Bluetooth low energy protocol
+    stack task is given the highest priority (5) and the application task is
+    given the lowest priority (1).
+
+
+.. _sec-rtos-overview-initializing-a-task:
+
+Initializing a Task
+^^^^^^^^^^^^^^^^^^^
+When a task is initialized, it has its own runtime stack for storing local
+variables as well as further nesting of function calls. All tasks executing
+within a single program share a common set of global variables, accessed
+according to the standard rules of scope for C functions. This set of memory is
+the context of the task. The following is an example of the application task
+being constructed.
+
+.. _creating-task-listing:
+.. code-block:: c
+    :linenos:
+    :caption: A TI-RTOS task
+    :emphasize-lines: 12-29, 41
+
+    #include <xdc/std.h>
+    #include <ti/sysbios/BIOS.h>
+    #include <ti/sysbios/knl/Task.h>
+
+    /* Task's stack */
+    uint8_t sbcTaskStack[TASK_STACK_SIZE];
+
+    /* Task object (to be constructed) */
+    Task_Struct task0;
+
+    /* Task function */
+    void taskFunction(UArg arg0, UArg arg1)
+    {
+        /* Local variables. Variables here go onto task stack!! */
+
+        /* Run one-time code when task starts */
+
+        while (1) /* Run loop forever (unless terminated) */
+        {
+            /*
+             * Block on a signal or for a duration. Examples:
+             *  ``Sempahore_pend()``
+             *  ``Event_pend()``
+             *  ``Task_sleep()``
+             *
+             * "Process data"
+             */
+        }
+    }
+
+    int main() {
+
+        Task_Params taskParams;
+
+        // Configure task
+        Task_Params_init(&taskParams);
+        taskParams.stack = sbcTaskStack;
+        taskParams.stackSize = TASK_STACK_SIZE;
+        taskParams.priority = TASK_PRIORITY;
+
+        Task_construct(&task0, taskFunction, &taskParams, NULL);
+
+        BIOS_start();
+    }
+
+The task creation is done in the main() function, before the TI-RTOS Kernel's
+scheduler is started by ``BIOS_start()``. The task executes at its assigned
+priority level after the scheduler is started.
+
+TI recommends using an existing application task for application-specific
+processing. When adding an additional task to the application project, the
+priority of the task must be assigned a priority within the TI-RTOS
+priority-level range, defined in the TI-RTOS configuration file (``.cfg``).
+
+.. tip::
+    Reduce the number of Task priority levels to gain additional RAM savings in
+    the TI-RTOS configuration file (``.cfg``)::
+
+        Task.numPriorities = 6;
+
+
+.. only:: sdk_includes_ble
+
+    Do not add a task with a priority equal to or higher than the Bluetooth low
+    energy protocol stack task and related supporting tasks. See :ref:`sec-inc-architecture-standard-project-task-hierarchy`
+    for details on the system task hierarchy.
+
+Ensure the task has a minimum task stack size of 512 bytes of predefined memory.
+At a minimum, each stack must be large enough to handle normal subroutine calls
+and one task preemption context. A task preemption context is the context that
+is saved when one task preempts another as a result of an interrupt thread
+readying a higher priority task. Using the TI-RTOS profiling tools of the IDE,
+the task can be analyzed to determine the peak task stack usage.
+
+.. note::
+    The term *created* describes the instantiation of a task. The actual TI-RTOS
+    method is to construct the task. See :ref:`create_vs_construct` for
+    details on constructing TI-RTOS objects.
+
+
+A Task Function
+^^^^^^^^^^^^^^^
+When a task is initialized, a function pointer to a task function is passed to
+the ``Task_construct`` function. When the task first gets a chance to process,
+this is the function which the TI-RTOS runs. :numref:`creating-task-listing`
+shows the general topology of this Task function.
+
+
+In typical use cases, the task spends most of its time in the blocked state,
+where it calls a ``_pend()`` API such as ``Semaphore_pend()``. Often,
+high priority threads such as Hwis or Swis unblock the task with a ``_post()``
+API such as ``Semaphore_post()``.
+
+
+Clocks
+------
+Clock instances are functions that can be scheduled to run after a certain
+number of system ticks. Clock instances are either one-shot or periodic. These
+instances start immediately upon creation, are configured to start after a
+delay, and can be stopped at any time. All clock instances are executed when
+they expire in the context of a :term:`Swi`. The following example shows the
+minimum resolution is the TI-RTOS clock tick period set in the TI-RTOS
+configuration file (``.cfg``).
+
+.. note::
+    The default TI-RTOS kernel tick period is 1 millisecond. For |DEVICE|
+    devices, this is reconfigured in the TI-RTOS configuration file (``.cfg``)::
+
+        Clock.tickPeriod = 10;
+
+Each system tick, which is derived from the real-time clock :term:`RTC`,
+launches a Clock object that compares the running tick count with the period of
+each clock to determine if the associated function should run. For
+higher-resolution timers, TI recommends using a 16-bit hardware timer channel or
+the sensor controller. See the Clock module in the package ti.sysbios.knl
+section of the `TI-RTOS Kernel User Guide`_ for more information on these
+functions.
+
+You can use the Kernel's Clock APIs directly in your application and in addition
+the ``Util`` module also contains a set of abstracted TI-RTOS Clock functions as
+shown here:
+
+*   :ble_api:`Util_constructClock` creates a Clock object.
+*   :ble_api:`Util_startClock` starts an existing Clock object.
+*   :ble_api:`Util_restartClock` stops, restarts an existing Clock object.
+*   :ble_api:`Util_isActive` checks if a Clock object is running.
+*   :ble_api:`Util_stopClock` stop an existing Clock object.
+*   :ble_api:`Util_rescheduleClock` reconfigure an existing Clock object.
+
+.. _sec-rtos-overview-functional-clock-example:
+
+Functional Example
+^^^^^^^^^^^^^^^^^^
+The following example was taken from the simple\_peripheral project in
+|BLESTACK|.
+
+.. _fig-periodic-clock:
+.. uml::
+    :caption: Triggering Clock objects
+    :align: center
+
+    @startuml
+    hide footbox
+
+    participant simple_perpherial.c as A
+    box "Swi context"
+        participant "Clock Object" as B
+    end box
+
+    activate A
+    group Initialize Clock object
+        autonumber
+        A -> B : Util_clockConstruct()
+        autonumber stop
+        A <-- B
+    end
+
+    ...
+
+    group Start Clock object
+        A -> B : Util_clockStart()
+
+        B --> A
+        note left: Event_pend(event,...)
+
+        deactivate A
+    end
+
+    ...
+
+    group Clock function triggers after expiration
+        autonumber resume
+        rnote over B
+            The Clock object invokes supplied function pointer
+            (e.g. SimpleBLEPeripheral_performPeriodicTask())
+            This function only posts a signal such as an Event
+        end note
+        B -> B : SimpleBLEPeripheral_clockHandler();
+        activate B
+        autonumber stop
+        B -> : Event_post(event, SBP_PERIODIC_EVT);
+        B <--
+        deactivate B
+    end
+
+    group Process period function and restart Clock object
+        -> A : Unblocked due to posted SBP_PERIODIC_EVT.
+        activate A
+        rnote over A
+            Given that an event was posted, we can process the
+            periodic function from a Task context
+            (e.g. SimpleBLEPeripheral_performPeriodicTask())
+        end note
+        autonumber resume
+        A -> A : SimpleBLEPeripheral_performPeriodicTask()
+        activate A
+
+        rnote over A
+            Restart the clock after the periodic process
+        end note
+        deactivate A
+        autonumber stop
+        A -> B : Util_startClock();
+        B --> A
+
+        deactivate A
+        note left: Event_pend(event,...)
+    end
+
+    rnote over A, B
+        The Clock object will trigger after
+        expiration and the cycle will repeat itself.
+    end note
+
+    ...
+
+    @enduml
+
+**Step 1** in :ref:`fig-periodic-clock` constructs the Clock object via
+:ble_api:`Util_constructClock`. After the example entered a connected state, it
+will then start the Clock object via a :ble_api:`Util_startClock`.
+
+.. code-block:: c
+    :caption: Constructing ``periodicClock`` Clock object in simple\_peripheral
+    :emphasize-lines: 2,5-6
+
+    // Clock instances for internal periodic events.
+    static Clock_Struct periodicClock;
+
+    // Create one-shot clocks for internal periodic events.
+    Util_constructClock(&periodicClock, SimpleBLEPeripheral_clockHandler,
+        SBP_PERIODIC_EVT_PERIOD, 0, false, SBP_PERIODIC_EVT);
+
+**Step 2** in :ref:`fig-periodic-clock`, after the Clock object's timer expired,
+it will execute ``SimpleBLEPeripheral_clockHandler()`` within a Swi context. As
+this call cannot be blocked and blocks all Tasks, it is kept short by invoking
+an ``Event_post(SBP_PERIODIC_EVT)`` for post processing in simple\_peripheral.
+
+.. code-block:: c
+    :caption: Defining SimpleBLEPeripheral_clockHandler()
+    :emphasize-lines: 4
+
+    static void SimpleBLEPeripheral_clockHandler(UArg arg)
+    {
+        /* arg is passed in from Clock_construct() */
+        Event_post(events, arg);
+    }
+
+.. attention::
+    Clock functions must not call blocking kernel APIs or TI-RTOS driver APIs!
+    Executing long routines will impact real-time constraints placed in high
+    priority tasks allocated for wireless protocol stacks!
+
+**Step 3** in :ref:`fig-periodic-clock`, the simple\_peripheral task is
+unblocked due the ``Event_post(SBP_PERIODIC_EVT)``, where it proceeds to invoke
+the ``SimpleBLEPeripheral_performPeriodicTask()`` function. Afterwards, to
+restart the periodic execution of this function, it will restart the
+``periodicClock`` Clock object.
+
+.. code-block:: c
+    :caption: Servicing the SBP_PERIODIC_EVT event
+    :emphasize-lines: 4, 6
+
+    if (events & SBP_PERIODIC_EVT)
+    {
+      // Perform periodic application task
+      SimpleBLEPeripheral_performPeriodicTask();
+
+      Util_startClock(&periodicClock);
+    }
+
+.. include:: /tirtos/peripherals-and-drivers.rst
+
+Power Management
+----------------
+
+All power-management functionality is handled by the peripheral
+drivers and the Bluetooth low energy protocol stack. This feature
+can be enabled or disabled by including or excluding the
+POWER\_SAVING preprocessor-defined symbol. When POWER\_SAVING is
+enabled, the device enters and exits sleep as required for Bluetooth
+low energy events, peripheral events, application timers, and so
+forth. When POWER\_SAVING is undefined, the device stays awake. See
+:ref:`sec-developing-with-ccs-accessing-preprocessor-symbols` in CCS or
+:ref:`sec-developing-with-iar-accessing-preprocessor-symbols` in IAR for steps
+to modify preprocessor-defined symbols.
+
+More information on power-management functionality, including the
+API and a sample use case for a custom UART driver, can be found in
+the TI-RTOS Power Management for CC26xx included in the TI-RTOS
+install. These APIs are required only when using a custom driver.
+
+Also see *Measuring Bluetooth Smart Power Consumption* (SWRA478) for
+steps to analyze the system power consumption and battery life.

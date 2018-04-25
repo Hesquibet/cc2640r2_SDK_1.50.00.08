@@ -1,0 +1,21 @@
+[
+   {
+      "packages" : [],
+      "files" : [
+         "+../../../../../../../source/ti/blestack/common/cc26xx/sha2/SHA2CC26XX.h -> Application/SHA2CC26XX.h",
+         "+../../src/ccfg_app_ble.c -> Application/ccfg_app_ble.c",
+         "+../../src/secure_fw.c -> Application/secure_fw.c",
+         "+../../src/secure_fw.h -> Application/secure_fw.h",
+         "+../../src/secure_fw_config.h -> Application/secure_fw_config.h",
+         "+../../src/secure_fw_main.c -> Application/secure_fw_main.c",
+         "+../../src/startup_ccs.c -> Application/startup_ccs.c"
+      ],
+      "name" : "na",
+      "compiler" : {
+         "specified" : "na",
+         "location" : "na",
+         "effective" : "na"
+      },
+      "default" : "na"
+   }
+]

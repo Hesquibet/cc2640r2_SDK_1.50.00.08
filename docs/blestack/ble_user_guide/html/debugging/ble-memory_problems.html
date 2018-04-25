@@ -1,0 +1,360 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Debugging Memory Problems &mdash; BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation" href="../index.html"/>
+        <link rel="up" title="Debugging" href="ble-index.html"/>
+        <link rel="next" title="Debugging a Program Exit" href="ble-debugging.html"/>
+        <link rel="prev" title="Deciphering CPU Exceptions" href="cpu_exceptions.html"/> 
+    <script language="JavaScript">
+        var tiPageName;
+        tiPageName = "sug debugging ble-memory_problems";
+
+        if (location.protocol == "file:"){
+            var ci_analytics_poc_load = true;
+        }
+    </script> 
+
+    <script src="http://www.ti.com/assets/js/headerfooter/analytics.js" type="text/javascript" charset="utf-8">     
+
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../ble-stack-3.x-guide/index.html" class="icon icon-home"> BLE-Stack User's Guide for Bluetooth 4.2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.01.01.00
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../cc2640/disclaimer.html">Disclaimer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/get-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cc2640/platform.html">The CC2640R2F SDK Platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x/index.html">Developing a Bluetooth Low Energy Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../u-stack/index.html">Micro BLE Stack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../oad-ble-stack-3.x/oad.html">Over the Air Download (OAD)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../voice/voice.html">Creating a Voice Enabled Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../secure-fw-3.x/index.html">Secure Firmware (SFW)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensor-controller/sensor-controller.html">Sensor Controller</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="ble-index.html">Debugging</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="external_resources.html">External Resources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="debug_interfaces.html">Debug Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="debug_interfaces.html#configuring-debugger-in-ccs">Configuring Debugger in CCS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="debug_interfaces.html#configuring-debugger-in-iar">Configuring Debugger in IAR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="breakpoints.html">Breakpoints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="breakpoints.html#considerations-on-breakpoints">Considerations on Breakpoints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="watches.html">Watching Variables and Registers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="watches.html#memory-watchpoints">Memory Watchpoints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rtos_object_view.html">TI-RTOS Object Viewer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="memory_browser.html">Using the Memory Browser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ble-common_heap.html">Debugging Common Heap Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="optimizations.html">Optimizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cpu_exceptions.html">Deciphering CPU Exceptions</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Debugging Memory Problems</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#task-and-system-stack-overflow">Task and System Stack Overflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dynamic-allocation-errors">Dynamic Allocation Errors</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#check-system-flash-and-ram-usage-with-map-file">Check System Flash and RAM Usage With Map File</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ble-debugging.html">Debugging a Program Exit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ble-debugging.html#hal-assert-handling">HAL Assert Handling</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/migration.html">Migration Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/api-reference.html">API References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/reference.html">Terms and Definitions</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../ble-stack-3.x-guide/index.html">BLE-Stack User's Guide for Bluetooth 4.2</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../ble-stack-3.x-guide/index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="ble-index.html">Debugging</a> &raquo;</li>
+        
+      <li>Debugging Memory Problems</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="debugging-memory-problems">
+<span id="development-and-debugging-debugging-memory-problems"></span><h1>Debugging Memory Problems<a class="headerlink" href="#debugging-memory-problems" title="Permalink to this headline">¶</a></h1>
+<p>This section describes how to debug a situation where the program
+runs out of memory, either on the heap or on the runtime stack for
+the individual thread contexts. Exceeding array bounds or
+dynamically allocating too little memory for a structure corrupts
+the memory and can cause an exception like INVPC, INVSTATE, IBUSERR
+to appear in the CFSR register.</p>
+<div class="section" id="task-and-system-stack-overflow">
+<h2>Task and System Stack Overflow<a class="headerlink" href="#task-and-system-stack-overflow" title="Permalink to this headline">¶</a></h2>
+<p>If an overflow on the runtime stack of the task or the system stack
+occurs (as found using the ROV plug-in), perform the following steps.</p>
+<ol class="arabic simple">
+<li>Note the current size of the runtime stack of each task.</li>
+<li>Increase by a few 100 bytes as described in
+<a class="reference internal" href="../cc2640/rtos-overview.html#sec-rtos-overview-initializing-a-task"><span class="std std-ref">Initializing a Task</span></a> and
+<a class="reference internal" href="../cc2640/memory_management.html#sec-memory-management-system-stack"><span class="std std-ref">System Stack</span></a></li>
+<li>Reduce the runtime stack sizes so that they are larger than their
+respective stackPeaks to save some memory.</li>
+</ol>
+</div>
+<div class="section" id="dynamic-allocation-errors">
+<span id="development-and-debugging-dynamic-allocation-errors"></span><h2>Dynamic Allocation Errors<a class="headerlink" href="#dynamic-allocation-errors" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference internal" href="ble-common_heap.html#sect-icall-profiling"><span class="std std-ref">Debugging Common Heap Issues</span></a> describes how to use the ICall Heap profiling
+functionality. To check if dynamic allocation errors occurred, do as
+follows:</p>
+<ol class="arabic simple">
+<li>Check whether <code class="docutils literal"><span class="pre">heapmgrMemAlo</span></code> or <code class="docutils literal"><span class="pre">heapmgrMemAlo</span></code> are close to
+<code class="docutils literal"><span class="pre">HEAPMGR_SIZE</span></code></li>
+<li>Check memFail to see if allocation failures have occurred.</li>
+<li>Call the sanity check function.</li>
+</ol>
+<p>If the heap is sane but there are allocation errors, increase
+<code class="docutils literal"><span class="pre">HEAPMGR_SIZE</span></code> and see if the problem persists.</p>
+<p>You can set a breakpoint in heapmgr.h in <code class="docutils literal"><span class="pre">HEAPMGR_MALLOC()</span></code> on the
+line <code class="docutils literal"><span class="pre">hdr</span> <span class="pre">=</span> <span class="pre">NULL;</span></code> to find an allocation that is failing.</p>
+</div>
+</div>
+<div class="section" id="check-system-flash-and-ram-usage-with-map-file">
+<span id="development-and-debugging-check-system-flash-and-ram-usage-with-map-file"></span><h1>Check System Flash and RAM Usage With Map File<a class="headerlink" href="#check-system-flash-and-ram-usage-with-map-file" title="Permalink to this headline">¶</a></h1>
+<p>Both application and stack projects produce a map file which can be
+used to compute the combined flash and RAM system memory usage. Both
+projects have their own memory space and both map files must be
+analyzed to determine the total system memory usage. The map file is
+in the output folder of the respective project in IAR. To compute
+the total memory usage, do as follows.</p>
+<ol class="arabic simple">
+<li>Open the application map file (that is,
+simple_peripheral_cc2650r2lp_app.map).</li>
+</ol>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">At the end of the file, three lines contain a breakdown of
+memory usage for read-only code, read-only data, and read/write
+data.</p>
+</div>
+<ol class="arabic simple" start="2">
+<li>Add the two values for read-only code and read-only data memory.</li>
+</ol>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This sum is the total flash memory usage for the
+application project. The read/write data memory is the total RAM
+usage by the application project.</p>
+</div>
+<ol class="arabic simple" start="3">
+<li>Note these values.</li>
+<li>Open the stack map file.</li>
+<li>Compute the same flash and RAM values for the stack project.</li>
+<li>Add the total flash memory value from the application with the total
+flash usage of the stack to determine the total system flash
+usage.</li>
+<li>Add the total RAM usage from the application with the stack to get
+the total system RAM usage.</li>
+</ol>
+<p>For CCS, the map file of the respective project gives a summary of
+flash and RAM usage. To determine the remaining available memory for
+each project, see <a class="reference internal" href="../cc2640/memory_management.html#flash"><span class="std std-ref">Flash</span></a> and <a class="reference internal" href="../cc2640/memory_management.html#ram"><span class="std std-ref">RAM</span></a>. Due to section placement and
+alignment requirements, some remaining memory may be unavailable. The map file
+memory usage is valid only if the project builds and links successfully.</p>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="ble-debugging.html" class="btn btn-neutral float-right" title="Debugging a Program Exit" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="cpu_exceptions.html" class="btn btn-neutral" title="Deciphering CPU Exceptions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Texas Instruments.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.01.01.00',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

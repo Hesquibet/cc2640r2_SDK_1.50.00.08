@@ -1,0 +1,127 @@
+Breakpoints
+-----------
+
+Both IAR and CCS reserve one of the instruction comparators for stepping etc.
+Five hardware breakpoints are available for debugging. This section
+describes setting breakpoints in IAR and CCS.
+
+Breakpoints in CCS
+^^^^^^^^^^^^^^^^^^
+
+To toggle a breakpoint, do any of the following.
+
+-  Double-click the area to the left of the line number.
+-  Press Ctrl+Shift+B.
+-  Right-click on the line.
+
+
+
+A breakpoint set on line 207 looks like the following.
+
+.. figure:: resources/ccs_breakpoint_ex.png
+    :align: center
+
+    Breakpoint on line 207. Debugger halted at start of main().
+
+For an overview of the active and inactive breakpoints, click on
+View --> Breakpoints.
+
+.. figure:: resources/ccs_breakpoint_list.png
+    :align: center
+
+    List of breakpoints. Right-click to edit options, or de-select to deactivate.
+
+To set a conditional break, do as follows.
+
+1. Right-click the breakpoint in the overview.
+2. Choose Properties.
+
+When debugging, Skip Count and Condition can help skip a number of
+breaks or only break if a variable is a certain value.
+
+.. note::
+   Conditional breaks require a debugger response and may
+   halt the processor long enough to break an active RF connection, or otherwise
+   disrupt timing on the debug target.
+
+Breakpoints in IAR
+^^^^^^^^^^^^^^^^^^
+
+To toggle a breakpoint, do any of the following.
+
+-  Single-click the area to the left of the line number.
+-  Go to the line and press F9 to toggle breakpoint
+-  Right-click on the line and select Toggle Breakpoint (Code).
+
+A breakpoint looks like this:
+
+.. figure:: resources/iar_breakpoint_ex.png
+    :align: center
+
+    Breakpoint on ``PIN_init()``. Debugger halted at start of main().
+
+
+For an overview of the active and inactive breakpoints, click
+View --> Breakpoints.
+
+.. figure:: resources/iar_breakpoint_list.png
+    :align: center
+
+    List of breakpoints. Right-click to edit options, or de-select to deactivate.
+
+To set a conditional break, do as follows.
+
+1. Right-click the breakpoint in the overview.
+
+2. Choose Edit....
+
+When debugging, Skip Count and Condition can help skip a number of
+breaks or only break if a variable is a certain value.
+
+.. note::
+   Conditional breaks require a debugger response and may
+   halt the processor long enough to break an active RF connection, or otherwise
+   disrupt timing on the debug target.
+
+
+Considerations on Breakpoints
+-----------------------------
+
+Breakpoints and Timing
+^^^^^^^^^^^^^^^^^^^^^^
+
+Synchronous RF protocols like the Bluetooth low energy protocol are timing
+sensitive, and breakpoints can easily halt the execution long enough to lose
+network timing and break the link.
+
+To still be able to debug, place breakpoints as close as possible
+to where the relevant debug information can be read or step through
+the relevant code segment to debug.
+
+After you hit a breakpoint and read out the necessary debug information, it is
+recommended that you reset the device and re-establish the connection.
+
+
+Breakpoints and Optimization
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+When compiler optimizations are enabled, toggling a breakpoint on a
+line of C code may not result in the expected behavior. Some
+examples include the following.
+
+Code is removed or not compiled in
+   Toggling a breakpoint in the IDE results in a breakpoint some other
+   unintended place and not on the selected line. Some IDEs disable breakpoints
+   on nonexisting code.
+
+Code block is part of a common subexpression
+   For example, a breakpoint might toggle inside a function called from one other
+   function, but can also break due to a call from another unintended function.
+
+An if clause is represented by a conditional branch in assembly
+   A breakpoint inside an if clause always breaks on the conditional
+   statement, even if not executed.
+
+TI recommends selecting an optimization level as low as possible
+when debugging. See :ref:`sect_debug_optim` for information on modifying
+optimization levels.

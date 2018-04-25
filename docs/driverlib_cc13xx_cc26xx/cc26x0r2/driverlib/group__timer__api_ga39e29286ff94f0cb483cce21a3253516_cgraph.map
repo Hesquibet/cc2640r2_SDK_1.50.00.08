@@ -1,0 +1,6 @@
+<map id="TimerIntUnregister" name="TimerIntUnregister">
+<area shape="rect" id="node2" href="$timer_8c.html#a9778f8983032c11e026cbfade623143f" title="Gets the timer interrupt number. " alt="" coords="180,5,315,32"/>
+<area shape="rect" id="node3" href="$group__interrupt__api.html#ga9af6b00884dc44e92b3d05ff821b5334" title="Disables an interrupt. " alt="" coords="208,56,287,83"/>
+<area shape="rect" id="node4" href="$group__interrupt__api.html#ga5dffc81c27c005f83e9bfc30f775982a" title="Unregisters an interrupt handler in the dynamic vector table. " alt="" coords="200,107,295,133"/>
+<area shape="rect" id="node5" href="$interrupt_8c.html#ac62d95950fb9f007b01e80b27290ee43" title="The default interrupt handler. " alt="" coords="363,107,483,133"/>
+</map>

@@ -1,0 +1,24 @@
+.. _sensor-controller:
+
+Sensor Controller
+=================
+
+The Sensor Controller (:term:`SC`) is an autonomous processor within the
+|DEVICE|.
+
+The Sensor Controller can control peripherals independently of the main CPU. For
+example, the main CPU does not have to wake up to execute an ADC sample or poll
+a digital sensor over SPI. This saves both current and wake-up time that would
+otherwise be wasted. A PC tool lets you configure the Sensor Controller and
+choose which peripherals are controlled and which conditions wake up the main
+CPU. Sensor Controller Studio (:term:`SCS`) is a stand-alone IDE to develop
+and compile microcode for execution on the Sensor Controller. Refer to Sensor
+Controller Studio Help for more details and documentation on the Sensor
+Controller.
+
+#. Install the Sensor Controller Studio. Sensor Controller Studio can be
+   downloaded from the following link:
+   `Sensor Controller Studio <http://www.ti.com/tool/sensor-controller-studio>`_
+
+#. Find documentation in Sensor Controller Studio by pressing **F1** or by going
+   to *Help* -> *Sensor Controller Studio Help*

@@ -1,0 +1,423 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>BLE-Stack 3.01.00 to BLE-Stack 3.01.01 &mdash; BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation" href="../index.html"/>
+        <link rel="up" title="Migration Guides" href="migration.html"/>
+        <link rel="next" title="BLE-Stack 3.00.01 to BLE-Stack 3.01.00" href="blestack3.00.01-to-blestack3.01.00.html"/>
+        <link rel="prev" title="Migration Guides" href="migration.html"/> 
+    <script language="JavaScript">
+        var tiPageName;
+        tiPageName = "sug ble-stack-3.x-guide blestack3.01.00-to-blestack3.01.01";
+
+        if (location.protocol == "file:"){
+            var ci_analytics_poc_load = true;
+        }
+    </script> 
+
+    <script src="http://www.ti.com/assets/js/headerfooter/analytics.js" type="text/javascript" charset="utf-8">     
+
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> BLE-Stack User's Guide for Bluetooth 4.2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.01.01.00
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../cc2640/disclaimer.html">Disclaimer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="get-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cc2640/platform.html">The CC2640R2F SDK Platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x/index.html">Developing a Bluetooth Low Energy Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../u-stack/index.html">Micro BLE Stack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../oad-ble-stack-3.x/oad.html">Over the Air Download (OAD)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../voice/voice.html">Creating a Voice Enabled Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../secure-fw-3.x/index.html">Secure Firmware (SFW)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensor-controller/sensor-controller.html">Sensor Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../debugging/ble-index.html">Debugging</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="migration.html">Migration Guides</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">BLE-Stack 3.01.00 to BLE-Stack 3.01.01</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#ccs-instructions">CCS Instructions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#stack-project-porting">Stack Project Porting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#application-project-porting">Application Project Porting</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#iar-instructions">IAR Instructions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="migration.html#previous-migration-guides">Previous Migration Guides</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api-reference.html">API References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference.html">Terms and Definitions</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">BLE-Stack User's Guide for Bluetooth 4.2</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="migration.html">Migration Guides</a> &raquo;</li>
+        
+      <li>BLE-Stack 3.01.00 to BLE-Stack 3.01.01</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="ble-stack-3-01-00-to-ble-stack-3-01-01">
+<h1>BLE-Stack 3.01.00 to BLE-Stack 3.01.01<a class="headerlink" href="#ble-stack-3-01-00-to-ble-stack-3-01-01" title="Permalink to this headline">¶</a></h1>
+<p>This section will describe a way to migrate a project from BLE-Stack 3.01.00 to
+a BLE-Stack 3.01.01. This approach will be modifying an existing project&#8217;s
+configuration to utilize BLE-Stack 3.01.01 libraries, tools, and code.</p>
+<p>There are no changes in stack API between BLE-Stack 3.01.00 and BLE-Stack 3.01.01.</p>
+<p>For this migration guide, simple_peripheral from BLE-Stack 3.01.00 will be ported
+to BLE-Stack 3.01.01. Utilize the IDE and Tools recommended by BLE-Stack release notes.</p>
+<p>Once project configurations are updated, follow same building procedure
+used prior to the port. It is assumed the latest SDK has already been
+installed, see <a class="reference external" href="http://www.ti.com/tool/SIMPLELINK-CC2640R2-SDK">SimpleLink SDKs</a>.</p>
+<p>For API Descriptions see <a class="reference internal" href="api-reference.html#ble-api-reference"><span class="std std-ref">BLE Stack API Reference</span></a></p>
+<p>See section appropriate to IDE:</p>
+<blockquote>
+<div><ul>
+<li><p class="first"><a class="reference internal" href="#sec-porting-3-1-0-to-3-1-1-ccs"><span class="std std-ref">CCS Instructions</span></a></p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference internal" href="#sec-porting-3-1-0-to-3-1-1-ccs-stack"><span class="std std-ref">Stack Project Porting</span></a></li>
+<li><a class="reference internal" href="#sec-porting-3-1-0-to-3-1-1-ccs-app"><span class="std std-ref">Application Project Porting</span></a></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first"><a class="reference internal" href="#sec-porting-3-1-0-to-3-1-1-iar"><span class="std std-ref">IAR Instructions</span></a></p>
+</li>
+</ul>
+</div></blockquote>
+<div class="section" id="ccs-instructions">
+<span id="sec-porting-3-1-0-to-3-1-1-ccs"></span><h2>CCS Instructions<a class="headerlink" href="#ccs-instructions" title="Permalink to this headline">¶</a></h2>
+<p>in order to update the stack and application project to work
+with the latest SDK release using CCS IDE</p>
+<div class="section" id="stack-project-porting">
+<span id="sec-porting-3-1-0-to-3-1-1-ccs-stack"></span><h3>Stack Project Porting<a class="headerlink" href="#stack-project-porting" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic">
+<li><p class="first">Updating XDC Tools to Version 3.50.3.33</p>
+<blockquote>
+<div><p>Open Project Properties of the stack project for the application being ported</p>
+<ol class="arabic simple">
+<li>Select General from the Navigation Tree</li>
+<li>Select Products Tab</li>
+<li>Select XDCtools version 3.50.3.33_core (Latest)</li>
+<li>Save Changes</li>
+</ol>
+<div class="figure align-center" id="id2">
+<span id="fig-updating-xdctools"></span><img alt="../_images/3.1.0-to-3.1.1-porting-guide-updating-xdctools.png" src="../_images/3.1.0-to-3.1.1-porting-guide-updating-xdctools.png" />
+<p class="caption"><span class="caption-number">Figure 127. </span><span class="caption-text">CCS Updating XDC Tools Visual Instructions</span></p>
+</div>
+<p>This will update the <code class="docutils literal"><span class="pre">XDC_CG_ROOT</span></code> path variable to utilize the latest
+version of XDCtools.</p>
+</div></blockquote>
+</li>
+<li><p class="first">Select BLE-Stack 3.01.01</p>
+<blockquote>
+<div><p>Open Project Properties of the stack project for the application being ported</p>
+<ol class="arabic simple">
+<li>Select General from the Navigation Tree</li>
+<li>Select Products Tab</li>
+<li>Select SimpleLink CC2640R2 SDK version containing BLE-Stack 3.01.01</li>
+<li>Save Changes</li>
+</ol>
+<div class="figure align-center" id="id3">
+<span id="fig-updating-ble-stack"></span><img alt="../_images/3.1.0-to-3.1.1-porting-guide-updating-ble-stack.png" src="../_images/3.1.0-to-3.1.1-porting-guide-updating-ble-stack.png" />
+<p class="caption"><span class="caption-number">Figure 128. </span><span class="caption-text">CCS Updating BLE-Stack Visual Instructions</span></p>
+</div>
+<p>This will update the <code class="docutils literal"><span class="pre">COM_TI_SIMPLELINK_CC2640R2_SDK_INSTALL_DIR</span></code> path
+variable to utilize the SDK containing BLE-Stack 3.01.01.</p>
+<p>The path variables <code class="docutils literal"><span class="pre">SRC_BLE_DIR</span></code> and <code class="docutils literal"><span class="pre">TOOLS_BLE_DIR</span></code> will automatically
+be updated to point to the BLE-Stack 3.01.01 version of tools and code.</p>
+</div></blockquote>
+</li>
+</ol>
+<p>At this point all the Path Variables shown in the Linked Resources of the
+Project Properties window will reflect the updated information.</p>
+<div class="figure align-center" id="id4">
+<span id="fig-checking-path-variables"></span><img alt="../_images/3.1.0-to-3.1.1-porting-guide-checking-path-variables.png" src="../_images/3.1.0-to-3.1.1-porting-guide-checking-path-variables.png" />
+<p class="caption"><span class="caption-number">Figure 129. </span><span class="caption-text">CCS Checking Path Variables Modified</span></p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">In this particular example, the path variable <code class="docutils literal"><span class="pre">EXAMPLE_BLE_ROOT</span></code>
+will still point to the previous SDK. The variable represents the path
+of the code being ported.</p>
+</div>
+</div>
+<div class="section" id="application-project-porting">
+<span id="sec-porting-3-1-0-to-3-1-1-ccs-app"></span><h3>Application Project Porting<a class="headerlink" href="#application-project-porting" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic">
+<li><p class="first">Updating XDC Tools to Version 3.50.3.33 and BLE-Stack to 3.01.01</p>
+<blockquote>
+<div><p>Open Project Properties of the application project for the application being ported</p>
+<ol class="arabic simple">
+<li>Select General from the Navigation Tree</li>
+<li>Select Products Tab</li>
+<li>Select XDCtools version 3.50.3.33_core (Latest)</li>
+<li>Select SimpleLink CC2640R2 SDK version containing BLE-Stack 3.01.01</li>
+<li>Save Changes</li>
+</ol>
+<div class="figure align-center" id="fig-checking-updating-app-stack-xdc">
+<img alt="../_images/3.1.0-to-3.1.1-porting-guide-application-updating-stack-xdc.png" src="../_images/3.1.0-to-3.1.1-porting-guide-application-updating-stack-xdc.png" />
+</div>
+<p>This will update the <code class="docutils literal"><span class="pre">XDC_CG_ROOT</span></code> path variable to utilize the latest
+version of XDCtools.</p>
+<p>This will update the <code class="docutils literal"><span class="pre">COM_TI_SIMPLELINK_CC2640R2_SDK_INSTALL_DIR</span></code> path
+variable to utilize the SDK containing BLE-Stack 3.01.01.</p>
+</div></blockquote>
+</li>
+</ol>
+<p>At this point all the Path Variables shown in the Linked Resources of the
+Project Properties window will reflect the updated information. See
+<a class="reference internal" href="#fig-checking-path-variables"><span class="std std-ref">CCS Checking Path Variables Modified</span></a>.</p>
+</div>
+</div>
+<div class="section" id="iar-instructions">
+<span id="sec-porting-3-1-0-to-3-1-1-iar"></span><h2>IAR Instructions<a class="headerlink" href="#iar-instructions" title="Permalink to this headline">¶</a></h2>
+<p>Since both the application and stack project utilize a common custom
+argument variable file, only this file needs to be configured to
+point to the correct stack and tools.</p>
+<ol class="arabic">
+<li><p class="first">Modifying Custom Argument Variables for BLE-Stack 3.01.01 and XDCtools 3.50.3.33_core</p>
+<blockquote>
+<div><ol class="arabic">
+<li><p class="first">Click Tools from the Toolbar</p>
+</li>
+<li><p class="first">Select Configure Custom Argument Variable item</p>
+<blockquote>
+<div><div class="figure align-center" id="fig-iar-selecting-custom-arg-vars">
+<img alt="../_images/3.1.0-to-3.1.1-porting-guide-selecting-custom-args-menu.png" src="../_images/3.1.0-to-3.1.1-porting-guide-selecting-custom-args-menu.png" />
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">Expand the <code class="docutils literal"><span class="pre">SIMPLELINK_CC2640R2_SRC_SDK</span></code> Heading</p>
+</li>
+<li><p class="first">Modify <code class="docutils literal"><span class="pre">SIMPLELINK_CORE_SDK_INSTALL_DIR</span></code> to path of SDK containing BLE-Stack 3.01.01</p>
+</li>
+<li><p class="first">Modify <code class="docutils literal"><span class="pre">XDCROOT</span></code> to path of XDCtools 3.50.3.33_core</p>
+</li>
+<li><p class="first">Save Changes</p>
+<blockquote>
+<div><div class="figure align-center" id="fig-iar-custom-arg-vars">
+<img alt="../_images/3.1.0-to-3.1.1-porting-guide-iar-custom-arg-vars.png" src="../_images/3.1.0-to-3.1.1-porting-guide-iar-custom-arg-vars.png" />
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">Re-launch IAR Embedded Workbench</p>
+<blockquote>
+<div><p>This will refresh all file references to use BLE-Stack 3.01.01 and
+XDCtools 3.50.3.33_core.</p>
+</div></blockquote>
+</li>
+</ol>
+</div></blockquote>
+</li>
+</ol>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="blestack3.00.01-to-blestack3.01.00.html" class="btn btn-neutral float-right" title="BLE-Stack 3.00.01 to BLE-Stack 3.01.00" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="migration.html" class="btn btn-neutral" title="Migration Guides" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Texas Instruments.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.01.01.00',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

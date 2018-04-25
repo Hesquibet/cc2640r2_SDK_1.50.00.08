@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<projectSpec>
+    <project
+        name="bim_oad_onchip_cc2640r2lp_app"
+        device="CC2640R2F"
+        cgtVersion="16.9"
+        connection="common/targetdb/connections/TIXDS110_Connection.xml"
+        toolChain="TI"
+        linkerCommandFile="cc26xx_bim_r2.cmd"
+        preBuildStep=""
+        postBuildStep="${CG_TOOL_HEX} -order MS --memwidth=8 --romwidth=8 --intel -o ${ProjName}.hex ${ProjName}"
+        description=""
+        launchWizard="false"
+    >
+
+        <!-- Project properties -->
+        <property name="products" value="com.ti.rtsc.XDCtools:3.50.03.33"/>
+        <property name="xdcToolsVersion" value="3.50.03.33"/>
+        <property name="target" value="ti.targets.arm.elf.M3"/>
+        <property name="platform" value="ti.platforms.simplelink:CC2640R2F"/>
+        <property name="buildProfile" value="release"/>
+        <property name="isHybrid" value="true"/>
+        <property name="configuroOptions" value="--compileOptions ${COMPILER_FLAGS}"/>
+
+        <configuration
+            name="FlashOnly"
+            compilerBuildOptions="
+            -mv7M3 --code_state=16 --abi=eabi -me -O4 --opt_for_speed=0 -g --c99 --gcc --gen_func_subsections=on --display_error_number --diag_warning=255 --diag_wrap=off
+            -DxNO_COPY
+            -DBOOT_LOADER
+            -DFEATURE_FIXED_IMAGE
+            -DFEATURE_OAD
+            -DOAD_ONCHIP
+            -I${XDC_INCLUDE_PATH}
+            -I${PROJECT_LOC}/Application
+            -I${CG_TOOL_ROOT}/include
+            -I${SRC_BLE_DIR}/common/cc26xx
+            -I${SRC_BLE_DIR}/common/cc26xx/crc
+            -I${SRC_BLE_DIR}/common/cc26xx/flash_interface
+            -I${SRC_BLE_DIR}/common/cc26xx/board_support_pkg/CC2640R2_LAUNCHXL/
+            -I${SRC_BLE_DIR}/common/cc26xx/bim/
+            -I${SRC_BLE_DIR}/profiles/oad/cc26xx
+            -I${SRC_BLE_DIR}/target
+            -I${SRC_BLE_DIR}/hal/src/target/_common
+            -I${SRC_BLE_DIR}/hal/src/target/_common/cc26xx
+            -I${SRC_BLE_DIR}/hal/src/inc
+            -I${SRC_BLE_DIR}/../../../source/ti/devices/cc26x0r2"
+            linkerBuildOptions="
+            -l${SRC_BLE_DIR}/../../../source/ti/devices/cc26x0r2/driverlib/bin/ccs/driverlib.lib
+            -x
+            --define=CC26X0ROM=2
+            --diag_suppress=16002-D
+            --diag_suppress=10247-D
+            --diag_suppress=10325-D
+            --diag_suppress=10229-D"
+        />
+
+        <pathVariable name="EXAMPLE_BLE_ROOT" path="../.." scope="project"/>
+        <pathVariable name="SRC_BLE_DIR" path="../../../../../../../source/ti/blestack" scope="project"/>
+        <pathVariable name="TOOLS_BLE_DIR" path="${SRC_BLE_DIR}/../../../tools/blestack" scope="project"/>
+
+        <!-- Application Folder -->
+        <file path="EXAMPLE_BLE_ROOT/src/bim_onchip/bim_main.c" openOnCreation="" excludeFromBuild="false" action="copy" targetDirectory="Application" createVirtualFolders="true" applicableConfigurations="FlashOnly"/>
+        <file path="EXAMPLE_BLE_ROOT/src/bim_onchip/bim_onchip.c" openOnCreation="" excludeFromBuild="false" action="copy" targetDirectory="Application" createVirtualFolders="true" applicableConfigurations="FlashOnly"/>
+        <file path="EXAMPLE_BLE_ROOT/src/bim_onchip/bim_onchip.h" openOnCreation="" excludeFromBuild="false" action="copy" targetDirectory="Application" createVirtualFolders="true" applicableConfigurations="FlashOnly"/>
+        <file path="SRC_BLE_DIR/common/cc26xx/bim/bim_util.c" openOnCreation="" excludeFromBuild="false" action="copy" targetDirectory="Application" createVirtualFolders="true" applicableConfigurations="FlashOnly"/>
+        <file path="SRC_BLE_DIR/common/cc26xx/bim/bim_util.h" openOnCreation="" excludeFromBuild="false" action="copy" targetDirectory="Application" createVirtualFolders="true" applicableConfigurations="FlashOnly"/>
+        <file path="EXAMPLE_BLE_ROOT/src/bim_onchip/ccfg_app_ble.c" openOnCreation="" excludeFromBuild="false" action="copy" targetDirectory="Application" createVirtualFolders="true" applicableConfigurations="FlashOnly"/>
+        <file path="SRC_BLE_DIR/common/cc26xx/crc/crc32.h" openOnCreation="" excludeFromBuild="false" action="copy" targetDirectory="Application" createVirtualFolders="true" applicableConfigurations="FlashOnly"/>
+        <file path="SRC_BLE_DIR/common/cc26xx/crc/crc32.c" openOnCreation="" excludeFromBuild="false" action="copy" targetDirectory="Application" createVirtualFolders="true" applicableConfigurations="FlashOnly"/>
+        <file path="SRC_BLE_DIR/common/cc26xx/flash_interface/internal/flash_interface_internal.c" openOnCreation="" excludeFromBuild="false" action="copy" targetDirectory="Application" createVirtualFolders="true" applicableConfigurations="FlashOnly"/>
+        <file path="SRC_BLE_DIR/profiles/oad/cc26xx/oad_image_header.h" openOnCreation="" excludeFromBuild="false" action="copy" targetDirectory="Application" createVirtualFolders="true" applicableConfigurations="FlashOnly"/>
+        <file path="SRC_BLE_DIR/common/cc26xx/debug/led_debug.c" openOnCreation="" excludeFromBuild="false" action="copy" targetDirectory="Application" createVirtualFolders="true" applicableConfigurations="FlashOnly"/>
+        <file path="SRC_BLE_DIR/common/cc26xx/debug/led_debug.h" openOnCreation="" excludeFromBuild="false" action="copy" targetDirectory="Application" createVirtualFolders="true" applicableConfigurations="FlashOnly"/>
+        <file path="SRC_BLE_DIR/../../../source/ti/devices/cc26x0r2/startup_files/startup_ccs.c" openOnCreation="" excludeFromBuild="false" action="link" targetDirectory="Application" createVirtualFolders="true" applicableConfigurations="FlashOnly"/>
+
+        <!-- TOOLS Folder -->
+        <file path="SRC_BLE_DIR/common/cc26xx/ccs/cc26xx_bim_r2.cmd" openOnCreation="" excludeFromBuild="false" action="link" targetDirectory="TOOLS" createVirtualFolders="true" applicableConfigurations="FlashOnly"/>
+    </project>
+</projectSpec>

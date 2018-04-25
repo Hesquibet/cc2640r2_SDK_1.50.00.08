@@ -1,0 +1,331 @@
+.. _le_data_length_extension:
+
+LE Data Length Extension (DLE)
+------------------------------
+
+The data length extension feature allows the LE controller to send
+data channel packet data units (PDUs) with payloads of up to 251
+bytes of application data, while in the connected state.
+Furthermore, a new PDU size can be negotiated by either side at any
+time during a connection.
+
+Previously, the controller's largest data
+channel payload was 27 bytes. This Feature increases the data rate by around
+250% when compared to Bluetooth Core Specification Versions 4.0 and 4.1
+devices (if both devices support extended packet length and are
+configured properly).
+
+The |DEVICE| has Data Length Extension enabled by default - allowing
+peer devices to utilize this feature with no application overhead.
+
+   *  :ref:`sec-data-length-update-procedure`
+   *  :ref:`initial_values`
+   *  :ref:`sec-using-DLE-at-runtime`
+   *  :ref:`sec-disabling-data-length-ext-at-run-time`
+   *  :ref:`sec-interoperability-with-peers`
+   *  :ref:`sec-ram-considerations-dle`
+
+.. _sec-data-length-update-procedure:
+
+DLE Update Procedure and Definitions
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This section describes what is done from a controller perspective during
+a connection as well as terminology.
+
+Once a connection is formed, the controller will behave in one of
+two possible ways:
+
+      *  If prior to the connection, the  suggested PDU size and time are set
+         to the defaults for both TX and RX (27B, 328 us) then the |DEVICE|
+         will not initiate a data length exchange (i.e. a ``LL_LENGTH_REQ``
+         will not be sent).
+
+         If the peer device sends a ``LL_LENGTH_REQ`` then the controller
+         of the device will send a  ``LL_LENGTH_RSP`` corresponding to the
+         default sizes of 4.0 devices autonomously.
+
+         .. note::
+               See :ref:`sec-disabling-data-length-ext-at-run-time` for
+               information on how to modify this behavior.
+
+      *  If prior to the connection, the PDU size or the maximum time for RX or
+         TX are not default, then the LE controller of the device will
+         use the ``LL_LENGTH_REQ`` and ``LL_LENGTH_RSP`` control PDUs to
+         negotiate a larger payload size for data channel PDUs.
+
+         A data length update may be initiated by the host or performed
+         autonomously by the controller. Either the master or the slave
+         can initiate the procedure.
+
+After the data length update procedure is complete, both controllers
+select a new data length based on two parameters: PDU size and time.
+The largest size supported by both local and remote controller is
+selected; time is taken into account to support different data
+rates. These parameters are defined below:
+
+*  PDU size
+      The largest application data payload size supported by the
+      controller. This size does not include packet overhead, such as
+      access address or preamble.
+
+*  Time
+      The maximum number of microseconds that the device takes to
+      transmit or receive a PDU at the PHY rate. This parameter uses
+      units of microseconds (us).
+
+Each direction has a PDU size and time; in other words there is a
+Receive PDU size/time and a separate Transmit PDU size/time. A device
+can only influence a peer's Receive PDU size/time by adjusting it's
+own Transmit PDU size/time via the DLE Update Procedure.
+
+Reference ([Vol 6], Part B, Section 5.1.9) of the |CORESPEC|
+for more information about the data length update procedure.
+
+Reference ([Vol 6], Part B, Section 4.5.10) of the |CORESPEC|
+for information on the valid ranges for data PDU length and
+timing parameters.
+
+.. _initial_values:
+
+Default Application DLE Behavior
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This section describes the default behavior of the |DEVICE|
+due to the feature being enabled by default.
+
+The controller defaults to using TX PDU sizes compatible with 4.0 and
+4.1 devices. It uses 27 bytes as its initial maximum PDU size, and 328
+us as the maximum PDU transmit time.
+
+On the RX PDU size and time, the controller
+defaults to the maximum PDU size and the maximum PDU transit time for
+a LE Data Packet Length Extension enabled device. In other words,
+the RX PDU size will be 251, and the RX PDU transmit time will be 2120 us.
+
+.. note::
+      As mentioned in :ref:`sec-data-length-update-procedure`, by default
+      a ``LL_LENGTH_REQ`` control packet will be sent due
+      to the RX max PDU size and max PDU transmit time not being default 4.0
+      PDU sizes and timings.
+
+.. _sec-using-DLE-at-runtime:
+
+Utilizing DLE in the Application
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This section describes how the application can influence
+the controller to use DLE for transmission of data at runtime.
+
+The application can update the data length in two ways.
+
+      #. the application can set the connection initial TX PDU size
+         or time to cause the controller to request the peer's RX PDU size
+         and time to change for every connection.
+
+      #. the controller can initialize the connection with the default
+         values of 27 octets and 328 us, then dynamically negotiate
+         the data length at a later time in the connection using HCI commands.
+
+For maximum throughput, high layer protocols such as the BLE host
+should also use a larger PDU size (see :ref:`maximum-transmission-unit-mtu`).
+:numref:`l2cap_pdu_sizes` illustrates various PDU sizes in the stack.
+
+.. _l2cap_pdu_sizes:
+
+.. figure:: resources/l2cap_pdu_sizes.jpg
+    :align: center
+
+    Various PDUs within the Stack
+
+The following HCI commands can be used to interact with the
+controller related to the data length extension feature:
+
+-  LE Read Suggested Default Data Length Command (:ble_api:`HCI_LE_ReadSuggestedDefaultDataLenCmd`)
+
+-  LE Write Suggested Default Data Length Command (:ble_api:`HCI_LE_WriteSuggestedDefaultDataLenCmd`)
+
+-  LE Read Maximum Data Length Command (:ble_api:`HCI_LE_ReadMaxDataLenCmd`)
+
+-  LE Set Data Length Command (:ble_api:`HCI_LE_SetDataLenCmd`)
+
+The above commands may generate:
+
+-  LE Data Length Change Event
+
+For example, to dynamically change the TX PDU size and timing, the
+command :ble_api:`HCI_LE_SetDataLenCmd` during a connection. This
+will cause the LE controller to negotiate with the peer's LE controller
+to adjust it's RX PDU size and timing as described in :ref:`sec-data-length-update-procedure`.
+
+.. code-block:: c
+
+   uint16_t cxnHandle; //Request max supported size
+   uint16_t requestedPDUSize = 251;
+   uint16_t requestedTxTime = 2120;
+
+   GAPRole_GetParameter(GAPROLE_CONNHANDLE, &cxnHandle); //This API is documented in hci.h
+
+   HCI_LE_SetDataLenCmd(cxnHandle, requestedPDUSize, requestedTxTime);
+
+.. note::
+      For more information about these HCI commands and their fields, see the
+      LE Controller Commands and Events sections ([Vol 2], Part E, Section
+      7.7-7.8) of the |CORESPEC|. Additionally, the APIs for these commands
+      are documented under :ref:`ble_api_reference`.
+
+.. _sec-disabling-data-length-ext-at-run-time:
+
+Disabling DLE at Runtime
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+This section describes how to disable the DLE feature at runtime.
+
+There are two main steps to disable this feature, one is by
+modifying the controller PDU sizes directly, and the other is by
+modifying the features the controller supports. Both steps should
+be used to completely remove DLE.
+
+As discussed in :ref:`initial_values`, the LE controller initially uses packet length
+values compatible with 4.0 and 4.1 devices in new connections for TX.
+The controller will automatically attempt to
+negotiate the data length at the beginning of every new
+connection. To disable this feature, add :ble_api:`HCI_EXT_SetMaxDataLenCmd`
+to the application:
+
+.. code-block:: c
+   :linenos:
+
+   #define APP_TX_PDU_SIZE 27
+   #define APP_RX_PDU_SIZE 27
+   #define APP_TX_TIME 328
+   #define APP_RX_TIME 328
+
+   //This API is documented in hci.h
+   HCI_EXT_SetMaxDataLenCmd(APP_TX_PDU_SIZE ,  APP_TX_TIME,
+      APP_RX_PDU_SIZE, APP_RX_TIME);
+
+Once a connection is formed, the peer device may request
+features supported by |DEVICE| and attempt to negotiate a new
+PDU size/time. This can be prevented by also utilizing the following
+vendor specific command :ble_api:`HCI_EXT_SetLocalSupportedFeaturesCmd`.
+
+.. code-block:: c
+   :linenos:
+
+   // featSet is an array of bytes representing features supported
+   // of the Device. Clear DLE Feature bit
+   CLR_FEATURE_FLAG( featSet[0], LL_FEATURE_DATA_PACKET_LENGTH_EXTENSION );
+   HCI_EXT_SetLocalSupportedFeaturesCmd( featSet );
+
+Both :ble_api:`HCI_EXT_SetMaxDataLenCmd` and :ble_api:`HCI_EXT_SetLocalSupportedFeaturesCmd`
+should be called prior to forming a connection.
+
+.. _sec-interoperability-with-peers:
+
+Interoperability with Legacy Peers
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Legacy Bluetooth Core Specification Versions 4.0 and 4.1 peer Hosts
+or Controllers may run to interoperability issues. These may manifest
+in Link Layer or Controller Command Collisions among other issues.
+
+An example of this collision can be seen in the following:
+
+.. _dle-older-peer-diagram:
+.. uml::
+    :caption: Example collision from an older peer due to DLE.
+    :align: center
+
+    @startuml
+    hide footbox
+
+
+    participant Master
+    participant Slave
+
+      == Connection Established ==
+
+      group Connection Event 1
+         Master -> Slave: LL_FEATURE_REQ
+            note right: Master requests Slave features
+
+         Slave -> Master: Empty Packet
+      end
+
+      group Connection Event 2
+         Master -> Slave: Empty Packet
+
+         Slave -> Master: LL_FEATURE_RSP
+            note right: Slave informs master of supported features
+      end
+
+      group Connection Event 3
+         Master -> Slave: Empty Packet
+
+         Slave -> Master: LL_LENGTH_REQ
+            note right: Slave wishes to negotiate DLE
+      end
+
+      group Connection Event 4
+         Master -> Slave: LL_ENC_REQ
+            note right: Master wishes to start encryption
+
+         Slave -> Master: Empty Packet
+      end
+
+      ...
+
+      group Connection Events Until Termination
+         Master -> Slave: Empty Packet
+
+         Slave -> Master: Empty Packet
+      end
+
+      ...
+
+      == Connection Terminated ==
+
+    @enduml
+
+:numref:`dle-older-peer-diagram` shows one way an older
+central device may behave when communicating with a
+DLE supporting peripheral. The connection terminates due to
+the master failing to respond to the Slave's DLE request.
+Master expected a response to the encryption request,
+thus never responding to the DLE request.
+
+To support these older peers, it is recommended to
+completely disable the feature as outlined in
+:ref:`sec-disabling-data-length-ext-at-run-time`.
+
+.. _sec-ram-considerations-dle:
+
+RAM Considerations when using DLE
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This section describes the how DLE impacts the |BLESTACK|'s HEAP
+memory usage.
+
+The |BLESTACK| utilizes the ICall HEAP for all dynamic memory
+allocations. This includes both the Transmit and Receive Buffers
+used in the controller.
+
+This is important to understand; both the transmit and receive buffers
+are allocated based on the respective PDU sizes negotiated for
+each connection. By default, there can be up to 8 TX buffers and 4 RX buffers
+active per connection at a given time. In the worst case scenario,
+this could mean about 3012 Bytes per connection of HEAP utilization
+with a PDU size of 251 Bytes.
+
+To prevent HEAP exhaustion or other issues in the rest of the application
+the developer should choose the PDU size for both RX and TX, as well
+as limit the max number of connections to meet the demands of the
+application.
+
+To modify the size of the both the RX and TX buffers - the vendor
+specific command :ble_api:`HCI_EXT_SetMaxDataLenCmd` can be used.
+This must be used prior to establishing the connection.
+
+To modify the number of connections, see :ref:`stack_features_configuration`
+for details.

@@ -1,0 +1,334 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>BLE-Stack 3.00.00 to BLE-Stack 3.00.01 &mdash; BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation" href="../index.html"/>
+        <link rel="up" title="Migration Guides" href="migration.html"/>
+        <link rel="next" title="CC2640 to CC2640R2F" href="cc2640-to-cc2640r2.html"/>
+        <link rel="prev" title="BLE-Stack 3.00.01 to BLE-Stack 3.01.00" href="blestack3.00.01-to-blestack3.01.00.html"/> 
+    <script language="JavaScript">
+        var tiPageName;
+        tiPageName = "sug ble-stack-3.x-guide blestack3.00.00-to-blestack3.00.01";
+
+        if (location.protocol == "file:"){
+            var ci_analytics_poc_load = true;
+        }
+    </script> 
+
+    <script src="http://www.ti.com/assets/js/headerfooter/analytics.js" type="text/javascript" charset="utf-8">     
+
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> BLE-Stack User's Guide for Bluetooth 4.2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.01.01.00
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../cc2640/disclaimer.html">Disclaimer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="get-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cc2640/platform.html">The CC2640R2F SDK Platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x/index.html">Developing a Bluetooth Low Energy Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../u-stack/index.html">Micro BLE Stack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../oad-ble-stack-3.x/oad.html">Over the Air Download (OAD)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../voice/voice.html">Creating a Voice Enabled Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../secure-fw-3.x/index.html">Secure Firmware (SFW)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensor-controller/sensor-controller.html">Sensor Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../debugging/ble-index.html">Debugging</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="migration.html">Migration Guides</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="blestack3.01.00-to-blestack3.01.01.html">BLE-Stack 3.01.00 to BLE-Stack 3.01.01</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="migration.html#previous-migration-guides">Previous Migration Guides</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="blestack3.00.01-to-blestack3.01.00.html">BLE-Stack 3.00.01 to BLE-Stack 3.01.00</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">BLE-Stack 3.00.00 to BLE-Stack 3.00.01</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cc2640-to-cc2640r2.html">CC2640 to CC2640R2F</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cc254x-to-cc2640.html">CC254x to CC2640</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api-reference.html">API References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference.html">Terms and Definitions</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">BLE-Stack User's Guide for Bluetooth 4.2</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="migration.html">Migration Guides</a> &raquo;</li>
+        
+      <li>BLE-Stack 3.00.00 to BLE-Stack 3.00.01</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="ble-stack-3-00-00-to-ble-stack-3-00-01">
+<h1>BLE-Stack 3.00.00 to BLE-Stack 3.00.01<a class="headerlink" href="#ble-stack-3-00-00-to-ble-stack-3-00-01" title="Permalink to this headline">¶</a></h1>
+<p>This section will describe a way to migrate a project from BLE-Stack 3.00.00 to
+a BLE-Stack 3.00.01 project.</p>
+<p>For this migration guide, simple_peripheral from BLE-Stack 3.00.00 will be ported
+over to BLE-Stack 3.00.01. Because the directory structure is nearly identical between the
+two releases, the recommended approach is to start with a BLE-Stack 3.00.01 project that contains
+the same base functionality as the porting target project and merge in any custom
+functionality.</p>
+<ol class="arabic">
+<li><p class="first">Choose a BLE-Stack 3.00.01 example project that contains your target project&#8217;s base functionality.</p>
+<blockquote>
+<div><p>For reference, see available sample projects that start with simple_</p>
+<p>In this example, we&#8217;re going to use simple_peripheral as the starting
+BLE-Stack 3.00.01 sample project.</p>
+</div></blockquote>
+</li>
+<li><p class="first">Transfer all modified application files from BLE-Stack 3.00.00 into the BLE-Stack 3.00.01 example project.</p>
+<blockquote>
+<div><p>In this example, the following files from BLE-Stack 3.00.00 were moved into
+simple_peripheral BLE-Stack 3.00.01 example:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">simple_peripheral.c</span></code></li>
+<li><code class="docutils literal"><span class="pre">simple_peripheral.h</span></code></li>
+<li><code class="docutils literal"><span class="pre">simple_gatt_profile.c</span></code></li>
+<li><code class="docutils literal"><span class="pre">simple_gatt_profile.h</span></code></li>
+</ul>
+<p>Modify <code class="docutils literal"><span class="pre">main.c</span></code> in the BLE-Stack 3.00.01 example if additional tasks
+were added in the BLE-Stack 3.00.00 project.</p>
+<div class="admonition attention">
+<p class="first admonition-title">Attention</p>
+<p>For applications using <strong>Directed Advertisements</strong> comment
+out <code class="docutils literal"><span class="pre">#define</span> <span class="pre">GBM_GATT_NO_CLIENT</span></code> in  <code class="docutils literal"><span class="pre">gapbondmgr.c</span></code> of BLE-Stack
+3.00.00 project to remain compliant with the <a class="reference external" href="https://www.bluetooth.com/specifications/adopted-specifications">Bluetooth Core Specification Version 4.2</a>.</p>
+<div class="highlight-c"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cp">#ifdef GATT_NO_CLIENT</span>
+<span class="cp">#ifndef GBM_GATT_NO_CLIENT</span>
+<span class="hll"><span class="c1">//#define GBM_GATT_NO_CLIENT // &lt;-- Comment this out</span>
+</span><span class="cp">#endif </span><span class="c1">// !GBM_GATT_NO_CLIENT</span>
+<span class="cp">#endif </span><span class="c1">// GATT_NO_CLIENT</span>
+</pre></div>
+</td></tr></table></div>
+<p class="last">See <a class="reference internal" href="../ble-stack-3.x/creating-a-custom-bluetooth-low-energy-application.html#creating-a-custom-ble-app-directed-advertisements"><span class="std std-ref">Directed Advertisements as GATT Server</span></a> for more
+information.</p>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">If necessary, update the project to use the newer TI-RTOS drivers that are supplied with the SimpleLink CC2640R2 SDK.</p>
+<blockquote>
+<div><p>The following drivers have changed from BLE-Stack 3.00.00.
+Please see the changes to these drivers by comparing the supplied headers between those in
+simplelink_cc2640r2_sdk_1_00_00_2 and those in the SimpleLink CC2640R2 SDK.</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">ADCCC26XX.h</span></code></li>
+<li><code class="docutils literal"><span class="pre">RF.h</span></code></li>
+</ul>
+<p>Also, refer to the <a class="reference external" href="../../../../../simplelink_mcu_sdk/release_notes_coresdk_cc13xx_cc26xx_3_10_00_10.html#upgrade-and-compatibility-information">Upgrade and Compatibility Information</a> for additional information and the TI-RTOS examples included with SimpleLink CC2640R2 SDK.</p>
+<p>For additional information on how BLE-Stack 3.00.01 uses TI-RTOS see
+<a class="reference internal" href="../cc2640/rtos-overview.html#sec-tirtos-overview"><span class="std std-ref">TI-RTOS Overview</span></a></p>
+<p>For any utilized TI Drivers, review <a class="reference external" href="../../../../../tirtos/sysbios/docs/Bios_User_Guide.pdf">TI-RTOS Kernel Users Guide</a> and
+<a class="reference external" href="../../../../../tidrivers/tidriversAPIs.html">Driver APIs</a>.</p>
+</div></blockquote>
+</li>
+</ol>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="cc2640-to-cc2640r2.html" class="btn btn-neutral float-right" title="CC2640 to CC2640R2F" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="blestack3.00.01-to-blestack3.01.00.html" class="btn btn-neutral" title="BLE-Stack 3.00.01 to BLE-Stack 3.01.00" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Texas Instruments.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.01.01.00',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

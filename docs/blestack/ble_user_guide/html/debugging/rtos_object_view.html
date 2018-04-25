@@ -1,0 +1,459 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>TI-RTOS Object Viewer &mdash; BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation" href="../index.html"/>
+        <link rel="up" title="Debugging" href="ble-index.html"/>
+        <link rel="next" title="Using the Memory Browser" href="memory_browser.html"/>
+        <link rel="prev" title="Watching Variables and Registers" href="watches.html"/> 
+    <script language="JavaScript">
+        var tiPageName;
+        tiPageName = "sug debugging rtos_object_view";
+
+        if (location.protocol == "file:"){
+            var ci_analytics_poc_load = true;
+        }
+    </script> 
+
+    <script src="http://www.ti.com/assets/js/headerfooter/analytics.js" type="text/javascript" charset="utf-8">     
+
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../ble-stack-3.x-guide/index.html" class="icon icon-home"> BLE-Stack User's Guide for Bluetooth 4.2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.01.01.00
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../cc2640/disclaimer.html">Disclaimer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/get-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cc2640/platform.html">The CC2640R2F SDK Platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x/index.html">Developing a Bluetooth Low Energy Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../u-stack/index.html">Micro BLE Stack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../oad-ble-stack-3.x/oad.html">Over the Air Download (OAD)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../voice/voice.html">Creating a Voice Enabled Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../secure-fw-3.x/index.html">Secure Firmware (SFW)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensor-controller/sensor-controller.html">Sensor Controller</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="ble-index.html">Debugging</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="external_resources.html">External Resources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="debug_interfaces.html">Debug Interfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="debug_interfaces.html#configuring-debugger-in-ccs">Configuring Debugger in CCS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="debug_interfaces.html#configuring-debugger-in-iar">Configuring Debugger in IAR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="breakpoints.html">Breakpoints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="breakpoints.html#considerations-on-breakpoints">Considerations on Breakpoints</a></li>
+<li class="toctree-l2"><a class="reference internal" href="watches.html">Watching Variables and Registers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="watches.html#memory-watchpoints">Memory Watchpoints</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">TI-RTOS Object Viewer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#scanning-the-bios-for-errors">Scanning the BIOS for Errors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#viewing-the-state-of-each-task">Viewing the State of Each Task</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#viewing-the-system-stack">Viewing the System Stack</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="memory_browser.html">Using the Memory Browser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ble-common_heap.html">Debugging Common Heap Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="optimizations.html">Optimizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cpu_exceptions.html">Deciphering CPU Exceptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ble-memory_problems.html">Debugging Memory Problems</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ble-memory_problems.html#check-system-flash-and-ram-usage-with-map-file">Check System Flash and RAM Usage With Map File</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ble-debugging.html">Debugging a Program Exit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ble-debugging.html#hal-assert-handling">HAL Assert Handling</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/migration.html">Migration Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/api-reference.html">API References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/reference.html">Terms and Definitions</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../ble-stack-3.x-guide/index.html">BLE-Stack User's Guide for Bluetooth 4.2</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../ble-stack-3.x-guide/index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="ble-index.html">Debugging</a> &raquo;</li>
+        
+      <li>TI-RTOS Object Viewer</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="ti-rtos-object-viewer">
+<span id="sec-rov"></span><h1>TI-RTOS Object Viewer<a class="headerlink" href="#ti-rtos-object-viewer" title="Permalink to this headline">¶</a></h1>
+<p>Both IAR and CCS include the RTOS Object Viewer (ROV) plug-in that
+provides insight into the current state of TI-RTOS, including task
+states, stacks, and so forth. Because both CCS and IAR have a
+similar interface, these examples discuss only CCS.</p>
+<p>To access the ROV in IAR:</p>
+<ul class="simple">
+<li>Use the TI-RTOS menu on the menu bar.</li>
+<li>Select a subview.</li>
+</ul>
+<p>To access the ROV in CCS:</p>
+<ul class="simple">
+<li>Click the Tools menu.</li>
+<li>Click RTOS Object View (ROV).</li>
+</ul>
+<p>This section discusses some ROV views useful for debugging and
+profiling. More details can be found in the TI-RTOS User&#8217;s Guide,
+including documentation on how to add log events to application code.</p>
+<blockquote>
+<div><div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p>When using autosized heap, the ROV may display errors when accessing modules
+such as Task and Heap for ROV Classic. In order to use ROV with an autosized
+heap, the following steps may be taken:</p>
+<dl class="last docutils">
+<dt>&#8211; CCS:</dt>
+<dd><ul class="first last simple">
+<li>Use ROV2, or apply the workaround below when using ROV classic</li>
+</ul>
+</dd>
+<dt>&#8211; IAR:</dt>
+<dd><ul class="first last">
+<li><p class="first">Apply the following patch to the <code class="docutils literal"><span class="pre">function</span> <span class="pre">init()</span></code> in
+<code class="docutils literal"><span class="pre">\kernel\tirtos\packages\ti\sysbios\heaps\package.xs</span></code>. The lines
+highlited below should be added.</p>
+<div class="highlight-js"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kd">function</span> <span class="nx">init</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="cm">/* Add HeapMem&#39;s primaryHeap addresses range to ROV&#39;s memory sections */</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">xdc</span><span class="p">.</span><span class="nx">om</span><span class="p">.</span><span class="nx">$name</span> <span class="o">==</span> <span class="s2">&quot;rov&quot;</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">HeapMem</span> <span class="o">=</span> <span class="nx">xdc</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span><span class="s1">&#39;ti.sysbios.heaps.HeapMem&#39;</span><span class="p">);</span>
+<span class="c1">//        if (xdc.om[&#39;ti.sysbios.heaps&#39;].HeapMem.$used) {</span>
+            <span class="kd">var</span> <span class="nx">Program</span> <span class="o">=</span> <span class="nx">xdc</span><span class="p">.</span><span class="nx">useModule</span><span class="p">(</span><span class="s1">&#39;xdc.rov.Program&#39;</span><span class="p">);</span>
+            <span class="kd">var</span> <span class="nx">HeapMemCfg</span> <span class="o">=</span>  <span class="nx">Program</span><span class="p">.</span><span class="nx">getModuleConfig</span><span class="p">(</span><span class="nx">HeapMem</span><span class="p">.</span><span class="nx">$name</span><span class="p">);</span>
+            <span class="k">if</span>  <span class="p">(</span><span class="nx">HeapMemCfg</span><span class="p">.</span><span class="nx">primaryHeapBaseAddr</span> <span class="o">!=</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
+                <span class="kd">var</span> <span class="nx">base</span> <span class="o">=</span> <span class="nx">Program</span><span class="p">.</span><span class="nx">getSymbolValue</span><span class="p">(</span><span class="nx">HeapMemCfg</span><span class="p">.</span><span class="nx">primaryHeapBaseAddr</span><span class="p">.</span><span class="nx">substr</span><span class="p">(</span><span class="mi">1</span><span class="p">));</span>
+                <span class="kd">var</span> <span class="nx">end</span> <span class="o">=</span> <span class="nx">Program</span><span class="p">.</span><span class="nx">getSymbolValue</span><span class="p">(</span><span class="nx">HeapMemCfg</span><span class="p">.</span><span class="nx">primaryHeapEndAddr</span><span class="p">.</span><span class="nx">substr</span><span class="p">(</span><span class="mi">1</span><span class="p">));</span>
+                <span class="cm">/* Retrieve the MemoryImage java object. */</span>
+                <span class="kd">var</span> <span class="nx">Model</span> <span class="o">=</span> <span class="nx">xdc</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span><span class="s2">&quot;xdc.rov.Model&quot;</span><span class="p">);</span>
+                <span class="kd">var</span> <span class="nx">memReader</span> <span class="o">=</span> <span class="nx">Model</span><span class="p">.</span><span class="nx">getMemoryImageInst</span><span class="p">();</span>
+
+                <span class="cm">/* retrieve the sections list and add a new section */</span>
+                <span class="kd">var</span> <span class="nx">sections</span> <span class="o">=</span> <span class="nx">memReader</span><span class="p">.</span><span class="nx">getSections</span><span class="p">();</span>
+                <span class="nx">sections</span><span class="p">.</span><span class="nx">addSection</span><span class="p">(</span><span class="nx">base</span><span class="p">,</span> <span class="nx">end</span><span class="o">-</span><span class="nx">base</span><span class="p">);</span>
+            <span class="p">}</span>
+<span class="c1">//        }</span>
+<span class="hll">            <span class="cm">/* Retrieve the MemoryImage java object. */</span>
+</span><span class="hll">            <span class="kd">var</span> <span class="nx">Model</span> <span class="o">=</span> <span class="nx">xdc</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span><span class="s2">&quot;xdc.rov.Model&quot;</span><span class="p">);</span>
+</span><span class="hll">            <span class="kd">var</span> <span class="nx">memReader</span> <span class="o">=</span> <span class="nx">Model</span><span class="p">.</span><span class="nx">getMemoryImageInst</span><span class="p">();</span>
+</span><span class="hll">
+</span><span class="hll">            <span class="cm">/* retrieve the sections list and add a new section */</span>
+</span><span class="hll">            <span class="kd">var</span> <span class="nx">sections</span> <span class="o">=</span> <span class="nx">memReader</span><span class="p">.</span><span class="nx">getSections</span><span class="p">();</span>
+</span><span class="hll">            <span class="nx">sections</span><span class="p">.</span><span class="nx">addSection</span><span class="p">(</span><span class="mh">0x20000000</span><span class="p">,</span> <span class="mh">0x20005000</span><span class="p">);</span>
+</span>    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+</div></blockquote>
+<div class="section" id="scanning-the-bios-for-errors">
+<h2>Scanning the BIOS for Errors<a class="headerlink" href="#scanning-the-bios-for-errors" title="Permalink to this headline">¶</a></h2>
+<p>The BIOS <code class="docutils literal"><span class="pre">Scan</span> <span class="pre">for</span> <span class="pre">errors</span></code> view goes through the
+available ROV modules and reports on errors. This functionality can
+be a good point to start if anything has gone wrong. This
+scan only shows errors related to TI-RTOS modules and only the
+errors it can catch.</p>
+<div class="figure align-center" id="id2">
+<img alt="../_images/rov_bios_scan.png" src="../_images/rov_bios_scan.png" />
+<p class="caption"><span class="caption-number">Figure 115. </span><span class="caption-text">Scan for errors. Here a Task Stack has been overrun.</span></p>
+</div>
+</div>
+<div class="section" id="viewing-the-state-of-each-task">
+<h2>Viewing the State of Each Task<a class="headerlink" href="#viewing-the-state-of-each-task" title="Permalink to this headline">¶</a></h2>
+<p>The Task <code class="docutils literal"><span class="pre">Detailed</span></code> view is useful for seeing the state of
+each task and its related runtime stack usage. This example shows
+the state the first time the user-thread is called. <a class="reference internal" href="#fig-rov-task-detailed"><span class="std std-numref">Figure 116.</span></a>
+shows the Bluetooth low energy stack task, represented by its ICall proxy,
+the Idle task, the simple_peripheral task and the GAPRole task.</p>
+<div class="figure align-center" id="id3">
+<span id="fig-rov-task-detailed"></span><img alt="../_images/rov_task_detailed.png" src="../_images/rov_task_detailed.png" />
+<p class="caption"><span class="caption-number">Figure 116. </span><span class="caption-text">Detailed view of the Tasks. Notice the address of the overrun task
+matches the instance id from Scan for errors.</span></p>
+</div>
+<p>The following list explains the column in <a class="reference internal" href="#fig-rov-task-detailed"><span class="std std-numref">Figure 116.</span></a></p>
+<dl class="docutils">
+<dt>address</dt>
+<dd>This column shows the memory location of the Task_Struct
+instance for each task.</dd>
+<dt>priority</dt>
+<dd>This column shows the TI-RTOS priority for the task.</dd>
+<dt>mode</dt>
+<dd>This column shows the current state of the task.</dd>
+<dt>fxn</dt>
+<dd>This column shows the name of the entry function of the task.</dd>
+<dt>arg0, arg1</dt>
+<dd>These columns show arbitrary values that can be given to
+entry function of the task. In the image, the ICall_taskEntry is
+given 0xb001, which is the flash location of the entry function
+of the RF stack image and 0x20003a30 (the location of
+bleUserCfg_t user0Cfg, defined in main()).</dd>
+<dt>stackPeak</dt>
+<dd>This column shows the maximum run-time stack memory used
+based on watermark in RAM, where the stacks are prefilled with
+0xBE and there is a sentinel word at the end of the run-time
+stack.</dd>
+</dl>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Function calls may push the stack pointer out of the
+run-time stack, but not actually write to the entire area. A stack
+peak near stackSize but not exceeding it may indicate stack
+overflow.</p>
+</div>
+<dl class="docutils">
+<dt>stackSize</dt>
+<dd>This column shows the size of the runtime stack,
+configured when instantiating a task.</dd>
+<dt>stackBase</dt>
+<dd>This column shows the logical top of the runtime stack of
+the task (usage starts at stackBase + stackSize and grows down to
+this address).</dd>
+</dl>
+</div>
+<div class="section" id="viewing-the-system-stack">
+<h2>Viewing the System Stack<a class="headerlink" href="#viewing-the-system-stack" title="Permalink to this headline">¶</a></h2>
+<p>The Hwi <code class="docutils literal"><span class="pre">Module</span></code> view allows profiling of the system stack
+used during boot or for main(), Hwi execution, and Swi execution.
+See <a class="reference internal" href="../cc2640/memory_management.html#sec-memory-management-system-stack"><span class="std std-ref">System Stack</span></a> for more information on the system
+stack.</p>
+<div class="figure align-center" id="id4">
+<img alt="../_images/rov_hwi_module.png" src="../_images/rov_hwi_module.png" />
+<p class="caption"><span class="caption-number">Figure 117. </span><span class="caption-text">Viewing the System Stack in Hwi</span></p>
+</div>
+<p>The hwiStackPeak, hwiStackSize, and hwiStackBase can be used to check
+for system stack overflow.</p>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="memory_browser.html" class="btn btn-neutral float-right" title="Using the Memory Browser" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="watches.html" class="btn btn-neutral" title="Watching Variables and Registers" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Texas Instruments.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.01.01.00',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

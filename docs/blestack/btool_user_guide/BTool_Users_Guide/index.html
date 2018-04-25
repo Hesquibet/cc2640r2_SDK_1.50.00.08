@@ -1,0 +1,620 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Using BTool &mdash; BTool Guide 3.00.01 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="BTool Guide 3.00.01 documentation" href="../index.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+  <header id="tiHeader">
+    <div class="top">
+      <ul>
+        <li id="top_logo">
+          <a href="http://www.ti.com">
+            <img src="../_static/img/ti_logo.png"/>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="nav"></div>
+  </header>
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="#" class="icon icon-home"> BTool Guide
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.00.01
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <!-- Local TOC -->
+                <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">Using BTool</a><ul>
+<li><a class="reference internal" href="#starting-the-application">Starting the Application</a></li>
+<li><a class="reference internal" href="#creating-a-connection-between-the-cc2640r2f-launchpad-and-a-peripheral-device">Creating a Connection Between the CC2640R2F LaunchPad and a Peripheral Device</a><ul>
+<li><a class="reference internal" href="#scanning-for-devices">Scanning for Devices</a></li>
+<li><a class="reference internal" href="#selecting-connection-parameters">Selecting Connection Parameters</a></li>
+<li><a class="reference internal" href="#establishing-a-connection">Establishing a Connection</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#simple-peripheral-profiles">Simple Peripheral Profiles</a><ul>
+<li><a class="reference internal" href="#reading-a-characteristic-value-by-uuid">Reading a Characteristic Value by UUID</a></li>
+<li><a class="reference internal" href="#reading-a-characteristic-value-by-handle">Reading a Characteristic Value by Handle</a></li>
+<li><a class="reference internal" href="#writing-a-characteristic-value">Writing a Characteristic Value</a></li>
+<li><a class="reference internal" href="#disovering-a-characteristic-by-uuid">Disovering a Characteristic by UUID</a></li>
+<li><a class="reference internal" href="#reading-multiple-characteristic-values">Reading Multiple Characteristic Values</a></li>
+<li><a class="reference internal" href="#enable-notifications">Enable Notifications</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#using-ble-security">Using BLE Security</a><ul>
+<li><a class="reference internal" href="#encrypting-the-connection">Encrypting the Connection</a></li>
+<li><a class="reference internal" href="#using-bonding-and-long-term-keys">Using Bonding and Long-Term Keys</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="#">BTool Guide</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="#">Docs</a> &raquo;</li>
+      
+    <li>Using BTool</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="using-btool">
+<h1>Using BTool<a class="headerlink" href="#using-btool" title="Permalink to this headline">¶</a></h1>
+<p>BTool is a PC Application that allows a user to form a connection between two
+BLE devices. BTool works by  communicating  with  the  CC2640R2F LaunchPad,
+acting  as  a network  processor, by  means  of  HCI  vendor  specific commands.
+This requires the CC2640R2F to be running the Host Test sample application.</p>
+<p>More information on the network processor configuration can be found in the
+Bluetooth low energy Software Developer&#8217;s Guide. More information on the Host
+Test sample application can be found in the Host Test overview. More information
+on the HCI interface, as well as details on the HCI vendor specific commands
+that are used by the CC2640R2F launchPad can be found in the TI BLE Vendor
+Specific HCI Guide.</p>
+<p>For this section, a PC running Windows 7 has been used, but the procedures are
+essentially the same for other Windows versions.</p>
+<div class="section" id="starting-the-application">
+<h2>Starting the Application<a class="headerlink" href="#starting-the-application" title="Permalink to this headline">¶</a></h2>
+<p>Once a CC2640R2F has been connected to the PC via USB, upon opening BTool, you
+should be able to set the Serial Port
+Settings. Set the &#8220;Port&#8221; value to the COM Port number associated with &#8220;XDS110
+Class Application/User.&#8221; For the other settings, use the default values as shown
+in <a class="reference internal" href="#btool-serial-port-settings"><span class="std std-numref">Fig. 1</span></a>.</p>
+<div class="figure align-center" id="id1">
+<span id="btool-serial-port-settings"></span><img alt="../_images/figure1.png" src="../_images/figure1.png" />
+<p class="caption"><span class="caption-number">Fig. 1 </span><span class="caption-text">BTool Serial Port Settings</span></p>
+</div>
+<p>When connected, you should see the screed presented in
+<a class="reference internal" href="#btool-connected-screen"><span class="std std-numref">Fig. 2</span></a>. This
+screen indicates that you now have a serial port connection to the CC2640R2F
+launchPad. The screen is divided up into a few sections. The left sidebar
+contains information on the status or the connected device. The left side of the
+sub-window contains a log of all messages sent from the PC to the CC2640R2F
+launchPad and received by the PC from the CC2640R2F launchPad. The right side
+of the sub-window contains a GUI for control of the CC2640R2F launchPad.</p>
+<div class="figure align-center" id="id2">
+<span id="btool-connected-screen"></span><img alt="../_images/figure2.png" src="../_images/figure2.png" />
+<p class="caption"><span class="caption-number">Fig. 2 </span><span class="caption-text">BTool Screen When Connected to Host Test Device</span></p>
+</div>
+</div>
+<div class="section" id="creating-a-connection-between-the-cc2640r2f-launchpad-and-a-peripheral-device">
+<span id="create-connection"></span><h2>Creating a Connection Between the CC2640R2F LaunchPad and a Peripheral Device<a class="headerlink" href="#creating-a-connection-between-the-cc2640r2f-launchpad-and-a-peripheral-device" title="Permalink to this headline">¶</a></h2>
+<p>At this point, the CC2640R2F LaunchPad (central device) is ready to discover
+other BLE devices that are advertising. This section will use a CC2640R2F
+running the Simple Peripheral sample application as the peripheral device that is
+being connected to. More information on running this project can be found in the
+Bluetooth low energy Software Developer&#8217;s Guide and the Simple Peripheral sample
+application page. The Simple Peripheral device will immediately begin
+advertising upon startup.</p>
+<div class="section" id="scanning-for-devices">
+<h3>Scanning for Devices<a class="headerlink" href="#scanning-for-devices" title="Permalink to this headline">¶</a></h3>
+<p>In BTool, press the &#8220;Scan&#8221; button under the &#8220;Discover/Connect&#8221; tab, as shown in
+<a class="reference internal" href="#btool-scan-button"><span class="std std-numref">Fig. 3</span></a>. The device running Host Test will begin searching
+for other BLE devices.</p>
+<div class="figure align-center" id="id3">
+<span id="btool-scan-button"></span><img alt="../_images/figure3.png" src="../_images/figure3.png" />
+<p class="caption"><span class="caption-number">Fig. 3 </span><span class="caption-text">Pressing the scan button</span></p>
+</div>
+<p>As devices are found, the log on the left side of the screen will
+display the devices that are discovered. After 10 seconds, the device discovery
+process will complete, and the device running Host Test will stop scanning. A
+summary of all of the scanned devices will be displayed in the log window. In
+the example in <a class="reference internal" href="#btool-discovered-devices"><span class="std std-numref">Fig. 4</span></a>, 19 peripheral devices were
+discovered while scanning. If you
+do not want to wait through the full 10 seconds of scanning, the “Cancel” button
+can be pressed to stop the device discovery process. The
+address of any scanned devices will appear in the “Slave BDA” section of the
+“Link Control” section in the bottom right corner of the sub-window.</p>
+<div class="figure align-center" id="id4">
+<span id="btool-discovered-devices"></span><img alt="../_images/figure4.png" src="../_images/figure4.png" />
+<p class="caption"><span class="caption-number">Fig. 4 </span><span class="caption-text">Discovered Devices</span></p>
+</div>
+</div>
+<div class="section" id="selecting-connection-parameters">
+<h3>Selecting Connection Parameters<a class="headerlink" href="#selecting-connection-parameters" title="Permalink to this headline">¶</a></h3>
+<p>Before establishing a connection, you can set up the desired connection
+parameters. The default values of 100ms  connection  interval, 0 slave
+latency, and 20s supervision timeout should serve as a good starting point;
+however for different applications you may want to experiment with other values.</p>
+<p>Once the desired values have been set, be sure to click the “Set” button;
+otherwise the settings will not be saved. Note that the connection parameters
+must be set before a connection is established; changing the values and clicking
+the “Set” button while a connection is active will not change the settings of an
+active connection. The connection must be terminated and re-established to use
+the new parameters. (The Bluetooth specification does support connection
+parameter updates while a connection is active; however this must be done using
+either an L2CAP connection parameter update request, or using a direct HCI
+command. More information can be found in the Specification of the Bluetooth
+System).</p>
+<div class="figure align-center" id="id5">
+<span id="btool-connection-settings"></span><img alt="../_images/figure5.png" src="../_images/figure5.png" />
+<p class="caption"><span class="caption-number">Fig. 5 </span><span class="caption-text">Connection Settings</span></p>
+</div>
+</div>
+<div class="section" id="establishing-a-connection">
+<h3>Establishing a Connection<a class="headerlink" href="#establishing-a-connection" title="Permalink to this headline">¶</a></h3>
+<p>To establish a connection with the CC2640R2F LaunchPad that is running Simple
+Peripheral, select the address of the device to connect with, and click the
+&#8220;Establish&#8221; button as shown in <a class="reference internal" href="#btool-establish-connection"><span class="std std-numref">Fig. 6</span></a>.</p>
+<div class="figure align-center" id="id6">
+<span id="btool-establish-connection"></span><img alt="../_images/figure6.png" src="../_images/figure6.png" />
+<p class="caption"><span class="caption-number">Fig. 6 </span><span class="caption-text">Establish Connection</span></p>
+</div>
+<p>If the device running Simple Peripheral
+is still in discoverable mode, a connection should be established. Once a
+connection is established, the message window will return a &#8220;GAP_EstablishLink&#8221;
+event message with a &#8220;Status&#8221; value of &#8220;0x00 (Success)&#8221; as shown in
+<a class="reference internal" href="#btool-link-established"><span class="std std-numref">Fig. 7</span></a>.</p>
+<div class="figure align-center" id="id7">
+<span id="btool-link-established"></span><img alt="../_images/figure7.png" src="../_images/figure7.png" />
+<p class="caption"><span class="caption-number">Fig. 7 </span><span class="caption-text">Link Established</span></p>
+</div>
+<p>In BTool, you can see your connected peripheral device in the Device Information
+field, as shown in <a class="reference internal" href="#btool-device-information"><span class="std std-numref">Fig. 8</span></a>.</p>
+<div class="figure align-center" id="id8">
+<span id="btool-device-information"></span><img alt="../_images/figure8.png" src="../_images/figure8.png" />
+<p class="caption"><span class="caption-number">Fig. 8 </span><span class="caption-text">Device Information</span></p>
+</div>
+</div>
+</div>
+<div class="section" id="simple-peripheral-profiles">
+<h2>Simple Peripheral Profiles<a class="headerlink" href="#simple-peripheral-profiles" title="Permalink to this headline">¶</a></h2>
+<p>The Simple Peripheral application contains several GATT service profiles (more
+information can be found in the Simple Peripheral Sample Application Guide).
+GATT wervices contain data values known as &#8220;characteristic values.&#8221; All
+application data that is being sent or received in Bluetooth low energy must be
+contained within characteristic values. This section details a step-by-step
+process that demonstrates several processes for reading, writing, discovering,
+and notifying GATT characteristic values using BTool.</p>
+<p>In a Bluetooth low energy system, upon connection, the the central device
+(client) performs a service discovery on the peripheral device (server) to
+build up an attribute table. This attribute table will provide handles
+(internal addresses of the characteristics) which can be used by the client to
+access the data located in the server. The device discovery is typically an
+automated process that can be started with a single command. In BTool, this can
+be done by right clicking on &#8220;Handle&#8221; (under &#8220;Connection Info&#8221; on the left side
+of the screen) and then selecting &#8220;Discover UUIDs&#8221;.</p>
+<div class="section" id="reading-a-characteristic-value-by-uuid">
+<h3>Reading a Characteristic Value by UUID<a class="headerlink" href="#reading-a-characteristic-value-by-uuid" title="Permalink to this headline">¶</a></h3>
+<p>A characteristic value is essentially where the data is stored, which could be,
+for example, termperature data or battery level. It&#8217;s the stored data in a
+server that a client wants to access. A characteristic is a descrete value that
+has the following three properties associated with it:</p>
+<ol class="arabic simple">
+<li>A handle (address)</li>
+<li>A type (UUID)</li>
+<li>A set of permissions</li>
+</ol>
+<p>The simplest way to read its value is to use the &#8220;Read Characteristic by UUID&#8221;
+sub-procedure. To do this, you will first need to click the &#8220;Read/Write&#8221; tab in
+BTool. Select the option &#8220;Read Using Characteristic UUID&#8221; under the&#8221;sub-procedure&#8221;
+option in the &#8220;Characteristic Read&#8221; section at the top of the screen. Enter the
+UUID (note that the LSB is entered first, and the MSB is entered last) in the
+&#8220;Characteristic UUID&#8221; box, and click the &#8220;Read&#8221; button. An attribute protocol
+Read by Type Request packet gets sent over the air from the Host Test device to
+the Simple Peripheral device, and an attribute protocol Read by Type Response
+packet gets sent back from the Simple Peripheral device to the Host Test device.
+The characteristic value is displayed in the &#8220;Value&#8221; box, and &#8220;Success&#8221; is
+displayed in the &#8220;Status&#8221; box. In addition, the message window will display
+information on the Read by Type Response packet that was received by the
+Hoist Test device. The message includes not only the characteristic&#8217;s data
+value, but also the handle of the characteristic value.</p>
+</div>
+<div class="section" id="reading-a-characteristic-value-by-handle">
+<h3>Reading a Characteristic Value by Handle<a class="headerlink" href="#reading-a-characteristic-value-by-handle" title="Permalink to this headline">¶</a></h3>
+<p>It is also possible to read the characteristic value if the handle is known.
+This is done by selecting the option &#8220;Read Characteristic Value/Descriptor&#8221;
+under the &#8220;Sub-Procedure&#8221; option in the &#8220;Characteristic Read&#8221; section. Enter the
+handle into the &#8220;Characteristic Value Handle&#8221; box and click the &#8220;Read&#8221; button to
+execute the read.</p>
+<p>An attribute protocol Read Request packet gets sent over the air from the Host
+Test device to the Simple Peripheral device, and an attribute protocol Read
+Response packet gets sent back from the Simple Peripheral device to the Host
+Test device. The new value is
+displayed in the “Value” box, and “Success” is displayed in the “Status” box.
+This value should match the value that was written in the previous step for the
+same characteristic.</p>
+</div>
+<div class="section" id="writing-a-characteristic-value">
+<h3>Writing a Characteristic Value<a class="headerlink" href="#writing-a-characteristic-value" title="Permalink to this headline">¶</a></h3>
+<p>If a characteristic has write permission, it is possible for a client to write a
+value to the server. This is done in the &#8220;Characteristic Write&#8221; section by
+entering the handle in the &#8220;Characteristic Value Handle&#8221; box and the value in
+the &#8220;Value&#8221; section (the format can be set to either &#8220;Decimal&#8221; or &#8220;Hex&#8221;). The
+write operation is performed when the &#8220;Write Value&#8221; button is clicked.</p>
+<p>An attribute protocol Write Request packet gets sent over the air from the Host
+Test device to the Simple Peripheral, and an attribute protocol Write Response
+packet gets sent back from the Simple Peripheral device to the Host Test device.
+The status box will display &#8220;Success&#8221;, indicating that the write was successful.</p>
+</div>
+<div class="section" id="disovering-a-characteristic-by-uuid">
+<h3>Disovering a Characteristic by UUID<a class="headerlink" href="#disovering-a-characteristic-by-uuid" title="Permalink to this headline">¶</a></h3>
+<p>By dicovering a characteristic by UUID, not only will the handle of the UUID be
+obtained, but the properties of the characteristic (handle and permission) will
+as well. The operation is performed by selecting the option &#8220;Discover
+Characteristic by UUID&#8221; under the &#8220;Sub-Procedure&#8221; option in the &#8220;Characteristic
+Read&#8221; section at the top of the screen. The discovery is performed when the UUID
+is entered into the &#8220;Characteristic UUID&#8221; box, and the &#8220;Read&#8221; button is clicked.</p>
+<p>A series of attribute protocol Read by Type REquest packets get sent over the
+air over the air from the Host Test device to the Simple Peripheral device, and
+for each request an attribute protocol REad by Type Response packet gets sent
+back from the Simple Peripheral device to the Host Test device. Essentially, the
+the host Test device is reading every attribute on the Simple Peripheral device
+with a UUID of 0x2803 (this is the UUID for a characteristic declaration), and
+checking the &#8220;Characteristic Value UUID&#8221; portion of each declaration to see if
+it matches the UUID type you&#8217;ve entered. The procedure is complete once every
+characteristic declaration has been read.</p>
+<p>As per the Bluetooth specification, the first byte presents the properties of
+the characteristic. The second and third bytes present the handle of the
+characteristic value. The fourth and fifth bytes present the UUID of the
+characteristic.</p>
+</div>
+<div class="section" id="reading-multiple-characteristic-values">
+<h3>Reading Multiple Characteristic Values<a class="headerlink" href="#reading-multiple-characteristic-values" title="Permalink to this headline">¶</a></h3>
+<p>It is also possible to read multiple characteristic values with one request, as
+long as the handle of each value is known. To read several values from different
+characteristics, select the option &#8220;Read Multiple Characteristic Values&#8221; under
+the &#8220;Sub-Procedure option&#8221; in the &#8220;Characteristic Read&#8221; section at the top of the
+screen. Enter the handle with the semicolon separation (ie. &#8220;0x0022;0x0025&#8221;) in
+the &#8220;Characteristic Value Handle&#8221; box, and click the &#8220;Run&#8221; button.</p>
+<p>An attribute protocol Read Multiple Request packet gets sent over the air from
+the host Test device to the Simple Peripheral device, and an attribute protocol
+Read Multiple Response packet gets sent back from the Simple Peripheral device
+to the Host Test device. The values of the two characteristics are displayed in
+the &#8220;Value&#8221; box, and &#8220;Success&#8221; is displayed in the &#8220;Status&#8221; box.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The response will not parse the separate values. This means that the size of
+each value being read must be fixed, and must be known by the client. In the
+example here, this is not an issue since there are only two bytes in the
+response; however, care must be taken when using this command.</p>
+</div>
+</div>
+<div class="section" id="enable-notifications">
+<h3>Enable Notifications<a class="headerlink" href="#enable-notifications" title="Permalink to this headline">¶</a></h3>
+<p>In BLE, it is possible for a GATT server device to &#8220;push&#8221; characteristic value
+data out to a client device without being prompted with a read request. This
+process is called &#8220;characteristic value notification&#8221;. Notifications are useful
+in that they allow a device in a BLE connection to send out as much or as little
+data as required at any point in time. In addition, since no request from the
+client is required, the overhead is reduced and the data is transmitted more
+efficiently.</p>
+<p>In order to enable notifications, the client device must write a
+value of 0x0001 to the client characteristic configuration descriptor (CCCD) for
+the particular characteristic. The handle for the CCCD immediately follows the
+characteristic value&#8217;s handle. Therefore, a value of 0x0001 must be written to
+the &#8220;handle + 1&#8221;.</p>
+</div>
+</div>
+<div class="section" id="using-ble-security">
+<h2>Using BLE Security<a class="headerlink" href="#using-ble-security" title="Permalink to this headline">¶</a></h2>
+<p>BTool also includes the ability to make use of security features in BLE,
+including encryption, authentication, and bonding.</p>
+<div class="section" id="encrypting-the-connection">
+<h3>Encrypting the Connection<a class="headerlink" href="#encrypting-the-connection" title="Permalink to this headline">¶</a></h3>
+<p>To encrypt the link, the pairing process must be initiated. click on the
+&#8220;Pairing/Bonding&#8221; tab in BTool. In the &#8220;Initiate Pairing&#8221; section at the top of
+the screen, check the boxes labeled &#8220;Bonding Enabled&#8221; and &#8220;Authentication (MITM)
+Enabled&#8221;, and click the &#8220;Send Pairing Request&#8221; button as shown in
+<a class="reference internal" href="#btool-sending-pairing-request"><span class="std std-numref">Fig. 9</span></a>. This will send the pairing request to
+the peripheral device.</p>
+<div class="figure align-center" id="id9">
+<span id="btool-sending-pairing-request"></span><img alt="../_images/figure9.png" src="../_images/figure9.png" />
+<p class="caption"><span class="caption-number">Fig. 9 </span><span class="caption-text">Sending Pairing Request</span></p>
+</div>
+<p>The peripheral will send a pairing response in return, which will require a
+six-digit passkey to be entered by the user in order to complete the process.
+Typically, this passkey is intended to be used by a peripheral device
+containing a display. By displaying the passkey on the peripheral device and
+requiring the user to enter it in the central device&#8217;s user interface, the link
+is authenticated, in that it has been verified that the connection has not been
+hijacked using a man-in-the-middle (MITM) attack.</p>
+<p>In the box labeled &#8220;Passkey&#8221; in the &#8220;Passkey Input&#8221; section in BTool, enter the
+passkey value and click the &#8220;Send Passkey&#8221; button as shown in
+<a class="reference internal" href="#btool-sending-passkey"><span class="std std-numref">Fig. 10</span></a>. Note that if you do not send the passkey within
+30 seconds after receiving the pairing response message, the pairing process
+will fail, and you will need to re-send the pairing request.</p>
+<div class="figure align-center" id="id10">
+<span id="btool-sending-passkey"></span><img alt="../_images/figure10.png" src="../_images/figure10.png" />
+<p class="caption"><span class="caption-number">Fig. 10 </span><span class="caption-text">Sending the Passkey</span></p>
+</div>
+<p>When pairing is successfully completed, you will see a
+&#8220;GAP_AuthenticationComplete&#8221; event in the log window, with a &#8220;Success&#8221; status.
+The BLE connection is now encrypted as shown in
+<a class="reference internal" href="#btool-encrypted-connection"><span class="std std-numref">Fig. 11</span></a>.</p>
+<div class="figure align-center" id="id11">
+<span id="btool-encrypted-connection"></span><img alt="../_images/figure11.png" src="../_images/figure11.png" />
+<p class="caption"><span class="caption-number">Fig. 11 </span><span class="caption-text">Encrypted Connection</span></p>
+</div>
+</div>
+<div class="section" id="using-bonding-and-long-term-keys">
+<h3>Using Bonding and Long-Term Keys<a class="headerlink" href="#using-bonding-and-long-term-keys" title="Permalink to this headline">¶</a></h3>
+<p>Bonding is a feature in BLE that allows a device, after initial pairing with a
+peer, to remember specific information about that peer device. In particular,
+the long-term key data that is generated during the inital pairing process can
+be stored locally. If the connection is then terminated and the two devices
+later reconnect, this data can be used to quickly re-initiate encryption without
+needing to go through the full pairing process and/or use a passkey. In
+addition, if a client device had enabled notifications of any characteristics on
+the server device while the two devices were bonded, the server device will
+remember the setting and the client will not have to re-enable them.</p>
+<p>After pairing has been completed with the bonding enabled, the &#8220;Long-term Key
+(LTK) Data&#8221; will be populated with some of the data from the
+&#8220;GAP_AuthenticationComplete&#8221; event that was generated during the encryption
+process. This data is required for re-initiating encryption upon reconnect.
+Click the &#8220;Save Long-term Key Data to File&#8221; button to save this information to
+file. The data is saved in a &#8220;comma separated value&#8221; (CSV) format as simple
+text, and can be stored anywhere on disk. Be sure to note the location that the
+file is stored in.</p>
+<div class="figure align-center" id="id12">
+<span id="btool-save-long-term-key"></span><img alt="../_images/figure12.png" src="../_images/figure12.png" />
+<p class="caption"><span class="caption-number">Fig. 12 </span><span class="caption-text">Save Long-term Key</span></p>
+</div>
+<p>Within the Simple Peripheral device, a similar process is going on, in that the
+the Simple Peripheral sample application contains a bond manager that is storing
+the long-term key data that it had generated during encryption. Since the Simple
+Peripheral sample application does not have a file system, it is simply storing
+the data in the nonvolatile memory of the CC2640R2. Moore information on the bond
+manager can be found in the Bluetooth low energy Software Developer&#8217;s Guide.
+With a bond now active, you can enable notifications of a characteristic value
+and have that setting remembered for later. Note that if notifications were
+enabled before going through the pairing process, then the setting will not be
+stored. Therefore, you will need to re-write the value &#8220;01:00&#8221; to a CCCD.
+Because the devices are paierd with bonding enabled, the bond manager in the
+Simple Peripheral sample application will store the CCCD data in nonvolatile
+memory,</p>
+<p>To verify that bonding worked, you will need to disconnect and re-connect. Click
+on the &#8220;Discover/Connect&#8221; tab and click the &#8220;Terminate&#8221; button at the bottom of
+the screen to disconnect from the Simple Peripheral device. The message window
+will show a &#8220;GAP_TerminateLink&#8221; event with &#8220;Success&#8221; status as shown in
+<a class="reference internal" href="#btool-terminate-link"><span class="std std-numref">Fig. 13</span></a>. In addition, the connection information in the
+upper-left corner of the screen will disappear.</p>
+<div class="figure align-center" id="id13">
+<span id="btool-terminate-link"></span><img alt="../_images/figure13.png" src="../_images/figure13.png" />
+<p class="caption"><span class="caption-number">Fig. 13 </span><span class="caption-text">Terminate Link</span></p>
+</div>
+<p>At a later time, re-connect with the Simple Peripheral device following the procedure in
+<a class="reference internal" href="#create-connection"><span class="std std-ref">Creating a Connection Between the CC2640R2F LaunchPad and a Peripheral Device</span></a>. Note that the value of the CCCD for a characteristic
+is always set back to &#8220;00:00&#8221; if a connection is terminated or if the device
+resets.</p>
+<p>To re-initiate encryption and re-enable any notifications that were enabled in
+the previous connection, return to the &#8220;Pairing/Bonding&#8221; tab. In the &#8220;Encrypt
+Using Long-Term Key&#8221; section, click the &#8220;Load Long-Term Key Data From File&#8221;
+button, and select the file in which the data was previously stored. The data
+fields will get automatically populated from the data in the file. Click the
+&#8220;Encrypt Link&#8221; button to re-eneble encryption as shown in
+<a class="reference internal" href="#btool-re-encrypt-using-long-term-keys"><span class="std std-numref">Fig. 14</span></a>.</p>
+<div class="figure align-center" id="id14">
+<span id="btool-re-encrypt-using-long-term-keys"></span><img alt="../_images/figure14.png" src="../_images/figure14.png" />
+<p class="caption"><span class="caption-number">Fig. 14 </span><span class="caption-text">Re-Encrypt Using Long-Term Keys</span></p>
+</div>
+<p>A &#8220;GAP_BondComplete&#8221; event with &#8220;Success&#8221; status will be displayed in the log
+window. This indicates that the link has been re-encrypted as shown in
+<a class="reference internal" href="#btool-bonding-completed"><span class="std std-numref">Fig. 15</span></a>. You will also now be able to receive any
+notifications that were enabled in the previous connection. Any changes to the
+CCCD value of a characteristic will be saved to nonvolatile memory and
+remembered for the next time that encryption is initiated using the ong-term
+key.</p>
+<div class="figure align-center" id="id15">
+<span id="btool-bonding-completed"></span><img alt="../_images/figure15.png" src="../_images/figure15.png" />
+<p class="caption"><span class="caption-number">Fig. 15 </span><span class="caption-text">Bonding Completed</span></p>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Texas Instruments.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.00.01',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+        });
+
+      var menuHeight = window.innerHeight;
+
+      var contentOffset = $(".wy-nav-content-wrap").offset();
+      var contentHeight = $(".wy-nav-content-wrap").height();
+      var contentBottom = contentOffset.top + contentHeight;
+
+      function setNavbarTop() {
+          var scrollTop = $(window).scrollTop();
+          var maxTop = scrollTop + menuHeight;
+
+          // If past the header
+          if (scrollTop > contentOffset.top && maxTop < contentBottom) {
+            stickyTop = scrollTop - contentOffset.top;
+          } else if (maxTop > contentBottom) {
+            stickyTop = scrollTop - contentOffset.top - (maxTop - contentBottom);
+          } else {
+            stickyTop = 0;
+          }
+
+          $(".wy-nav-side").css("top", stickyTop);
+      }
+
+      $(document).ready(function() {
+        setNavbarTop();
+        $(window).scroll(function () {
+          setNavbarTop();
+        });
+      });
+  </script>
+   
+
+</body>
+</html>

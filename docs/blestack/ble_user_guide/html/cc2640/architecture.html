@@ -1,0 +1,1007 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Architecture &mdash; BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+    <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="BLE-Stack User&#39;s Guide for Bluetooth 4.2 3.01.01.00 documentation" href="../index.html"/>
+        <link rel="up" title="The CC2640R2F SDK Platform" href="platform.html"/>
+        <link rel="next" title="Installing BLE-Stack 3.01.01.00" href="install_ble_stack.html"/>
+        <link rel="prev" title="The CC2640R2F SDK Platform" href="platform.html"/> 
+    <script language="JavaScript">
+        var tiPageName;
+        tiPageName = "sug cc2640 architecture";
+
+        if (location.protocol == "file:"){
+            var ci_analytics_poc_load = true;
+        }
+    </script> 
+
+    <script src="http://www.ti.com/assets/js/headerfooter/analytics.js" type="text/javascript" charset="utf-8">     
+
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../ble-stack-3.x-guide/index.html" class="icon icon-home"> BLE-Stack User's Guide for Bluetooth 4.2
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.01.01.00
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="disclaimer.html">Disclaimer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/get-started.html">Getting Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="platform.html">The CC2640R2F SDK Platform</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Architecture</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#hardware-and-software-architecture">Hardware and Software Architecture</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#arm-cortex-m0-radio-core">ARM Cortex M0 (Radio Core)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#arm-cortex-m3-system-core">ARM Cortex M3 (System Core)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#blestack-protocol-stack-and-application-configurations">BLE-Stack Protocol Stack and Application Configurations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#solution-platform">Solution Platform</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ble-software-architecture">BLE Software Architecture</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#protocol-stack-build-configurations">Protocol Stack Build Configurations</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#stack-library-configuration-stack-library">Stack Library Configuration (<code class="docutils literal"><span class="pre">_stack_library</span></code>)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#split-image-configuration">Split Image Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#project-build-configurations">Project Build Configurations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#converting-library-build-to-split-image">Converting Library Build to Split Image</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#standard-project-task-hierarchy">Standard Project Task Hierarchy</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#directory-structure">Directory Structure</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#examples-folder">Examples Folder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#source-folder">Source Folder</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#working-with-hex-and-binary-files">Working With Hex and Binary Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#programming-internal-flash-with-the-rom-bootloader">Programming Internal Flash with the ROM Bootloader</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="install_ble_stack.html">Installing BLE-Stack 3.01.01.00</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developing_in_ccs.html">Developing with CCS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developing_in_iar.html">Developing with IAR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rtos-overview.html">TI-RTOS Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="memory_management.html">Memory Management</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x/index.html">Developing a Bluetooth Low Energy Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../u-stack/index.html">Micro BLE Stack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../oad-ble-stack-3.x/oad.html">Over the Air Download (OAD)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../voice/voice.html">Creating a Voice Enabled Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../secure-fw-3.x/index.html">Secure Firmware (SFW)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sensor-controller/sensor-controller.html">Sensor Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../debugging/ble-index.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/migration.html">Migration Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/api-reference.html">API References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ble-stack-3.x-guide/reference.html">Terms and Definitions</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../ble-stack-3.x-guide/index.html">BLE-Stack User's Guide for Bluetooth 4.2</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../ble-stack-3.x-guide/index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="platform.html">The CC2640R2F SDK Platform</a> &raquo;</li>
+        
+      <li>Architecture</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="architecture">
+<h1>Architecture<a class="headerlink" href="#architecture" title="Permalink to this headline">¶</a></h1>
+<p>The TI royalty-free Bluetooth low energy software development kit (SDK) is a
+complete software platform for developing single-mode Bluetooth low energy
+applications. This kit is based on the SimpleLink CC2640R2F, complete
+System-on-Chip (SoC) Bluetooth low energy solution. The CC2640R2F combines a
+2.4-GHz RF transceiver, 128-KB in-system programmable memory, 20KB of SRAM, and
+a full range of peripherals. The device is centered on an ARM<sup>®</sup>
+Cortex<sup>®</sup>-M3 series processor that handles the application layer and
+Bluetooth low energy protocol stack and an autonomous radio core centered on an
+ARM Cortex<sup>®</sup>-M0 processor that handles all the low-level radio control
+and processing associated with the physical layer and parts of the link layer.
+The sensor controller block provides additional flexibility by allowing
+autonomous data acquisition and control independent of the Cortex-M3 processor,
+further extending the low-power capabilities of the CC2640R2F.
+<a class="reference internal" href="#fig-simplelink-block-diagram"><span class="std std-numref">Figure 3.</span></a> shows the block diagram. For more
+information on the CC2640R2F, see the <a class="reference external" href="http://www.ti.com/lit/pdf/swcu117">CC26xx Technical Reference Manual</a>.</p>
+<div class="figure align-center" id="id3">
+<span id="fig-simplelink-block-diagram"></span><img alt="../_images/image6.jpeg" src="../_images/image6.jpeg" />
+<p class="caption"><span class="caption-number">Figure 3. </span><span class="caption-text">SimpleLink CC2640R2F Block Diagram</span></p>
+</div>
+<div class="section" id="hardware-and-software-architecture">
+<h2>Hardware and Software Architecture<a class="headerlink" href="#hardware-and-software-architecture" title="Permalink to this headline">¶</a></h2>
+<p>This section aims to introduce the different cores within the CC2640R2F, how they
+interact, and the firmware that runs on them. The information presented here
+should be considered as an overview. For detailed descriptions of the hardware
+described here, refer to the chapter 23 of the <a class="reference external" href="http://www.ti.com/lit/pdf/swcu117">CC26xx Technical Reference Manual</a>.</p>
+<div class="section" id="arm-cortex-m0-radio-core">
+<h3>ARM Cortex M0 (Radio Core)<a class="headerlink" href="#arm-cortex-m0-radio-core" title="Permalink to this headline">¶</a></h3>
+<p>The Cortex M0 (CM0) core within the CC2640R2F is responsible for both interfacing
+to the radio hardware, and translating complex instructions from the Cortex M3
+(CM3) core into bits that are sent over the air using the radio. For the
+Bluetooth low energy protocol, the CM0 implements the PHY layer of the protocol
+stack. Often, the CM0 is able to operate autonomously, which frees up the CM3
+for higher-level protocol and application-layer processing.</p>
+<p>The CM3 communicates with the CM0 through a hardware interface called the RF
+doorbell, which is documented in section 23.2 of the <a class="reference external" href="http://www.ti.com/lit/pdf/swcu117">CC26xx Technical Reference Manual</a>. The radio core
+firmware is not intended to be used or modified by the application developer.</p>
+</div>
+<div class="section" id="arm-cortex-m3-system-core">
+<h3>ARM Cortex M3 (System Core)<a class="headerlink" href="#arm-cortex-m3-system-core" title="Permalink to this headline">¶</a></h3>
+<p>The system core (CM3) is designed to run the Bluetooth low energy protocol stack
+from the link layer up to the user application. The link layer interfaces to the
+radio core through a software module called the RF driver, which sits above the
+RF doorbell. The RF driver runs on the CM3 and acts as an interface to the radio
+on the CC2640R2F, and also manages the power domains of the radio hardware and
+core. Documentation for the RF driver can be found at the
+<a class="reference external" href="../../../../tidrivers/tidriversAPIs.html">TI-RTOS Drivers Reference</a>.
+Above the RF driver is the TI Bluetooth low energy protocol stack, which is
+implemented in library code.</p>
+<p>The application developer interfaces with the protocol stack through a set of APIs
+(ICall) to implement a Bluetooth low energy application. The rest of this
+document intends to document application development on the CC2640R2F using the
+Bluetooth low energy stack.</p>
+</div>
+</div>
+<div class="section" id="blestack-protocol-stack-and-application-configurations">
+<h2>BLE-Stack Protocol Stack and Application Configurations<a class="headerlink" href="#blestack-protocol-stack-and-application-configurations" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference internal" href="#fig-device-configurations"><span class="std std-numref">Figure 4.</span></a> shows the platform that supports two
+different protocol stack and application configurations.</p>
+<ul class="simple">
+<li><strong>Single device:</strong> The controller, host, profiles, and application are all
+implemented on the CC2640R2F as a true single-chip solution. This
+configuration is the simplest and most common when using the CC2640R2F. This
+configuration is used by most of TI&#8217;s sample projects. This configuration is
+the most cost-effective technique and provides the lowest-power performance.</li>
+<li><strong>Simple network processor:</strong> The Simple Network Processor (<a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-snp"><span class="xref std std-term">SNP</span></a>)
+implements the controller and host layers of the BLE-Stack. Additionally,
+the SNP exposes an interface for scheduling communication between the stack
+and an external MCU. This accelerates dual MCU designs because the
+application processor (<a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-ap"><span class="xref std std-term">AP</span></a>) is only responsible for managing custom
+profiles and application code. Stack-related functionality, such as
+security, is implemented on the SNP. The SNP currently supports the
+peripheral and broadcaster GAP roles. Communication with the SNP is carried
+out through the SNP API. The SNP API is built on the Unified Network
+Processor Interface (<a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-unpi"><span class="xref std std-term">UNPI</span></a>), which supports UART and SPI transport
+layers. For more information, reference the Unified Network Processor
+Interface wiki page. TI also provides the SAP library, which implements a
+UNPI master and the SNP API. The SAP library can be ported to any
+TI-RTOS-capable processor, or used as a reference for developing a custom
+dual MCU solution. For a description of the SNP, see the README.html page
+within the simple_np folder, advanced users can read the
+<a class="reference external" href="../../doxygen/group___s_n_p.html">SNP API Reference</a> for a summary of the supported
+commands.</li>
+</ul>
+<div class="figure align-center" id="id4">
+<span id="fig-device-configurations"></span><a class="reference internal image-reference" href="../_images/image7.jpeg"><img alt="../_images/image7.jpeg" src="../_images/image7.jpeg" style="width: 75%;" /></a>
+<p class="caption"><span class="caption-number">Figure 4. </span><span class="caption-text">Single-Device Processor and Simple Network Processor Configurations</span></p>
+</div>
+</div>
+<div class="section" id="solution-platform">
+<h2>Solution Platform<a class="headerlink" href="#solution-platform" title="Permalink to this headline">¶</a></h2>
+<p>This section describes the various components that are installed with
+BLE-Stack 3.01.01.00 and the directory structure of the protocol stack
+and any tools required for development.
+<a class="reference internal" href="#fig-single-network-processor-configuration"><span class="std std-numref">Figure 5.</span></a> shows the BLE-Stack
+development system.</p>
+<div class="figure align-center" id="id5">
+<span id="fig-single-network-processor-configuration"></span><img alt="../_images/image8.jpeg" src="../_images/image8.jpeg" />
+<p class="caption"><span class="caption-number">Figure 5. </span><span class="caption-text">Bluetooth low energy Stack Development System</span></p>
+</div>
+<p>The solution platform includes the following components:</p>
+<ul class="simple">
+<li><strong>TI&#8217;s Real-Time Operating System (TI-RTOS)</strong> with the TI-RTOS kernel,
+optimized power management support, and peripheral drivers (SPI, UART, and
+so forth)</li>
+<li><strong>CC26xxware DriverLib</strong> provides a register abstraction layer and is used
+by software and drivers to control the CC2640R2F SoC.</li>
+<li><strong>The Bluetooth low energy protocol stack</strong> is provided in library form with
+parts of the protocol stack in the CC2640R2F ROM.</li>
+<li><strong>Sample applications and profiles</strong> make starting development using both
+proprietary and generic solutions easier.</li>
+</ul>
+<p>The following integrated development environments (IDEs) are
+supported:</p>
+<ul class="simple">
+<li>IAR Embedded Workbench for ARM</li>
+<li>Code Composer Studio™ (CCS)</li>
+</ul>
+<p>Refer to the SDK release notes for the specific IDE versions supported by this
+release.</p>
+</div>
+<div class="section" id="ble-software-architecture">
+<h2>BLE Software Architecture<a class="headerlink" href="#ble-software-architecture" title="Permalink to this headline">¶</a></h2>
+<p>The CC2640R2F Bluetooth low energy software environment consists of the
+following parts:</p>
+<ul class="simple">
+<li>An application image with the TI-RTOS kernel, drivers and Bluetooth profile</li>
+<li>A stack image or library that implements Bluetooth low energy protocol</li>
+</ul>
+<p>TI-RTOS is a real-time, pre-emptive, multithreaded operating system that
+runs the software solution with task synchronization. Both the application and
+Bluetooth low energy protocol stack exist as separate tasks within the RTOS. The
+Bluetooth low energy protocol stack has the highest priority. A messaging
+framework called indirect call (ICall) is used for thread-safe synchronization
+between the application and stack. <a class="reference internal" href="#fig-examples-software-architecture"><span class="std std-numref">Figure 6.</span></a>
+shows the architecture.</p>
+<div class="figure align-center" id="id6">
+<span id="fig-examples-software-architecture"></span><img alt="../_images/image43.jpeg" src="../_images/image43.jpeg" />
+<p class="caption"><span class="caption-number">Figure 6. </span><span class="caption-text">Example Software Architecture</span></p>
+</div>
+<ul class="simple">
+<li>The stack image includes the lower layers of the Bluetooth low energy
+protocol stack from the LL up to and including the GAP and GATT layers. Most
+of the Bluetooth low energy protocol stack code is provided as a library.</li>
+<li>The application image includes the RTOS, profiles, application code,
+drivers, and the ICall module.</li>
+</ul>
+</div>
+<div class="section" id="protocol-stack-build-configurations">
+<span id="sec-supported-stack-image-types"></span><h2>Protocol Stack Build Configurations<a class="headerlink" href="#protocol-stack-build-configurations" title="Permalink to this headline">¶</a></h2>
+<p>The BLE-Stack applications have different options for configuring the protocol
+stack to maximize system implementations. These options are described below
+along with the relevant advantages and limitations.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This section aims to explain the two supported protocol stack build
+configurations. Additionally, the protocol stack itself may be configured
+to conditionally pull in different library builds based on the features
+needed. Configuring the protocol stack is covered in
+<a class="reference internal" href="../ble-stack-3.x/stack-configuration.html#stack-features-configuration"><span class="std std-ref">Stack Configurations</span></a></p>
+</div>
+<div class="section" id="stack-library-configuration-stack-library">
+<span id="sec-inc-architecture-stack-image-as-a-library"></span><h3>Stack Library Configuration (<code class="docutils literal"><span class="pre">_stack_library</span></code>)<a class="headerlink" href="#stack-library-configuration-stack-library" title="Permalink to this headline">¶</a></h3>
+<p>In BLE-Stack 3.01.01.00, stack can be built as a library that can be statically linked
+to the application. Projects with build with this new configuration can be
+identified by project build configurations with <code class="docutils literal"><span class="pre">_stack_library</span></code> in its
+configuration name. Using this build configuration will yield additional flash
+footprint optimizations by the linker since the application and stack can share
+contiguous flash pages. The gained footprint savings will however prevent
+<strong>split-image</strong> application. See
+<a class="reference internal" href="developing_in_ccs.html#tbl-inc-developing-in-ccs-build-configs"><span class="std std-ref">Available CCS project build configurations</span></a> and
+<a class="reference internal" href="developing_in_iar.html#tbl-inc-developing-in-iar-build-configs"><span class="std std-ref">Available IAR project build configurations</span></a> for the available project build
+configurations. Stack library projects have the following properties</p>
+<blockquote>
+<div><ul class="simple">
+<li>Stack project generates a static library (.lib)</li>
+<li>Application project will now link the stack in as a library</li>
+<li>There is no explicit app/stack boundary. The application&#8217;s link step
+decides the memory locations of the code within the stack_library. There
+are some exceptions to this such as <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-51"><span class="xref std std-term">SNV</span></a>.</li>
+<li>This architecture saves flash by allowing the linker work more efficiently.</li>
+<li>These projects used the improved ICall architecture</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="split-image-configuration">
+<span id="sec-inc-architecture-split-image-configuration"></span><h3>Split Image Configuration<a class="headerlink" href="#split-image-configuration" title="Permalink to this headline">¶</a></h3>
+<p>As with previous BLE-Stack releases, application and stack images are
+built as two separate projects that generate two separate images.
+These images occupy separate, non-overlapping flash memory pages. The split image
+configuration is useful in purposes such as  <a class="reference internal" href="../ble-stack-3.x-guide/reference.html#term-47"><span class="xref std std-term">OAD</span></a> where it could
+be advantageous to perform independent application or stack downloads. Split
+image projects have the following properties:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Fixed stack entry point</li>
+<li>Stack project generates a separate executable (.hex, .out, .bin)</li>
+<li>Explicit Flash/RAM boundaries between app and stack</li>
+<li>Independent update of stack/app (API compatibility must be ensured by the
+user)</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="project-build-configurations">
+<h3>Project Build Configurations<a class="headerlink" href="#project-build-configurations" title="Permalink to this headline">¶</a></h3>
+<p>Sample applications within the BLE-Stack portion of the SimpleLink CC2640R2 SDK support multiple
+build configurations to enable using the protocol stack build types discussed
+above. Other build configurations may have been created to support features such
+as RCOSC or OAD out of the box.
+The table below gives a summary of the build configurations found within
+BLE-Stack and their compatibility with one another.</p>
+<span id="id2"></span><table border="1" class="docutils" id="id7">
+<caption><span class="caption-number">Table 2. </span><span class="caption-text">Available project build configurations.</span><a class="headerlink" href="#id7" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="10%" />
+<col width="22%" />
+<col width="68%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Project
+type</td>
+<td>Project’s
+build configuration</td>
+<td>Description</td>
+</tr>
+<tr class="row-even"><td rowspan="4">Application</td>
+<td>FlashROM</td>
+<td>Application image build configuration. Requires companion Stack FlashROM (split image
+configuration)</td>
+</tr>
+<tr class="row-odd"><td>FlashROM_StackLibrary</td>
+<td>Application build configuration linked to Stack library (fully executable)</td>
+</tr>
+<tr class="row-even"><td>FlashROM_StackLibrary_RCOSC</td>
+<td>Application build configuration linked to Stack library for 32-kHz crystal-less device
+configuration</td>
+</tr>
+<tr class="row-odd"><td>FlashROM_OAD_Offchip</td>
+<td>OAD off-chip application FlashROM configuration</td>
+</tr>
+<tr class="row-even"><td rowspan="2">Stack</td>
+<td>FlashROM_Library</td>
+<td>Stack library build configuration</td>
+</tr>
+<tr class="row-odd"><td>FlashROM</td>
+<td>Stack
+image using protocol stack in ROM configuration</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Some of the build configurations above may be located in a separate
+project for CCS, for example <code class="docutils literal"><span class="pre">simple_peripheral_cc2640r2lp_app_oad_offchip</span></code>.
+However the principles of the table above can still be applied. Always
+consult the <code class="docutils literal"><span class="pre">README.html</span></code> file of the specific sample application for
+more information on it&#8217;s supported build configurations. Additionally,
+refer to <a class="reference internal" href="developing_in_ccs.html#tbl-inc-developing-in-ccs-build-configs"><span class="std std-ref">Available CCS project build configurations</span></a></p>
+</div>
+</div>
+<div class="section" id="converting-library-build-to-split-image">
+<span id="section-converting-lib-build-to-split-image"></span><h3>Converting Library Build to Split Image<a class="headerlink" href="#converting-library-build-to-split-image" title="Permalink to this headline">¶</a></h3>
+<p>All BLE-Stack 3.01.01.00 projects will support the Library build configuration.
+Most Application and Stack projects will not have a split-image build
+configuration.</p>
+<p>A split Application and Stack configuration is required for on-chip OAD
+applications where only the stack or the application image is planned to be
+upgraded. Library configuration only supports full application + stack image
+off-chip OAD.</p>
+<div class="section" id="convert-the-stack-project-in-an-executable-image-iar">
+<h4>Convert the Stack Project in an executable image (IAR)<a class="headerlink" href="#convert-the-stack-project-in-an-executable-image-iar" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic">
+<li><dl class="first docutils">
+<dt>Select the Stack Project as Active Project</dt>
+<dd><ul class="first last simple">
+<li>It&#8217;s recommended to create a new project build configuration:
+<strong>Project</strong> &#8211;&gt; <strong>Edit Configurations</strong> &#8211;&gt; Select <strong>New</strong> and supply a new name for the build configuration.</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Open Project Properties</dt>
+<dd><ul class="first last simple">
+<li>Right Click on <strong>Project</strong> &#8211;&gt; <strong>Options</strong></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Go to <strong>General Options</strong> &#8211;&gt; <strong>Output</strong> Tab</dt>
+<dd><ul class="first simple">
+<li>Select <strong>Executable</strong> for &#8220;Output File&#8221;</li>
+</ul>
+<div class="last admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This will now enable debugger settings which will default to the
+simulator.</p>
+</div>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Go to <strong>C/C++ Compiler</strong> Options &#8211;&gt; <strong>Preprocessor</strong> Tab</dt>
+<dd><ul class="first last simple">
+<li>Remove the defined <strong>STACK_LIBRARY</strong> symbol from the &#8220;Defined symbols&#8221;
+list.</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Go to <strong>Build Actions</strong></dt>
+<dd><ul class="first">
+<li><p class="first">Add the <em>Frontier</em> boundary tool as a <strong>Post Build</strong> step:</p>
+<p><code class="code docutils literal"><span class="pre">&quot;$TOOLS_BLE_DIR$/frontier/frontier.exe&quot;</span> <span class="pre">iar</span> <span class="pre">&quot;$PROJ_DIR$/$CONFIG_NAME$/List/$TARGET_BNAME$.map&quot;</span> <span class="pre">&quot;$PROJ_DIR$/../config/iar_boundary.bdef&quot;</span> <span class="pre">&quot;$PROJ_DIR$/../config/iar_boundary.xcl&quot;</span></code></p>
+</li>
+</ul>
+<div class="last admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This tool hands information to the Application regarding Stack Entry Point.</p>
+</div>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Go to <strong>Linker</strong> Options &#8211;&gt; <strong>Extra Options</strong> Tab</dt>
+<dd><ul class="first last">
+<li><p class="first">Select <strong>Use command line options</strong></p>
+</li>
+<li><p class="first">Add the following into the <strong>Command line options: (one per line)</strong> window:</p>
+<p><code class="code docutils literal"><span class="pre">-f</span> <span class="pre">$PROJ_DIR$/../config/lib_linker.cmd</span></code></p>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Go to <strong>Debugger</strong> Option</dt>
+<dd><p class="first last">Reconfigure Debugger Settings based on the debugger that you using. TI&#8217;s
+development boards generally use the <strong>TI XDS110 Emulator</strong> debugger.</p>
+</dd>
+</dl>
+</li>
+</ol>
+</div>
+<div class="section" id="update-the-application-project-to-use-the-executable-stack-project-image-iar">
+<h4>Update the Application Project to use the executable Stack Project image (IAR)<a class="headerlink" href="#update-the-application-project-to-use-the-executable-stack-project-image-iar" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic">
+<li><dl class="first docutils">
+<dt>Select the Application Project as Active Project</dt>
+<dd><ul class="first last simple">
+<li><dl class="first docutils">
+<dt>It&#8217;s recommended to create a new project build configuration:</dt>
+<dd><strong>Project</strong> &#8211;&gt; <strong>Edit Configurations</strong> &#8211;&gt; Select <strong>New</strong> and supply a new name for the build configuration.</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Exclude <strong>StackLibrary</strong> IDE folder from the build.</dt>
+<dd><ul class="first last simple">
+<li>Right-click on <strong>StackLibrary</strong> &#8211;&gt; <strong>Options...</strong></li>
+<li>Check <strong>Exclude from build</strong> and select <strong>OK</strong></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Open Project Properties</dt>
+<dd><ul class="first last simple">
+<li>Right Click on <strong>Project</strong> &#8211;&gt; <strong>Options</strong></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Go to <strong>C/C++ Compiler</strong> Options &#8211;&gt; <strong>Preprocessor</strong> Tab</dt>
+<dd><ul class="first last simple">
+<li>Remove the defined <strong>STACK_LIBRARY</strong> symbol from the &#8220;Defined symbols&#8221;
+list.</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Go to <strong>Linker</strong> Options &#8211;&gt; <strong>Config</strong> Tab</dt>
+<dd><ul class="first last">
+<li><p class="first">Use the <strong>Linker configuration file</strong> this .icf linker file:</p>
+<blockquote>
+<div><p><code class="code docutils literal"><span class="pre">$SRC_BLE_DIR$/common/cc26xx/iar/cc26xx_app.icf</span></code></p>
+</div></blockquote>
+</li>
+<li><p class="first"><strong>Remove</strong> <strong>FLASH_ROM_BUILD=2</strong> from <strong>Configuration file symbol definitions:
+(one per line)</strong></p>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Go to <strong>Linker</strong> Options &#8211;&gt; <strong>Library</strong> Tab</dt>
+<dd><ul class="first last">
+<li><p class="first"><strong>Remove</strong> the following from the <strong>Additional libraries: (one per line)</strong> window:</p>
+<blockquote>
+<div><p><code class="code docutils literal"><span class="pre">$PROJ_DIR$\..\config\ble_r2.symbols</span></code></p>
+</div></blockquote>
+</li>
+<li><p class="first"><strong>Add</strong> the following to the <strong>Additional libraries: (one per line)</strong> window:</p>
+<blockquote>
+<div><p><code class="code docutils literal"><span class="pre">$ROM_DIR$\ble_rom_releases\cc26xx_r2\Final_Release\common_r2.symbols</span></code></p>
+</div></blockquote>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Go to <strong>Linker</strong> Options &#8211;&gt; <strong>Extra Options</strong> Tab</dt>
+<dd><ul class="first last">
+<li><p class="first"><strong>Remove</strong> the following from the <strong>Command line options: (one per line)</strong> window:</p>
+<p><code class="code docutils literal"><span class="pre">-f</span> <span class="pre">$PROJ_DIR$/../config/lib_linker.cmd</span></code></p>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ol>
+</div>
+</div>
+<div class="section" id="standard-project-task-hierarchy">
+<span id="sec-inc-architecture-standard-project-task-hierarchy"></span><h3>Standard Project Task Hierarchy<a class="headerlink" href="#standard-project-task-hierarchy" title="Permalink to this headline">¶</a></h3>
+<p>Considering the simple_peripheral project as an example, these tasks are listed
+by priority. A higher task number corresponds to a higher priority task:</p>
+<ul class="simple">
+<li>Priority 5: Bluetooth low energy protocol stack task (must be highest priority)</li>
+<li>Priority 1: Application task (simple_peripheral)</li>
+</ul>
+<p><a class="reference internal" href="rtos-overview.html#sec-tirtos-overview"><span class="std std-ref">TI-RTOS Overview</span></a> introduces TI-RTOS tasks.
+<a class="reference internal" href="../ble-stack-3.x/overview.html#sec-ble-stack-overview"><span class="std std-ref">Overview</span></a> describes interfacing with the Bluetooth low
+energy protocol stack. <a class="reference internal" href="../ble-stack-3.x/the-application.html#start-up-in-main"><span class="std std-ref">Pre-main initialization</span></a> describes the application task.</p>
+</div>
+</div>
+<div class="section" id="directory-structure">
+<h2>Directory Structure<a class="headerlink" href="#directory-structure" title="Permalink to this headline">¶</a></h2>
+<p>The default install location is: <em>C:\ti\simplelink_cc2640r2_sdk_x_xx_xx_xx</em>.</p>
+<p>The SDK installs to this location by default. For the purposes of this document,
+consider the above path to the BLE-Stack root directory; it will be omitted.
+All paths will be relative to the BLE-Stack root directory. Opening up the root
+install directory shows the new parent folders within the SDK, as shown in
+<a class="reference internal" href="#tbl-root-folder"><span class="std std-numref">Table 3.</span></a></p>
+<span id="tbl-root-folder"></span><table border="1" class="docutils" id="id8">
+<caption><span class="caption-number">Table 3. </span><span class="caption-text">SDK root folders</span><a class="headerlink" href="#id8" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="38%" />
+<col width="62%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">BLE-Stack 3.01.01.00 folders</th>
+<th class="head">Purpose</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>docs\</td>
+<td>The docs directory now contains all relevant
+documents included with the CC2640R2F SDK.
+Refer to the Documentation Overview master page.</td>
+</tr>
+<tr class="row-odd"><td>examples\</td>
+<td>The CC2640R2F SDK includes ble examples as well as
+TI-RTOS kernel and TI-RTOS driver examples.</td>
+</tr>
+<tr class="row-even"><td>kernel\</td>
+<td>The TI-RTOS kernel is now included with the
+CC2640R2F SDK.</td>
+</tr>
+<tr class="row-odd"><td>source\</td>
+<td>The source\ directory include source for
+BLE-Stack, TI-RTOS kernel and drivers, and various
+middleware modules.</td>
+</tr>
+<tr class="row-even"><td>tools\</td>
+<td>Tools such as BTool</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="examples-folder">
+<h3>Examples Folder<a class="headerlink" href="#examples-folder" title="Permalink to this headline">¶</a></h3>
+<p>The examples\ folder contains example source files for the BLE-Stack, TI-RTOS
+kernel, and TI-RTOS drivers. All the source code supporting the SimpleLink CC2640R2 SDK examples
+can be found at *examples\rtos\CC2640R2_LAUNCHXL\. Examples for each
+product can be found within their respective folders and are accessible via
+various means as shown in <a class="reference internal" href="#tbl-sdk-examples"><span class="std std-ref">Examples available for the CC2640R2F platform</span></a>.</p>
+<span id="tbl-sdk-examples"></span><table border="1" class="docutils" id="id9">
+<caption><span class="caption-number">Table 4. </span><span class="caption-text">Examples available for the CC2640R2F platform</span><a class="headerlink" href="#id9" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="21%" />
+<col width="26%" />
+<col width="53%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Type of examples</th>
+<th class="head">Example subdirectory</th>
+<th class="head">How to open the examples</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>BLE-Stack</td>
+<td>ble5stack\</td>
+<td><div class="first last line-block">
+<div class="line">Imported via TI Resource Explorer</div>
+<div class="line">Opened as existing IAR projects</div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>TI-RTOS Kernel</td>
+<td>sysbios\</td>
+<td><div class="first last line-block">
+<div class="line"><a class="reference external" href="http://processors.wiki.ti.com/index.php/Resource_Explorer">Import TI-RTOS driver examples for CCS</a></div>
+<div class="line"><a class="reference external" href="http://processors.wiki.ti.com/index.php/Creating_TI-RTOS_Applications_in_IAR_Embedded_Workbench">Import TI-RTOS driver examples for IAR</a></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>TI-RTOS Drivers</td>
+<td>drivers\</td>
+<td><div class="first last line-block">
+<div class="line"><a class="reference external" href="http://processors.wiki.ti.com/index.php/Resource_Explorer">Import TI-RTOS driver examples for CCS</a></div>
+<div class="line"><a class="reference external" href="http://processors.wiki.ti.com/index.php/Creating_TI-RTOS_Applications_in_IAR_Embedded_Workbench">Import TI-RTOS driver examples for IAR</a></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<p>For TI-RTOS Kernel and TI-RTOS driver examples, see the linked documentation.
+To help select a specific BLE example, see <a class="reference internal" href="../ble-stack-3.x-guide/get-started.html#tbl-sdk-ble-examples"><span class="std std-ref">BLE examples available for the CC2640R2F platform</span></a>. As with
+previous BLE-Stack releases, each example contains a toolchain subdirectory for
+CCS and IAR.</p>
+<p>IAR examples are available as .eww projects whereas CCS project are imported.</p>
+<p>See <a class="reference internal" href="../ble-stack-3.x-guide/get-started.html#tbl-sdk-ble-examples"><span class="std std-numref">Table 1.</span></a> for a list of examples supported by the SDK.</p>
+</div>
+<div class="section" id="source-folder">
+<h3>Source Folder<a class="headerlink" href="#source-folder" title="Permalink to this headline">¶</a></h3>
+<p>The source\ti\ folder contains libraries and source files for the BLE-Stack,
+TI-RTOS drivers, and various shared modules. They can be found within their
+respective folders as shown in <a class="reference internal" href="#tbl-sdk-source"><span class="std std-ref">CC2640R2F SDK&#8217;s source\ti\ directory</span></a>.</p>
+<span id="tbl-sdk-source"></span><table border="1" class="docutils" id="id10">
+<caption><span class="caption-number">Table 5. </span><span class="caption-text">CC2640R2F SDK&#8217;s source\ti\ directory</span><a class="headerlink" href="#id10" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="21%" />
+<col width="26%" />
+<col width="53%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">source\ti\</th>
+<th class="head">subdirectory</th>
+<th class="head">Purpose</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td colspan="2">ble5stack\</td>
+<td>Root source directory for the BLE-Stack</td>
+</tr>
+<tr class="row-odd"><td>&#160;</td>
+<td>blelib\</td>
+<td>Prebuilt BLE stack libraries</td>
+</tr>
+<tr class="row-even"><td>&#160;</td>
+<td>boards\</td>
+<td>Sample board files for use with the BLE
+stacks</td>
+</tr>
+<tr class="row-odd"><td>&#160;</td>
+<td>common\</td>
+<td>Linker, RTOS config, and middleware used by
+the stack</td>
+</tr>
+<tr class="row-even"><td>&#160;</td>
+<td>config\</td>
+<td>Symbol files for various stack builds and
+configurations</td>
+</tr>
+<tr class="row-odd"><td>&#160;</td>
+<td>controller\</td>
+<td>Header files for the BLE controller layer</td>
+</tr>
+<tr class="row-even"><td>&#160;</td>
+<td>hal\</td>
+<td>Hardware abstraction layer files for Stack</td>
+</tr>
+<tr class="row-odd"><td>&#160;</td>
+<td>heapmgr\</td>
+<td>Heap Manager</td>
+</tr>
+<tr class="row-even"><td>&#160;</td>
+<td>host\</td>
+<td>Header files for the BLE host layers</td>
+</tr>
+<tr class="row-odd"><td>&#160;</td>
+<td>icall\</td>
+<td>Source files for the ICall module</td>
+</tr>
+<tr class="row-even"><td>&#160;</td>
+<td>inc\</td>
+<td>Header files used to interface with
+BLE-Stack</td>
+</tr>
+<tr class="row-odd"><td>&#160;</td>
+<td>npi\</td>
+<td>Source files for the both NPI modules</td>
+</tr>
+<tr class="row-even"><td>&#160;</td>
+<td>osal\</td>
+<td>Source support files used by the BLE-Stack</td>
+</tr>
+<tr class="row-odd"><td>&#160;</td>
+<td>profiles\</td>
+<td>Sample BLE profile implementations</td>
+</tr>
+<tr class="row-even"><td>&#160;</td>
+<td>rom\</td>
+<td>BLE-Stack ROM symbol files</td>
+</tr>
+<tr class="row-odd"><td>&#160;</td>
+<td>services\</td>
+<td>Miscellaneous support files</td>
+</tr>
+<tr class="row-even"><td>&#160;</td>
+<td>symbols\</td>
+<td>ROM patch support files</td>
+</tr>
+<tr class="row-odd"><td>&#160;</td>
+<td>target\</td>
+<td>Board gateway folder</td>
+</tr>
+<tr class="row-even"><td colspan="2">devices\</td>
+<td>Support files from driverlib</td>
+</tr>
+<tr class="row-odd"><td colspan="2">display\</td>
+<td>Display module</td>
+</tr>
+<tr class="row-even"><td colspan="2">drivers\</td>
+<td>TI-RTOS drivers source and libraries</td>
+</tr>
+<tr class="row-odd"><td colspan="2">grlib\</td>
+<td>Graphics library</td>
+</tr>
+<tr class="row-even"><td colspan="2">mw\</td>
+<td>Other middleware modules dependent on
+TI-RTOS drivers</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="working-with-hex-and-binary-files">
+<span id="sec-inc-architecture-working-with-hex-files"></span><h2>Working With Hex and Binary Files<a class="headerlink" href="#working-with-hex-and-binary-files" title="Permalink to this headline">¶</a></h2>
+<p>BLE-Stack projects have project build configurations in which the application
+and stack projects produce an Intel<sup>®</sup>-extended hex file in their
+respective output folders. These hex files lack overlapping memory regions and
+can be programmed individually with a flash programming tool, such as SmartRF
+Flash Programmer 2. To simplify the flash programming process, you can combine
+the application and stack hex files into a super hex file manually or using
+freely available tools.
+Information on the <a class="reference external" href="https://en.wikipedia.org/wiki/Intel_HEX">Intel Hex standard</a>.</p>
+<p>One example for creating the super hex file is with the IntelHex python script
+hex_merge.py, available at <a class="reference external" href="https://launchpad.net/intelhex/+download">IntelHex launchpad</a>.
+To merge the hex files, install Python<sup>®</sup> 2.7.x and add it to your system
+path environment variables.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Note that when using any python script, you must use a compatible version
+of Python. Refer to the tool documentation or contact the developer to
+verify compatibility.</p>
+</div>
+<p>The following is an example usage to create a merged
+simple_peripheral_cc2640r2lp.hex file consisting of the individual application
+and stack hex files:</p>
+<div class="highlight-console" id="lst-hexmerge-script"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="go">C:\Python27\Scripts&gt;python hexmerge.py \</span>
+<span class="go">    -o .\simple_peripheral_cc2640r2lp_merged.hex \</span>
+<span class="go">    -r 0000:1FFFF</span>
+<span class="go">    simple_peripheral_cc2640r2lp_app.hex:0000:1FFFF</span>
+<span class="go">    simple_peripheral_cc2640r2lp_stack.hex</span>
+<span class="go">    --overlap=error</span>
+</pre></div>
+</td></tr></table></div>
+<p>If conversion of the super hex to binary is desired, this can be accomplished
+with the “hex2bin.py” or similar tools that support the hex standard.</p>
+<div class="highlight-console"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="go">C:\Python27\Scripts&gt;python hex2bin.py \</span>
+<span class="go">    simple_peripheral_cc2640r2lp_merged.hex \</span>
+<span class="go">    simple_peripheral_cc2640r2lp_merged.bin</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="programming-internal-flash-with-the-rom-bootloader">
+<h2>Programming Internal Flash with the ROM Bootloader<a class="headerlink" href="#programming-internal-flash-with-the-rom-bootloader" title="Permalink to this headline">¶</a></h2>
+<p>The CC2640R2F internal flash memory can be programmed using the bootloader in the
+ROM of the device. Both UART and SPI protocols are supported. For more details
+on the programming protocol and requirements, see the Bootloader chapter of the
+<a class="reference external" href="http://www.ti.com/lit/pdf/swcu117">CC26xx Technical Reference Manual</a>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Because the ROM bootloader uses predefined DIO pins for internal flash
+programming, allocate these pins in the layout of your board. For details on
+the pins allocated to the bootloader based on the chip package type, see
+<a class="reference external" href="http://www.ti.com/lit/pdf/swcu117">CC26xx Technical Reference Manual</a>.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="install_ble_stack.html" class="btn btn-neutral float-right" title="Installing BLE-Stack 3.01.01.00" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="platform.html" class="btn btn-neutral" title="The CC2640R2F SDK Platform" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Texas Instruments.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.01.01.00',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
